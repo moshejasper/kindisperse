@@ -154,7 +154,7 @@ axpermute_standard <- function(avect, bvect, nreps = 1000, nsamp = "std", acat, 
 
   # set up permutations...
 
-  container <- tibble(ax = 0.0, .rows = 0)
+  container <- tibble::tibble(ax = 0.0, .rows = 0)
 
   for (val in 1:nreps){
 
@@ -186,14 +186,14 @@ axpermute_standard <- function(avect, bvect, nreps = 1000, nsamp = "std", acat, 
     }
 
 
-    container <- container %>% add_row(ax = lifeax_final)
+    container <- add_row(container, ax = lifeax_final)
 
   }
 
   # return values
 
   if (output == "confs") {
-    return(quantile(container$ax, c(0.025, 0.5, 0.975)))
+    return(stats::quantile(container$ax, c(0.025, 0.5, 0.975)))
   }
   else if (output == "vect") {
     return(sort(container$ax))

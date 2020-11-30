@@ -38,7 +38,7 @@ simulate_kindist_composite <- function(nsims = 100, juvsigma = 100, breedsigma =
 
   if (method == "Gaussian"){
     rdistr <- function(sig){
-      return(matrix(c(stats::rnorm(nsims, 0, sig), stats::rnorm(nsims, 0, sig)), ncol = 2))
+      return(stats::matrix(c(stats::rnorm(nsims, 0, sig), stats::rnorm(nsims, 0, sig)), ncol = 2))
     }
   }
   else if (method == "Exponential"){
@@ -50,7 +50,7 @@ simulate_kindist_composite <- function(nsims = 100, juvsigma = 100, breedsigma =
       angle <- stats::runif(nsims, 0, 2 * pi)
       xf <- dst * cos(angle)
       yf <- dst * sin(angle)
-      return(matrix(c(xf, yf), ncol = 2))
+      return(stats::matrix(c(xf, yf), ncol = 2))
     }
   }
   else if (method == "Weibull"){
@@ -62,16 +62,16 @@ simulate_kindist_composite <- function(nsims = 100, juvsigma = 100, breedsigma =
       angle <- stats::runif(nsims, 0, 2 * pi)
       xf <- dst * cos(angle)
       yf <- dst * sin(angle)
-      return(matrix(c(xf, yf), ncol = 2))
+      return(stats::matrix(c(xf, yf), ncol = 2))
     }
   }
   else if (method == "Laplace"){ # bivariate symmetric laplacian
     rdistr <- function(sig){
-      sigdiag <- matrix(c(sig^2, 0, 0, sig^2), ncol = 2)
+      sigdiag <- stats::matrix(c(sig^2, 0, 0, sig^2), ncol = 2)
       xyi <- LaplacesDemon::rmvl(nsims, c(0, 0), sigdiag)
       xf <- xyi[,1]
       yf <- xyi[,2]
-      return(matrix(c(xf, yf), ncol = 2))
+      return(stats::matrix(c(xf, yf), ncol = 2))
     }
   }
 

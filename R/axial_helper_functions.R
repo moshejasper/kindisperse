@@ -38,7 +38,7 @@ axconfs <- function(axvals, nreps=1000, composite = 2, output = "confs"){ # this
   for (val in 1:nreps){
     subvals <- sample(axvals, sampnum, replace = TRUE)
     newax <- axials(subvals, composite)
-    container <- container %>% tibble::add_row(ax = newax)
+    container <- tibble::add_row(container, ax = newax)
   }
   if (output == "confs"){
     return(stats::quantile(container$ax, c(0.025, 0.5, 0.975)))
@@ -54,7 +54,7 @@ axpermute <- function(axvals, nreps=1000, num = 50, composite = 2, output = "con
   for (val in 1:nreps){
     subvals <- sample(axvals, sampnum, replace = TRUE)
     newax <- axials(subvals, composite)
-    container <- container %>% tibble::add_row(ax = newax)
+    container <- tibble::add_row(container, ax = newax)
   }
   if (output == "confs"){
     return(stats::quantile(container$ax, c(0.025, 0.5, 0.975)))
@@ -78,7 +78,7 @@ axpermute_subtract <- function(bigvals, smallvals, nreps = 1000, num = 50, compo
     else {
       newax <- axials_subtract(bigax, smallax)
     }
-    container <- container %>% tibble::add_row(ax = newax)
+    container <- tibble::add_row(container, ax = newax)
   }
   if (output == "confs") {
     return(stats::quantile(container$ax, c(0.025, 0.5, 0.975)))
