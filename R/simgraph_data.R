@@ -1,8 +1,19 @@
-simgraph_data <- function(nsims = 10, dsigma = 50, dims = 250, labls = TRUE, steps = TRUE,
-                          moves = TRUE, shadows = TRUE, category = "2C", show_area = TRUE,
-                          centred = FALSE, pinwheel = FALSE, scattered = FALSE,
-                          lengths = TRUE, lengthlabs = TRUE, histogram = FALSE,
-                          binwidth = dsigma / 5, freqpoly = FALSE){
+#' Simple kin dispersal simulation for graphical display. (returns the data side as a tibble).
+#'
+#' @param nsims     Integer. The number of kin dispersal families to simulate.
+#' @param dsigma    Integer. The axial deviation of the (simple) parent-offspring dispersal kernel governing this simulation.
+#' @param dims      Integer. Lays out the length of the sides of a square within which parent individuals are seeded.
+#' @param category  Character. Lists the kin category the simulation is reconstructing. One of "PO", "FS", "HS", "AV", "GG", "HAV", "GGG", "1C", "1C1", "2C", "GAV" (no half-categoris included)
+#' @param centred   Logical. Whether all parents are treated as originating in the same point (for pinwheel, scatter graphs, etc.)
+#' @param pinwheel  Logical. Whether data is being prepared as if for a pinwheel graph.
+#' @param scattered Locigal. Whether data is being prepared as if for a scatter graph.
+#'
+#' @return  Returns a tibble containing the coordinates of the f0 to f2 generations, as well as coordinates and distances relative to the 'focus' kinship categories. (kindist, kinmid, k1 & k2)
+#' @export
+#'
+#' @examples
+simgraph_data <- function(nsims = 10, dsigma = 50, dims = 250, category = "2C",
+                          centred = FALSE, pinwheel = FALSE, scattered = FALSE){
 
   if (! category %in% c("PO", "FS", "HS", "AV", "GG", "HAV", "GGG", "1C", "1C1", "2C", "GAV")) {
     stop("Invalid Kinship Category")
@@ -13,7 +24,6 @@ simgraph_data <- function(nsims = 10, dsigma = 50, dims = 250, labls = TRUE, ste
   dims <- dims
   if (pinwheel == TRUE | scattered == TRUE) {centred <- TRUE}
   if (centred == TRUE){
-    show_area <- FALSE
     f0x <- stats::runif(nsims, 0, 0)
     f0y <- stats::runif(nsims, 0, 0)
   }
@@ -50,7 +60,6 @@ simgraph_data <- function(nsims = 10, dsigma = 50, dims = 250, labls = TRUE, ste
   if (category == "2C") {k1x <- f3ax ; k1y <- f3ay ; k2x <- f3bx; k2y <- f3by}
 
   if (pinwheel == TRUE | scattered == TRUE) {k1x <- k1x - k1x; k1y <- k1y - k1y; k2x <- k2x - k1x; k2y <- k2y - k1y}
-  if (pinwheel == TRUE & nsims > 50) { labls <- FALSE}
   kindist <- round(sqrt((k1x - k2x)^2 + (k1y - k2y)^2), digits = 1)
   kinmidx <- (k1x + k2x) / 2
   kinmidy <- (k1y + k2y) / 2
