@@ -1,0 +1,33 @@
+Package: kindisperse
+Title: Simulate and Estimate Close-Kin Dispersal Kernels
+Version: 0.0.0.0001
+Authors@R: 
+    person(given = "Moshe-Elijah",
+           family = "Jasper",
+           role = c("aut", "cre"),
+           email = "first.last@example.com",
+           comment = c(ORCID = "0000-0003-4541-3223"))
+Description: This package implements functions for simulating and estimating kinship-related dispersal, as well as a Shiny app for ease of use. 
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
+Suggests: 
+    testthat
+Imports: 
+    ggplot2,
+    dplyr,
+    readr,
+    shiny,
+    shinythemes,
+    ggrepel,
+    fitdistrplus,
+    LaplacesDemon,
+    here,
+    stats,
+    lcmix,
+    methods,
+    tibble,
+    grid,
+    magrittr
