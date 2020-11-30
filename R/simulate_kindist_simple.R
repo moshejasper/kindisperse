@@ -34,7 +34,7 @@ simulate_kindist_simple <- function(nsims = 100, sigma = 125, dims = 100, method
 
   if (method == "Gaussian"){
     rdistr <- function(sig){
-      return(stats::matrix(c(stats::rnorm(nsims, 0, sig), stats::rnorm(nsims, 0, sig)), ncol = 2))
+      return(matrix(c(stats::rnorm(nsims, 0, sig), stats::rnorm(nsims, 0, sig)), ncol = 2))
     }
   }
   else if (method == "Norm"){
@@ -45,7 +45,7 @@ simulate_kindist_simple <- function(nsims = 100, sigma = 125, dims = 100, method
       angle <- stats::runif(nsims, 0, 2 * pi)
       xf <- dst * cos(angle)
       yf <- dst * sin(angle)
-      return(stats::matrix(c(xf, yf), ncol = 2))
+      return(matrix(c(xf, yf), ncol = 2))
     }
   }
   else if (method == "Exponential"){
@@ -56,7 +56,7 @@ simulate_kindist_simple <- function(nsims = 100, sigma = 125, dims = 100, method
       angle <- stats::runif(nsims, 0, 2 * pi)
       xf <- dst * cos(angle)
       yf <- dst * sin(angle)
-      return(stats::matrix(c(xf, yf), ncol = 2))
+      return(matrix(c(xf, yf), ncol = 2))
     }
   }
   else if (method == "Weibull"){
@@ -67,12 +67,12 @@ simulate_kindist_simple <- function(nsims = 100, sigma = 125, dims = 100, method
       angle <- stats::runif(nsims, 0, 2 * pi)
       xf <- dst * cos(angle)
       yf <- dst * sin(angle)
-      return(stats::matrix(c(xf, yf), ncol = 2))
+      return(matrix(c(xf, yf), ncol = 2))
     }
   }
   else if (method == "Gamma"){
     rdistr <- function(sig){
-      sigdiag <- stats::matrix(c(1, 0, 0, 1), ncol = 2)
+      sigdiag <- matrix(c(1, 0, 0, 1), ncol = 2)
       xyi <- lcmix::rmvgamma(nsims, shape, sqrt(2)*sqrt(shape)/sig, sigdiag)
       xi <- xyi[,1]
       yi <- xyi[,2]
@@ -90,7 +90,7 @@ simulate_kindist_simple <- function(nsims = 100, sigma = 125, dims = 100, method
       xyi <- LaplacesDemon::rmvl(nsims, c(0, 0), sigdiag)
       xf <- xyi[,1]
       yf <- xyi[,2]
-      return(stats::matrix(c(xf, yf), ncol = 2))
+      return(matrix(c(xf, yf), ncol = 2))
     }
   }
 
@@ -118,7 +118,7 @@ simulate_kindist_simple <- function(nsims = 100, sigma = 125, dims = 100, method
 
   x0 <- stats::runif(nsims, 0, dims)
   y0 <- stats::runif(nsims, 0, dims)
-  xy0 <- stats::matrix(c(x0, y0), ncol = 2)
+  xy0 <- matrix(c(x0, y0), ncol = 2)
 
   # test phase
 

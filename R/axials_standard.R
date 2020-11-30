@@ -1,3 +1,27 @@
+#' Takes (at least) two vectors of kinship dispersal distances from defined kinship categories, and returns a resulting calculation of the parent-offspring (intergenerational) kinship dispersal kernel
+#' Further tests
+#' @param avect     vector a of kin dispersal distances for the less closely related kinship category
+#' @param bvect     vector b of kin dispersal distances for the more closely related kinship category
+#' @param nreps     number of permutations to run for confidence intervals (default 1000)
+#' @param nsamp     number of kin pairs to subsample for each permutation. Either "std" or an integer. If "std" will be computed as equal to the sample size. (default "std")
+#' @param acat      kinship category of kin dispersal vector avect. Must be one of "PO", "FS", "HS", "AV", "GG", "HAV", "GGG", "1C", "1C1", "2C", "GAV", "HGAV", "H1C", "H1C1", "H2C"
+#' @param bcat      kinship category of kin dispersal vector bvect. Must be one of "PO", "FS", "HS", "AV", "GG", "HAV", "GGG", "1C", "1C1", "2C", "GAV", "HGAV", "H1C", "H1C1", "H2C"
+#' @param amix      logical describing whether vector a is a mixture of two kinship categories. Used with amixcat. Default FALSE.
+#' @param bmix      logical describing whether vector b is a mixture of two kinship categories. Used with bmixcat. Default FALSE.
+#' @param amixcat   mixture kinship category of vector a. Must be set if amix == TRUE. Must be one of "PO", "FS", "HS", "AV", "GG", "HAV", "GGG", "1C", "1C1", "2C", "GAV", "HGAV", "H1C", "H1C1", "H2C"
+#' @param bmixcat   mixture kinship category of vector b. Must be set if bmix == TRUE. Must be one of "PO", "FS", "HS", "AV", "GG", "HAV", "GGG", "1C", "1C1", "2C", "GAV", "HGAV", "H1C", "H1C1", "H2C"
+#' @param acomp     logical denoting whether vector a should be composited with an additional kinship category vector. Used with acompvect and acompcat. Default FALSE.
+#' @param bcomp     logical denoting whether vector b should be composited with an additional kinship category vector. Used with bcompvect and bcompcat. Default FALSE.
+#' @param acompvect vector acomp of kin dispersal distances for compositing with vector a. Must be set if acomp == TRUE.
+#' @param bcompvect vector bcomp of kin dispersal distances for compositing with vector b. Must be set if bcomp == TRUE.
+#' @param acompcat  kinship category of kin dispersal vector acompvect. Must be set if acomp == TRUE.  Must be one of "PO", "FS", "HS", "AV", "GG", "HAV", "GGG", "1C", "1C1", "2C", "GAV", "HGAV", "H1C", "H1C1", "H2C"
+#' @param bcompcat  kinship category of kin dispersal vector bcompvect. Must be set if bcomp == TRUE. Must be one of "PO", "FS", "HS", "AV", "GG", "HAV", "GGG", "1C", "1C1", "2C", "GAV", "HGAV", "H1C", "H1C1", "H2C"
+#' @param output    string denoting what kind of output to return. If 'confs', a vector of 95% confidence intervals. if 'vect', a vector of all permutated axial value results
+#'
+#' @return
+#' @export
+#'
+#' @examples
 axials_standard <- function(avect, bvect, nreps = 1000, nsamp = "std", acat, bcat,
                             amix = F, bmix = F, amixcat = NULL, bmixcat = NULL, acomp = F, bcomp = F,
                             acompvect = NULL, bcompvect = NULL, acompcat = NULL, bcompcat = NULL, output = "confs"){
@@ -77,6 +101,31 @@ axials_standard <- function(avect, bvect, nreps = 1000, nsamp = "std", acat, bca
 
 }
 
+
+#' Takes (at least) two vectors of kinship dispersal distances from defined kinship categories, and returns a resulting calculation of the parent-offspring (intergenerational) kinship dispersal kernel with bootstrap-based confidence intervals.
+#' Further tests
+#' @param avect     vector a of kin dispersal distances for the less closely related kinship category
+#' @param bvect     vector b of kin dispersal distances for the more closely related kinship category
+#' @param nreps     number of permutations to run for confidence intervals (default 1000)
+#' @param nsamp     number of kin pairs to subsample for each permutation. Either "std" or an integer. If "std" will be computed as equal to the sample size. (default "std")
+#' @param acat      kinship category of kin dispersal vector avect. Must be one of "PO", "FS", "HS", "AV", "GG", "HAV", "GGG", "1C", "1C1", "2C", "GAV", "HGAV", "H1C", "H1C1", "H2C"
+#' @param bcat      kinship category of kin dispersal vector bvect. Must be one of "PO", "FS", "HS", "AV", "GG", "HAV", "GGG", "1C", "1C1", "2C", "GAV", "HGAV", "H1C", "H1C1", "H2C"
+#' @param amix      logical describing whether vector a is a mixture of two kinship categories. Used with amixcat. Default FALSE.
+#' @param bmix      logical describing whether vector b is a mixture of two kinship categories. Used with bmixcat. Default FALSE.
+#' @param amixcat   mixture kinship category of vector a. Must be set if amix == TRUE. Must be one of "PO", "FS", "HS", "AV", "GG", "HAV", "GGG", "1C", "1C1", "2C", "GAV", "HGAV", "H1C", "H1C1", "H2C"
+#' @param bmixcat   mixture kinship category of vector b. Must be set if bmix == TRUE. Must be one of "PO", "FS", "HS", "AV", "GG", "HAV", "GGG", "1C", "1C1", "2C", "GAV", "HGAV", "H1C", "H1C1", "H2C"
+#' @param acomp     logical denoting whether vector a should be composited with an additional kinship category vector. Used with acompvect and acompcat. Default FALSE.
+#' @param bcomp     logical denoting whether vector b should be composited with an additional kinship category vector. Used with bcompvect and bcompcat. Default FALSE.
+#' @param acompvect vector acomp of kin dispersal distances for compositing with vector a. Must be set if acomp == TRUE.
+#' @param bcompvect vector bcomp of kin dispersal distances for compositing with vector b. Must be set if bcomp == TRUE.
+#' @param acompcat  kinship category of kin dispersal vector acompvect. Must be set if acomp == TRUE.  Must be one of "PO", "FS", "HS", "AV", "GG", "HAV", "GGG", "1C", "1C1", "2C", "GAV", "HGAV", "H1C", "H1C1", "H2C"
+#' @param bcompcat  kinship category of kin dispersal vector bcompvect. Must be set if bcomp == TRUE. Must be one of "PO", "FS", "HS", "AV", "GG", "HAV", "GGG", "1C", "1C1", "2C", "GAV", "HGAV", "H1C", "H1C1", "H2C"
+#' @param output    string denoting what kind of output to return. If 'confs', a vector of 95% confidence intervals. if 'vect', a vector of all permutated axial value results
+#'
+#' @return
+#' @export
+#'
+#' @examples
 axpermute_standard <- function(avect, bvect, nreps = 1000, nsamp = "std", acat, bcat,
                                amix = F, bmix = F, amixcat = NULL, bmixcat = NULL, acomp = F, bcomp = F,
                                acompvect = NULL, bcompvect = NULL, acompcat = NULL, bcompcat = NULL, output = "confs"){
