@@ -3,6 +3,8 @@
 export(axials_standard)
 export(axpermute_standard)
 export(sample_kindist)
+export(simgraph_data)
+export(simgraph_graph)
 export(simulate_kindist_composite)
 export(simulate_kindist_simple)
 exportClasses(KinPairSimulation)
