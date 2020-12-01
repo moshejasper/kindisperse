@@ -235,7 +235,7 @@ axpermute_standard <- function(avect, bvect, nreps = 1000, nsamp = "std", acat, 
     }
 
 
-    container <- add_row(container, ax = lifeax_final)
+    container <- tibble::add_row(container, ax = lifeax_final)
 
   }
 
