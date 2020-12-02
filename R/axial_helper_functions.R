@@ -1,3 +1,12 @@
+#' Title
+#'
+#' @param valvect
+#' @param composite
+#'
+#' @return
+#' @export
+#'
+#' @examples
 axials <- function(valvect, composite = 1){ #  computes axial distance for set... make better name...
   vals <- (valvect^2)/(2 * composite)
   return(sqrt(mean(vals)))
@@ -12,19 +21,53 @@ axials_norm <- function(valvect){ # wrapper for axials, but assumes distribution
   return(axials(vlavect, 2))
 }
 
+#' Title
+#'
+#' @param sd
+#' @param n_composites
+#'
+#' @return
+#' @export
+#'
+#' @examples
 axials_decompose <- function(sd, n_composites = 2){ # adjusts for number of (equal) combinations led to this value. (need to think of examples)...
   return(sd/ sqrt(n_composites))
 }
 
+#' Title
+#'
+#' @param axvals
+#'
+#' @return
+#' @export
+#'
+#' @examples
 axials_combine <- function(axvals){ # for when your data is an even mix of two different dispersal types... (e.g. H1C & 1C). - a blunt instrument...
   n <- length(axvals)
   return(sqrt(sum(axvals^2)/n))
 }
 
+#' Title
+#'
+#' @param axvals
+#'
+#' @return
+#' @export
+#'
+#' @examples
 axials_add <- function(axvals){ # for when there are multiple components summing together... (e.g. PO + PO, etc.)...
   return(sqrt(sum(axvals)))
 }
 
+#' Title
+#'
+#' @param abig
+#' @param asmall
+#'
+#' @return
+#' @export
+#'
+#' @examples
 axials_subtract <- function(abig, asmall){ # this is standard for our estimates... returns the non-sharecd component between then
   return(sqrt(abig^2 - asmall^2))
 }
@@ -64,6 +107,19 @@ axpermute <- function(axvals, nreps=1000, num = 50, composite = 2, output = "con
   }
 }
 
+#' Decompose distributions with confidence intervals
+#' @description Find the difference between two different axial distributions with confidence intervals.
+#' @param bigvals
+#' @param smallvals
+#' @param nreps
+#' @param num
+#' @param composite
+#' @param output
+#'
+#' @return
+#' @export
+#'
+#' @examples
 axpermute_subtract <- function(bigvals, smallvals, nreps = 1000, num = 50, composite = 2, output = "confs"){ # the workhorse function - need to extend for more complex form!.
 
   container <- tibble::tibble(ax = 0.0, .rows = 0)
