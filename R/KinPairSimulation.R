@@ -72,18 +72,18 @@ setMethod(
 
 #' Constructor for KinPairSimulation Class
 #'
-#' @param category
-#' @param simtype
-#' @param kerneltype
-#' @param sigma
-#' @param juvsigma
-#' @param breedsigma
-#' @param gravsigma
-#' @param ovisigma
-#' @param dims
-#' @param lifestage
-#' @param call
-#' @param tab
+#' @param tab tibble of pairwise kin classes & distances. Ideally contains fields id1 & id2 (chr) an distance (dbl) optionally includes coords (x1, y1, x2, y2), lifestage (ls1 & ls2), category (chr) and sims (dbl)
+#' @param category  character. Code for kinship category of simulation. one of PO, FS, HS, AV, GG, HAV, GGG, 1C, 1C1, 2C, GAV, HGAV, H1C or H2C
+#' @param simtype character. Type of simulation (currently 'simple' or 'composite')
+#' @param kerneltype  character. Statistical model for simulated dispersal kernel. Currently either "Gaussian" or "Laplace".
+#' @param sigma numeric. Axial sigma of dispersal kernel (axial standard deviation). Used with 'simple' simtype
+#' @param juvsigma  numeric. Axial sigma of prebreeding ('juvenile') dispersal kernel (axial standard deviation). Used with 'composite' simtype
+#' @param breedsigma  numeric. Axial sigma of breeding dispersal kernel (axial standard deviation). Used with 'composite' simtype
+#' @param gravsigma numeric. Axial sigma of post-breeding ('gravid') dispersal kernel (axial standard deviation). Used with 'composite' simtype
+#' @param ovisigma  numeric. Axial sigma of oviposition dispersal kernel (axial standard deviation). Used with 'composite' simtype
+#' @param dims  numeric. Length of side of simulated area square.
+#' @param lifestage character. Simulated lifestage of sampling. Either "larva" (sampled at hatching) or "oviposition" (sampled as an adult during oviposition - essentially one lifespan later that 'larva')
+#' @param call  call object. Use to pass the system call that led to the generation of this class. (via sys.call)
 #' @param filtertype
 #' @param upper
 #' @param lower
@@ -95,11 +95,65 @@ setMethod(
 #' @export
 #'
 #' @examples
+#' kindata <- tibble(id1 = c("a", "b", "c"), id2 = c("x", "y", "z"), distance = c(50, 45, 65), category = c("1C", "1C", "1C"))
+#' make_KinPairSimulation(kindata, "1C", "simple", "Gaussian", sigma = 38, lifestage = "larva")
 #' @importFrom methods "new"
-make_KinPairSimulation <- function(category, simtype, kerneltype, sigma, juvsigma, breedsigma, gravsigma, ovisigma,
-                                   dims, lifestage, call, tab, filtertype, upper, lower, spacing, samplenum, sampledims){
-  return(new("KinPairSimulation"),
+make_KinPairSimulation <- function(tab, category=character(), simtype=character(), kerneltype=character(), sigma=numeric(), juvsigma=numeric(), breedsigma=numeric(), gravsigma=numeric(), ovisigma=numeric(),
+                                   dims=numeric(), lifestage=character(), call=NULL, filtertype=character(), upper=numeric(), lower=numeric(),
+                                   spacing=numeric(), samplenum=numeric(), sampledims=numeric()){
+
+  if (is.null(call)) {call <- sys.call()}
+  return(new("KinPairSimulation",
          category = category, simtype = simtype, kerneltype = kerneltype, sigma = sigma, juvsigma = juvsigma, breedsigma = breedsigma,
          gravsigma = gravsigma, ovisigma = ovisigma, dims = dims, lifestage = lifestage, call = call, tab = tab, filtertype = filtertype,
-         upper = upper, lower = lower, spacing = spacing, samplenum = samplenum, sampledims = sampledims)
+         upper = upper, lower = lower, spacing = spacing, samplenum = samplenum, sampledims = sampledims))
+}
+
+
+#' Constructor for KinPairSimulation Class (simple)
+#'
+#' @param tab tibble of pairwise kin classes & distances. Ideally contains fields id1 & id2 (chr) an distance (dbl) optionally includes coords (x1, y1, x2, y2), lifestage (ls1 & ls2), category (chr) and sims (dbl)
+#' @param category  character. Code for kinship category of simulation. one of PO, FS, HS, AV, GG, HAV, GGG, 1C, 1C1, 2C, GAV, HGAV, H1C or H2C
+#' @param kerneltype  character. Statistical model for simulated dispersal kernel. Currently either "Gaussian" or "Laplace".
+#' @param sigma numeric. Axial sigma of dispersal kernel (axial standard deviation).
+#' @param dims  numeric. Length of side of simulated area square.
+#' @param lifestage character. Simulated lifestage of sampling. Either "larva" (sampled at hatching) or "oviposition" (sampled as an adult during oviposition - essentially one lifespan later that 'larva')
+#' @param call  call object. Use to pass the system call that led to the generation of this class. (via sys.call)
+#'
+#' @return Returns a KinPairSimulation Class object with simtype set to 'simple' and relevant fields included.
+#' @export
+#'
+#' @examples
+#' kindata <- tibble(id1 = c("a", "b", "c"), id2 = c("x", "y", "z"), distance = c(50, 45, 65), category = c("1C", "1C", "1C"))
+#' KinPairSimulation_simple(kindata, category = "1C", kerneltype = "Gaussian", sigma = 38, lifestage = "larva")
+KinPairSimulation_simple <- function(tab, category=character(), kerneltype=character(), sigma=numeric(), dims = numeric(), lifestage=character(), call=NULL){
+  if (is.null(call)) {call <- sys.call()}
+  return(make_KinPairSimulation(tab=tab, category=category, simtype="simple", kerneltype=kerneltype, sigma=sigma, dims = dims, lifestage=lifestage, call=call))
+}
+
+
+#' Constructor for KinPairSimulation Class (composite)
+#'
+#' @param tab tibble of pairwise kin classes & distances. Ideally contains fields id1 & id2 (chr) an distance (dbl) optionally includes coords (x1, y1, x2, y2), lifestage (ls1 & ls2), category (chr) and sims (dbl)
+#' @param category  character. Code for kinship category of simulation. one of PO, FS, HS, AV, GG, HAV, GGG, 1C, 1C1, 2C, GAV, HGAV, H1C or H2C
+#' @param kerneltype  character. Statistical model for simulated dispersal kernel. Currently either "Gaussian" or "Laplace".
+#' @param juvsigma  numeric. Axial sigma of prebreeding ('juvenile') dispersal kernel (axial standard deviation).
+#' @param breedsigma  numeric. Axial sigma of breeding dispersal kernel (axial standard deviation).
+#' @param gravsigma numeric. Axial sigma of post-breeding ('gravid') dispersal kernel (axial standard deviation).
+#' @param ovisigma  numeric. Axial sigma of oviposition dispersal kernel (axial standard deviation).
+#' @param dims  numeric. Length of side of simulated area square.
+#' @param lifestage character. Simulated lifestage of sampling. Either "larva" (sampled at hatching) or "oviposition" (sampled as an adult during oviposition - essentially one lifespan later that 'larva')
+#' @param call  call object. Use to pass the system call that led to the generation of this class. (via sys.call)
+#'
+#' @return Returns a KinPairSimulation Class object with simtype set to 'composite' and relevant fields included.
+#' @export
+#'
+#' @examples
+#' kindata <- tibble(id1 = c("a", "b", "c"), id2 = c("x", "y", "z"), distance = c(50, 45, 65), category = c("1C", "1C", "1C"))
+#' KinPairSimulation_composite(kindata, category = "1C", kerneltype = "Gaussian", juvsigma = 15, breedsigma = 25, gravsigma = 20, ovisigma = 10, lifestage = "larva")
+KinPairSimulation_composite <- function(tab, category=character(), kerneltype=character(), juvsigma=numeric(), breedsigma=numeric(),
+                                             gravsigma=numeric(), ovisigma=numeric(), dims = numeric(), lifestage=character(), call=NULL){
+  if (is.null(call)) {call <- sys.call()}
+  return(make_KinPairSimulation(tab=tab, category=category, simtype="composite", kerneltype=kerneltype, juvsigma=juvsigma, breedsigma=breedsigma,
+                                gravsigma=gravsigma, ovisigma=ovisigma, dims = dims, lifestage=lifestage, call=call))
 }

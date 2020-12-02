@@ -185,10 +185,9 @@ simulate_kindist_simple <- function(nsims = 100, sigma = 125, dims = 100, method
                 ls1 = ls1, ls2 = ls2, distance = distance,
                 category = category, dims = dims)
 
-  return(new("KinPairSimulation",
-             category = category, simtype = "simple", kerneltype = method,
-             sigma = sigma, dims = dims, lifestage = lifestage,
-             call = sys.call(), tab = tab))
+  return(KinPairSimulation_simple(tab, category = category, kerneltype = method,
+                                       sigma = sigma, dims = dims, lifestage = lifestage,
+                                       call = sys.call()))
 
 
 }
