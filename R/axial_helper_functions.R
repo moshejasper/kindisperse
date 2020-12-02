@@ -18,7 +18,7 @@ axials <- function(valvect, composite = 1){ #  computes axial distance for set..
 #}
 
 axials_norm <- function(valvect){ # wrapper for axials, but assumes distribution of two sampling outcomes  (e.g. FS) rather than one (e.g. PO) - norm = normal
-  return(axials(vlavect, 2))
+  return(axials(valvect, 2))
 }
 
 #' Title

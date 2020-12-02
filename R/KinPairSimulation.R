@@ -95,7 +95,8 @@ setMethod(
 #' @export
 #'
 #' @examples
-#' kindata <- tibble(id1 = c("a", "b", "c"), id2 = c("x", "y", "z"), distance = c(50, 45, 65), category = c("1C", "1C", "1C"))
+#' kindata <- tibble::tibble(id1 = c("a", "b", "c"), id2 = c("x", "y", "z"),
+#'     distance = c(50, 45, 65), category = c("1C", "1C", "1C"))
 #' make_KinPairSimulation(kindata, "1C", "simple", "Gaussian", sigma = 38, lifestage = "larva")
 #' @importFrom methods "new"
 make_KinPairSimulation <- function(tab, category=character(), simtype=character(), kerneltype=character(), sigma=numeric(), juvsigma=numeric(), breedsigma=numeric(), gravsigma=numeric(), ovisigma=numeric(),
@@ -124,8 +125,10 @@ make_KinPairSimulation <- function(tab, category=character(), simtype=character(
 #' @export
 #'
 #' @examples
-#' kindata <- tibble(id1 = c("a", "b", "c"), id2 = c("x", "y", "z"), distance = c(50, 45, 65), category = c("1C", "1C", "1C"))
-#' KinPairSimulation_simple(kindata, category = "1C", kerneltype = "Gaussian", sigma = 38, lifestage = "larva")
+#' kindata <- tibble::tibble(id1 = c("a", "b", "c"), id2 = c("x", "y", "z"),
+#'     distance = c(50, 45, 65), category = c("1C", "1C", "1C"))
+#' KinPairSimulation_simple(kindata, category = "1C", kerneltype = "Gaussian",
+#'     sigma = 38, lifestage = "larva")
 KinPairSimulation_simple <- function(tab, category=character(), kerneltype=character(), sigma=numeric(), dims = numeric(), lifestage=character(), call=NULL){
   if (is.null(call)) {call <- sys.call()}
   return(make_KinPairSimulation(tab=tab, category=category, simtype="simple", kerneltype=kerneltype, sigma=sigma, dims = dims, lifestage=lifestage, call=call))
@@ -149,8 +152,10 @@ KinPairSimulation_simple <- function(tab, category=character(), kerneltype=chara
 #' @export
 #'
 #' @examples
-#' kindata <- tibble(id1 = c("a", "b", "c"), id2 = c("x", "y", "z"), distance = c(50, 45, 65), category = c("1C", "1C", "1C"))
-#' KinPairSimulation_composite(kindata, category = "1C", kerneltype = "Gaussian", juvsigma = 15, breedsigma = 25, gravsigma = 20, ovisigma = 10, lifestage = "larva")
+#' kindata <- tibble::tibble(id1 = c("a", "b", "c"), id2 = c("x", "y", "z"),
+#'                 distance = c(50, 45, 65), category = c("1C", "1C", "1C"))
+#' KinPairSimulation_composite(kindata, category = "1C", kerneltype = "Gaussian",
+#'     juvsigma = 15, breedsigma = 25, gravsigma = 20, ovisigma = 10, lifestage = "larva")
 KinPairSimulation_composite <- function(tab, category=character(), kerneltype=character(), juvsigma=numeric(), breedsigma=numeric(),
                                              gravsigma=numeric(), ovisigma=numeric(), dims = numeric(), lifestage=character(), call=NULL){
   if (is.null(call)) {call <- sys.call()}
