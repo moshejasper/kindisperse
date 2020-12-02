@@ -24,13 +24,13 @@ sample_kindist(
 
 \item{n}{numeric - number of individuals to keep after filtering (if possible)}
 
-\item{dims}{dimensions square to sample within (works with the KinPairSimulation spatial & dimension information)}
+\item{dims}{dimensions square to sample within (works with the KinPairSimulation spatial & dimension information). Typically use either dims or upper.}
 }
 \value{
 returns an object of class 'KinPairSimulation' containing simulation and filtering details and a tibble (tab) of filtered simulation values
 }
 \description{
-Subsample and filter a KinPairSimulation Object
+This function takes a pre-existing KinPairSimulation Object with distance and coordinate data and filters it to simulate various in-field sampling schemes.
 }
 \examples{
 simobject <- simulate_kindist_simple(nsims = 100000, sigma = 100, category = "PO")

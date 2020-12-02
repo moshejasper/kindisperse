@@ -59,6 +59,7 @@ make_KinPairSimulation(
 Constructor for KinPairSimulation Class
 }
 \examples{
-kindata <- tibble(id1 = c("a", "b", "c"), id2 = c("x", "y", "z"), distance = c(50, 45, 65), category = c("1C", "1C", "1C"))
+kindata <- tibble::tibble(id1 = c("a", "b", "c"), id2 = c("x", "y", "z"),
+    distance = c(50, 45, 65), category = c("1C", "1C", "1C"))
 make_KinPairSimulation(kindata, "1C", "simple", "Gaussian", sigma = 38, lifestage = "larva")
 }

@@ -36,6 +36,8 @@ Returns a KinPairSimulation Class object with simtype set to 'simple' and releva
 Constructor for KinPairSimulation Class (simple)
 }
 \examples{
-kindata <- tibble(id1 = c("a", "b", "c"), id2 = c("x", "y", "z"), distance = c(50, 45, 65), category = c("1C", "1C", "1C"))
-KinPairSimulation_simple(kindata, category = "1C", kerneltype = "Gaussian", sigma = 38, lifestage = "larva")
+kindata <- tibble::tibble(id1 = c("a", "b", "c"), id2 = c("x", "y", "z"),
+    distance = c(50, 45, 65), category = c("1C", "1C", "1C"))
+KinPairSimulation_simple(kindata, category = "1C", kerneltype = "Gaussian",
+    sigma = 38, lifestage = "larva")
 }

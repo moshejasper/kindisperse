@@ -11,6 +11,7 @@
 #'
 #' @return      returns an object of class 'KinPairSimulation' containing simulation details and a tibble (tab) of simulation values
 #' @export
+#' @importFrom tibble tibble
 #' @examples
 #' test <- simulate_kindist_simple(nsims = 10, sigma = 50, dims = 1000, method = "Laplace")
 #' simulate_kindist_simple(nsims = 100000, sigma = 75, category = "PO", lifestage = "oviposition")
