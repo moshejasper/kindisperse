@@ -50,18 +50,18 @@ simulate_kindist_composite()
 #> 
 #> tab
 #> # A tibble: 100 x 11
-#>    id1   id2       x1     y1     x2     y2 ls1   ls2   distance category  dims
-#>    <chr> <chr>  <dbl>  <dbl>  <dbl>  <dbl> <chr> <chr>    <dbl> <chr>    <dbl>
-#>  1 1a    1b     41.7   77.3   73.4   98.0  larva larva     37.9 FS         100
-#>  2 2a    2b     41.7  -28.5    5.51   8.31 larva larva     51.7 FS         100
-#>  3 3a    3b      6.65  11.4   19.7   21.4  larva larva     16.5 FS         100
-#>  4 4a    4b     33.2   59.4   40.4   -2.69 larva larva     62.5 FS         100
-#>  5 5a    5b     44.8   29.9   26.9   58.7  larva larva     33.9 FS         100
-#>  6 6a    6b     17.4  119.    55.0   92.9  larva larva     45.8 FS         100
-#>  7 7a    7b     41.9   -1.76  38.5    9.27 larva larva     11.6 FS         100
-#>  8 8a    8b    100.    42.7  103.    26.8  larva larva     16.1 FS         100
-#>  9 9a    9b     28.0   83.6   51.0  108.   larva larva     33.8 FS         100
-#> 10 10a   10b    95.9   70.8   87.7   37.9  larva larva     33.8 FS         100
+#>    id1   id2      x1    y1     x2     y2 ls1   ls2   distance category  dims
+#>    <chr> <chr> <dbl> <dbl>  <dbl>  <dbl> <chr> <chr>    <dbl> <chr>    <dbl>
+#>  1 1a    1b    -14.2 89.4  -19.9   75.9  larva larva    14.7  FS         100
+#>  2 2a    2b     30.9 74.3   87.6   83.4  larva larva    57.4  FS         100
+#>  3 3a    3b     64.2  6.77  54.2  102.   larva larva    95.5  FS         100
+#>  4 4a    4b     98.1 79.6  105.    15.3  larva larva    64.7  FS         100
+#>  5 5a    5b     96.2 76.1   97.3   69.9  larva larva     6.24 FS         100
+#>  6 6a    6b     69.8 82.1   92.8   78.9  larva larva    23.2  FS         100
+#>  7 7a    7b     26.1 48.1    8.81  89.9  larva larva    45.2  FS         100
+#>  8 8a    8b     90.6 40.9   74.0  104.   larva larva    65.3  FS         100
+#>  9 9a    9b     67.3 33.6  -19.4    1.92 larva larva    92.3  FS         100
+#> 10 10a   10b    40.8 32.8   84.1   42.3  larva larva    44.3  FS         100
 #> # ... with 90 more rows
 #> -----------------------------------
 ```
@@ -87,7 +87,7 @@ You can also embed plots, for example:
 
     #> Loading required namespace: ggrepel
 
-<img src="man/figures/README-pressure-1.png" width="100%" />
+<img src="man/figures/README-kinsim-1.png" width="100%" />
 
 In that case, don’t forget to commit and push the resulting figure
 files, so they display on GitHub\!
