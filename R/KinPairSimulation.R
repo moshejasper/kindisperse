@@ -69,3 +69,37 @@ setMethod(
     cat("-----------------------------------")
   }
 )
+
+#' Constructor for KinPairSimulation Class
+#'
+#' @param category
+#' @param simtype
+#' @param kerneltype
+#' @param sigma
+#' @param juvsigma
+#' @param breedsigma
+#' @param gravsigma
+#' @param ovisigma
+#' @param dims
+#' @param lifestage
+#' @param call
+#' @param tab
+#' @param filtertype
+#' @param upper
+#' @param lower
+#' @param spacing
+#' @param samplenum
+#' @param sampledims
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#' @importFrom methods "new"
+make_KinPairSimulation <- function(category, simtype, kerneltype, sigma, juvsigma, breedsigma, gravsigma, ovisigma,
+                                   dims, lifestage, call, tab, filtertype, upper, lower, spacing, samplenum, sampledims){
+  return(new("KinPairSimulation"),
+         category = category, simtype = simtype, kerneltype = kerneltype, sigma = sigma, juvsigma = juvsigma, breedsigma = breedsigma,
+         gravsigma = gravsigma, ovisigma = ovisigma, dims = dims, lifestage = lifestage, call = call, tab = tab, filtertype = filtertype,
+         upper = upper, lower = lower, spacing = spacing, samplenum = samplenum, sampledims = sampledims)
+}
