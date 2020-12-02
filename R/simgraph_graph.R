@@ -23,6 +23,11 @@
 #' @export
 #'
 #' @examples
+#' @import ggplot2
+#' @import tibble
+#' @import dplyr
+#' @importFrom magrittr %>%
+#'
 simgraph_graph <- function(result, nsims = 10, dsigma = 50, dims = 250, labls = TRUE, steps = TRUE,
                            moves = TRUE, shadows = TRUE, category = "2C", show_area = TRUE,
                            centred = FALSE, pinwheel = FALSE, scattered = FALSE,
