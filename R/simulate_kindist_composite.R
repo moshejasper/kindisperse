@@ -166,12 +166,8 @@ simulate_kindist_composite <- function(nsims = 100, juvsigma = 100, breedsigma =
                 ls1 = ls1, ls2 = ls2, distance = distance,
                 category = category, dims = dims)
 
-  return(new(
-    "KinPairSimulation",
-    category = category, simtype = "composite", kerneltype = method,
-    juvsigma = juvsigma, breedsigma = breedsigma, gravsigma = gravsigma,
-    ovisigma = ovisigma, dims = dims, lifestage = lifestage,
-    call = sys.call(), tab = tab)
-  )
-
+  return(KinPairSimulation_composite(tab,
+                                     category = category, kerneltype = method, juvsigma = juvsigma,
+                                     breedsigma = breedsigma, gravsigma = gravsigma, ovisigma = ovisigma,
+                                     dims = dims, lifestage = lifestage, call = sys.call()))
 }
