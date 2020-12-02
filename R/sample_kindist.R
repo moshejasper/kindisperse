@@ -1,11 +1,11 @@
 #' Subsample and filter a KinPairSimulation Object
-#'
+#' @description This function takes a pre-existing KinPairSimulation Object with distance and coordinate data and filters it to simulate various in-field sampling schemes.
 #' @param kindist KinPairSimulation - KinPairSimulation Class Object
 #' @param upper   numeric - upper cutoff for kin pair distances
 #' @param lower   numeric - lower cutoff for kin pair distances
 #' @param spacing numeric - spacing between traps (assume 1D layout)
 #' @param n       numeric - number of individuals to keep after filtering (if possible)
-#' @param dims    dimensions square to sample within (works with the KinPairSimulation spatial & dimension information)
+#' @param dims    dimensions square to sample within (works with the KinPairSimulation spatial & dimension information). Typically use either dims or upper.
 #'
 #' @return  returns an object of class 'KinPairSimulation' containing simulation and filtering details and a tibble (tab) of filtered simulation values
 #' @export
