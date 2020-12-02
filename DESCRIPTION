@@ -26,7 +26,6 @@ Imports:
     LaplacesDemon,
     here,
     stats,
-    lcmix,
     methods,
     tibble,
     grid,
