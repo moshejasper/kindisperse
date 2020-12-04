@@ -1491,7 +1491,7 @@ server <- function(input, output, session){
 
 #' Run kindisperse app
 #'
-#' @return
+#'
 #' @export
 #' @importFrom utils read.csv
 #' @examples

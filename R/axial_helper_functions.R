@@ -140,7 +140,8 @@ axconfs <- function(axvals, nreps=1000, nsamp = "std", composite = 2, output = "
 #' @param output character. Denotes what kind of output to return.
 #' If 'confs', a vector of 95% confidence intervals. if 'vect', a vector of all permuted axial value results
 #'
-#' @return
+#' @return If ouput = 'confs', returns a vector of 95% confidence intervals.
+#' if output = 'vect', returns a vector of all permuted axial value results
 #' @export
 #'
 #' @examples
