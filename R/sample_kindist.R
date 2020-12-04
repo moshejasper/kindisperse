@@ -43,7 +43,7 @@ sample_kindist <- function(kindist, upper = NULL, lower = NULL, spacing = NULL, 
 
   if (! is.null(upper)) {
     cat(paste0("Removing distances farther than ", upper, "\n"))
-    kindist@tab <- filter(kindist@tab, .data$distance < upper)
+    kindist@tab <- dplyr::filter(kindist@tab, .data$distance < upper)
   }
 
   if (! is.null(lower)) {

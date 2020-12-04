@@ -914,15 +914,6 @@ ui <- fluidPage(
 
 
 
-#' App server function
-#'
-#' @param input
-#' @param output
-#' @param session
-#'
-#' @return
-#' @export
-#' @examples
 server <- function(input, output, session){
   #output$dhist <- renderPlot({
   #  hist(rnorm(input$sigma))
