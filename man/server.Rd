@@ -2,7 +2,7 @@
 % Please edit documentation in R/app.R
 \name{server}
 \alias{server}
-\title{Title}
+\title{App server function}
 \usage{
 server(input, output, session)
 }
@@ -13,5 +13,5 @@ server(input, output, session)
 
 }
 \description{
-Title
+App server function
 }

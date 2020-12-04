@@ -21,9 +21,6 @@
 #'
 #' @return      Returns a ggplot object for graphing.
 #' @export
-#' @import ggplot2
-#' @import tibble
-#' @import dplyr
 #' @examples
 #' @importFrom magrittr %>%
 simgraph_graph <- function(result, nsims = 10, dsigma = 50, dims = 250, labls = TRUE, steps = TRUE,
@@ -33,23 +30,14 @@ simgraph_graph <- function(result, nsims = 10, dsigma = 50, dims = 250, labls = 
                            binwidth = dsigma / 5, freqpoly = FALSE){
 
 
-  element_text <- element_text
-  element_rect <- element_rect
-  unit <- unit
-  guide_legend <- guide_legend
-  coord_fixed <- coord_fixed
-  aes <- ggplot2::aes
-
-
   if (pinwheel == TRUE | scattered == TRUE) {centred <- TRUE}
   if (centred == TRUE){
     show_area <- FALSE
   }
-  requireNamespace("ggplot2")
-  requireNamespace("ggrepel")
+
   if (pinwheel == TRUE & nsims > 50) { labls <- FALSE}
 
-  result <- dplyr::slice_head(result, n = nsims)
+  result <- slice_head(result, n = nsims)
 
   # rescale the key relationships within the graph...
 
@@ -111,7 +99,7 @@ simgraph_graph <- function(result, nsims = 10, dsigma = 50, dims = 250, labls = 
   kinmidy <- (k1y + k2y) / 2
 
 
-  result <- tibble::tibble(f0x = f0x, f0y = f0y, f1ax = f1ax, f1ay = f1ay,
+  result <- tibble(f0x = f0x, f0y = f0y, f1ax = f1ax, f1ay = f1ay,
                    f1bx = f1bx, f1by = f1by, f1cx = f1cx, f1cy = f1cy,
                    f2ax = f2ax, f2ay = f2ay, f2bx = f2bx, f2by = f2by,
                    f3ax = f3ax, f3ay = f3ay, f3bx = f3bx, f3by = f3by,
@@ -120,13 +108,13 @@ simgraph_graph <- function(result, nsims = 10, dsigma = 50, dims = 250, labls = 
 
   arr = arrow(length = unit(0.05, "inches"), type = "closed")
 
-  rectgrid <- tibble::tibble(x = c(0, 0, dims, dims), xend = c(0, dims, dims, 0), y = c(0, dims, dims, 0), yend = c(dims, dims, 0, 0))
+  rectgrid <- tibble(x = c(0, 0, dims, dims), xend = c(0, dims, dims, 0), y = c(0, dims, dims, 0), yend = c(dims, dims, 0, 0))
 
-  ggp <- ggplot(result[1:nsims,]) + aes(x = f0x, y = f0y, xend = f1ax, yend = f1ay)
+  ggp <- ggplot(result[1:nsims,]) + aes(x = .data$f0x, y = .data$f0y, xend = .data$f1ax, yend = .data$f1ay)
 
   if (histogram == TRUE){
 
-    ggp <- ggplot(result[1:nsims,]) + aes(x = kindist)
+    ggp <- ggplot(result[1:nsims,]) + aes(x = .data$kindist)
     if (freqpoly == FALSE){
       ggp <- ggp + geom_histogram(fill = "white", colour = "black", binwidth = binwidth)}
     if (freqpoly == TRUE){
@@ -140,10 +128,10 @@ simgraph_graph <- function(result, nsims = 10, dsigma = 50, dims = 250, labls = 
   }
 
   if (pinwheel == TRUE){
-    ggp <- ggp + geom_segment(mapping = aes(x = k1x, y = k1y, xend = k2x, yend = k2y), colour = "black",
+    ggp <- ggp + geom_segment(mapping = aes(x = .data$k1x, y = .data$k1y, xend = .data$k2x, yend = .data$k2y), colour = "black",
                               linetype = 1, alpha = 0.7)
     if (labls != FALSE & lengthlabs != FALSE){
-      ggp <- ggp + ggrepel::geom_label_repel(mapping = aes(x = k2x, y = k2y, label = paste(kindist, "m")), colour = "black",
+      ggp <- ggp + geom_label_repel(mapping = aes(x = .data$k2x, y = .data$k2y, label = paste(.data$kindist, "m")), colour = "black",
                                     size = 3, hjust = 0.5, vjust = 0.5, alpha = 1, box.padding = unit(0.01, "lines"),
                                     label.padding = unit(0.1, "line"), fontface = "bold")
     }
@@ -159,7 +147,7 @@ simgraph_graph <- function(result, nsims = 10, dsigma = 50, dims = 250, labls = 
   }
 
   if (scattered == TRUE){
-    ggp <- ggp + geom_point(mapping = aes(x = k2x, y = k2y), colour = "black",
+    ggp <- ggp + geom_point(mapping = aes(x = .data$k2x, y = .data$k2y), colour = "black",
                             alpha = 0.7)
 
     ggp <- ggp + coord_fixed() + theme_bw() +
@@ -174,7 +162,7 @@ simgraph_graph <- function(result, nsims = 10, dsigma = 50, dims = 250, labls = 
   }
 
   if (show_area == TRUE){
-    ggp <- ggp + geom_segment(data = rectgrid, mapping = aes(x = x, y = y, xend = xend, yend = yend), linetype = 1, alpha = 0.5)}
+    ggp <- ggp + geom_segment(data = rectgrid, mapping = aes(x = .data$x, y = .data$y, xend = .data$xend, yend = .data$yend), linetype = 1, alpha = 0.5)}
 
   if (steps == TRUE) {
     #geom_segment(mapping = aes(x = f1bx, y = f1by), colour = "blue", size = 1, alpha = 0.8)+
@@ -183,37 +171,37 @@ simgraph_graph <- function(result, nsims = 10, dsigma = 50, dims = 250, labls = 
     if (shadows == TRUE){
       ggp <- ggp + geom_segment(colour = "black", alpha = 0.5, linetype = 3)
       if (category %in% c("FS", "HS", "AV", "HAV", "1C", "1C1", "2C", "GAV")){
-        ggp <- ggp + geom_segment(mapping = aes(xend = f1bx, yend = f1by), colour = "black", alpha = 0.5, linetype = 3)}
+        ggp <- ggp + geom_segment(mapping = aes(xend = .data$f1bx, yend = .data$f1by), colour = "black", alpha = 0.5, linetype = 3)}
       if (category %in% c("AV", "GG", "HAV", "GGG", "1C", "1C1", "2C", "GAV")){
-        ggp <- ggp + geom_segment(mapping = aes(x = f1ax, y = f1ay, xend = f2ax, yend = f2ay),
+        ggp <- ggp + geom_segment(mapping = aes(x = .data$f1ax, y = .data$f1ay, xend = .data$f2ax, yend = .data$f2ay),
                                   alpha = 0.5, linetype = 3)}
       if (category %in% c("1C", "1C1", "2C")){
-        ggp <- ggp + geom_segment(mapping = aes(x = f1bx, y = f1by, xend = f2bx, yend = f2by),
+        ggp <- ggp + geom_segment(mapping = aes(x = .data$f1bx, y = .data$f1by, xend = .data$f2bx, yend = .data$f2by),
                                   alpha = 0.5, linetype = 3)}
       if (category %in% c("GGG", "1C1", "2C", "GAV")){
-        ggp <- ggp + geom_segment(mapping = aes(x = f2ax, y = f2ay, xend = f3ax, yend = f3ay),
+        ggp <- ggp + geom_segment(mapping = aes(x = .data$f2ax, y = .data$f2ay, xend = .data$f3ax, yend = .data$f3ay),
                                   alpha = 0.5, linetype = 3)}
       if (category %in% c("2C")){
-        ggp <- ggp + geom_segment(mapping = aes(x = f2bx, y = f2by, xend = f3bx, yend = f3by),
+        ggp <- ggp + geom_segment(mapping = aes(x = .data$f2bx, y = .data$f2by, xend = .data$f3bx, yend = .data$f3by),
                                   linetype = 3, alpha = 0.5)}}
 
     if (moves == TRUE) {
       ggp <- ggp + geom_curve(mapping = aes(colour = "black"), alpha = 0.7, linetype = 1, arrow = arr)
       if (category %in% c("FS", "HS", "AV", "HAV", "1C", "1C1", "2C", "GAV")){
-        ggp <- ggp + geom_curve(mapping = aes(xend = f1bx, yend = f1by, colour = "black"), alpha = 0.7, linetype = 1, arrow = arr)}
+        ggp <- ggp + geom_curve(mapping = aes(xend = .data$f1bx, yend = .data$f1by, colour = "black"), alpha = 0.7, linetype = 1, arrow = arr)}
       #geom_segment(mapping = aes(xend = f1cx, yend = f1cy), alpha = 0.8, linetype = 1, arrow = arr)+
       if (category %in% c("AV", "GG", "HAV", "GGG", "1C", "1C1", "2C", "GAV")){
-        ggp <- ggp + geom_curve(mapping = aes(x = f1ax, y = f1ay, xend = f2ax, yend = f2ay, colour = "green4"),
+        ggp <- ggp + geom_curve(mapping = aes(x = .data$f1ax, y = .data$f1ay, xend = .data$f2ax, yend = .data$f2ay, colour = "green4"),
                                 alpha = 0.9, arrow = arr, linetype = 1)}
       if (category %in% c("1C", "1C1", "2C")){
-        ggp <- ggp + geom_curve(mapping = aes(x = f1bx, y = f1by, xend = f2bx, yend = f2by, colour = "green4"),
+        ggp <- ggp + geom_curve(mapping = aes(x = .data$f1bx, y = .data$f1by, xend = .data$f2bx, yend = .data$f2by, colour = "green4"),
                                 alpha = 0.9, linetype = 1, arrow = arr)}
       #geom_segment(mapping = aes(x = f2ax, y = f2ay, xend = f2bx, yend = f2by), colour = "red", size = 1) +
       if (category %in% c("GGG", "1C1", "2C", "GAV")){
-        ggp <- ggp + geom_curve(mapping = aes(x = f2ax, y = f2ay, xend = f3ax, yend = f3ay, colour = "purple"),
+        ggp <- ggp + geom_curve(mapping = aes(x = .data$f2ax, y = .data$f2ay, xend = .data$f3ax, yend = .data$f3ay, colour = "purple"),
                                 arrow = arr, linetype = 1, alpha = 0.9)}
       if (category %in% c("2C")){
-        ggp <- ggp + geom_curve(mapping = aes(x = f2bx, y = f2by, xend = f3bx, yend = f3by, colour = "purple"),
+        ggp <- ggp + geom_curve(mapping = aes(x = .data$f2bx, y = .data$f2by, xend = .data$f3bx, yend = .data$f3by, colour = "purple"),
                                 linetype = 1, alpha = 0.9, arrow = arr)}}
 
     ggp <- ggp + geom_point(alpha = 1, size = 2)}
@@ -221,38 +209,38 @@ simgraph_graph <- function(result, nsims = 10, dsigma = 50, dims = 250, labls = 
   if (lengths == TRUE) {
     if (centred == TRUE) {kls <-  0.75; klt <- 5}
     if (centred == FALSE) {kls <- 0.5; klt <- 2}
-    ggp <- ggp + geom_segment(mapping = aes(x = k1x, y = k1y, xend = k2x, yend = k2y), colour = "black", linetype = klt,
+    ggp <- ggp + geom_segment(mapping = aes(x = .data$k1x, y = .data$k1y, xend = .data$k2x, yend = .data$k2y), colour = "black", linetype = klt,
                               size = kls)}
 
   if (labls == TRUE & steps == TRUE){
     if (centred != TRUE){
-      ggp <- ggp + ggrepel::geom_label_repel(label = "0",
+      ggp <- ggp + geom_label_repel(label = "0",
                                     size = 2, label.padding = unit(0.1, "lines"), box.padding = unit(0.01, "lines"))}
     if (centred == TRUE){
-      ggp <- ggp + ggrepel::geom_label_repel(data = result[1,], label = "0",
+      ggp <- ggp + geom_label_repel(data = result[1,], label = "0",
                                     size = 2, label.padding = unit(0.1, "lines"), box.padding = unit(0.01, "lines"))
     }
     if (category %in% c("PO", "FS", "HS", "AV", "GG", "HAV", "GGG", "1C", "1C1", "2C", "GAV")){
-      ggp <- ggp + ggrepel::geom_label_repel(mapping = aes(x = f1ax, y = f1ay), alpha = 0.7, colour = "black", label = "1",
+      ggp <- ggp + geom_label_repel(mapping = aes(x = .data$f1ax, y = .data$f1ay), alpha = 0.7, colour = "black", label = "1",
                                     size = 2, label.padding = unit(0.1, "lines"), box.padding = unit(0.01, "lines"))}
     if (category %in% c("FS", "HS", "AV", "HAV", "1C", "1C1", "2C", "GAV")){
-      ggp <- ggp + ggrepel::geom_label_repel(mapping = aes(x = f1bx, y = f1by), alpha = 0.7, colour = "black", label = "1",
+      ggp <- ggp + geom_label_repel(mapping = aes(x = .data$f1bx, y = .data$f1by), alpha = 0.7, colour = "black", label = "1",
                                     size = 2, label.padding = unit(0.1, "lines"), box.padding = unit(0.01, "lines"))}
     if (category %in% c("AV", "GG", "HAV", "GGG", "1C", "1C1", "2C", "GAV")){
-      ggp <- ggp + ggrepel::geom_label_repel(mapping = aes(x = f2ax, y = f2ay), alpha = 0.7, colour = "green4", label = "2",
+      ggp <- ggp + geom_label_repel(mapping = aes(x = .data$f2ax, y = .data$f2ay), alpha = 0.7, colour = "green4", label = "2",
                                     size = 2, label.padding = unit(0.1, "lines"), box.padding = unit(0.01, "lines"))}
     if (category %in% c("1C", "1C1", "2C")){
-      ggp <- ggp + ggrepel::geom_label_repel(mapping = aes(x = f2bx, y = f2by), alpha = 0.7, colour = "green4", label = "2",
+      ggp <- ggp + geom_label_repel(mapping = aes(x = .data$f2bx, y = .data$f2by), alpha = 0.7, colour = "green4", label = "2",
                                     size = 2, label.padding = unit(0.1, "lines"), box.padding = unit(0.01, "lines"))}
     if (category %in% c("GGG", "1C1", "2C", "GAV")){
-      ggp <- ggp + ggrepel::geom_label_repel(mapping = aes(x = f3ax, y = f3ay), alpha = 0.7, colour = "purple", label = "3",
+      ggp <- ggp + geom_label_repel(mapping = aes(x = .data$f3ax, y = .data$f3ay), alpha = 0.7, colour = "purple", label = "3",
                                     size = 2, label.padding = unit(0.1, "lines"), box.padding = unit(0.1, "lines"))}
     if (category %in% c("2C")){
-      ggp <- ggp + ggrepel::geom_label_repel(mapping = aes(x = f3bx, y = f3by), alpha = 0.7, colour = "purple", label = "3",
+      ggp <- ggp + geom_label_repel(mapping = aes(x = .data$f3bx, y = .data$f3by), alpha = 0.7, colour = "purple", label = "3",
                                     size = 2, label.padding = unit(0.1, "lines"), box.padding = unit(0.01, "lines"))}}
 
   if (lengths == TRUE & lengthlabs == TRUE){
-    ggp <- ggp + ggrepel::geom_label_repel(mapping = aes(x = kinmidx, y = kinmidy, label = paste(kindist, "m")), colour = "black",
+    ggp <- ggp + geom_label_repel(mapping = aes(x = .data$kinmidx, y = .data$kinmidy, label = paste(.data$kindist, "m")), colour = "black",
                                   size = 3, hjust = 0.5, vjust = 0.5, alpha = 1, box.padding = unit(0.01, "lines"),
                                   label.padding = unit(0.1, "line"), fontface = "bold")}
   #geom_point(mapping = aes(x = f1ax, y = f1ay), alpha = 0.7, colour = "blue")+

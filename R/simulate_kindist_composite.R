@@ -38,16 +38,16 @@ simulate_kindist_composite <- function(nsims = 100, juvsigma = 100, breedsigma =
 
   if (method == "Gaussian"){
     rdistr <- function(sig){
-      return(matrix(c(stats::rnorm(nsims, 0, sig), stats::rnorm(nsims, 0, sig)), ncol = 2))
+      return(matrix(c(rnorm(nsims, 0, sig), rnorm(nsims, 0, sig)), ncol = 2))
     }
   }
   else if (method == "Exponential"){
     rdistr <- function(sig){
       sig2 <- sig / sqrt(2)
-      xi <- stats::rexp(nsims, 1/sig2)
-      yi <- stats::rexp(nsims, 1/sig2)
+      xi <- rexp(nsims, 1/sig2)
+      yi <- rexp(nsims, 1/sig2)
       dst <- sqrt(xi^2 + yi^2)
-      angle <- stats::runif(nsims, 0, 2 * pi)
+      angle <- runif(nsims, 0, 2 * pi)
       xf <- dst * cos(angle)
       yf <- dst * sin(angle)
       return(matrix(c(xf, yf), ncol = 2))
@@ -56,10 +56,10 @@ simulate_kindist_composite <- function(nsims = 100, juvsigma = 100, breedsigma =
   else if (method == "Weibull"){
     rdistr <- function(sig){
       sig2 <- sig / sqrt(2)
-      xi <- stats::rweibull(nsims, shape, scale = sig2)
-      yi <- stats::rweibull(nsims, shape, scale = sig2)
+      xi <- rweibull(nsims, shape, scale = sig2)
+      yi <- rweibull(nsims, shape, scale = sig2)
       dst <- sqrt(xi^2 + yi^2)
-      angle <- stats::runif(nsims, 0, 2 * pi)
+      angle <- runif(nsims, 0, 2 * pi)
       xf <- dst * cos(angle)
       yf <- dst * sin(angle)
       return(matrix(c(xf, yf), ncol = 2))
@@ -97,8 +97,8 @@ simulate_kindist_composite <- function(nsims = 100, juvsigma = 100, breedsigma =
 
   # initial locations
 
-  x0 <- stats::runif(nsims, 0, dims)
-  y0 <- stats::runif(nsims, 0, dims)
+  x0 <- runif(nsims, 0, dims)
+  y0 <- runif(nsims, 0, dims)
   xy0 <- matrix(c(x0, y0), ncol = 2)
 
   # test phase
@@ -161,7 +161,7 @@ simulate_kindist_composite <- function(nsims = 100, juvsigma = 100, breedsigma =
   ls2 <- lifestage
   distance <- sqrt((x1 - x2)^2 + (y1 - y2)^2)
 
-  tab <- tibble::tibble(id1 = id1, id2 = id2,
+  tab <- tibble(id1 = id1, id2 = id2,
                 x1 = x1, y1 = y1, x2 = x2, y2 = y2,
                 ls1 = ls1, ls2 = ls2, distance = distance,
                 category = category, dims = dims)
