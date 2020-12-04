@@ -35,3 +35,6 @@ Returns a tibble containing the coordinates of the f0 to f2 generations, as well
 \description{
 Simple kin dispersal simulation for graphical display. (returns the data side as a tibble).
 }
+\examples{
+simgraph_data(nsims = 100, dims = 1000, category = "GAV", centred = TRUE)
+}

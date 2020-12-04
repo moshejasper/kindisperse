@@ -9,7 +9,7 @@
 This package implements functions for simulating and estimating kinship-related dispersal, as well as a Shiny app for ease of use.
 }
 \author{
-\strong{Maintainer}: Moshe-Elijah Jasper \email{first.last@example.com} (\href{https://orcid.org/0000-0003-4541-3223}{ORCID})
+\strong{Maintainer}: Moshe-Elijah Jasper \email{moshe.jasper@unimelb.edu.au} (\href{https://orcid.org/0000-0003-4541-3223}{ORCID})
 
 }
 \keyword{internal}

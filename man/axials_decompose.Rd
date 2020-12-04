@@ -2,16 +2,23 @@
 % Please edit documentation in R/axial_helper_functions.R
 \name{axials_decompose}
 \alias{axials_decompose}
-\title{Title}
+\title{Decompose an axial distribution into simple components}
 \usage{
-axials_decompose(sd, n_composites = 2)
+axials_decompose(ax, n_composites = 2)
 }
 \arguments{
-\item{n_composites}{}
+\item{ax}{numeric. The axial value to be decomposed.}
+
+\item{n_composites}{numeric. The number of (identical) draws from the underlying kernel leading to the composite axial value}
 }
 \value{
-
+Returns the axial distribution value of the underlying dispersal kernel from which the composite kernel was (or could be) created.
 }
 \description{
-Title
+Decomposes an axial distribution into simple components. Note that this should only be used in the simplest situations.
+}
+\examples{
+fs_vect <- c(10, 11, 12)
+fs_axial_raw <- axials(fs_vect, composite = 1) # composite hasn't corrected for two dispersal events inherent to this kin category!
+fs_axial_final <- axials_decompose(fs_axial_raw, n_composites = 2)
 }

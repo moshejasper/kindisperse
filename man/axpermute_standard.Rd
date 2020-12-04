@@ -61,9 +61,15 @@ axpermute_standard(
 \item{output}{string denoting what kind of output to return. If 'confs', a vector of 95\% confidence intervals. if 'vect', a vector of all permutated axial value results}
 }
 \value{
-
+If output = 'confs' returns vector of 95\% confidence intervals (with median).
+If output = 'vect' returns vector of individual axial estimates from each permutation
 }
 \description{
 Takes (at least) two vectors of kinship dispersal distances from defined kinship categories, and returns a resulting calculation of the parent-offspring (intergenerational) kinship dispersal kernel with bootstrap-based confidence intervals.
 Further tests
+}
+\examples{
+cous <- rexp(100, 1/100)
+fullsibs <- rexp(50, 1/50)
+axpermute_standard(cous, fullsibs, acat = "1C", bcat = "FS")
 }

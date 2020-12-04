@@ -2,16 +2,24 @@
 % Please edit documentation in R/axial_helper_functions.R
 \name{axials_add}
 \alias{axials_add}
-\title{Title}
+\title{Add axial distributions}
 \usage{
 axials_add(axvals)
 }
 \arguments{
-\item{axvals}{}
+\item{axvals}{numeric. vector of axial distribution values from different kernels that are to be added.}
 }
 \value{
-
+Returns the axial value that results from adding the input axial values under an additive variance framework.
 }
 \description{
-Title
+Add axial distributions. Useful to construct an overall distribution that results from multiple 'draws'
+from smaller distributions. E.g. The pathway between first cousins which can be found by adding
+each of the component distributions of their respective lifespans along with the relevant offspring producing
+(e.g. oviposition) of the parent.
+}
+\examples{
+fullsibs_ax <- 5
+parent_offspring_ax <- 25
+cousin_ax <- axials_add(c(fullsibs_ax, parent_offspring_ax))
 }

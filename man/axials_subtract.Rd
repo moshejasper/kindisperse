@@ -2,16 +2,24 @@
 % Please edit documentation in R/axial_helper_functions.R
 \name{axials_subtract}
 \alias{axials_subtract}
-\title{Title}
+\title{Subtract axial distributions}
 \usage{
 axials_subtract(abig, asmall)
 }
 \arguments{
-\item{asmall}{}
+\item{abig}{numeric. The axial dispersal distance of the larger (subsuming) distribution (e.g. 1C).}
+
+\item{asmall}{numeric. The axial dispersal distance of the smaller (subsumed) distribution (e.g. FS).}
 }
 \value{
-
+Returns an estimate of the axial dispersal distance of those dispersal elements that are unique to the larger dispersal distribution (e.g. PO).
 }
 \description{
-Title
+Subtract axial distributions, finding the difference (under an additive variance framework).
+This is most useful when one distribution subsumes another and includes a unique dispersal event that needs to be extracted.
+For example, the FS category is subsumed by the 1C category, which can be written 'FS + PO'.
+In this circumstance, subtracting FS from 1C will yield an estimate of the PO kernel (the basic intergenerational dispersal kernel)
+}
+\examples{
+axials_subtract(100, 70)
 }

@@ -50,10 +50,20 @@ make_KinPairSimulation(
 
 \item{call}{call object. Use to pass the system call that led to the generation of this class. (via sys.call)}
 
-\item{sampledims}{}
+\item{filtertype}{character. Has a value of 'filtered' if object has been passed through the sample_kindist() function or equivalent. Blank otherwise.}
+
+\item{upper}{numeric. upper cutoff for kin pair distances (if filtered)}
+
+\item{lower}{numeric. lower cutoff for kin pair distances (if filtered)}
+
+\item{spacing}{numeric. spacing between traps (assume 1D layout) (if filtered)}
+
+\item{samplenum}{numeric. number of individuals retained within data (if filtered)}
+
+\item{sampledims}{numeric. Dimensions used in filtering process (side of square) (if filtered)}
 }
 \value{
-
+Returns an object of class 'KinPairSimulation'
 }
 \description{
 Constructor for KinPairSimulation Class

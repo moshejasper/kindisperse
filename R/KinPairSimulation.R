@@ -21,10 +21,9 @@ methods::setOldClass(c("tbl_df", "tbl", "data.frame"))
 #' @slot samplenum numeric.   - FILTER: sample number used
 #' @slot sampledims numeric.  - FILTER: dimensions used
 #'
-#' @return
+#' @return Returns an object of class 'KinPairSimulation'
 #' @export
 #'
-#' @examples
 KinPairSimulation <- setClass("KinPairSimulation",
          slots = list(category = "character", simtype = "character", kerneltype = "character",
                       sigma = "numeric", juvsigma = "numeric", breedsigma = "numeric",
@@ -84,14 +83,14 @@ setMethod(
 #' @param dims  numeric. Length of side of simulated area square.
 #' @param lifestage character. Simulated lifestage of sampling. Either "larva" (sampled at hatching) or "oviposition" (sampled as an adult during oviposition - essentially one lifespan later that 'larva')
 #' @param call  call object. Use to pass the system call that led to the generation of this class. (via sys.call)
-#' @param filtertype
-#' @param upper
-#' @param lower
-#' @param spacing
-#' @param samplenum
-#' @param sampledims
+#' @param filtertype character. Has a value of 'filtered' if object has been passed through the sample_kindist() function or equivalent. Blank otherwise.
+#' @param upper numeric. upper cutoff for kin pair distances (if filtered)
+#' @param lower numeric. lower cutoff for kin pair distances (if filtered)
+#' @param spacing numeric. spacing between traps (assume 1D layout) (if filtered)
+#' @param samplenum numeric. number of individuals retained within data (if filtered)
+#' @param sampledims numeric. Dimensions used in filtering process (side of square) (if filtered)
 #'
-#' @return
+#' @return Returns an object of class 'KinPairSimulation'
 #' @export
 #'
 #' @examples

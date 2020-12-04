@@ -12,3 +12,6 @@ run_kindisperse()
 \description{
 Run kindisperse app
 }
+\examples{
+run_kindisperse()
+}

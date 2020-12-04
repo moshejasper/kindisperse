@@ -22,7 +22,8 @@
 #' @return      Returns a ggplot object for graphing.
 #' @export
 #' @examples
-#' @importFrom magrittr %>%
+#' simdata <- simgraph_data()
+#' simgraph_graph(simdata)
 simgraph_graph <- function(result, nsims = 10, dsigma = 50, dims = 250, labls = TRUE, steps = TRUE,
                            moves = TRUE, shadows = TRUE, category = "2C", show_area = TRUE,
                            centred = FALSE, pinwheel = FALSE, scattered = FALSE,

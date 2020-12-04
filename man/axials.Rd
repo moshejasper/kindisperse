@@ -2,16 +2,30 @@
 % Please edit documentation in R/axial_helper_functions.R
 \name{axials}
 \alias{axials}
-\title{Title}
+\title{Estimate the axial dispersal distance of a kernel}
 \usage{
 axials(valvect, composite = 1)
 }
 \arguments{
-\item{composite}{}
+\item{valvect}{A numeric vector of distances between close kin}
+
+\item{composite}{numeric. The number of separate 'draws' (dispersal events)
+from the kernel required to produce the final positions of the measured individuals.
+For example, the displacement of a child from parent at the same lifestage would involve 1 draw and thus be composite = 1.
+Two full siblings would be two draws (composite = 2). Non-symmetric relationships (e.g. AV, 1C)
+should not be decomposed using this method, nor should any assumptiosn be made about different kernels
+(e.g. the 1C relationship would appropriately be given the value 2, but not 4)}
 }
 \value{
-
+Returns the value of the estimated axial dispersal distance of the kernel producing the dispersal distances measured. (numeric)
 }
 \description{
-Title
+Estimate the axial dispersal distance of a kernel
+}
+\examples{
+po_dists <- c(5, 6, 7.5)
+axials(po_dists) # one 'draw' (dispersal event) goes into the parent offspring category so composite is left to its default of 1
+
+fs_dists <- c(2, 3, 3)
+axials(fs_dists, composite = 2) # two 'draws' (symmetric dispersal events) go into the full sibling category so composite is set to 2
 }

@@ -2,23 +2,45 @@
 % Please edit documentation in R/axial_helper_functions.R
 \name{axpermute_subtract}
 \alias{axpermute_subtract}
-\title{Decompose distributions with confidence intervals}
+\title{Subtract axial distributions with confidence intervals}
 \usage{
 axpermute_subtract(
   bigvals,
   smallvals,
   nreps = 1000,
-  num = 50,
+  nsamp = "std",
   composite = 2,
   output = "confs"
 )
 }
 \arguments{
-\item{output}{}
+\item{bigvals}{numeric. Vector of distance distributions of the larger (subsuming) distribution (e.g. 1C)}
+
+\item{smallvals}{numeric. Vector of distance distributions of the smaller (subsumed) distribution (e.g. FS)}
+
+\item{nreps}{numeric. Number of permutations to perform when generating confidence intervals.}
+
+\item{nsamp}{numeric. number of kin pairs to subsample for each permutation. Either "std" or an integer.
+If "std" will be computed as equal to the sample size. (default "std")}
+
+\item{composite}{numeric. Number of 'draws' going into each underlying distribution (default 2). Passed to axials function.
+(this would be ideal for e.g. unaltered FS & 1C distances, but less ideal if differing distributions went into each underlying category (e.g. FS and AV))}
+
+\item{output}{character. What kind of output to return.
+Either 'confs' (default -> confidence intervals) or 'vect -> vector of axial distances}
 }
 \value{
-
+If output = 'confs' returns vector of 95\% confidence intervals (with median).
+If output = 'vect' returns vector of individual axial estimates from each permutation
 }
 \description{
-Find the difference between two different axial distributions with confidence intervals.
+Find the difference between two different empirical axial distributions with confidence intervals.
+This is most useful when one distribution subsumes another and includes a unique dispersal event that needs to be extracted.
+For example, the FS category is subsumed by the 1C category, which can be written 'FS + PO'.
+In this circumstance, subtracting FS from 1C will yield an estimate of the PO kernel (the basic intergenerational dispersal kernel)
+}
+\examples{
+firstcous <- rexp(100, 1/80)
+fullsibs <- rexp(100, 1/50)
+axpermute_subtract(firstcous, fullsibs)
 }
