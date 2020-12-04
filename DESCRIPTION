@@ -1,6 +1,6 @@
 Package: kindisperse
 Title: Simulate and Estimate Close-Kin Dispersal Kernels
-Version: 0.1.2
+Version: 0.2.2
 Authors@R: 
     person(given = "Moshe-Elijah",
            family = "Jasper",
@@ -17,7 +17,6 @@ Suggests:
     testthat
 Imports: 
     ggplot2,
-    dplyr,
     readr,
     shiny,
     shinythemes,
@@ -30,4 +29,6 @@ Imports:
     tibble,
     grid,
     magrittr,
-    plotly
+    plotly,
+    dplyr,
+    rlang

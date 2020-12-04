@@ -227,7 +227,7 @@ ui <- fluidPage(
                    mainPanel(
 
                      # Output: histogram --
-                     plotly::plotlyOutput(outputId = "sand_dispersalPlot", height = 750),
+                     plotlyOutput(outputId = "sand_dispersalPlot", height = 750),
 
                      textOutput(outputId = "sand_dispersalcheck")
 
@@ -509,7 +509,7 @@ ui <- fluidPage(
                    ),
 
                    mainPanel(
-                     plotly::plotlyOutput(
+                     plotlyOutput(
                        outputId = "sim_compare_plot"
                      ),
                      h5(
@@ -914,17 +914,6 @@ ui <- fluidPage(
 
 
 
-#' Title
-#'
-#' @param input
-#' @param output
-#' @param session
-#'
-#' @return
-#' @export
-#' @import shiny
-#' @importFrom magrittr %>%
-#' @examples
 server <- function(input, output, session){
   #output$dhist <- renderPlot({
   #  hist(rnorm(input$sigma))
@@ -992,8 +981,8 @@ server <- function(input, output, session){
     dim(sandbox_data())
   })
 
-  output$sand_dispersalPlot <- plotly::renderPlotly({
-    plotly::ggplotly(simgraph_graph(sandbox_data(), nsims = input$sand_nsims, dsigma = input$sand_dsigma, dims = input$sand_dims, labls = input$sand_labls,
+  output$sand_dispersalPlot <- renderPlotly({
+    ggplotly(simgraph_graph(sandbox_data(), nsims = input$sand_nsims, dsigma = input$sand_dsigma, dims = input$sand_dims, labls = input$sand_labls,
                             moves = input$sand_moves, shadows = input$sand_shadows, category = input$sand_category,
                             show_area = input$sand_show_area, #centred = input$sand_centred, #pinwheel = input$sand_pinwheel, scattered = input$sand_scattered,
                             lengths = input$sand_lengths, lengthlabs = input$sand_lengthlabs))#, histogram = input$sand_histogram, binwidth = input$sand_binwidth)#,
@@ -1027,7 +1016,7 @@ server <- function(input, output, session){
 
   output$sim_simple_hist <- renderPlot({
     if (is.null(sim_simple_kindata())) { return(NULL)}
-    ggplot(sim_simple_kindata()@tab) + aes(x = distance) +
+    ggplot(sim_simple_kindata()@tab) + aes(x = .data$distance) +
       geom_histogram(binwidth = input$sim_simple_binwidth, fill = "white", colour = "grey30") +
       theme_bw()
   })
@@ -1053,7 +1042,7 @@ server <- function(input, output, session){
 
   output$sim_composite_hist <- renderPlot({
     if (is.null(sim_composite_kindata())) {return(NULL)}
-    ggplot(sim_composite_kindata()@tab) + aes(x = distance) +
+    ggplot(sim_composite_kindata()@tab) + aes(x = .data$distance) +
       geom_histogram(binwidth = input$sim_composite_binwidth, fill = "white", colour = "grey30") +
       theme_bw()
   })
@@ -1083,8 +1072,8 @@ server <- function(input, output, session){
 
   })
 
-  output$sim_compare_plot <- plotly::renderPlotly({
-    gp <- ggplot(sim_simple_kindata()@tab) + aes(x = distance)
+  output$sim_compare_plot <- renderPlotly({
+    gp <- ggplot(sim_simple_kindata()@tab) + aes(x = .data$distance)
     if ('1' %in% input$testsaveops) {
       gp <- gp + geom_freqpoly(data = readRDS(here(paste0("temp/1.R")))@tab, colour = "blue", binwidth = 5)
     }
@@ -1116,7 +1105,7 @@ server <- function(input, output, session){
       gp <- gp + geom_freqpoly(data = readRDS(here(paste0("temp/10.R")))@tab, colour = "yellow", binwidth = 5)
     }
     gp
-    plotly::ggplotly()
+    ggplotly()
   })
 
   output$sim_compare_table <- renderTable({
@@ -1299,7 +1288,7 @@ server <- function(input, output, session){
   })
 
   output$samphist <- renderPlot({
-    ggplot(samp_kindata()@tab) + aes(x = distance) +
+    ggplot(samp_kindata()@tab) + aes(x = .data$distance) +
       geom_histogram(colour = "grey30", fill = "white", binwidth = input$samp_binwidth) +
       coord_cartesian(xlim = c(0, samphistmax()))
     #theme_bw()
@@ -1311,10 +1300,6 @@ server <- function(input, output, session){
 
   ################ Estimate #################
 
-  output$smalltest <- renderPlot({
-    ggplot(kindata()@tab) + aes(x = distance) +
-      geom_freqpoly()
-  })
 
   ##### a. single #####
 
@@ -1508,10 +1493,6 @@ server <- function(input, output, session){
 #'
 #' @return
 #' @export
-#' @import shiny
-#' @import shinythemes
-#' @import here
-#' @import readr
 #' @importFrom utils read.csv
 #' @examples
 run_kindisperse <- function(){

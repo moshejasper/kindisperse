@@ -76,15 +76,15 @@ axmed <- function(ax){ # returns median distance of this distribution (at least,
 }
 
 axconfs <- function(axvals, nreps=1000, composite = 2, output = "confs"){ # this is the process we used in the paper... (better than individual confs). - less likely to fail! (if it fails, then overlap with zero).
-  container <- tibble::tibble(ax = 0.0, .rows = 0)
+  container <- tibble(ax = 0.0, .rows = 0)
   sampnum <- length(axvals)
   for (val in 1:nreps){
     subvals <- sample(axvals, sampnum, replace = TRUE)
     newax <- axials(subvals, composite)
-    container <- tibble::add_row(container, ax = newax)
+    container <- add_row(container, ax = newax)
   }
   if (output == "confs"){
-    return(stats::quantile(container$ax, c(0.025, 0.5, 0.975)))
+    return(quantile(container$ax, c(0.025, 0.5, 0.975)))
   }
   else if (output == "vect") {
     return(container$ax)
@@ -92,15 +92,15 @@ axconfs <- function(axvals, nreps=1000, composite = 2, output = "confs"){ # this
 }
 
 axpermute <- function(axvals, nreps=1000, num = 50, composite = 2, output = "confs"){ # a more customisable version of the above (primarily for simulated distributions)... [distinguish between them? ] -or make above special case of this one?
-  container <- tibble::tibble(ax = 0.0, .rows = 0)
+  container <- tibble(ax = 0.0, .rows = 0)
   sampnum <- num
   for (val in 1:nreps){
     subvals <- sample(axvals, sampnum, replace = TRUE)
     newax <- axials(subvals, composite)
-    container <- tibble::add_row(container, ax = newax)
+    container <- add_row(container, ax = newax)
   }
   if (output == "confs"){
-    return(stats::quantile(container$ax, c(0.025, 0.5, 0.975)))
+    return(quantile(container$ax, c(0.025, 0.5, 0.975)))
   }
   else if (output == "vect") {
     return(container$ax)
@@ -122,7 +122,7 @@ axpermute <- function(axvals, nreps=1000, num = 50, composite = 2, output = "con
 #' @examples
 axpermute_subtract <- function(bigvals, smallvals, nreps = 1000, num = 50, composite = 2, output = "confs"){ # the workhorse function - need to extend for more complex form!.
 
-  container <- tibble::tibble(ax = 0.0, .rows = 0)
+  container <- tibble(ax = 0.0, .rows = 0)
   for (val in 1:nreps){
     sub1 <- sample(bigvals, num, replace = T)
     sub2 <- sample(smallvals, num, replace = T)
@@ -134,10 +134,10 @@ axpermute_subtract <- function(bigvals, smallvals, nreps = 1000, num = 50, compo
     else {
       newax <- axials_subtract(bigax, smallax)
     }
-    container <- tibble::add_row(container, ax = newax)
+    container <- add_row(container, ax = newax)
   }
   if (output == "confs") {
-    return(stats::quantile(container$ax, c(0.025, 0.5, 0.975)))
+    return(quantile(container$ax, c(0.025, 0.5, 0.975)))
   }
   else if (output == "vect") {
     return(container$ax)

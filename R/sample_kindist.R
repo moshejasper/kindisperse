@@ -36,19 +36,19 @@ sample_kindist <- function(kindist, upper = NULL, lower = NULL, spacing = NULL, 
 
       # now, filter final coordinates that fall out of the new sampling rectangle
 
-      kindist@tab <- filter(kindist@tab, x1 > xmin, x1 < xmax, x2 > xmin, x2 < xmax,
-                                            y1 > ymin, y1 < ymax, y2 > ymin, y2 < ymax)
+      kindist@tab <- filter(kindist@tab, .data$x1 > xmin, .data$x1 < xmax, .data$x2 > xmin, .data$x2 < xmax,
+                            .data$y1 > ymin, .data$y1 < ymax, .data$y2 > ymin, .data$y2 < ymax)
     }
   }
 
   if (! is.null(upper)) {
     cat(paste0("Removing distances farther than ", upper, "\n"))
-    kindist@tab <- dplyr::filter(kindist@tab, distance < upper)
+    kindist@tab <- dplyr::filter(kindist@tab, .data$distance < upper)
   }
 
   if (! is.null(lower)) {
     cat(paste0("Removing distances closer than ", lower, "\n"))
-    kindist@tab <- dplyr::filter(kindist@tab, distance > lower)
+    kindist@tab <- filter(kindist@tab, .data$distance > lower)
   }
 
   if (! is.null(spacing)){
@@ -56,7 +56,7 @@ sample_kindist <- function(kindist, upper = NULL, lower = NULL, spacing = NULL, 
 
     binshift <- spacing / 2
 
-    kindist@tab <- dplyr::mutate(kindist@tab, distance = ((distance %/% spacing) * spacing) + binshift) # changed equation here... (need to rerun estimates)
+    kindist@tab <- mutate(kindist@tab, distance = ((.data$distance %/% spacing) * spacing) + binshift) # changed equation here... (need to rerun estimates)
 
   }
 
@@ -67,7 +67,7 @@ sample_kindist <- function(kindist, upper = NULL, lower = NULL, spacing = NULL, 
     }
     else {
       cat(paste0("Down-sampling to ", n, " kin pairs\n"))
-      kindist@tab <- dplyr::slice_sample(kindist@tab, n = n)
+      kindist@tab <- slice_sample(kindist@tab, n = n)
     }
   }
   cat(paste0(nrow(kindist@tab), " kin pairs remaining.\n"))
