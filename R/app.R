@@ -1340,7 +1340,7 @@ server <- function(input, output, session){
     }
 
     #return(axials(dataset))
-    return(axpermute(dataset, nreps = input$est_smp_bootstraps, num = input$est_smp_bootnum, output = "confs", composite = composite))
+    return(axpermute(dataset, nreps = input$est_smp_bootstraps, nsamp = input$est_smp_bootnum, output = "confs", composite = composite))
 
   })
 

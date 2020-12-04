@@ -14,10 +14,12 @@
 #'
 #' @examples
 #' po_dists <- c(5, 6, 7.5)
-#' axials(po_dists) # one 'draw' (dispersal event) goes into the parent offspring category so composite is left to its default of 1
+#' axials(po_dists) # one 'draw' (dispersal event) goes into the parent offspring category
+#' #so composite is left to its default of 1
 #'
 #' fs_dists <- c(2, 3, 3)
-#' axials(fs_dists, composite = 2) # two 'draws' (symmetric dispersal events) go into the full sibling category so composite is set to 2
+#' axials(fs_dists, composite = 2) # two 'draws' (symmetric dispersal events) go into the full sibling category
+#' #so composite is set to 2
 axials <- function(valvect, composite = 1){ #  computes axial distance for set... make better name...
   vals <- (valvect^2)/(2 * composite)
   return(sqrt(mean(vals)))
@@ -44,7 +46,8 @@ axials_norm <- function(valvect){ # wrapper for axials, but assumes distribution
 #'
 #' @examples
 #' fs_vect <- c(10, 11, 12)
-#' fs_axial_raw <- axials(fs_vect, composite = 1) # composite hasn't corrected for two dispersal events inherent to this kin category!
+#' fs_axial_raw <- axials(fs_vect, composite = 1) # composite hasn't corrected for two dispersal events
+#' #inherent to this kin category!
 #' fs_axial_final <- axials_decompose(fs_axial_raw, n_composites = 2)
 axials_decompose <- function(ax, n_composites = 2){ # adjusts for number of (equal) combinations led to this value. (need to think of examples)...
   return(ax/ sqrt(n_composites))
