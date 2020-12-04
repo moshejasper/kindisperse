@@ -1340,7 +1340,7 @@ server <- function(input, output, session){
     }
 
     #return(axials(dataset))
-    return(axpermute(dataset, nreps = input$est_smp_bootstraps, num = input$est_smp_bootnum, output = "confs", composite = composite))
+    return(axpermute(dataset, nreps = input$est_smp_bootstraps, nsamp = input$est_smp_bootnum, output = "confs", composite = composite))
 
   })
 
@@ -1491,10 +1491,10 @@ server <- function(input, output, session){
 
 #' Run kindisperse app
 #'
-#' @return
+#'
 #' @export
 #' @importFrom utils read.csv
-#' @examples
+#'
 run_kindisperse <- function(){
   shinyApp(ui = ui, server = server)
 }

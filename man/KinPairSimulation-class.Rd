@@ -6,7 +6,7 @@
 \alias{KinPairSimulation}
 \title{KinPairSimulation}
 \value{
-
+Returns an object of class 'KinPairSimulation'
 }
 \description{
 KinPairSimulation

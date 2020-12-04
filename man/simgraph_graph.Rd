@@ -69,3 +69,7 @@ simgraph_graph(
 \description{
 Simple kin dispersal simulation for graphical display. (graphs the pre-existing simulation).
 }
+\examples{
+simdata <- simgraph_data()
+simgraph_graph(simdata)
+}

@@ -1,11 +1,11 @@
 Package: kindisperse
 Title: Simulate and Estimate Close-Kin Dispersal Kernels
-Version: 0.2.2
+Version: 0.3.1
 Authors@R: 
     person(given = "Moshe-Elijah",
            family = "Jasper",
            role = c("aut", "cre"),
-           email = "first.last@example.com",
+           email = "moshe.jasper@unimelb.edu.au",
            comment = c(ORCID = "0000-0003-4541-3223"))
 Description: This package implements functions for simulating and estimating kinship-related dispersal, as well as a Shiny app for ease of use.
 License: MIT + file LICENSE

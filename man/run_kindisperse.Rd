@@ -6,9 +6,6 @@
 \usage{
 run_kindisperse()
 }
-\value{
-
-}
 \description{
 Run kindisperse app
 }

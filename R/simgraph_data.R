@@ -12,6 +12,7 @@
 #' @export
 #' @importFrom stats runif rnorm
 #' @examples
+#' simgraph_data(nsims = 100, dims = 1000, category = "GAV", centred = TRUE)
 simgraph_data <- function(nsims = 10, dsigma = 50, dims = 250, category = "2C",
                           centred = FALSE, pinwheel = FALSE, scattered = FALSE){
 

@@ -8,8 +8,6 @@ Further tests}
 axials_standard(
   avect,
   bvect,
-  nreps = 1000,
-  nsamp = "std",
   acat,
   bcat,
   amix = F,
@@ -21,18 +19,13 @@ axials_standard(
   acompvect = NULL,
   bcompvect = NULL,
   acompcat = NULL,
-  bcompcat = NULL,
-  output = "confs"
+  bcompcat = NULL
 )
 }
 \arguments{
 \item{avect}{vector a of kin dispersal distances for the less closely related kinship category}
 
 \item{bvect}{vector b of kin dispersal distances for the more closely related kinship category}
-
-\item{nreps}{number of permutations to run for confidence intervals (default 1000)}
-
-\item{nsamp}{number of kin pairs to subsample for each permutation. Either "std" or an integer. If "std" will be computed as equal to the sample size. (default "std")}
 
 \item{acat}{kinship category of kin dispersal vector avect. Must be one of "PO", "FS", "HS", "AV", "GG", "HAV", "GGG", "1C", "1C1", "2C", "GAV", "HGAV", "H1C", "H1C1", "H2C"}
 
@@ -57,13 +50,16 @@ axials_standard(
 \item{acompcat}{kinship category of kin dispersal vector acompvect. Must be set if acomp == TRUE.  Must be one of "PO", "FS", "HS", "AV", "GG", "HAV", "GGG", "1C", "1C1", "2C", "GAV", "HGAV", "H1C", "H1C1", "H2C"}
 
 \item{bcompcat}{kinship category of kin dispersal vector bcompvect. Must be set if bcomp == TRUE. Must be one of "PO", "FS", "HS", "AV", "GG", "HAV", "GGG", "1C", "1C1", "2C", "GAV", "HGAV", "H1C", "H1C1", "H2C"}
-
-\item{output}{string denoting what kind of output to return. If 'confs', a vector of 95\% confidence intervals. if 'vect', a vector of all permutated axial value results}
 }
 \value{
-
+Returns a numeric estimate of PO (intergenerational) dispersal kernel axial distribution.
 }
 \description{
 Takes (at least) two vectors of kinship dispersal distances from defined kinship categories, and returns a resulting calculation of the parent-offspring (intergenerational) kinship dispersal kernel
 Further tests
+}
+\examples{
+cous <- rexp(100, 1/100)
+fullsibs <- rexp(50, 1/50)
+axials_standard(cous, fullsibs, acat = "1C", bcat = "FS")
 }

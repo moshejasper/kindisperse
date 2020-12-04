@@ -2,16 +2,25 @@
 % Please edit documentation in R/axial_helper_functions.R
 \name{axials_combine}
 \alias{axials_combine}
-\title{Title}
+\title{Combine axial distributions to produce a mixed distribution}
 \usage{
 axials_combine(axvals)
 }
 \arguments{
-\item{axvals}{}
+\item{axvals}{numeric. vector of axial distribution values from different kernels that are to be combined}
 }
 \value{
-
+Returns the axial value that results from combining the input axial values under an additive variance framework.
 }
 \description{
-Title
+combines axial distributions to produce a mixed distribution.
+This is useful in settings where you have two separate distributions (e.g. FS & HS) with their own axial values,
+but you want to average them appropriately so that they can be compared to e.g.
+a mixed distribution of full & half cousins which cannot be distinguished via kinship determination methods
+and thus are best treated as an even mixture of the two categories. Different to adding dispersal events.
+}
+\examples{
+fullax <- axials(c(2, 4, 5), composite = 2)
+halfax <- axials(c(6, 5, 7), composite = 2)
+sibax <- axials_combine(c(fullax, halfax))
 }

@@ -16,7 +16,7 @@
 #'
 #' @examples
 #' simulate_kindist_composite(nsims = 100)
-#' simulate_kindist_composite(nsims = 100000, juvsigma = 20, breedsigma = 30, gravsigma = 30,
+#' simulate_kindist_composite(nsims = 10000, juvsigma = 20, breedsigma = 30, gravsigma = 30,
 #'      ovisigma = 12, dims = 500, method = "Laplace", category = "1C", lifestage = "larva")
 simulate_kindist_composite <- function(nsims = 100, juvsigma = 100, breedsigma = 50, gravsigma = 50,
                                        ovisigma = 25, dims = 100, method = "Gaussian", category = "FS",
