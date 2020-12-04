@@ -20,7 +20,8 @@ Either "std" or an integer. If "std" will be computed as equal to the sample siz
 If 'confs', a vector of 95\% confidence intervals. if 'vect', a vector of all permuted axial value results}
 }
 \value{
-
+If ouput = 'confs', returns a vector of 95\% confidence intervals.
+if output = 'vect', returns a vector of all permuted axial value results
 }
 \description{
 Estimate the axial dispersal distance of a kernel with confidence intervals

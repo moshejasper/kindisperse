@@ -1494,8 +1494,7 @@ server <- function(input, output, session){
 #'
 #' @export
 #' @importFrom utils read.csv
-#' @examples
-#' run_kindisperse()
+#'
 run_kindisperse <- function(){
   shinyApp(ui = ui, server = server)
 }

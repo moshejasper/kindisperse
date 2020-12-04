@@ -24,8 +24,10 @@ Estimate the axial dispersal distance of a kernel
 }
 \examples{
 po_dists <- c(5, 6, 7.5)
-axials(po_dists) # one 'draw' (dispersal event) goes into the parent offspring category so composite is left to its default of 1
+axials(po_dists) # one 'draw' (dispersal event) goes into the parent offspring category
+#so composite is left to its default of 1
 
 fs_dists <- c(2, 3, 3)
-axials(fs_dists, composite = 2) # two 'draws' (symmetric dispersal events) go into the full sibling category so composite is set to 2
+axials(fs_dists, composite = 2) # two 'draws' (symmetric dispersal events)
+# go into the full sibling category so composite is set to 2
 }

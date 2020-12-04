@@ -18,8 +18,8 @@
 #' #so composite is left to its default of 1
 #'
 #' fs_dists <- c(2, 3, 3)
-#' axials(fs_dists, composite = 2) # two 'draws' (symmetric dispersal events) go into the full sibling category
-#' #so composite is set to 2
+#' axials(fs_dists, composite = 2) # two 'draws' (symmetric dispersal events)
+#' # go into the full sibling category so composite is set to 2
 axials <- function(valvect, composite = 1){ #  computes axial distance for set... make better name...
   vals <- (valvect^2)/(2 * composite)
   return(sqrt(mean(vals)))

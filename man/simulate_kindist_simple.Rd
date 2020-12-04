@@ -38,5 +38,5 @@ Simulate kin dispersal distance pairs with simple sigma
 }
 \examples{
 test <- simulate_kindist_simple(nsims = 10, sigma = 50, dims = 1000, method = "Laplace")
-simulate_kindist_simple(nsims = 100000, sigma = 75, category = "PO", lifestage = "oviposition")
+simulate_kindist_simple(nsims = 10000, sigma = 75, category = "PO", lifestage = "oviposition")
 }
