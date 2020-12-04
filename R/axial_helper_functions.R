@@ -47,7 +47,7 @@ axials_norm <- function(valvect){ # wrapper for axials, but assumes distribution
 #' fs_axial_raw <- axials(fs_vect, composite = 1) # composite hasn't corrected for two dispersal events inherent to this kin category!
 #' fs_axial_final <- axials_decompose(fs_axial_raw, n_composites = 2)
 axials_decompose <- function(ax, n_composites = 2){ # adjusts for number of (equal) combinations led to this value. (need to think of examples)...
-  return(sd/ sqrt(n_composites))
+  return(ax/ sqrt(n_composites))
 }
 
 #' Combine axial distributions to produce a mixed distribution
