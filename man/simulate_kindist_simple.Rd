@@ -9,7 +9,7 @@ simulate_kindist_simple(
   sigma = 125,
   dims = 100,
   method = "Gaussian",
-  category = "FS",
+  category = "PO",
   lifestage = "larva",
   shape = 2
 )

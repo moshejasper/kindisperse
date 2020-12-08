@@ -5,17 +5,17 @@
 \title{Constructor for KinPairSimulation Class (simple)}
 \usage{
 KinPairSimulation_simple(
-  tab,
-  category = character(),
-  kerneltype = character(),
-  sigma = numeric(),
-  dims = numeric(),
-  lifestage = character(),
+  data = NULL,
+  category = NULL,
+  kerneltype = NULL,
+  sigma = NULL,
+  dims = NULL,
+  lifestage = NULL,
   call = NULL
 )
 }
 \arguments{
-\item{tab}{tibble of pairwise kin classes & distances. Ideally contains fields id1 & id2 (chr) an distance (dbl) optionally includes coords (x1, y1, x2, y2), lifestage (ls1 & ls2), category (chr) and sims (dbl)}
+\item{data}{tibble of pairwise kin classes & distances. Ideally contains fields id1 & id2 (chr) an distance (dbl) optionally includes coords (x1, y1, x2, y2), lifestage (ls1 & ls2), category (chr) and sims (dbl)}
 
 \item{category}{character. Code for kinship category of simulation. one of PO, FS, HS, AV, GG, HAV, GGG, 1C, 1C1, 2C, GAV, HGAV, H1C or H2C}
 

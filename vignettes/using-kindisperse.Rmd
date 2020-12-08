@@ -1,0 +1,22 @@
+---
+title: "using-kindisperse"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{using-kindisperse}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(kindisperse)
+```
+
+This vignette introduces the basic features of kindisperse and works through common problems. 
+

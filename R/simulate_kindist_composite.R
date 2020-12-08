@@ -163,8 +163,8 @@ simulate_kindist_composite <- function(nsims = 100, juvsigma = 100, breedsigma =
 
   tab <- tibble(id1 = id1, id2 = id2,
                 x1 = x1, y1 = y1, x2 = x2, y2 = y2,
-                ls1 = ls1, ls2 = ls2, distance = distance,
-                category = category, dims = dims)
+                distance = distance,
+                category = category)
 
   return(KinPairSimulation_composite(tab,
                                      category = category, kerneltype = method, juvsigma = juvsigma,

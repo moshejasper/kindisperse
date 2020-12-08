@@ -16,7 +16,7 @@
 #' test <- simulate_kindist_simple(nsims = 10, sigma = 50, dims = 1000, method = "Laplace")
 #' simulate_kindist_simple(nsims = 10000, sigma = 75, category = "PO", lifestage = "oviposition")
 simulate_kindist_simple <- function(nsims = 100, sigma = 125, dims = 100, method = "Gaussian",
-                                    category = "FS", lifestage = "larva", shape = 2){
+                                    category = "PO", lifestage = "larva", shape = 2){
 
 
   if (! method %in% c("Gaussian", "Laplace")) {
@@ -183,10 +183,10 @@ simulate_kindist_simple <- function(nsims = 100, sigma = 125, dims = 100, method
 
   tab <- tibble(id1 = id1, id2 = id2,
                 x1 = x1, y1 = y1, x2 = x2, y2 = y2,
-                ls1 = ls1, ls2 = ls2, distance = distance,
-                category = category, dims = dims)
+                distance = distance,
+                category = category)
 
-  return(KinPairSimulation_simple(tab, category = category, kerneltype = method,
+  return(KinPairSimulation_simple(data = tab, category = category, kerneltype = method,
                                        sigma = sigma, dims = dims, lifestage = lifestage,
                                        call = sys.call()))
 
