@@ -209,3 +209,15 @@ setValidity("KinPairData", function(object){
     TRUE
   }
 })
+
+#' Check if object is of class KinPairData
+#'
+#' @param x object to be checked
+#'
+#' @return Returns TRUE if of class KinPairData, FALSE if not.
+#' @export
+#'
+#' @examples
+is.KinPairData <- function(x){
+  "KinPairData" %in% is(x)
+}

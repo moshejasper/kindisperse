@@ -381,6 +381,19 @@ setMethod("initialize", "KinPairSimulation",
             return(.Object)
           })
 
+
+#' Check if object is of class KinPairSimulation
+#'
+#' @param x object to be checked
+#'
+#' @return Returns TRUE if of class KinPairSimulation, FALSE if not
+#' @export
+#'
+#' @examples
+is.KinPairSimulation <- function(x){
+  "KinPairSimulation" %in% is(x)
+}
+
 #' Constructor for KinPairSimulation Class (simple)
 #'
 #' @param data tibble of pairwise kin classes & distances. Ideally contains fields id1 & id2 (chr) an distance (dbl) optionally includes coords (x1, y1, x2, y2), lifestage (ls1 & ls2), category (chr) and sims (dbl)
