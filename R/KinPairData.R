@@ -52,6 +52,26 @@ setGeneric("lifestage", function(x) standardGeneric("lifestage"))
 #' @examples
 setGeneric("lifestage<-", function(x, value) standardGeneric("lifestage<-"))
 
+#' Access distances (generic for KinPairData Class)
+#'
+#' @param x Object of Class KinPairData
+#'
+#' @return Returns a numeric vector of kin separation distances
+#' @export
+#'
+#' @examples
+setGeneric("distances", function(x) standardGeneric("distances"))
+
+
+#' Title
+#'
+#' @param KinPairData
+#'
+#' @return
+#' @export
+#'
+#' @examples
+setMethod("distances", "KinPairData", function(x) x@tab$distance)
 
 #' Access or assign KinPairData kin category
 #' @name category
