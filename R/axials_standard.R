@@ -1,7 +1,7 @@
 #' Takes (at least) two vectors of kinship dispersal distances from defined kinship categories, and returns a resulting calculation of the parent-offspring (intergenerational) kinship dispersal kernel
 #' Further tests
-#' @param avect     vector a of kin dispersal distances for the less closely related kinship category
-#' @param bvect     vector b of kin dispersal distances for the more closely related kinship category
+#' @param avect     vector a of kin dispersal distances for the less closely related kinship category OR object of class KinPairData.
+#' @param bvect     vector b of kin dispersal distances for the more closely related kinship category OR object of class KinPairData.
 #' @param acat      kinship category of kin dispersal vector avect. Must be one of "PO", "FS", "HS", "AV", "GG", "HAV", "GGG", "1C", "1C1", "2C", "GAV", "HGAV", "H1C", "H1C1", "H2C"
 #' @param bcat      kinship category of kin dispersal vector bvect. Must be one of "PO", "FS", "HS", "AV", "GG", "HAV", "GGG", "1C", "1C1", "2C", "GAV", "HGAV", "H1C", "H1C1", "H2C"
 #' @param amix      logical describing whether vector a is a mixture of two kinship categories. Used with amixcat. Default FALSE.
@@ -10,8 +10,8 @@
 #' @param bmixcat   mixture kinship category of vector b. Must be set if bmix == TRUE. Must be one of "PO", "FS", "HS", "AV", "GG", "HAV", "GGG", "1C", "1C1", "2C", "GAV", "HGAV", "H1C", "H1C1", "H2C"
 #' @param acomp     logical denoting whether vector a should be composited with an additional kinship category vector. Used with acompvect and acompcat. Default FALSE.
 #' @param bcomp     logical denoting whether vector b should be composited with an additional kinship category vector. Used with bcompvect and bcompcat. Default FALSE.
-#' @param acompvect vector acomp of kin dispersal distances for compositing with vector a. Must be set if acomp == TRUE.
-#' @param bcompvect vector bcomp of kin dispersal distances for compositing with vector b. Must be set if bcomp == TRUE.
+#' @param acompvect vector acomp of kin dispersal distances for compositing with vector a OR object of class KinPairData. Must be set if acomp == TRUE.
+#' @param bcompvect vector bcomp of kin dispersal distances for compositing with vector b OR object of class KinPairData. Must be set if bcomp == TRUE.
 #' @param acompcat  kinship category of kin dispersal vector acompvect. Must be set if acomp == TRUE.  Must be one of "PO", "FS", "HS", "AV", "GG", "HAV", "GGG", "1C", "1C1", "2C", "GAV", "HGAV", "H1C", "H1C1", "H2C"
 #' @param bcompcat  kinship category of kin dispersal vector bcompvect. Must be set if bcomp == TRUE. Must be one of "PO", "FS", "HS", "AV", "GG", "HAV", "GGG", "1C", "1C1", "2C", "GAV", "HGAV", "H1C", "H1C1", "H2C"
 #'
@@ -22,10 +22,26 @@
 #' cous <- rexp(100, 1/100)
 #' fullsibs <- rexp(50, 1/50)
 #' axials_standard(cous, fullsibs, acat = "1C", bcat = "FS")
-axials_standard <- function(avect, bvect, acat, bcat,
+axials_standard <- function(avect, bvect, acat = NULL, bcat = NULL,
                             amix = F, bmix = F, amixcat = NULL, bmixcat = NULL, acomp = F, bcomp = F,
                             acompvect = NULL, bcompvect = NULL, acompcat = NULL, bcompcat = NULL){
 
+  if (is.KinPairData(avect)){
+    if (is.null(acat)) acat <- category(avect)
+    avect <- distances(avect)
+  }
+  if (is.KinPairData(bvect)){
+    if (is.null(bcat)) bcat <- category(bvect)
+    bvect <- distances(bvect)
+  }
+  if (is.KinPairData(acompvect)){
+    if (is.null(acompcat)) acompcat <- category(acompvect)
+    acompvect <- distances(acompvect)
+  }
+  if (is.KinPairData(bcompvect)){
+    if (is.null(bcompcat)) bcompcat <- category(bcompvect)
+    bcompvect <- distances(bcompvect)
+  }
   # Run tests - these check basic pairings between categories
   if (is.null(avect)) {stop("Please supply kin dispersal distance vector a!")}
   if (is.null(bvect)) {stop("Please supply kin dispersal distance vector b!")}
@@ -104,20 +120,20 @@ axials_standard <- function(avect, bvect, acat, bcat,
 
 #' Takes (at least) two vectors of kinship dispersal distances from defined kinship categories, and returns a resulting calculation of the parent-offspring (intergenerational) kinship dispersal kernel with bootstrap-based confidence intervals.
 #' Further tests
-#' @param avect     vector a of kin dispersal distances for the less closely related kinship category
-#' @param bvect     vector b of kin dispersal distances for the more closely related kinship category
-#' @param nreps     number of permutations to run for confidence intervals (default 1000)
-#' @param nsamp     number of kin pairs to subsample for each permutation. Either "std" or an integer. If "std" will be computed as equal to the sample size. (default "std")
+#' @param avect     vector a of kin dispersal distances for the less closely related kinship category OR object of class KinPairData.
+#' @param bvect     vector b of kin dispersal distances for the more closely related kinship category OR object of class KinPairData.
 #' @param acat      kinship category of kin dispersal vector avect. Must be one of "PO", "FS", "HS", "AV", "GG", "HAV", "GGG", "1C", "1C1", "2C", "GAV", "HGAV", "H1C", "H1C1", "H2C"
 #' @param bcat      kinship category of kin dispersal vector bvect. Must be one of "PO", "FS", "HS", "AV", "GG", "HAV", "GGG", "1C", "1C1", "2C", "GAV", "HGAV", "H1C", "H1C1", "H2C"
+#' @param nreps     number of permutations to run for confidence intervals (default 1000)
+#' @param nsamp     number of kin pairs to subsample for each permutation. Either "std" or an integer. If "std" will be computed as equal to the sample size. (default "std")
 #' @param amix      logical describing whether vector a is a mixture of two kinship categories. Used with amixcat. Default FALSE.
 #' @param bmix      logical describing whether vector b is a mixture of two kinship categories. Used with bmixcat. Default FALSE.
 #' @param amixcat   mixture kinship category of vector a. Must be set if amix == TRUE. Must be one of "PO", "FS", "HS", "AV", "GG", "HAV", "GGG", "1C", "1C1", "2C", "GAV", "HGAV", "H1C", "H1C1", "H2C"
 #' @param bmixcat   mixture kinship category of vector b. Must be set if bmix == TRUE. Must be one of "PO", "FS", "HS", "AV", "GG", "HAV", "GGG", "1C", "1C1", "2C", "GAV", "HGAV", "H1C", "H1C1", "H2C"
 #' @param acomp     logical denoting whether vector a should be composited with an additional kinship category vector. Used with acompvect and acompcat. Default FALSE.
 #' @param bcomp     logical denoting whether vector b should be composited with an additional kinship category vector. Used with bcompvect and bcompcat. Default FALSE.
-#' @param acompvect vector acomp of kin dispersal distances for compositing with vector a. Must be set if acomp == TRUE.
-#' @param bcompvect vector bcomp of kin dispersal distances for compositing with vector b. Must be set if bcomp == TRUE.
+#' @param acompvect vector acomp of kin dispersal distances for compositing with vector a OR object of class KinPairData. Must be set if acomp == TRUE.
+#' @param bcompvect vector bcomp of kin dispersal distances for compositing with vector b OR object of class KinPairData. Must be set if bcomp == TRUE.
 #' @param acompcat  kinship category of kin dispersal vector acompvect. Must be set if acomp == TRUE.  Must be one of "PO", "FS", "HS", "AV", "GG", "HAV", "GGG", "1C", "1C1", "2C", "GAV", "HGAV", "H1C", "H1C1", "H2C"
 #' @param bcompcat  kinship category of kin dispersal vector bcompvect. Must be set if bcomp == TRUE. Must be one of "PO", "FS", "HS", "AV", "GG", "HAV", "GGG", "1C", "1C1", "2C", "GAV", "HGAV", "H1C", "H1C1", "H2C"
 #' @param output    string denoting what kind of output to return. If 'confs', a vector of 95% confidence intervals. if 'vect', a vector of all permutated axial value results
@@ -130,9 +146,26 @@ axials_standard <- function(avect, bvect, acat, bcat,
 #' cous <- rexp(100, 1/100)
 #' fullsibs <- rexp(50, 1/50)
 #' axpermute_standard(cous, fullsibs, acat = "1C", bcat = "FS")
-axpermute_standard <- function(avect, bvect, nreps = 1000, nsamp = "std", acat, bcat,
+axpermute_standard <- function(avect=NULL, bvect=NULL, acat=NULL, bcat=NULL, nreps = 1000, nsamp = "std",
                                amix = F, bmix = F, amixcat = NULL, bmixcat = NULL, acomp = F, bcomp = F,
                                acompvect = NULL, bcompvect = NULL, acompcat = NULL, bcompcat = NULL, output = "confs"){
+
+  if (is.KinPairData(avect)){
+    if (is.null(acat)) acat <- category(avect)
+    avect <- distances(avect)
+  }
+  if (is.KinPairData(bvect)){
+    if (is.null(bcat)) bcat <- category(bvect)
+    bvect <- distances(bvect)
+  }
+  if (is.KinPairData(acompvect)){
+    if (is.null(acompcat)) acompcat <- category(acompvect)
+    acompvect <- distances(acompvect)
+  }
+  if (is.KinPairData(bcompvect)){
+    if (is.null(bcompcat)) bcompcat <- category(bcompvect)
+    bcompvect <- distances(bcompvect)
+  }
 
   # Run tests - these check basic pairings between categories
   if (is.null(avect)) {stop("Please supply kin dispersal distance vector a!")}
@@ -150,7 +183,18 @@ axpermute_standard <- function(avect, bvect, nreps = 1000, nsamp = "std", acat, 
   aspantest <- aspan
   bspantest <- bspan
 
-  if (nsamp == "std") {anum <- length(avect); bnum <- length(bvect)}
+  if (nsamp == "std") {
+    anum <- length(avect)
+    bnum <- length(bvect)
+    if (anum > 1000) {
+      cat("More than 1,000 kinpairs in vector avect: setting permutation sample number to 1,000\n")
+      anum <- 1000
+    }
+    if (bnum > 1000) {
+      cat("More than 1,000 kinpairs in vector bvect: setting permutation sample number to 1,000\n")
+      bnum <- 1000
+    }
+    }
   else {anum <- bnum <- nsamp}
 
   if (amix == T) {
@@ -181,7 +225,13 @@ axpermute_standard <- function(avect, bvect, nreps = 1000, nsamp = "std", acat, 
     aphasetest <- c(aphasetest, acompphase)
     acompspan <- span_assigner(acompcat)
     aspantest <- mean(c(aspantest, acompspan))
-    if (nsamp == "std") {acompnum <- length(acompvect)}
+    if (nsamp == "std") {
+      acompnum <- length(acompvect)
+      if (acompnum > 1000) {
+        cat("More than 1,000 kinpairs in vector acompvect: setting permutation sample number to 1,000\n")
+        acompnum <- 1000
+      }
+      }
     else {acompnum <- nsamp}
   }
 
@@ -194,7 +244,13 @@ axpermute_standard <- function(avect, bvect, nreps = 1000, nsamp = "std", acat, 
     bphasetest <- c(bphasetest, bcompphase)
     bcompspan <- span_assigner(bcompcat)
     bspantest <- mean(c(bspantest, bcompspan))
-    if (nsamp == "std") {bcompnum <- length(bcompvect)}
+    if (nsamp == "std") {
+      bcompnum <- length(bcompvect)
+      if (bcompnum > 1000){
+        cat("More than 1,000 kinpairs in vector bcompvect: setting permutation sample number to 1,000\n")
+        bcompnum <- 1000
+      }
+      }
     else {bcompnum <- nsamp}
   }
 

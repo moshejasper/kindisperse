@@ -6,12 +6,12 @@
 Further tests}
 \usage{
 axpermute_standard(
-  avect,
-  bvect,
+  avect = NULL,
+  bvect = NULL,
+  acat = NULL,
+  bcat = NULL,
   nreps = 1000,
   nsamp = "std",
-  acat,
-  bcat,
   amix = F,
   bmix = F,
   amixcat = NULL,
@@ -26,17 +26,17 @@ axpermute_standard(
 )
 }
 \arguments{
-\item{avect}{vector a of kin dispersal distances for the less closely related kinship category}
+\item{avect}{vector a of kin dispersal distances for the less closely related kinship category OR object of class KinPairData.}
 
-\item{bvect}{vector b of kin dispersal distances for the more closely related kinship category}
-
-\item{nreps}{number of permutations to run for confidence intervals (default 1000)}
-
-\item{nsamp}{number of kin pairs to subsample for each permutation. Either "std" or an integer. If "std" will be computed as equal to the sample size. (default "std")}
+\item{bvect}{vector b of kin dispersal distances for the more closely related kinship category OR object of class KinPairData.}
 
 \item{acat}{kinship category of kin dispersal vector avect. Must be one of "PO", "FS", "HS", "AV", "GG", "HAV", "GGG", "1C", "1C1", "2C", "GAV", "HGAV", "H1C", "H1C1", "H2C"}
 
 \item{bcat}{kinship category of kin dispersal vector bvect. Must be one of "PO", "FS", "HS", "AV", "GG", "HAV", "GGG", "1C", "1C1", "2C", "GAV", "HGAV", "H1C", "H1C1", "H2C"}
+
+\item{nreps}{number of permutations to run for confidence intervals (default 1000)}
+
+\item{nsamp}{number of kin pairs to subsample for each permutation. Either "std" or an integer. If "std" will be computed as equal to the sample size. (default "std")}
 
 \item{amix}{logical describing whether vector a is a mixture of two kinship categories. Used with amixcat. Default FALSE.}
 
@@ -50,9 +50,9 @@ axpermute_standard(
 
 \item{bcomp}{logical denoting whether vector b should be composited with an additional kinship category vector. Used with bcompvect and bcompcat. Default FALSE.}
 
-\item{acompvect}{vector acomp of kin dispersal distances for compositing with vector a. Must be set if acomp == TRUE.}
+\item{acompvect}{vector acomp of kin dispersal distances for compositing with vector a OR object of class KinPairData. Must be set if acomp == TRUE.}
 
-\item{bcompvect}{vector bcomp of kin dispersal distances for compositing with vector b. Must be set if bcomp == TRUE.}
+\item{bcompvect}{vector bcomp of kin dispersal distances for compositing with vector b OR object of class KinPairData. Must be set if bcomp == TRUE.}
 
 \item{acompcat}{kinship category of kin dispersal vector acompvect. Must be set if acomp == TRUE.  Must be one of "PO", "FS", "HS", "AV", "GG", "HAV", "GGG", "1C", "1C1", "2C", "GAV", "HGAV", "H1C", "H1C1", "H2C"}
 

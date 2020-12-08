@@ -1,6 +1,6 @@
 #' Estimate the axial dispersal distance of a kernel
 #'
-#' @param valvect A numeric vector of distances between close kin
+#' @param valvect A numeric vector of distances between close kin OR an object of class KinPairData
 #' @param composite numeric. The number of separate 'draws' (dispersal events)
 #' from the kernel required to produce the final positions of the measured individuals.
 #' For example, the displacement of a child from parent at the same lifestage would involve 1 draw and thus be composite = 1.
@@ -21,6 +21,7 @@
 #' axials(fs_dists, composite = 2) # two 'draws' (symmetric dispersal events)
 #' # go into the full sibling category so composite is set to 2
 axials <- function(valvect, composite = 1){ #  computes axial distance for set... make better name...
+  if (is.KinPairData(valvect)) valvect <- distances(valvect)
   vals <- (valvect^2)/(2 * composite)
   return(sqrt(mean(vals)))
 }
@@ -120,7 +121,7 @@ axmed <- function(ax){ # returns median distance of this distribution (at least,
 
 #' Estimate the axial dispersal distance of a kernel with confidence intervals
 #'
-#' @param vals numeric. Vector of distances between close kin.
+#' @param vals numeric. Vector of distances between close kin OR object of class KinPairData.
 #' @param nreps numeric. Number of permutations to run for confidence intervals (default 1000)
 #' @param nsamp numeric. Number of kin pairs to subsample for each permutation.
 #' Either "std" or an integer. If "std" will be computed as equal to the sample size. (default "std")
@@ -136,8 +137,15 @@ axmed <- function(ax){ # returns median distance of this distribution (at least,
 #' po_dists <- rexp(100, 1/50)
 #' axpermute(po_dists, composite = 1)
 axpermute <- function(vals, nreps=1000, nsamp = "std", composite = 2, output = "confs"){
+  if (is.KinPairData(vals)) vals <- distances(vals)
   container <- tibble(ax = 0.0, .rows = 0)
-  if (nsamp == "std") {sampnum <- length(vals)}
+  if (nsamp == "std") {
+    sampnum <- length(vals)
+    if (sampnum > 1000){
+      cat("More than 1,000 kinpairs in vector vals: setting permutation sample number to 1,000\n")
+      sampnum <- 1000
+    }
+    }
   else sampnum <- nsamp
   for (val in 1:nreps){
     subvals <- sample(vals, sampnum, replace = TRUE)
@@ -159,8 +167,8 @@ axpermute <- function(vals, nreps=1000, nsamp = "std", composite = 2, output = "
 #' For example, the FS category is subsumed by the 1C category, which can be written 'FS + PO'.
 #' In this circumstance, subtracting FS from 1C will yield an estimate of the PO kernel (the basic intergenerational dispersal kernel)
 #'
-#' @param bigvals numeric. Vector of distance distributions of the larger (subsuming) distribution (e.g. 1C)
-#' @param smallvals numeric. Vector of distance distributions of the smaller (subsumed) distribution (e.g. FS)
+#' @param bigvals numeric. Vector of distance distributions of the larger (subsuming) distribution (e.g. 1C)  OR object of class KinPairData.
+#' @param smallvals numeric. Vector of distance distributions of the smaller (subsumed) distribution (e.g. FS)  OR object of class KinPairData.
 #' @param nreps numeric. Number of permutations to perform when generating confidence intervals.
 #' @param nsamp numeric. number of kin pairs to subsample for each permutation. Either "std" or an integer.
 #' If "std" will be computed as equal to the sample size. (default "std")
@@ -180,7 +188,21 @@ axpermute <- function(vals, nreps=1000, nsamp = "std", composite = 2, output = "
 axpermute_subtract <- function(bigvals, smallvals, nreps = 1000, nsamp = "std", composite = 2, output = "confs"){ # the workhorse function - need to extend for more complex form!.
 
   container <- tibble(ax = 0.0, .rows = 0)
-  if (nsamp == "std") {anum <- length(bigvals); bnum <- length(smallvals)}
+
+  if (is.KinPairData(bigvals)) bigvals <- distances(bigvals)
+  if (is.KinPairData(smallvals)) smallvals <- distances(smallvals)
+  if (nsamp == "std") {
+    anum <- length(bigvals)
+    bnum <- length(smallvals)
+    if (anum > 1000){
+      cat("More than 1,000 kinpairs in vector bigvals: setting permutation sample number to 1,000\n")
+      anum <- 1000
+    }
+    if (bnum > 1000){
+      cat("More than 1,000 kinpairs in vector smallvals: setting permutation sample number to 1,000\n")
+      bnum <- 1000
+    }
+    }
   else {anum <- bnum <- nsamp}
   for (val in 1:nreps){
     sub1 <- sample(bigvals, anum, replace = T)

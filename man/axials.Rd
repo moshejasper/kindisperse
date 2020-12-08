@@ -7,7 +7,7 @@
 axials(valvect, composite = 1)
 }
 \arguments{
-\item{valvect}{A numeric vector of distances between close kin}
+\item{valvect}{A numeric vector of distances between close kin OR an object of class KinPairData}
 
 \item{composite}{numeric. The number of separate 'draws' (dispersal events)
 from the kernel required to produce the final positions of the measured individuals.

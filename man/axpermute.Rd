@@ -7,7 +7,7 @@
 axpermute(vals, nreps = 1000, nsamp = "std", composite = 2, output = "confs")
 }
 \arguments{
-\item{vals}{numeric. Vector of distances between close kin.}
+\item{vals}{numeric. Vector of distances between close kin OR object of class KinPairData.}
 
 \item{nreps}{numeric. Number of permutations to run for confidence intervals (default 1000)}
 
