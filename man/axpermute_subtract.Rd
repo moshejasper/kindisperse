@@ -14,9 +14,9 @@ axpermute_subtract(
 )
 }
 \arguments{
-\item{bigvals}{numeric. Vector of distance distributions of the larger (subsuming) distribution (e.g. 1C)}
+\item{bigvals}{numeric. Vector of distance distributions of the larger (subsuming) distribution (e.g. 1C)  OR object of class KinPairData.}
 
-\item{smallvals}{numeric. Vector of distance distributions of the smaller (subsumed) distribution (e.g. FS)}
+\item{smallvals}{numeric. Vector of distance distributions of the smaller (subsumed) distribution (e.g. FS)  OR object of class KinPairData.}
 
 \item{nreps}{numeric. Number of permutations to perform when generating confidence intervals.}
 
