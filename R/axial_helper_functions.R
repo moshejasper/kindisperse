@@ -117,21 +117,6 @@ axmed <- function(ax){ # returns median distance of this distribution (at least,
   return(ax * 5 / (3 * sqrt(2)))
 }
 
-axconfs <- function(axvals, nreps=1000, nsamp = "std", composite = 2, output = "confs"){
-  container <- tibble(ax = 0.0, .rows = 0)
-  sampnum <- length(axvals)
-  for (val in 1:nreps){
-    subvals <- sample(axvals, sampnum, replace = TRUE)
-    newax <- axials(subvals, composite)
-    container <- add_row(container, ax = newax)
-  }
-  if (output == "confs"){
-    return(quantile(container$ax, c(0.025, 0.5, 0.975)))
-  }
-  else if (output == "vect") {
-    return(container$ax)
-  }
-}
 
 #' Estimate the axial dispersal distance of a kernel with confidence intervals
 #'
