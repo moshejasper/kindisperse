@@ -8,8 +8,8 @@ KinPairSimulation_simple(
   data = NULL,
   category = NULL,
   kerneltype = NULL,
-  sigma = NULL,
-  dims = NULL,
+  dsigma = NULL,
+  simdims = NULL,
   lifestage = NULL,
   call = NULL
 )
@@ -21,9 +21,9 @@ KinPairSimulation_simple(
 
 \item{kerneltype}{character. Statistical model for simulated dispersal kernel. Currently either "Gaussian" or "Laplace".}
 
-\item{sigma}{numeric. Axial sigma of dispersal kernel (axial standard deviation).}
+\item{dsigma}{numeric. Axial sigma of dispersal kernel (axial standard deviation).}
 
-\item{dims}{numeric. Length of side of simulated area square.}
+\item{simdims}{numeric. Length of side of simulated area square.}
 
 \item{lifestage}{character. Simulated lifestage of sampling. Either "larva" (sampled at hatching) or "oviposition" (sampled as an adult during oviposition - essentially one lifespan later that 'larva')}
 
@@ -39,5 +39,5 @@ Constructor for KinPairSimulation Class (simple)
 kindata <- tibble::tibble(id1 = c("a", "b", "c"), id2 = c("x", "y", "z"),
     distance = c(50, 45, 65), category = c("1C", "1C", "1C"))
 KinPairSimulation_simple(kindata, category = "1C", kerneltype = "Gaussian",
-    sigma = 38, lifestage = "larva")
+    dsigma = 38, lifestage = "larva")
 }

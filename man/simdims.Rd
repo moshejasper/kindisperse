@@ -2,16 +2,16 @@
 % Please edit documentation in R/KinPairSimulation.R
 \name{simdims}
 \alias{simdims}
-\title{Access simulation dimensions (KinPairSimulation method)}
+\title{Access simulation dimensions of KinPairSimulation object}
 \usage{
-\S4method{simdims}{KinPairSimulation}(x)
+simdims(x)
 }
 \arguments{
-\item{KinPairSimulation}{}
+\item{x}{object of class \code{KinPairSimulation}}
 }
 \value{
 
 }
 \description{
-Access simulation dimensions (KinPairSimulation method)
+Access simulation dimensions of KinPairSimulation object
 }

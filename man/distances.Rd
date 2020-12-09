@@ -2,7 +2,7 @@
 % Please edit documentation in R/KinPairData.R
 \name{distances}
 \alias{distances}
-\title{Access distances (generic for KinPairData Class)}
+\title{Access distances (generic for KinPairData class)}
 \usage{
 distances(x)
 }
@@ -13,5 +13,5 @@ distances(x)
 Returns a numeric vector of kin separation distances
 }
 \description{
-Access distances (generic for KinPairData Class)
+Access distances (generic for KinPairData class)
 }

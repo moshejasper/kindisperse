@@ -2,29 +2,23 @@
 % Please edit documentation in R/KinPairData.R
 \name{category}
 \alias{category}
-\alias{category<-,KinPairData-method}
-\title{Title}
+\alias{category<-}
+\title{Access or assign kin category (generic for KinPairData class)}
 \usage{
 category(x)
 
-\S4method{category}{KinPairData}(x)
-
-\S4method{category}{KinPairData}(x) <- value
+category(x) <- value
 }
 \arguments{
-\item{x}{}
+\item{x}{object with relevant method}
 
-\item{KinPairData}{}
+\item{value}{new value to assign}
 }
 \value{
+\code{character}. Kinship category of object
 
-
-
-
-
+returns modified object
 }
 \description{
-Title
-
-Access or assign KinPairData kin category
+Access or assign kin category (generic for KinPairData class)
 }

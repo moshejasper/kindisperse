@@ -12,7 +12,7 @@ KinPairSimulation_composite(
   breedsigma = NULL,
   gravsigma = NULL,
   ovisigma = NULL,
-  dims = NULL,
+  simdims = NULL,
   lifestage = NULL,
   call = NULL
 )
@@ -32,7 +32,7 @@ KinPairSimulation_composite(
 
 \item{ovisigma}{numeric. Axial sigma of oviposition dispersal kernel (axial standard deviation).}
 
-\item{dims}{numeric. Length of side of simulated area square.}
+\item{simdims}{numeric. Length of side of simulated area square.}
 
 \item{lifestage}{character. Simulated lifestage of sampling. Either "larva" (sampled at hatching) or "oviposition" (sampled as an adult during oviposition - essentially one lifespan later that 'larva')}
 
