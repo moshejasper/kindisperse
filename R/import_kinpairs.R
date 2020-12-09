@@ -9,7 +9,8 @@
 #' @export
 #'
 #' @examples
-#' mydata <- tibble(distance = 1:10, lifestage = "larva", category = c("FS", "FS", "FS", "FS", "FS", "FS", "HS", "HS", "HS", "HS"))
+#' mydata <- tibble::tibble(distance = 1:10, lifestage = "larva",
+#'  category = c("FS", "FS", "FS", "FS", "FS", "FS", "HS", "HS", "HS", "HS"))
 #' df_to_kinpair(mydata, category = "FS")
 df_to_kinpair <- function(data, category = NULL, lifestage = NULL){
   tib <- as_tibble(data)

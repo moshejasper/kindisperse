@@ -20,6 +20,7 @@ returns valid \code{KinPairData} object
 Convert dataframe or tibble to KinPairData class
 }
 \examples{
-mydata <- tibble(distance = 1:10, lifestage = "larva", category = c("FS", "FS", "FS", "FS", "FS", "FS", "HS", "HS", "HS", "HS"))
+mydata <- tibble::tibble(distance = 1:10, lifestage = "larva",
+ category = c("FS", "FS", "FS", "FS", "FS", "FS", "HS", "HS", "HS", "HS"))
 df_to_kinpair(mydata, category = "FS")
 }
