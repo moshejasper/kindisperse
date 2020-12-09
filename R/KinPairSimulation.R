@@ -288,7 +288,7 @@ setGeneric("sampledims<-", function(x, value) standardGeneric("sampledims<-"))
 
 #'
 #'
-#' @param KinPairSimulation
+#' @param KinPairSimulation object of class KinPairSimulation
 #'
 #' @return
 #' @export

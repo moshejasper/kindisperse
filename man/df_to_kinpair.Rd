@@ -7,11 +7,11 @@
 df_to_kinpair(data, category = NULL, lifestage = NULL)
 }
 \arguments{
+\item{data}{data.frame or tibble of kin distances - can contain $distance (kin distances), $category (kin cats) & $lifestage columns}
+
 \item{category}{character. kin category to assign or extract from data. one of PO, FS, HS, AV, GG, HAV, GGG, 1C, 1C1, 2C, GAV, HGAV, H1C , H1C1 or H2C}
 
 \item{lifestage}{character. lifestage to assign or extract from data. one of 'unknown', 'larva' or 'oviposition'.}
-
-\item{df}{data.frame or tibble of kin distances - can contain $distance (kin distances), $category (kin cats) & $lifestage columns}
 }
 \value{
 returns valid \code{KinPairData} object

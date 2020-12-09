@@ -28,7 +28,7 @@ setGeneric("to_tibble", function(x) standardGeneric("to_tibble"))
 
 #'
 #'
-#' @param KinPairData
+#' @param KinPairData object of class KinPairData
 #'
 #' @return
 #' @export
