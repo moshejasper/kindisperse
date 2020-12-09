@@ -12,7 +12,7 @@
 #' @importFrom grid arrow unit
 #' @importFrom here here
 #' @importFrom magrittr %>%
-#' @importFrom methods new setMethod validObject setGeneric setValidity is
+#' @importFrom methods new setMethod validObject setGeneric setValidity is initialize show
 #' @importFrom plotly ggplotly plotlyOutput renderPlotly
 #' @importFrom readr read_rds write_rds
 #' @importFrom rlang .data

@@ -10,7 +10,7 @@ is.KinPairData(x)
 \item{x}{object to be checked}
 }
 \value{
-Returns TRUE if of class KinPairData, FALSE if not.
+Returns TRUE if of class \code{KinPairData}, FALSE if not.
 }
 \description{
 Check if object is of class KinPairData

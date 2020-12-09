@@ -2,29 +2,23 @@
 % Please edit documentation in R/KinPairData.R
 \name{lifestage}
 \alias{lifestage}
-\alias{lifestage<-,KinPairData-method}
-\title{Title}
+\alias{lifestage<-}
+\title{Access or assign lifestage (generic for KinPairData class)}
 \usage{
 lifestage(x)
 
-\S4method{lifestage}{KinPairData}(x)
-
-\S4method{lifestage}{KinPairData}(x) <- value
+lifestage(x) <- value
 }
 \arguments{
-\item{x}{}
+\item{x}{object with relevant method}
 
-\item{KinPairData}{}
+\item{value}{new value to assign}
 }
 \value{
 
 
 
-
-
 }
 \description{
-Title
-
-Access or assign KinPairData lifestage
+Access or assign lifestage (generic for KinPairData class)
 }

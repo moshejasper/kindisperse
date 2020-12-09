@@ -4,13 +4,76 @@
 \name{KinPairData-class}
 \alias{KinPairData-class}
 \alias{KinPairData}
-\title{Title}
+\alias{to_tibble,KinPairData-method}
+\alias{distances,KinPairData-method}
+\alias{category,KinPairData-method}
+\alias{category<-,KinPairData-method}
+\alias{lifestage,KinPairData-method}
+\alias{lifestage<-,KinPairData-method}
+\alias{show,KinPairData-method}
+\alias{initialize,KinPairData-method}
+\title{Formal class "KinPairData"}
+\usage{
+\S4method{to_tibble}{KinPairData}(x)
+
+\S4method{distances}{KinPairData}(x)
+
+\S4method{category}{KinPairData}(x)
+
+\S4method{category}{KinPairData}(x) <- value
+
+\S4method{lifestage}{KinPairData}(x)
+
+\S4method{lifestage}{KinPairData}(x) <- value
+
+\S4method{show}{KinPairData}(object)
+
+\S4method{initialize}{KinPairData}(.Object, data, category, lifestage, ...)
+}
+\arguments{
+\item{KinPairData}{}
+}
 \value{
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }
 \description{
-Title
+The class \code{KinPairData} is a formal (S4) class for storing kinship and lifespan dispersal information concerning kin pairs.
 }
+\section{Methods (by generic)}{
+\itemize{
+\item \code{to_tibble}: extract to tibble
+
+\item \code{distances}: access distances
+
+\item \code{category}: access kin category
+
+\item \code{category<-}: assign kin category
+
+\item \code{lifestage}: access lifestage
+
+\item \code{lifestage<-}: assign lifestage
+
+\item \code{show}: standard print method
+
+\item \code{initialize}: initialize method
+}}
+
 \section{Slots}{
 
 \describe{

@@ -4,13 +4,189 @@
 \name{KinPairSimulation-class}
 \alias{KinPairSimulation-class}
 \alias{KinPairSimulation}
-\title{KinPairSimulation}
+\alias{simtype,KinPairSimulation-method}
+\alias{kerneltype,KinPairSimulation-method}
+\alias{dsigma,KinPairSimulation-method}
+\alias{juvsigma,KinPairSimulation-method}
+\alias{breedsigma,KinPairSimulation-method}
+\alias{gravsigma,KinPairSimulation-method}
+\alias{ovisigma,KinPairSimulation-method}
+\alias{simdims,KinPairSimulation-method}
+\alias{filtertype,KinPairSimulation-method}
+\alias{upper,KinPairSimulation-method}
+\alias{lower,KinPairSimulation-method}
+\alias{spacing,KinPairSimulation-method}
+\alias{samplenum,KinPairSimulation-method}
+\alias{sampledims,KinPairSimulation-method}
+\alias{upper<-,KinPairSimulation-method}
+\alias{lower<-,KinPairSimulation-method}
+\alias{spacing<-,KinPairSimulation-method}
+\alias{samplenum<-,KinPairSimulation-method}
+\alias{sampledims<-,KinPairSimulation-method}
+\alias{show,KinPairSimulation-method}
+\alias{initialize,KinPairSimulation-method}
+\title{KinPairSimulation Class}
+\usage{
+\S4method{simtype}{KinPairSimulation}(x)
+
+\S4method{kerneltype}{KinPairSimulation}(x)
+
+\S4method{dsigma}{KinPairSimulation}(x)
+
+\S4method{juvsigma}{KinPairSimulation}(x)
+
+\S4method{breedsigma}{KinPairSimulation}(x)
+
+\S4method{gravsigma}{KinPairSimulation}(x)
+
+\S4method{ovisigma}{KinPairSimulation}(x)
+
+\S4method{simdims}{KinPairSimulation}(x)
+
+\S4method{filtertype}{KinPairSimulation}(x)
+
+\S4method{upper}{KinPairSimulation}(x)
+
+\S4method{lower}{KinPairSimulation}(x)
+
+\S4method{spacing}{KinPairSimulation}(x)
+
+\S4method{samplenum}{KinPairSimulation}(x)
+
+\S4method{sampledims}{KinPairSimulation}(x)
+
+\S4method{upper}{KinPairSimulation}(x) <- value
+
+\S4method{lower}{KinPairSimulation}(x) <- value
+
+\S4method{spacing}{KinPairSimulation}(x) <- value
+
+\S4method{samplenum}{KinPairSimulation}(x) <- value
+
+\S4method{sampledims}{KinPairSimulation}(x) <- value
+
+\S4method{show}{KinPairSimulation}(object)
+
+\S4method{initialize}{KinPairSimulation}(
+  .Object,
+  data = NULL,
+  category = NULL,
+  lifestage = NULL,
+  simtype = NULL,
+  kerneltype = NULL,
+  dsigma = NULL,
+  juvsigma = NULL,
+  breedsigma = NULL,
+  gravsigma = NULL,
+  ovisigma = NULL,
+  simdims = NULL,
+  call = NULL,
+  filtertype = NULL,
+  upper = NULL,
+  lower = NULL,
+  spacing = NULL,
+  samplenum = NULL,
+  sampledims = NULL
+)
+}
+\arguments{
+\item{KinPairSimulation}{}
+}
 \value{
 Returns an object of class 'KinPairSimulation'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
 \description{
-KinPairSimulation
+KinPairSimulation Class
+
+)
 }
+\section{Methods (by generic)}{
+\itemize{
+\item \code{simtype}: access simulation type
+
+\item \code{kerneltype}: access kerneltype
+
+\item \code{dsigma}: access sigma
+
+\item \code{juvsigma}: access juvsigma
+
+\item \code{breedsigma}: access breedsigma
+
+\item \code{gravsigma}: access gravsigma
+
+\item \code{ovisigma}: access ovisigma
+
+\item \code{simdims}: access simdims
+
+\item \code{filtertype}: access filtertype
+
+\item \code{upper}: access upper filter distance
+
+\item \code{lower}: access lower filter distance
+
+\item \code{spacing}: access spacing
+
+\item \code{samplenum}: access sampled samplenum
+
+\item \code{sampledims}: access sampled dimensions
+
+\item \code{upper<-}: assign and filter by upper distance (uses sample_kindist())
+
+\item \code{lower<-}: assign and filter by lower distance (uses sample_kindist())
+
+\item \code{spacing<-}: assign kin spacing (uses sample_kindist())
+
+\item \code{samplenum<-}: assign and downsample to samplenum (uses sample_kindist())
+
+\item \code{sampledims<-}: assign and filter by sample dimensions (uses sample_kindist())
+
+\item \code{show}: print method
+
+\item \code{initialize}: initialisation method
+}}
+
 \section{Slots}{
 
 \describe{
@@ -20,7 +196,7 @@ KinPairSimulation
 
 \item{\code{kerneltype}}{character. - 'Gaussian' or 'Laplace'}
 
-\item{\code{sigma}}{numeric.       - overall value of dispersal sigma (for simple kernel)}
+\item{\code{dsigma}}{numeric.       - overall value of dispersal sigma (for simple kernel)}
 
 \item{\code{juvsigma}}{numeric.    - value of pre-breeding dispersal sigma (for composite kernel)}
 
@@ -30,7 +206,7 @@ KinPairSimulation
 
 \item{\code{ovisigma}}{numeric.    - value of oviposition dispersal sigma (for composite kernel)}
 
-\item{\code{dims}}{numeric.        - dimensions of sampling area (assumes 1 side of square)}
+\item{\code{simdims}}{numeric.        - dimensions of sampling area (assumes 1 side of square)}
 
 \item{\code{lifestage}}{character. - lifestage at sampling - either 'larva' or 'oviposition'}
 

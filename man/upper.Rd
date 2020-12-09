@@ -2,21 +2,63 @@
 % Please edit documentation in R/KinPairSimulation.R
 \name{upper}
 \alias{upper}
-\alias{upper<-,KinPairSimulation-method}
-\title{Access or filter by upper distance (KinPairSimulation method)}
+\alias{upper<-}
+\alias{lower}
+\alias{lower<-}
+\alias{spacing}
+\alias{spacing<-}
+\alias{samplenum}
+\alias{samplenum<-}
+\alias{sampledims}
+\alias{sampledims<-}
+\title{Access & filter by filter parameters of KinPairSimulation Object}
 \usage{
-\S4method{upper}{KinPairSimulation}(x)
+upper(x)
 
-\S4method{upper}{KinPairSimulation}(x) <- value
+upper(x) <- value
+
+lower(x)
+
+lower(x) <- value
+
+spacing(x)
+
+spacing(x) <- value
+
+samplenum(x)
+
+samplenum(x) <- value
+
+sampledims(x)
+
+sampledims(x) <- value
 }
 \arguments{
-\item{KinPairSimulation}{}
+\item{x}{object of class \code{KinPairSimulation}}
+
+\item{value}{new value to assign}
 }
 \value{
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
 \description{
-Access or filter by upper distance (KinPairSimulation method)
+Access & filter by filter parameters of KinPairSimulation Object
 }

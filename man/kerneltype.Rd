@@ -2,13 +2,16 @@
 % Please edit documentation in R/KinPairSimulation.R
 \name{kerneltype}
 \alias{kerneltype}
-\title{Access kerneltype (KinPairSimulation method)}
+\title{kindisperse - access kerneltype of KinPairSimulation object}
 \usage{
-\S4method{kerneltype}{KinPairSimulation}(x)
+kerneltype(x)
+}
+\arguments{
+\item{x}{object of class \code{KinPairSimulation}}
 }
 \value{
 
 }
 \description{
-Access kerneltype (KinPairSimulation method)
+kindisperse - access kerneltype of KinPairSimulation object
 }

@@ -169,5 +169,5 @@ simulate_kindist_composite <- function(nsims = 100, juvsigma = 100, breedsigma =
   return(KinPairSimulation_composite(tab,
                                      category = category, kerneltype = method, juvsigma = juvsigma,
                                      breedsigma = breedsigma, gravsigma = gravsigma, ovisigma = ovisigma,
-                                     dims = dims, lifestage = lifestage, call = sys.call()))
+                                     simdims = dims, lifestage = lifestage, call = sys.call()))
 }

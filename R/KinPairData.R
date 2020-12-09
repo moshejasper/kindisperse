@@ -1,96 +1,120 @@
 methods::setOldClass(c("tbl_df", "tbl", "data.frame"))
 
-#' Title
+#' Formal class "KinPairData"
 #'
+#' @description The class \code{KinPairData} is a formal (S4) class for storing kinship and lifespan dispersal information concerning kin pairs.
 #' @slot category character.
 #' @slot lifestage character.
 #' @slot tab tbl_df.
-#'
 #' @return
 #' @export
 #'
-#' @examples
+#'
 KinPairData <- setClass("KinPairData",
                         slots = list(category = "character", lifestage = "character", tab = "tbl_df"))
 
-#' Title
+
+######### GENERICS and METHODS#############
+
+#' Extract KinPairData to tibble (generic)
 #'
-#' @param x
+#' @param x object of class \code{KinPairData}
+#'
+#' @return tibble (class \code{tbl_df})
+#' @export
+#'
+#'
+setGeneric("to_tibble", function(x) standardGeneric("to_tibble"))
+
+#'
+#'
+#' @param KinPairData
 #'
 #' @return
 #' @export
 #'
-#' @examples
+#' @describeIn KinPairData extract to tibble
+setMethod("to_tibble", "KinPairData", function(x) x@tab)
+
+#' Access or assign kin category (generic for KinPairData class)
+#'
+#' @param x object with relevant method
+#'
+#' @return \code{character}. Kinship category of object
+#' @export
+#'
 setGeneric("category", function(x) standardGeneric("category"))
-#' Title
 #'
-#' @param x
-#' @param value
+#' @rdname category
+#' @param x object with relevant method
+#' @param value new value to assign
 #'
-#' @return
+#' @return returns modified object
 #' @export
 #'
-#' @examples
+#'
 setGeneric("category<-", function(x, value) standardGeneric("category<-"))
-#' Title
+#' Access or assign lifestage (generic for KinPairData class)
 #'
-#' @param x
+#' @param x object with relevant method
 #'
 #' @return
 #' @export
 #'
-#' @examples
+#'
 setGeneric("lifestage", function(x) standardGeneric("lifestage"))
-#' Title
 #'
-#' @param x
-#' @param value
+#' @rdname lifestage
+#' @param x object with relevant method
+#' @param value new value to assign
 #'
 #' @return
 #' @export
 #'
-#' @examples
+#'
 setGeneric("lifestage<-", function(x, value) standardGeneric("lifestage<-"))
 
-#' Access distances (generic for KinPairData Class)
+#' Access distances (generic for KinPairData class)
 #'
 #' @param x Object of Class KinPairData
 #'
 #' @return Returns a numeric vector of kin separation distances
 #' @export
 #'
-#' @examples
+#'
 setGeneric("distances", function(x) standardGeneric("distances"))
 
 
-#' Title
+
+
 #'
-#' @param KinPairData
+#'
+#' @param KinPairData object of class \code{KinPairData}
 #'
 #' @return
 #' @export
 #'
-#' @examples
+#' @describeIn KinPairData access distances
 setMethod("distances", "KinPairData", function(x) x@tab$distance)
 
-#' Access or assign KinPairData kin category
-#' @name category
-#' @param KinPairData
+#'
+#'
+#' @param KinPairData object of class \code{KinPairData}
 #'
 #' @return
 #' @export
 #'
-#' @examples
+#' @describeIn KinPairData access kin category
 setMethod("category", "KinPairData", function(x) x@category)
 
 #'
-#' @rdname category
-#' @param KinPairData
+#'
+#' @param KinPairData object of class \code{KinPairData}
 #'
 #' @return
 #' @export
 #'
-#' @examples
+#' @describeIn KinPairData assign kin category
 setMethod("category<-", "KinPairData", function(x, value){
   x@category <- value
   validObject(x)
@@ -98,31 +122,39 @@ setMethod("category<-", "KinPairData", function(x, value){
 })
 
 
-#' Access or assign KinPairData lifestage
-#' @name lifestage
+#'
+#'
 #' @param KinPairData
 #'
 #' @return
 #' @export
 #'
-#' @examples
+#' @describeIn KinPairData access lifestage
 setMethod("lifestage", "KinPairData", function(x) x@lifestage)
 
 #'
 #'
-#' @rdname lifestage
+#'
 #' @param KinPairData
 #'
 #' @return
 #' @export
 #'
-#' @examples
+#' @describeIn KinPairData assign lifestage
 setMethod("lifestage<-", "KinPairData", function(x, value){
   x@lifestage <- value
   validObject(x)
   x
 })
 
+#'
+#'
+#' @param KinPairData
+#'
+#' @return
+#' @export
+#'
+#' @describeIn KinPairData standard print method
 setMethod(
   "show",
   "KinPairData",
@@ -139,6 +171,14 @@ setMethod(
 
 # Constructor method of KinPairData
 
+#' Title
+#'
+#' @param KinPairData
+#'
+#' @return
+#' @export
+#'
+#' @describeIn KinPairData initialize method
 setMethod("initialize", "KinPairData",
           function(.Object,
           data,
@@ -199,6 +239,7 @@ setMethod("initialize", "KinPairData",
 }
 )
 
+
 setValidity("KinPairData", function(object){
   if (! object@category %in% c("UN", "PO", "GG", "GGG", "FS", "AV", "GAV", "1C", "1C1", "2C", "HS", "HAV", "HGAV", "H1C", "H1C1", "H2C")) {
     "@category must be one of UN PO GG GGG FS AV GAV 1C 1C1 2C HS HAV HGAV H1C H1C1 H2C"
@@ -214,10 +255,10 @@ setValidity("KinPairData", function(object){
 #'
 #' @param x object to be checked
 #'
-#' @return Returns TRUE if of class KinPairData, FALSE if not.
+#' @return Returns TRUE if of class \code{KinPairData}, FALSE if not.
 #' @export
 #'
-#' @examples
+#'
 is.KinPairData <- function(x){
   "KinPairData" %in% is(x)
 }
