@@ -16,7 +16,20 @@
 
 # run early setup functions
 
-sim_storage <- list(NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL)
+# set environment for data storage
+
+app_env <- env(
+  d1 = KinPairSimulation(),
+  d2 = KinPairSimulation(),
+  d3 = KinPairSimulation(),
+  d4 = KinPairSimulation(),
+  d5 = KinPairSimulation(),
+  d6 = KinPairSimulation(),
+  d7 = KinPairSimulation(),
+  d8 = KinPairSimulation(),
+  d9 = KinPairSimulation(),
+  d10 = KinPairSimulation(),
+)
 
 
 ui <- fluidPage(
@@ -1011,7 +1024,7 @@ server <- function(input, output, session){
 
   sim_simple_store <- observeEvent(input$sim_simple_storeclick, {
     saveval <- sim_simple_kindata()
-    saveRDS(saveval, file = here(paste0("temp/", input$sim_simple_saveops, ".R")))
+    env_poke(app_env, paste0("d", input$sim_simple_saveops), saveval)
   })
 
   output$sim_simple_hist <- renderPlot({
@@ -1037,7 +1050,7 @@ server <- function(input, output, session){
 
   sim_composite_store <- observeEvent(input$sim_composite_storeclick, {
     saveval <- sim_composite_kindata()
-    saveRDS(saveval, file = here(paste0("temp/", input$sim_composite_saveops, ".R")))
+    env_poke(app_env, paste0("d", input$sim_composite_saveops), saveval)
   })
 
   output$sim_composite_hist <- renderPlot({
@@ -1055,54 +1068,49 @@ server <- function(input, output, session){
   #teststorage <- reactiveValues('1' = NULL, '2'=NULL, '3'=NULL, '4'=NULL, '5'=NULL, '6'=NULL, '7'=NULL, '8'=NULL, '9'=NULL, '10'=NULL)
 
   testevent <- observeEvent(input$storeclick, {
-    sim_storage[[as.integer(input$testsaveops)]] <- input$testnum
-    write_rds(input$testnum, here(paste0("temp/", input$testsaveops, ".R")))
+    NULL
   })
 
   delevent <- observeEvent(input$clearclick, {
-    if (file.exists(here(paste0("temp/",input$testsaveops, ".R")))) {file.remove(here(paste0("temp/",input$testsaveops, ".R")))}
+    NULL
   })
 
 
   retrieved <- eventReactive(input$retrieveclick, {
-
-    if (! file.exists(here(paste0("temp/",input$testsaveops, ".R")))) {return(NULL)}
-
-    read_rds(here(paste0("temp/", input$testsaveops, ".R")))
-
+    NULL
   })
 
   output$sim_compare_plot <- renderPlotly({
     gp <- ggplot(sim_simple_kindata()@tab) + aes(x = .data$distance)
     if ('1' %in% input$testsaveops) {
-      gp <- gp + geom_freqpoly(data = readRDS(here(paste0("temp/1.R")))@tab, colour = "blue", binwidth = 5)
+      gp <- gp + geom_freqpoly(data = app_env$d1@tab , colour = "pink", binwidth = 5)
     }
     if ('2' %in% input$testsaveops) {
-      gp <- gp + geom_freqpoly(data = readRDS(here(paste0("temp/2.R")))@tab, colour = "red", binwidth = 5)
+      gp <- gp + geom_freqpoly(data = app_env$d2@tab, colour = "red", binwidth = 5)
     }
     if ('3' %in% input$testsaveops) {
-      gp <- gp + geom_freqpoly(data = readRDS(here(paste0("temp/3.R")))@tab, colour = "orange", binwidth = 5)
+      gp <- gp + geom_freqpoly(data = app_env$d3@tab, colour = "orange", binwidth = 5)
     }
     if ('4' %in% input$testsaveops) {
-      gp <- gp + geom_freqpoly(data = readRDS(here(paste0("temp/4.R")))@tab, colour = "green", binwidth = 5)
+      gp <- gp + geom_freqpoly(data = app_env$d4@tab, colour = "green", binwidth = 5)
     }
     if ('5' %in% input$testsaveops) {
-      gp <- gp + geom_freqpoly(data = readRDS(here(paste0("temp/5.R")))@tab, colour = "purple", binwidth = 5)
+      gp <- gp + geom_freqpoly(data = app_env$d5@tab, colour = "purple", binwidth = 5)
     }
     if ('6' %in% input$testsaveops) {
-      gp <- gp + geom_freqpoly(data = readRDS(here(paste0("temp/6.R")))@tab, colour = "black", binwidth = 5)
+      gp <- gp + geom_freqpoly(data = app_env$d6@tab, colour = "black", binwidth = 5)
     }
     if ('7' %in% input$testsaveops) {
-      gp <- gp + geom_freqpoly(data = readRDS(here(paste0("temp/7.R")))@tab, colour = "grey", binwidth = 5)
+      gp <- gp + geom_freqpoly(data = app_env$d7@tab, colour = "grey", binwidth = 5)
     }
     if ('8' %in% input$testsaveops) {
-      gp <- gp + geom_freqpoly(data = readRDS(here(paste0("temp/8.R")))@tab, colour = "pink", binwidth = 5)
+      gp <- gp + geom_freqpoly(data = app_env$d8@tab, colour = "pink", binwidth = 5)
     }
     if ('9' %in% input$testsaveops) {
-      gp <- gp + geom_freqpoly(data = readRDS(here(paste0("temp/9.R")))@tab, colour = "brown", binwidth = 5)
+      gp <- gp + geom_freqpoly(data = app_env$d9@tab, colour = "brown", binwidth = 5)
     }
     if ('10' %in% input$testsaveops) {
-      gp <- gp + geom_freqpoly(data = readRDS(here(paste0("temp/10.R")))@tab, colour = "yellow", binwidth = 5)
+      gp <- gp + geom_freqpoly(data = app_env$d10@tab, colour = "yellow", binwidth = 5)
     }
     gp
     ggplotly()
@@ -1111,54 +1119,54 @@ server <- function(input, output, session){
   output$sim_compare_table <- renderTable({
     rtable <- tibble("Type" = "a", "Kernel" = "b", "Category" = "d", "Lifestage" = "e", "Dims" = 0, "Colour" = "f", .rows = 0)
     if ('1' %in% input$testsaveops) {
-      temp <- readRDS(here(paste0("temp/1.R")))
+      temp <- app_env$d1
       rtable <- rtable %>% add_row("Type" = temp@simtype, "Kernel" = temp@kerneltype, "Category" = temp@category,
-                                   "Lifestage" = temp@lifestage, "Dims" = temp@dims, "Colour" = "blue")
+                                   "Lifestage" = temp@lifestage, "Dims" = temp@simdims, "Colour" = "blue")
     }
     if ('2' %in% input$testsaveops) {
-      temp <- readRDS(here(paste0("temp/2.R")))
+      temp <- app_env$d2
       rtable <- rtable %>% add_row("Type" = temp@simtype, "Kernel" = temp@kerneltype, "Category" = temp@category,
-                                   "Lifestage" = temp@lifestage, "Dims" = temp@dims, "Colour" = "red")
+                                   "Lifestage" = temp@lifestage, "Dims" = temp@simdims, "Colour" = "red")
     }
     if ('3' %in% input$testsaveops) {
-      temp <- readRDS(here(paste0("temp/3.R")))
+      temp <- app_env$d3
       rtable <- rtable %>% add_row("Type" = temp@simtype, "Kernel" = temp@kerneltype, "Category" = temp@category,
-                                   "Lifestage" = temp@lifestage, "Dims" = temp@dims, "Colour" = "orange")
+                                   "Lifestage" = temp@lifestage, "Dims" = temp@simdims, "Colour" = "orange")
     }
     if ('4' %in% input$testsaveops) {
-      temp <- readRDS(here(paste0("temp/4.R")))
+      temp <- app_env$d4
       rtable <- rtable %>% add_row("Type" = temp@simtype, "Kernel" = temp@kerneltype, "Category" = temp@category,
-                                   "Lifestage" = temp@lifestage, "Dims" = temp@dims, "Colour" = "green")
+                                   "Lifestage" = temp@lifestage, "Dims" = temp@simdims, "Colour" = "green")
     }
     if ('5' %in% input$testsaveops) {
-      temp <- readRDS(here(paste0("temp/5.R")))
+      temp <- app_env$d5
       rtable <- rtable %>% add_row("Type" = temp@simtype, "Kernel" = temp@kerneltype, "Category" = temp@category,
-                                   "Lifestage" = temp@lifestage, "Dims" = temp@dims, "Colour" = "purple")
+                                   "Lifestage" = temp@lifestage, "Dims" = temp@simdims, "Colour" = "purple")
     }
     if ('6' %in% input$testsaveops) {
-      temp <- readRDS(here(paste0("temp/6.R")))
+      temp <- app_env$d6
       rtable <- rtable %>% add_row("Type" = temp@simtype, "Kernel" = temp@kerneltype, "Category" = temp@category,
-                                   "Lifestage" = temp@lifestage, "Dims" = temp@dims, "Colour" = "black")
+                                   "Lifestage" = temp@lifestage, "Dims" = temp@simdims, "Colour" = "black")
     }
     if ('7' %in% input$testsaveops) {
-      temp <- readRDS(here(paste0("temp/7.R")))
+      temp <- app_env$d7
       rtable <- rtable %>% add_row("Type" = temp@simtype, "Kernel" = temp@kerneltype, "Category" = temp@category,
-                                   "Lifestage" = temp@lifestage, "Dims" = temp@dims, "Colour" = "grey")
+                                   "Lifestage" = temp@lifestage, "Dims" = temp@simdims, "Colour" = "grey")
     }
     if ('8' %in% input$testsaveops) {
-      temp <- readRDS(here(paste0("temp/8.R")))
+      temp <- app_env$d8
       rtable <- rtable %>% add_row("Type" = temp@simtype, "Kernel" = temp@kerneltype, "Category" = temp@category,
-                                   "Lifestage" = temp@lifestage, "Dims" = temp@dims, "Colour" = "pink")
+                                   "Lifestage" = temp@lifestage, "Dims" = temp@simdims, "Colour" = "pink")
     }
     if ('9' %in% input$testsaveops) {
-      temp <- readRDS(here(paste0("temp/9.R")))
+      temp <- app_env$d9
       rtable <- rtable %>% add_row("Type" = temp@simtype, "Kernel" = temp@kerneltype, "Category" = temp@category,
-                                   "Lifestage" = temp@lifestage, "Dims" = temp@dims, "Colour" = "brown")
+                                   "Lifestage" = temp@lifestage, "Dims" = temp@simdims, "Colour" = "brown")
     }
     if ('10' %in% input$testsaveops) {
-      temp <- readRDS(here(paste0("temp/10.R")))
+      temp <- app_env$d10
       rtable <- rtable %>% add_row("Type" = temp@simtype, "Kernel" = temp@kerneltype, "Category" = temp@category,
-                                   "Lifestage" = temp@lifestage, "Dims" = temp@dims, "Colour" = "yellow")
+                                   "Lifestage" = temp@lifestage, "Dims" = temp@simdims, "Colour" = "yellow")
     }
     rtable
   })
@@ -1217,8 +1225,7 @@ server <- function(input, output, session){
 
   samp_loaded_kindata <- eventReactive(input$samp_retrieveclick, {
     if (input$samp_distribution_select == "samp_stored") {
-      if (! file.exists(here(paste0("temp/",input$samp_retrieve_choice, ".R")))) {return(NULL)}
-      return(readRDS(here(paste0("temp/", input$samp_retrieve_choice, ".R"))))
+      return(app_env[[paste0("d", input$samp_retrieve_choice)]])
     }
   })
 
@@ -1235,7 +1242,7 @@ server <- function(input, output, session){
     if (! is.null(samp_loaded_kindata())) {
       temp <- samp_loaded_kindata()
       rtable <- rtable %>% add_row("Type" = temp@simtype, "Kernel" = temp@kerneltype, "Category" = temp@category,
-                                   "Lifestage" = temp@lifestage, "Dims" = temp@dims)
+                                   "Lifestage" = temp@lifestage, "Dims" = temp@simdims)
     }
   })
 
@@ -1254,7 +1261,7 @@ server <- function(input, output, session){
 
   samp_store <- observeEvent(input$samp_storeclick, {
     saveval <- samp_kindata()
-    saveRDS(saveval, file = here(paste0("temp/", input$samp_saveops, ".R")))
+    env_poke(app_env, paste0("d", input$samp_saveops), saveval)
   })
 
   unbiased_kernel <- reactive({
@@ -1305,8 +1312,7 @@ server <- function(input, output, session){
 
   est_smp_loaded <- eventReactive(input$est_smp_retrieveclick, {
     if (input$est_smp_source == "stored") {
-      if (! file.exists(here(paste0("temp/",input$est_smp_retrieve_choice, ".R")))) {return(NULL)}
-      return(readRDS(here(paste0("temp/", input$est_smp_retrieve_choice, ".R"))))
+      return(app_env[[paste0("d", input$est_smp_retrieve_choice)]])
     }
   })
 
@@ -1325,7 +1331,8 @@ server <- function(input, output, session){
       dataset <- est_smp_loaded()@tab$distance
     }
     else if (input$est_smp_source == "filedata"){
-      dataset <- esti_data1()$distance
+      NULL
+      #dataset <- esti_data1()$distance
     }
 
     composite <- as.integer(input$est_smp_mode)
@@ -1351,56 +1358,25 @@ server <- function(input, output, session){
   })
 
 
-  esti_data1 <- reactive({
-    inFile <- input$esti_file1
-
-    if (is.null(inFile)) {
-      return(NULL)
-    }
-
-    read.csv(inFile$datapath)
-  })
-
-  esti_kindata_stats1 <- reactive({
-
-    if (is.null(esti_data1())) {
-      return(NULL)
-    }
-
-    kernel <- axials(esti_data1()$distance, 1)
-    number <- nrow(esti_data1())
-    return(tibble(`Raw Kernel` = kernel, `N` = number))
-  })
-
-
-  output$esti_stats1 <- renderTable({
-
-    esti_kindata_stats1()
-  })
-
-  output$esti_contents <- renderTable({
-    esti_data1()[1:10,]
-  })
-
   ##### b. standard #####
 
   est_std_ci <- eventReactive(
     input$est_std_run,
     {
-      avect <- readRDS(here(paste0("temp/", input$est_std_retrieve_choice_lrg, ".R")))@tab$distance
+      avect <- app_env[[paste0("d", input$est_std_retrieve_choice_lrg)]]@tab$distance
       acat <- input$est_std_rcl_category
       amix <- input$est_std_rclmix
       amixcat <- input$est_std_rcl_category2
       acomp <- input$est_std_rclcomp
-      acompvect <- readRDS(here(paste0("temp/", input$est_std_retrieve_choice_lrg2, ".R")))@tab$distance
+      acompvect <- app_env[[paste0("d", input$est_std_retrieve_choice_lrg2)]]@tab$distance
       acompcat <- input$est_std_rcl2_category
 
-      bvect <- readRDS(here(paste0("temp/", input$est_std_retrieve_choice_sml, ".R")))@tab$distance
+      bvect <- app_env[[paste0("d", input$est_std_retrieve_choice_sml)]]@tab$distance
       bcat <- input$est_std_rcs_category
       bmix <- input$est_std_rcsmix
       bmixcat <- input$est_std_rcs_category2
       bcomp <- input$est_std_rcscomp
-      bcompvect <- readRDS(here(paste0("temp/", input$est_std_retrieve_choice_sml2, ".R")))@tab$distance
+      bcompvect <- app_env[[paste0("d", input$est_std_retrieve_choice_sml2)]]@tab$distance
       bcompcat <- input$est_std_rcs2_category
 
       nreps <- input$est_std_bootstraps
@@ -1432,21 +1408,21 @@ server <- function(input, output, session){
     input$top_data_update,
     {
       rtable <- tibble("Slot" = "a", "Type" = "a", "Kernel" = "b", "Category" = "d", "Lifestage" = "e", "Dims" = 0, "Count" = 0, .rows = 0)
-      temp <- readRDS(here(paste0("temp/1.R")))
+      temp <- app_env$d1
       rtable <- rtable %>% add_row("Slot" = "1", "Type" = temp@simtype, "Kernel" = temp@kerneltype, "Category" = temp@category,
-                                   "Lifestage" = temp@lifestage, "Dims" = temp@dims, "Count" = nrow(temp@tab))
-      temp <- readRDS(here(paste0("temp/2.R")))
+                                   "Lifestage" = temp@lifestage, "Dims" = temp@simdims, "Count" = nrow(temp@tab))
+      temp <- app_env$d2
       rtable <- rtable %>% add_row("Slot" = "2", "Type" = temp@simtype, "Kernel" = temp@kerneltype, "Category" = temp@category,
-                                   "Lifestage" = temp@lifestage, "Dims" = temp@dims, "Count" = nrow(temp@tab))
-      temp <- readRDS(here(paste0("temp/3.R")))
+                                   "Lifestage" = temp@lifestage, "Dims" = temp@simdims, "Count" = nrow(temp@tab))
+      temp <- app_env$d3
       rtable <- rtable %>% add_row("Slot" = "3", "Type" = temp@simtype, "Kernel" = temp@kerneltype, "Category" = temp@category,
-                                   "Lifestage" = temp@lifestage, "Dims" = temp@dims, "Count" = nrow(temp@tab))
-      temp <- readRDS(here(paste0("temp/4.R")))
+                                   "Lifestage" = temp@lifestage, "Dims" = temp@simdims, "Count" = nrow(temp@tab))
+      temp <- app_env$d4
       rtable <- rtable %>% add_row("Slot" = "4", "Type" = temp@simtype, "Kernel" = temp@kerneltype, "Category" = temp@category,
-                                   "Lifestage" = temp@lifestage, "Dims" = temp@dims, "Count" = nrow(temp@tab))
-      temp <- readRDS(here(paste0("temp/5.R")))
+                                   "Lifestage" = temp@lifestage, "Dims" = temp@simdims, "Count" = nrow(temp@tab))
+      temp <- app_env$d5
       rtable <- rtable %>% add_row("Slot" = "5", "Type" = temp@simtype, "Kernel" = temp@kerneltype, "Category" = temp@category,
-                                   "Lifestage" = temp@lifestage, "Dims" = temp@dims, "Count" = nrow(temp@tab))
+                                   "Lifestage" = temp@lifestage, "Dims" = temp@simdims, "Count" = nrow(temp@tab))
 
       return(rtable)
     })
@@ -1456,19 +1432,19 @@ server <- function(input, output, session){
   })
   #temp <- readRDS(here(paste0("temp/6.R")))
   #rtable <- rtable %>% add_row("Number" = 6, "Type" = temp@simtype, "Kernel" = temp@kerneltype, "Category" = temp@category,
-  #                             "Lifestage" = temp@lifestage, "Dims" = temp@dims)
+  #                             "Lifestage" = temp@lifestage, "Dims" = temp@simdims)
   #temp <- readRDS(here(paste0("temp/7.R")))
   #rtable <- rtable %>% add_row("Number" = 7, "Type" = temp@simtype, "Kernel" = temp@kerneltype, "Category" = temp@category,
-  #                             "Lifestage" = temp@lifestage, "Dims" = temp@dims,)
+  #                             "Lifestage" = temp@lifestage, "Dims" = temp@simdims,)
   #temp <- readRDS(here(paste0("temp/8.R")))
   #rtable <- rtable %>% add_row("Number" = 8, "Type" = temp@simtype, "Kernel" = temp@kerneltype, "Category" = temp@category,
-  #                             "Lifestage" = temp@lifestage, "Dims" = temp@dims)
+  #                             "Lifestage" = temp@lifestage, "Dims" = temp@simdims)
   #temp <- readRDS(here(paste0("temp/9.R")))
   #rtable <- rtable %>% add_row("Number" = 9, "Type" = temp@simtype, "Kernel" = temp@kerneltype, "Category" = temp@category,
-  #                             "Lifestage" = temp@lifestage, "Dims" = temp@dims)
+  #                             "Lifestage" = temp@lifestage, "Dims" = temp@simdims)
   #temp <- readRDS(here(paste0("temp/10.R")))
   #rtable <- rtable %>% add_row("Number" = 10, "Type" = temp@simtype, "Kernel" = temp@kerneltype, "Category" = temp@category,
-  #                             "Lifestage" = temp@lifestage, "Dims" = temp@dims)
+  #                             "Lifestage" = temp@lifestage, "Dims" = temp@simdims)
   #
   #  rtable
   #})
@@ -1493,7 +1469,6 @@ server <- function(input, output, session){
 #'
 #'
 #' @export
-#' @importFrom utils read.csv
 #'
 run_kindisperse <- function(){
   shinyApp(ui = ui, server = server)

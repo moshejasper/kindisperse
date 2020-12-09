@@ -1,7 +1,7 @@
 
 #' Convert dataframe or tibble to KinPairData class
 #'
-#' @param df data.frame or tibble of kin distances - can contain $distance (kin distances), $category (kin cats) & $lifestage columns
+#' @param data data.frame or tibble of kin distances - can contain $distance (kin distances), $category (kin cats) & $lifestage columns
 #' @param category character. kin category to assign or extract from data. one of PO, FS, HS, AV, GG, HAV, GGG, 1C, 1C1, 2C, GAV, HGAV, H1C , H1C1 or H2C
 #' @param lifestage character. lifestage to assign or extract from data. one of 'unknown', 'larva' or 'oviposition'.
 #'
@@ -9,7 +9,8 @@
 #' @export
 #'
 #' @examples
-#' mydata <- tibble(distance = 1:10, lifestage = "larva", category = c("FS", "FS", "FS", "FS", "FS", "FS", "HS", "HS", "HS", "HS"))
+#' mydata <- tibble::tibble(distance = 1:10, lifestage = "larva",
+#'  category = c("FS", "FS", "FS", "FS", "FS", "FS", "HS", "HS", "HS", "HS"))
 #' df_to_kinpair(mydata, category = "FS")
 df_to_kinpair <- function(data, category = NULL, lifestage = NULL){
   tib <- as_tibble(data)

@@ -15,7 +15,7 @@
 #' @importFrom methods new setMethod validObject setGeneric setValidity is initialize show
 #' @importFrom plotly ggplotly plotlyOutput renderPlotly
 #' @importFrom readr read_rds write_rds
-#' @importFrom rlang .data
+#' @importFrom rlang .data env env_poke
 #' @importFrom shiny column conditionalPanel fluidPage fluidRow mainPanel navbarPage sidebarLayout sidebarPanel tabPanel titlePanel shinyApp
 #' @importFrom shiny actionButton checkboxGroupInput checkboxInput fileInput numericInput radioButtons selectInput sliderInput
 #' @importFrom shiny eventReactive observeEvent reactive updateNumericInput
