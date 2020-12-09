@@ -32,7 +32,7 @@ simulate_kindist_composite(
 
 \item{method}{(character) - kernel shape to use: either 'Gaussian' or 'Laplace'}
 
-\item{category}{(character)- kin category to simulate: one of PO, FS, HS, AV, GG, HAV, GGG, 1C, 1C1, 2C, GAV, HGAV, H1C or H2C}
+\item{category}{(character)- kin category to simulate: one of PO, FS, HS, AV, GG, HAV, GGG, 1C, 1C1, 2C, GAV, HGAV, H1C H1C1 or H2C}
 
 \item{lifestage}{(lifestage) lifestage at sample collection: either 'larva' or 'oviposition'}
 

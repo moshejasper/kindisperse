@@ -7,7 +7,7 @@
 #' @param ovisigma   (numeric) -   size of oviposition (axial) sigma
 #' @param dims    (numeric) -   length of sides of (square) simulated site area
 #' @param method  (character) - kernel shape to use: either 'Gaussian' or 'Laplace'
-#' @param category (character)- kin category to simulate: one of PO, FS, HS, AV, GG, HAV, GGG, 1C, 1C1, 2C, GAV, HGAV, H1C or H2C
+#' @param category (character)- kin category to simulate: one of PO, FS, HS, AV, GG, HAV, GGG, 1C, 1C1, 2C, GAV, HGAV, H1C H1C1 or H2C
 #' @param lifestage (lifestage) lifestage at sample collection: either 'larva' or 'oviposition'
 #' @param shape   NULL - placeholder for future kernels
 #'

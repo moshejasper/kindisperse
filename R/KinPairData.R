@@ -181,20 +181,20 @@ setMethod(
 #' @describeIn KinPairData initialize method
 setMethod("initialize", "KinPairData",
           function(.Object,
-          data,
-          category,
-          lifestage,
+          data = NULL,
+          category = NULL,
+          lifestage = NULL,
           ...){
 
-  if (! missing(category)){
+  if (! is.null(category)){
     .Object@category <- category
   }
   else {.Object@category <- "UN"}
-  if (! missing(lifestage)){
+  if (! is.null(lifestage)){
     .Object@lifestage <- lifestage
   }
   else {.Object@lifestage <- "unknown"}
-  if (! missing(data)){
+  if (! is.null(data)){
     if (is.data.frame(data) & ! is_tibble(data)){
       data <- as_tibble(data)
     }
@@ -238,6 +238,21 @@ setMethod("initialize", "KinPairData",
          )
 }
 )
+
+#' Make new KinPairData object
+#'
+#' @param data tlb_df. Tibble of kinpair distances
+#' @param category character. - one of PO, FS, HS, AV, HAV, GG, 1C, H1C, GAV, HGAV, 1C1, H1C1, GGG, 2C, and H2C.
+#' @param lifestage character. - one of 'unknown', 'larva' or 'oviposition'
+#'
+#' @return returns an object of class \code{KinPairData}
+#' @export
+#'
+#' @examples
+#' KinPairData()
+KinPairData <- function(data = NULL, category = NULL, lifestage = NULL){
+  new("KinPairData", data = data, category = category, lifestage = lifestage)
+}
 
 
 setValidity("KinPairData", function(object){

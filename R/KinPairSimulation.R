@@ -21,7 +21,7 @@ methods::setOldClass(c("tbl_df", "tbl", "data.frame"))
 #' @slot samplenum numeric.   - FILTER: sample number used
 #' @slot sampledims numeric.  - FILTER: dimensions used
 #'
-#' @return Returns an object of class 'KinPairSimulation'
+#'
 #' @export
 #'
 KinPairSimulation <- setClass("KinPairSimulation",
@@ -608,6 +608,69 @@ setMethod("initialize", "KinPairSimulation",
             return(.Object)
           })
 
+#'
+#'
+#' @param data tbl_df. tibble  of simulation values
+#' @param category character - one of PO, FS, HS, AV, HAV, GG, 1C, H1C, GAV, HGAV, 1C1, H1C1, GGG, 2C, and H2C.
+#' @param lifestage character - one of 'unknown', 'larva' or 'oviposition'
+#' @param simtype character - simulation type
+#' @param kerneltype character. - 'Gaussian' or 'Laplace'
+#' @param dsigma numeric - overall value of dispersal sigma (for simple kernel)
+#' @param juvsigma numeric.    - value of pre-breeding dispersal sigma (for composite kernel)
+#' @param breedsigma numeric.    - value of breeding dispersal sigma (for composite kernel)
+#' @param gravsigma numeric.    - value of post-breeding dispersal sigma (for composite kernel)
+#' @param ovisigma numeric.    - value of oviposition dispersal sigma (for composite kernel)
+#' @param simdims numeric. - dimensions of sampling area (assumes one side of square)
+#' @param call call. Call to create object
+#' @param filtertype character. whether the initial sim has been further filtered
+#' @param upper numeric.       - FILTER: upper threshold used
+#' @param lower numeric.       - FILTER: lower threshold used
+#' @param spacing numeric.       - FILTER: spacing used
+#' @param samplenum numeric.       - FILTER: sample number used
+#' @param sampledims numeric.       - FILTER: sample dimensions used
+#'
+#' @return returns an object of class \code{KinPairSimulation}.
+#' @export
+#'
+#' @examples
+#' KinPairSimulation()
+KinPairSimulation <- function(data = NULL,
+                              category = NULL,
+                              lifestage = NULL,
+                              simtype = NULL,
+                              kerneltype = NULL,
+                              dsigma = NULL,
+                              juvsigma = NULL,
+                              breedsigma = NULL,
+                              gravsigma = NULL,
+                              ovisigma = NULL,
+                              simdims = NULL,
+                              call = NULL,
+                              filtertype = NULL,
+                              upper = NULL,
+                              lower = NULL,
+                              spacing = NULL,
+                              samplenum = NULL,
+                              sampledims = NULL){
+  new("KinPairSimulation", data = data,
+      category = category,
+      lifestage = lifestage,
+      simtype = simtype,
+      kerneltype = kerneltype,
+      dsigma = dsigma,
+      juvsigma = juvsigma,
+      breedsigma = breedsigma,
+      gravsigma = gravsigma,
+      ovisigma = ovisigma,
+      simdims = simdims,
+      call = call,
+      filtertype = filtertype,
+      upper = upper,
+      lower = lower,
+      spacing = spacing,
+      samplenum = samplenum,
+      sampledims = sampledims)
+}
 
 #' Check if object is of class KinPairSimulation
 #'
