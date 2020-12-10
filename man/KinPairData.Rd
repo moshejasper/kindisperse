@@ -4,14 +4,14 @@
 \alias{KinPairData}
 \title{Formal class "KinPairData"}
 \usage{
-KinPairData(data = NULL, category = NULL, lifestage = NULL)
+KinPairData(data = NULL, kinship = NULL, lifestage = NULL)
 
-KinPairData(data = NULL, category = NULL, lifestage = NULL)
+KinPairData(data = NULL, kinship = NULL, lifestage = NULL)
 }
 \arguments{
 \item{data}{tlb_df. Tibble of kinpair distances}
 
-\item{category}{character. - one of PO, FS, HS, AV, HAV, GG, 1C, H1C, GAV, HGAV, 1C1, H1C1, GGG, 2C, and H2C.}
+\item{kinship}{character. - one of PO, FS, HS, AV, HAV, GG, 1C, H1C, GAV, HGAV, 1C1, H1C1, GGG, 2C, and H2C.}
 
 \item{lifestage}{character. - one of 'unknown', 'larva' or 'oviposition'}
 }
@@ -26,7 +26,7 @@ The class \code{KinPairData} is a formal (S4) class for storing kinship and life
 \section{Slots}{
 
 \describe{
-\item{\code{category}}{character.}
+\item{\code{kinship}}{character.}
 
 \item{\code{lifestage}}{character.}
 

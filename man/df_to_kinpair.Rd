@@ -4,12 +4,12 @@
 \alias{df_to_kinpair}
 \title{Convert dataframe or tibble to KinPairData class}
 \usage{
-df_to_kinpair(data, category = NULL, lifestage = NULL)
+df_to_kinpair(data, kinship = NULL, lifestage = NULL)
 }
 \arguments{
-\item{data}{data.frame or tibble of kin distances - can contain $distance (kin distances), $category (kin cats) & $lifestage columns}
+\item{data}{data.frame or tibble of kin distances - can contain $distance (kin distances), $kinship (kin cats) & $lifestage columns}
 
-\item{category}{character. kin category to assign or extract from data. one of PO, FS, HS, AV, GG, HAV, GGG, 1C, 1C1, 2C, GAV, HGAV, H1C , H1C1 or H2C}
+\item{kinship}{character. kin category to assign or extract from data. one of PO, FS, HS, AV, GG, HAV, GGG, 1C, 1C1, 2C, GAV, HGAV, H1C , H1C1 or H2C}
 
 \item{lifestage}{character. lifestage to assign or extract from data. one of 'unknown', 'larva' or 'oviposition'.}
 }
@@ -21,6 +21,6 @@ Convert dataframe or tibble to KinPairData class
 }
 \examples{
 mydata <- tibble::tibble(distance = 1:10, lifestage = "larva",
- category = c("FS", "FS", "FS", "FS", "FS", "FS", "HS", "HS", "HS", "HS"))
-df_to_kinpair(mydata, category = "FS")
+ kinship = c("FS", "FS", "FS", "FS", "FS", "FS", "HS", "HS", "HS", "HS"))
+df_to_kinpair(mydata, kinship = "FS")
 }

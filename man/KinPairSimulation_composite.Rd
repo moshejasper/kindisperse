@@ -6,7 +6,7 @@
 \usage{
 KinPairSimulation_composite(
   data = NULL,
-  category = NULL,
+  kinship = NULL,
   kerneltype = NULL,
   juvsigma = NULL,
   breedsigma = NULL,
@@ -18,9 +18,9 @@ KinPairSimulation_composite(
 )
 }
 \arguments{
-\item{data}{tibble of pairwise kin classes & distances. Ideally contains fields id1 & id2 (chr) an distance (dbl) optionally includes coords (x1, y1, x2, y2), lifestage (ls1 & ls2), category (chr) and sims (dbl)}
+\item{data}{tibble of pairwise kin classes & distances. Ideally contains fields id1 & id2 (chr) an distance (dbl) optionally includes coords (x1, y1, x2, y2), lifestage (ls1 & ls2), kinship (chr) and sims (dbl)}
 
-\item{category}{character. Code for kinship category of simulation. one of PO, FS, HS, AV, GG, HAV, GGG, 1C, 1C1, 2C, GAV, HGAV, H1C or H2C}
+\item{kinship}{character. Code for kinship category of simulation. one of PO, FS, HS, AV, GG, HAV, GGG, 1C, 1C1, 2C, GAV, HGAV, H1C or H2C}
 
 \item{kerneltype}{character. Statistical model for simulated dispersal kernel. Currently either "Gaussian" or "Laplace".}
 
@@ -46,7 +46,7 @@ Constructor for KinPairSimulation Class (composite)
 }
 \examples{
 kindata <- tibble::tibble(id1 = c("a", "b", "c"), id2 = c("x", "y", "z"),
-                distance = c(50, 45, 65), category = c("1C", "1C", "1C"))
-KinPairSimulation_composite(kindata, category = "1C", kerneltype = "Gaussian",
+                distance = c(50, 45, 65), kinship = c("1C", "1C", "1C"))
+KinPairSimulation_composite(kindata, kinship = "1C", kerneltype = "Gaussian",
     juvsigma = 15, breedsigma = 25, gravsigma = 20, ovisigma = 10, lifestage = "larva")
 }

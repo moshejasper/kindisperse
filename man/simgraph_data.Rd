@@ -8,7 +8,7 @@ simgraph_data(
   nsims = 10,
   dsigma = 50,
   dims = 250,
-  category = "2C",
+  kinship = "2C",
   centred = FALSE,
   pinwheel = FALSE,
   scattered = FALSE
@@ -21,7 +21,7 @@ simgraph_data(
 
 \item{dims}{Integer. Lays out the length of the sides of a square within which parent individuals are seeded.}
 
-\item{category}{Character. Lists the kin category the simulation is reconstructing. One of "PO", "FS", "HS", "AV", "GG", "HAV", "GGG", "1C", "1C1", "2C", "GAV" (no half-categoris included)}
+\item{kinship}{Character. Lists the kin category the simulation is reconstructing. One of "PO", "FS", "HS", "AV", "GG", "HAV", "GGG", "1C", "1C1", "2C", "GAV" (no half-categoris included)}
 
 \item{centred}{Logical. Whether all parents are treated as originating in the same point (for pinwheel, scatter graphs, etc.)}
 
@@ -36,5 +36,5 @@ Returns a tibble containing the coordinates of the f0 to f2 generations, as well
 Simple kin dispersal simulation for graphical display. (returns the data side as a tibble).
 }
 \examples{
-simgraph_data(nsims = 100, dims = 1000, category = "GAV", centred = TRUE)
+simgraph_data(nsims = 100, dims = 1000, kinship = "GAV", centred = TRUE)
 }

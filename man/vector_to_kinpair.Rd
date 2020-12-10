@@ -4,12 +4,12 @@
 \alias{vector_to_kinpair}
 \title{Convert vector of kin separation distances to KinPairData class}
 \usage{
-vector_to_kinpair(vect, category = NULL, lifestage = NULL)
+vector_to_kinpair(vect, kinship = NULL, lifestage = NULL)
 }
 \arguments{
 \item{vect}{vector of kinpair distances}
 
-\item{category}{character or character vector containing kinship categories of kinpairs}
+\item{kinship}{character or character vector containing kinship categories of kinpairs}
 
 \item{lifestage}{character or character vector containing lifestages of kinpairs}
 }

@@ -9,7 +9,7 @@ simulate_kindist_simple(
   sigma = 125,
   dims = 100,
   method = "Gaussian",
-  category = "PO",
+  kinship = "PO",
   lifestage = "larva",
   shape = 2
 )
@@ -23,7 +23,7 @@ simulate_kindist_simple(
 
 \item{method}{(character) - kernel shape to use: either 'Gaussian' or 'Laplace'}
 
-\item{category}{(character)- kin category to simulate: one of PO, FS, HS, AV, GG, HAV, GGG, 1C, 1C1, 2C, GAV, HGAV, H1C or H2C}
+\item{kinship}{(character)- kin category to simulate: one of PO, FS, HS, AV, GG, HAV, GGG, 1C, 1C1, 2C, GAV, HGAV, H1C or H2C}
 
 \item{lifestage}{(lifestage) lifestage at sample collection: either 'larva' or 'oviposition'}
 
@@ -38,5 +38,5 @@ Simulate kin dispersal distance pairs with simple sigma
 }
 \examples{
 test <- simulate_kindist_simple(nsims = 10, sigma = 50, dims = 1000, method = "Laplace")
-simulate_kindist_simple(nsims = 10000, sigma = 75, category = "PO", lifestage = "oviposition")
+simulate_kindist_simple(nsims = 10000, sigma = 75, kinship = "PO", lifestage = "oviposition")
 }

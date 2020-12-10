@@ -3,7 +3,7 @@ methods::setOldClass(c("tbl_df", "tbl", "data.frame"))
 #' Formal class "KinPairData"
 #'
 #' @description The class \code{KinPairData} is a formal (S4) class for storing kinship and lifespan dispersal information concerning kin pairs.
-#' @slot category character.
+#' @slot kinship character.
 #' @slot lifestage character.
 #' @slot tab tbl_df.
 #' @return
@@ -11,7 +11,7 @@ methods::setOldClass(c("tbl_df", "tbl", "data.frame"))
 #'
 #'
 KinPairData <- setClass("KinPairData",
-                        slots = list(category = "character", lifestage = "character", tab = "tbl_df"))
+                        slots = list(kinship = "character", lifestage = "character", tab = "tbl_df"))
 
 
 ######### GENERICS and METHODS#############
@@ -43,9 +43,9 @@ setMethod("to_tibble", "KinPairData", function(x) x@tab)
 #' @return \code{character}. Kinship category of object
 #' @export
 #'
-setGeneric("category", function(x) standardGeneric("category"))
+setGeneric("kinship", function(x) standardGeneric("kinship"))
 #'
-#' @rdname category
+#' @rdname kinship
 #' @param x object with relevant method
 #' @param value new value to assign
 #'
@@ -53,7 +53,7 @@ setGeneric("category", function(x) standardGeneric("category"))
 #' @export
 #'
 #'
-setGeneric("category<-", function(x, value) standardGeneric("category<-"))
+setGeneric("kinship<-", function(x, value) standardGeneric("kinship<-"))
 #' Access or assign lifestage (generic for KinPairData class)
 #'
 #' @param x object with relevant method
@@ -105,7 +105,7 @@ setMethod("distances", "KinPairData", function(x) x@tab$distance)
 #' @export
 #'
 #' @describeIn KinPairData access kin category
-setMethod("category", "KinPairData", function(x) x@category)
+setMethod("kinship", "KinPairData", function(x) x@kinship)
 
 #'
 #'
@@ -115,8 +115,8 @@ setMethod("category", "KinPairData", function(x) x@category)
 #' @export
 #'
 #' @describeIn KinPairData assign kin category
-setMethod("category<-", "KinPairData", function(x, value){
-  x@category <- value
+setMethod("kinship<-", "KinPairData", function(x, value){
+  x@kinship <- value
   validObject(x)
   x
 })
@@ -161,7 +161,7 @@ setMethod(
   function(object){
     cat("KINDISPERSE RECORD OF KIN PAIRS\n")
     cat("-------------------------------\n")
-    cat('category:\t\t', object@category, '\n')
+    cat('kinship:\t\t', object@kinship, '\n')
     cat('lifestage:\t\t', object@lifestage, '\n\n')
     cat('tab\n')
     print(object@tab)
@@ -182,14 +182,14 @@ setMethod(
 setMethod("initialize", "KinPairData",
           function(.Object,
           data = NULL,
-          category = NULL,
+          kinship = NULL,
           lifestage = NULL,
           ...){
 
-  if (! is.null(category)){
-    .Object@category <- category
+  if (! is.null(kinship)){
+    .Object@kinship <- kinship
   }
-  else {.Object@category <- "UN"}
+  else {.Object@kinship <- "UN"}
   if (! is.null(lifestage)){
     .Object@lifestage <- lifestage
   }
@@ -210,8 +210,8 @@ setMethod("initialize", "KinPairData",
         }
         else {data <- mutate(data, distance = sqrt((.data$x1 - .data$x2)^2 + (.data$y1 - .data$y2)^2))}
       }
-      if (! "category" %in% colnames(data)){
-        data <- mutate(data, category = .Object@category)
+      if (! "kinship" %in% colnames(data)){
+        data <- mutate(data, kinship = .Object@kinship)
       }
       if (! "id1" %in% colnames(data)){
         data <- add_column(data, id1 = paste0(1:nrow(data), "a"))
@@ -219,19 +219,19 @@ setMethod("initialize", "KinPairData",
       if (! "id2" %in% colnames(data)){
         data <- add_column(data, id2 = paste0(1:nrow(data), "b"))
       }
-      data <- select(data, .data$id1, .data$id2, .data$category, .data$distance, everything())
+      data <- select(data, .data$id1, .data$id2, .data$kinship, .data$distance, everything())
       .Object@tab <- data
     }
     else { # check if just distances included
       if (is.numeric(data)) {
         cat("Note: numeric vector interpreted as kin distances!\n")
-        data <- tibble(id1 = paste0(1:length(data), "a"), id2 = paste0(1:length(data), "b"), category = .Object@category, distance = data)
+        data <- tibble(id1 = paste0(1:length(data), "a"), id2 = paste0(1:length(data), "b"), kinship = .Object@kinship, distance = data)
         .Object@tab <- data
       }
     }
   }
   else {
-    .Object@tab <- tibble(id1 = "a", id2 = "b", category = "UN", distance = 0, .rows = 0)
+    .Object@tab <- tibble(id1 = "a", id2 = "b", kinship = "UN", distance = 0, .rows = 0)
   }
   validObject(.Object)
   return(.Object
@@ -242,7 +242,7 @@ setMethod("initialize", "KinPairData",
 #' Make new KinPairData object
 #'
 #' @param data tlb_df. Tibble of kinpair distances
-#' @param category character. - one of PO, FS, HS, AV, HAV, GG, 1C, H1C, GAV, HGAV, 1C1, H1C1, GGG, 2C, and H2C.
+#' @param kinship character. - one of PO, FS, HS, AV, HAV, GG, 1C, H1C, GAV, HGAV, 1C1, H1C1, GGG, 2C, and H2C.
 #' @param lifestage character. - one of 'unknown', 'larva' or 'oviposition'
 #'
 #' @return returns an object of class \code{KinPairData}
@@ -250,14 +250,14 @@ setMethod("initialize", "KinPairData",
 #'
 #' @examples
 #' KinPairData()
-KinPairData <- function(data = NULL, category = NULL, lifestage = NULL){
-  new("KinPairData", data = data, category = category, lifestage = lifestage)
+KinPairData <- function(data = NULL, kinship = NULL, lifestage = NULL){
+  new("KinPairData", data = data, kinship = kinship, lifestage = lifestage)
 }
 
 
 setValidity("KinPairData", function(object){
-  if (! object@category %in% c("UN", "PO", "GG", "GGG", "FS", "AV", "GAV", "1C", "1C1", "2C", "HS", "HAV", "HGAV", "H1C", "H1C1", "H2C")) {
-    "@category must be one of UN PO GG GGG FS AV GAV 1C 1C1 2C HS HAV HGAV H1C H1C1 H2C"
+  if (! object@kinship %in% c("UN", "PO", "GG", "GGG", "FS", "AV", "GAV", "1C", "1C1", "2C", "HS", "HAV", "HGAV", "H1C", "H1C1", "H2C")) {
+    "@kinship must be one of UN PO GG GGG FS AV GAV 1C 1C1 2C HS HAV HGAV H1C H1C1 H2C"
   }
   else if (! object@lifestage %in% c("unknown", "larva", "oviposition")){
     "@lifestage must currently be set to 'unknown', 'larva', or 'oviposition'"

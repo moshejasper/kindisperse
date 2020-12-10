@@ -3,8 +3,8 @@
 \name{to_tibble,KinPairData-method}
 \alias{to_tibble,KinPairData-method}
 \alias{distances,KinPairData-method}
-\alias{category,KinPairData-method}
-\alias{category<-,KinPairData-method}
+\alias{kinship,KinPairData-method}
+\alias{kinship<-,KinPairData-method}
 \alias{lifestage,KinPairData-method}
 \alias{lifestage<-,KinPairData-method}
 \alias{show,KinPairData-method}
@@ -15,9 +15,9 @@
 
 \S4method{distances}{KinPairData}(x)
 
-\S4method{category}{KinPairData}(x)
+\S4method{kinship}{KinPairData}(x)
 
-\S4method{category}{KinPairData}(x) <- value
+\S4method{kinship}{KinPairData}(x) <- value
 
 \S4method{lifestage}{KinPairData}(x)
 
@@ -25,7 +25,7 @@
 
 \S4method{show}{KinPairData}(object)
 
-\S4method{initialize}{KinPairData}(.Object, data = NULL, category = NULL, lifestage = NULL, ...)
+\S4method{initialize}{KinPairData}(.Object, data = NULL, kinship = NULL, lifestage = NULL, ...)
 }
 \arguments{
 \item{KinPairData}{}
@@ -56,9 +56,9 @@ Title
 
 \item \code{distances}: access distances
 
-\item \code{category}: access kin category
+\item \code{kinship}: access kin category
 
-\item \code{category<-}: assign kin category
+\item \code{kinship<-}: assign kin category
 
 \item \code{lifestage}: access lifestage
 

@@ -27,19 +27,19 @@ axials_standard <- function(avect, bvect, acat = NULL, bcat = NULL,
                             acompvect = NULL, bcompvect = NULL, acompcat = NULL, bcompcat = NULL){
 
   if (is.KinPairData(avect)){
-    if (is.null(acat)) acat <- category(avect)
+    if (is.null(acat)) acat <- kinship(avect)
     avect <- distances(avect)
   }
   if (is.KinPairData(bvect)){
-    if (is.null(bcat)) bcat <- category(bvect)
+    if (is.null(bcat)) bcat <- kinship(bvect)
     bvect <- distances(bvect)
   }
   if (is.KinPairData(acompvect)){
-    if (is.null(acompcat)) acompcat <- category(acompvect)
+    if (is.null(acompcat)) acompcat <- kinship(acompvect)
     acompvect <- distances(acompvect)
   }
   if (is.KinPairData(bcompvect)){
-    if (is.null(bcompcat)) bcompcat <- category(bcompvect)
+    if (is.null(bcompcat)) bcompcat <- kinship(bcompvect)
     bcompvect <- distances(bcompvect)
   }
   # Run tests - these check basic pairings between categories
@@ -151,19 +151,19 @@ axpermute_standard <- function(avect=NULL, bvect=NULL, acat=NULL, bcat=NULL, nre
                                acompvect = NULL, bcompvect = NULL, acompcat = NULL, bcompcat = NULL, output = "confs"){
 
   if (is.KinPairData(avect)){
-    if (is.null(acat)) acat <- category(avect)
+    if (is.null(acat)) acat <- kinship(avect)
     avect <- distances(avect)
   }
   if (is.KinPairData(bvect)){
-    if (is.null(bcat)) bcat <- category(bvect)
+    if (is.null(bcat)) bcat <- kinship(bvect)
     bvect <- distances(bvect)
   }
   if (is.KinPairData(acompvect)){
-    if (is.null(acompcat)) acompcat <- category(acompvect)
+    if (is.null(acompcat)) acompcat <- kinship(acompvect)
     acompvect <- distances(acompvect)
   }
   if (is.KinPairData(bcompvect)){
-    if (is.null(bcompcat)) bcompcat <- category(bcompvect)
+    if (is.null(bcompcat)) bcompcat <- kinship(bcompvect)
     bcompvect <- distances(bcompvect)
   }
 

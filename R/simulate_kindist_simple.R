@@ -5,7 +5,7 @@
 #' @param sigma   (numeric) -   size of simple (axial) sigma
 #' @param dims    (numeric) -   length of sides of (square) simulated site area
 #' @param method  (character) - kernel shape to use: either 'Gaussian' or 'Laplace'
-#' @param category (character)- kin category to simulate: one of PO, FS, HS, AV, GG, HAV, GGG, 1C, 1C1, 2C, GAV, HGAV, H1C or H2C
+#' @param kinship (character)- kin category to simulate: one of PO, FS, HS, AV, GG, HAV, GGG, 1C, 1C1, 2C, GAV, HGAV, H1C or H2C
 #' @param lifestage (lifestage) lifestage at sample collection: either 'larva' or 'oviposition'
 #' @param shape   NULL - placeholder for future kernels
 #'
@@ -14,9 +14,9 @@
 #' @importFrom tibble tibble
 #' @examples
 #' test <- simulate_kindist_simple(nsims = 10, sigma = 50, dims = 1000, method = "Laplace")
-#' simulate_kindist_simple(nsims = 10000, sigma = 75, category = "PO", lifestage = "oviposition")
+#' simulate_kindist_simple(nsims = 10000, sigma = 75, kinship = "PO", lifestage = "oviposition")
 simulate_kindist_simple <- function(nsims = 100, sigma = 125, dims = 100, method = "Gaussian",
-                                    category = "PO", lifestage = "larva", shape = 2){
+                                    kinship = "PO", lifestage = "larva", shape = 2){
 
 
   if (! method %in% c("Gaussian", "Laplace")) {
@@ -24,7 +24,7 @@ simulate_kindist_simple <- function(nsims = 100, sigma = 125, dims = 100, method
     stop("Invalid Method! - choose from 'Gaussian', 'Exponential', 'Gamma', 'Weibull' or 'Laplace'")
   }
 
-  if (! category %in% c("PO", "FS", "HS", "AV", "GG", "HAV", "GGG", "1C", "1C1", "2C", "GAV",
+  if (! kinship %in% c("PO", "FS", "HS", "AV", "GG", "HAV", "GGG", "1C", "1C1", "2C", "GAV",
                         "HGAV", "H1C", "H1C1", "H2C")) {
     stop("Invalid Kinship Category - choose from PO, FS, HS, AV, GG, HAV, GGG, 1C, 1C1, 2C, GAV, HGAV, H1C or H2C")
   }
@@ -124,20 +124,20 @@ simulate_kindist_simple <- function(nsims = 100, sigma = 125, dims = 100, method
   # test phase
 
 
-  if (category %in% c("PO", "GG", "GGG")) {phase <- "PO"}
-  if (category %in% c("FS", "AV", "1C", "GAV", "1C1", "2C")) { phase <- "FS"}
-  if (category %in% c("HS", "HAV", "H1C", "HGAV", "H1C1", "H2C")) {phase <- "HS"}
+  if (kinship %in% c("PO", "GG", "GGG")) {phase <- "PO"}
+  if (kinship %in% c("FS", "AV", "1C", "GAV", "1C1", "2C")) { phase <- "FS"}
+  if (kinship %in% c("HS", "HAV", "H1C", "HGAV", "H1C1", "H2C")) {phase <- "HS"}
 
   # test span1
 
-  if (category %in% c("FS", "HS", "PO", "AV", "HAV", "GG", "GAV", "GHAV", "GGG")) { span1 <- 0}
-  if (category %in% c("1C", "H1C", "1C1", "H1C1")) { span1 <- 1}
-  if (category %in% c("2C", "H2C")) { span1 <- 2}
+  if (kinship %in% c("FS", "HS", "PO", "AV", "HAV", "GG", "GAV", "GHAV", "GGG")) { span1 <- 0}
+  if (kinship %in% c("1C", "H1C", "1C1", "H1C1")) { span1 <- 1}
+  if (kinship %in% c("2C", "H2C")) { span1 <- 2}
 
-  if (category %in% c("FS", "HS")) { span2 <- 0}
-  if (category %in% c("AV", "HAV", "1C", "H1C", "PO")) { span2 <- 1}
-  if (category %in% c("GAV", "GHAV", "GG", "1C1", "H1C1", "2C", "H2C")) { span2 <- 2} # an issue with PO... probably gonna have to make a special relation class...
-  if (category %in% c("GGG")) {span2 <- 3}
+  if (kinship %in% c("FS", "HS")) { span2 <- 0}
+  if (kinship %in% c("AV", "HAV", "1C", "H1C", "PO")) { span2 <- 1}
+  if (kinship %in% c("GAV", "GHAV", "GG", "1C1", "H1C1", "2C", "H2C")) { span2 <- 2} # an issue with PO... probably gonna have to make a special relation class...
+  if (kinship %in% c("GGG")) {span2 <- 3}
 
   # resolve phased dispersal
 
@@ -184,9 +184,9 @@ simulate_kindist_simple <- function(nsims = 100, sigma = 125, dims = 100, method
   tab <- tibble(id1 = id1, id2 = id2,
                 x1 = x1, y1 = y1, x2 = x2, y2 = y2,
                 distance = distance,
-                category = category)
+                kinship = kinship)
 
-  return(KinPairSimulation_simple(data = tab, category = category, kerneltype = method,
+  return(KinPairSimulation_simple(data = tab, kinship = kinship, kerneltype = method,
                                        dsigma = sigma, simdims = dims, lifestage = lifestage,
                                        call = sys.call()))
 

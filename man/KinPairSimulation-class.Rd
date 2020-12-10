@@ -67,7 +67,7 @@
 \S4method{initialize}{KinPairSimulation}(
   .Object,
   data = NULL,
-  category = NULL,
+  kinship = NULL,
   lifestage = NULL,
   simtype = NULL,
   kerneltype = NULL,

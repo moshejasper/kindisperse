@@ -33,7 +33,7 @@ returns an object of class 'KinPairSimulation' containing simulation and filteri
 This function takes a pre-existing KinPairSimulation Object with distance and coordinate data and filters it to simulate various in-field sampling schemes.
 }
 \examples{
-simobject <- simulate_kindist_simple(nsims = 100000, sigma = 100, category = "PO")
+simobject <- simulate_kindist_simple(nsims = 100000, sigma = 100, kinship = "PO")
 
 sample_kindist(simobject, upper = 200, lower = 50, spacing = 15, n = 100)
 }
