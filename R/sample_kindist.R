@@ -16,12 +16,16 @@
 #' sample_kindist(simobject, upper = 200, lower = 50, spacing = 15, n = 100)
 sample_kindist <- function(kindist, upper = NULL, lower = NULL, spacing = NULL, n = NULL, dims = NULL){
 
+  if (! is.KinPairData(kindist)) stop("Object is not of class KinPairSimulation or KinPairData!")
+
   if (! is.null(dims)) {
+    if (! is.KinPairSimulation(kindist)) cat("Ignoring 'dims' as object is not of class KinPairSimulation\n")
+    else{
 
     # check if dimensions smaller than original dimensions!
-    simdims <- kindist@dims
+    simdims <- kindist@simdims
     if (dims > simdims) {
-      cat("Ignoring 'dims' as they are greater than original simulation dimensions")
+      cat("Ignoring 'dims' as they are greater than original simulation dimensions\n")
     }
     else {
 
@@ -39,11 +43,11 @@ sample_kindist <- function(kindist, upper = NULL, lower = NULL, spacing = NULL, 
       kindist@tab <- filter(kindist@tab, .data$x1 > xmin, .data$x1 < xmax, .data$x2 > xmin, .data$x2 < xmax,
                             .data$y1 > ymin, .data$y1 < ymax, .data$y2 > ymin, .data$y2 < ymax)
     }
-  }
+  }}
 
   if (! is.null(upper)) {
     cat(paste0("Removing distances farther than ", upper, "\n"))
-    kindist@tab <- dplyr::filter(kindist@tab, .data$distance < upper)
+    kindist@tab <- filter(kindist@tab, .data$distance < upper)
   }
 
   if (! is.null(lower)) {
@@ -72,13 +76,14 @@ sample_kindist <- function(kindist, upper = NULL, lower = NULL, spacing = NULL, 
   }
   cat(paste0(nrow(kindist@tab), " kin pairs remaining.\n"))
   cat("\n")
-  kindist@filtertype <- "filtered"
-  if (! is.null(upper)) {kindist@upper <- upper}
-  if (! is.null(lower)) {kindist@lower <- lower}
-  if (! is.null(spacing)) {kindist@spacing <- spacing}
-  if (! is.null(n)) {kindist@samplenum <- n}
-  if (! is.null(dims)) {kindist@sampledims <- dims}
-
+  if (is.KinPairSimulation(kindist)){
+    kindist@filtertype <- "filtered"
+    if (! is.null(upper)) {kindist@upper <- upper}
+    if (! is.null(lower)) {kindist@lower <- lower}
+    if (! is.null(spacing)) {kindist@spacing <- spacing}
+    if (! is.null(n)) {kindist@samplenum <- n}
+    if (! is.null(dims)) {kindist@sampledims <- dims}
+  }
   return(kindist)
 }
 
