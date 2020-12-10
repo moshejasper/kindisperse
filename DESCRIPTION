@@ -35,4 +35,5 @@ Imports:
     dplyr,
     rlang,
     tidyselect,
+    stringr
 VignetteBuilder: knitr
