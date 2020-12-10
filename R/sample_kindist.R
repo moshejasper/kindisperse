@@ -11,7 +11,7 @@
 #' @export
 #'
 #' @examples
-#' simobject <- simulate_kindist_simple(nsims = 100000, sigma = 100, category = "PO")
+#' simobject <- simulate_kindist_simple(nsims = 100000, sigma = 100, kinship = "PO")
 #'
 #' sample_kindist(simobject, upper = 200, lower = 50, spacing = 15, n = 100)
 sample_kindist <- function(kindist, upper = NULL, lower = NULL, spacing = NULL, n = NULL, dims = NULL){

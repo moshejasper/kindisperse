@@ -13,7 +13,7 @@ simgraph_graph(
   steps = TRUE,
   moves = TRUE,
   shadows = TRUE,
-  category = "2C",
+  kinship = "2C",
   show_area = TRUE,
   centred = FALSE,
   pinwheel = FALSE,
@@ -42,7 +42,7 @@ simgraph_graph(
 
 \item{shadows}{Logical. Whether or not to show (dashed) shadows tracing dispersal movement.}
 
-\item{category}{Character. Lists the kin category the simulation is reconstructing. One of "PO", "FS", "HS", "AV", "GG", "HAV", "GGG", "1C", "1C1", "2C", "GAV" (no half-categoris included)}
+\item{kinship}{Character. Lists the kin category the simulation is reconstructing. One of "PO", "FS", "HS", "AV", "GG", "HAV", "GGG", "1C", "1C1", "2C", "GAV" (no half-categoris included)}
 
 \item{show_area}{Logical. Whether or not to show the parental seed area as defined in dims.}
 

@@ -3,7 +3,7 @@
 #' @param nsims     Integer. The number of kin dispersal families to simulate.
 #' @param dsigma    Integer. The axial deviation of the (simple) parent-offspring dispersal kernel governing this simulation.
 #' @param dims      Integer. Lays out the length of the sides of a square within which parent individuals are seeded.
-#' @param category  Character. Lists the kin category the simulation is reconstructing. One of "PO", "FS", "HS", "AV", "GG", "HAV", "GGG", "1C", "1C1", "2C", "GAV" (no half-categoris included)
+#' @param kinship  Character. Lists the kin category the simulation is reconstructing. One of "PO", "FS", "HS", "AV", "GG", "HAV", "GGG", "1C", "1C1", "2C", "GAV" (no half-categoris included)
 #' @param centred   Logical. Whether all parents are treated as originating in the same point (for pinwheel, scatter graphs, etc.)
 #' @param pinwheel  Logical. Whether data is being prepared as if for a pinwheel graph.
 #' @param scattered Locigal. Whether data is being prepared as if for a scatter graph.
@@ -12,11 +12,11 @@
 #' @export
 #' @importFrom stats runif rnorm
 #' @examples
-#' simgraph_data(nsims = 100, dims = 1000, category = "GAV", centred = TRUE)
-simgraph_data <- function(nsims = 10, dsigma = 50, dims = 250, category = "2C",
+#' simgraph_data(nsims = 100, dims = 1000, kinship = "GAV", centred = TRUE)
+simgraph_data <- function(nsims = 10, dsigma = 50, dims = 250, kinship = "2C",
                           centred = FALSE, pinwheel = FALSE, scattered = FALSE){
 
-  if (! category %in% c("PO", "FS", "HS", "AV", "GG", "HAV", "GGG", "1C", "1C1", "2C", "GAV")) {
+  if (! kinship %in% c("PO", "FS", "HS", "AV", "GG", "HAV", "GGG", "1C", "1C1", "2C", "GAV")) {
     stop("Invalid Kinship Category")
   }
 
@@ -50,15 +50,15 @@ simgraph_data <- function(nsims = 10, dsigma = 50, dims = 250, category = "2C",
   f3by <- rnorm(nsims, 0, dsigma) + f2by
 
 
-  if (category == "PO"){k1x <- f0x ; k1y <- f0y ; k2x <- f1ax; k2y <- f1ay}
-  if (category == "FS" | category == "HS") {k1x <- f1ax ; k1y <- f1ay ; k2x <- f1bx; k2y <- f1by}
-  if (category == "AV" | category == "HAV") {k1x <- f2ax ; k1y <- f2ay ; k2x <- f1bx; k2y <- f1by}
-  if (category == "GG") {k1x <- f0x ; k1y <- f0y ; k2x <- f2ax; k2y <- f2ay}
-  if (category == "1C") {k1x <- f2ax ; k1y <- f2ay ; k2x <- f2bx; k2y <- f2by}
-  if (category == "GGG") {k1x <- f0x ; k1y <- f0y ; k2x <- f3ax; k2y <- f3ay}
-  if (category == "GAV") {k1x <- f3ax; k1y <- f3ay; k2x <- f1bx; k2y <- f1by}
-  if (category == "1C1") {k1x <- f3ax ; k1y <- f3ay ; k2x <- f2bx; k2y <- f2by}
-  if (category == "2C") {k1x <- f3ax ; k1y <- f3ay ; k2x <- f3bx; k2y <- f3by}
+  if (kinship == "PO"){k1x <- f0x ; k1y <- f0y ; k2x <- f1ax; k2y <- f1ay}
+  if (kinship == "FS" | kinship == "HS") {k1x <- f1ax ; k1y <- f1ay ; k2x <- f1bx; k2y <- f1by}
+  if (kinship == "AV" | kinship == "HAV") {k1x <- f2ax ; k1y <- f2ay ; k2x <- f1bx; k2y <- f1by}
+  if (kinship == "GG") {k1x <- f0x ; k1y <- f0y ; k2x <- f2ax; k2y <- f2ay}
+  if (kinship == "1C") {k1x <- f2ax ; k1y <- f2ay ; k2x <- f2bx; k2y <- f2by}
+  if (kinship == "GGG") {k1x <- f0x ; k1y <- f0y ; k2x <- f3ax; k2y <- f3ay}
+  if (kinship == "GAV") {k1x <- f3ax; k1y <- f3ay; k2x <- f1bx; k2y <- f1by}
+  if (kinship == "1C1") {k1x <- f3ax ; k1y <- f3ay ; k2x <- f2bx; k2y <- f2by}
+  if (kinship == "2C") {k1x <- f3ax ; k1y <- f3ay ; k2x <- f3bx; k2y <- f3by}
 
   if (pinwheel == TRUE | scattered == TRUE) {k1x <- k1x - k1x; k1y <- k1y - k1y; k2x <- k2x - k1x; k2y <- k2y - k1y}
   kindist <- round(sqrt((k1x - k2x)^2 + (k1y - k2y)^2), digits = 1)

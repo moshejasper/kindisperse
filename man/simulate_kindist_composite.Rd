@@ -12,7 +12,7 @@ simulate_kindist_composite(
   ovisigma = 25,
   dims = 100,
   method = "Gaussian",
-  category = "FS",
+  kinship = "FS",
   lifestage = "larva",
   shape = 2
 )
@@ -32,7 +32,7 @@ simulate_kindist_composite(
 
 \item{method}{(character) - kernel shape to use: either 'Gaussian' or 'Laplace'}
 
-\item{category}{(character)- kin category to simulate: one of PO, FS, HS, AV, GG, HAV, GGG, 1C, 1C1, 2C, GAV, HGAV, H1C H1C1 or H2C}
+\item{kinship}{(character)- kin category to simulate: one of PO, FS, HS, AV, GG, HAV, GGG, 1C, 1C1, 2C, GAV, HGAV, H1C H1C1 or H2C}
 
 \item{lifestage}{(lifestage) lifestage at sample collection: either 'larva' or 'oviposition'}
 
@@ -47,5 +47,5 @@ Simulate kin dispersal distance pairs with composite sigmas
 \examples{
 simulate_kindist_composite(nsims = 100)
 simulate_kindist_composite(nsims = 10000, juvsigma = 20, breedsigma = 30, gravsigma = 30,
-     ovisigma = 12, dims = 500, method = "Laplace", category = "1C", lifestage = "larva")
+     ovisigma = 12, dims = 500, method = "Laplace", kinship = "1C", lifestage = "larva")
 }

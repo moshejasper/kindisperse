@@ -268,7 +268,7 @@ ui <- fluidPage(
              sidebarLayout(
                sidebarPanel(
 
-                 p("Upload a .csv file with a 'category' column obeying standard conventions and a 'distance' column (numeric)"),
+                 p("Upload a .csv file with a 'kinship' column obeying standard conventions and a 'distance' column (numeric)"),
 
                  fileInput(
                    inputId = "load_file1",
@@ -931,7 +931,7 @@ server <- function(input, output, session){
   #output$dhist <- renderPlot({
   #  hist(rnorm(input$sigma))
   #  })
-  tutorial_data1 <- simgraph_data(nsims = 10000, dsigma = 25, category = "PO")
+  tutorial_data1 <- simgraph_data(nsims = 10000, dsigma = 25, kinship = "PO")
 
 
   # Simulate Tab
@@ -954,31 +954,31 @@ server <- function(input, output, session){
   ### Tab 1 ###
 
   output$tutorial_1a <- renderPlot({
-    simgraph_graph(tutorial_data1, nsims = 5, category = "PO")
+    simgraph_graph(tutorial_data1, nsims = 5, kinship = "PO")
   })
 
   output$tutorial_1b <- renderPlot({
-    simgraph_graph(tutorial_data1, nsims = 20, category = "PO", pinwheel = TRUE)
+    simgraph_graph(tutorial_data1, nsims = 20, kinship = "PO", pinwheel = TRUE)
   })
 
   ### Tab 2 ###
 
   output$tutorial_2a <- renderPlot({
-    simgraph_graph(tutorial_data1, nsims = 10000, category = "PO", scattered = TRUE)
+    simgraph_graph(tutorial_data1, nsims = 10000, kinship = "PO", scattered = TRUE)
   })
 
   output$tutorial_2b <- renderPlot({
-    simgraph_graph(tutorial_data1, nsims = 10000, category = "PO", histogram = TRUE, binwidth = 2.5)
+    simgraph_graph(tutorial_data1, nsims = 10000, kinship = "PO", histogram = TRUE, binwidth = 2.5)
   })
 
   ### Tab 3 ###
 
   output$tutorial_3a <- renderPlot({
-    simgraph_graph(tutorial_data1, nsims = 1, category = "GG", show_area = F, labls = F)
+    simgraph_graph(tutorial_data1, nsims = 1, kinship = "GG", show_area = F, labls = F)
   })
 
   output$tutorial_3b <- renderPlot({
-    simgraph_graph(tutorial_data1, nsims = 10000, category = "GG", histogram = TRUE, binwidth = 2.5)
+    simgraph_graph(tutorial_data1, nsims = 10000, kinship = "GG", histogram = TRUE, binwidth = 2.5)
   })
 
   ### Tab 4 ###
@@ -987,7 +987,7 @@ server <- function(input, output, session){
   ### Tab 5 ###
 
   sandbox_data <- reactive({
-    simgraph_data(nsims = input$sand_nsims, dsigma = input$sand_dsigma, dims = input$sand_dims, category = input$sand_category)
+    simgraph_data(nsims = input$sand_nsims, dsigma = input$sand_dsigma, dims = input$sand_dims, kinship = input$sand_category)
   })
 
   output$sand_dispersalcheck <- renderText({
@@ -996,7 +996,7 @@ server <- function(input, output, session){
 
   output$sand_dispersalPlot <- renderPlotly({
     ggplotly(simgraph_graph(sandbox_data(), nsims = input$sand_nsims, dsigma = input$sand_dsigma, dims = input$sand_dims, labls = input$sand_labls,
-                            moves = input$sand_moves, shadows = input$sand_shadows, category = input$sand_category,
+                            moves = input$sand_moves, shadows = input$sand_shadows, kinship = input$sand_category,
                             show_area = input$sand_show_area, #centred = input$sand_centred, #pinwheel = input$sand_pinwheel, scattered = input$sand_scattered,
                             lengths = input$sand_lengths, lengthlabs = input$sand_lengthlabs))#, histogram = input$sand_histogram, binwidth = input$sand_binwidth)#,
     #freqpoly = input$sand_freqpoly)
@@ -1019,7 +1019,7 @@ server <- function(input, output, session){
     }
 
     simulate_kindist_simple(nsims = input$sim_simple_nsims, sigma = input$sim_simple_sigma, method = input$sim_simple_method,
-                            category = input$sim_simple_category, lifestage = input$sim_simple_lifestage, dims = input$sim_simple_dims)
+                            kinship = input$sim_simple_category, lifestage = input$sim_simple_lifestage, dims = input$sim_simple_dims)
   })
 
   sim_simple_store <- observeEvent(input$sim_simple_storeclick, {
@@ -1045,7 +1045,7 @@ server <- function(input, output, session){
     }
     simulate_kindist_composite(nsims = input$sim_composite_nsims, juvsigma = input$sim_composite_juvsigma, breedsigma = input$sim_composite_breedsigma,
                                gravsigma = input$sim_composite_gravsigma, ovisigma = input$sim_composite_ovisigma, dims = input$sim_composite_dims,
-                               method = input$sim_composite_method, category = input$sim_composite_category, lifestage = input$sim_composite_lifestage)
+                               method = input$sim_composite_method, kinship = input$sim_composite_category, lifestage = input$sim_composite_lifestage)
   })
 
   sim_composite_store <- observeEvent(input$sim_composite_storeclick, {
@@ -1117,55 +1117,55 @@ server <- function(input, output, session){
   })
 
   output$sim_compare_table <- renderTable({
-    rtable <- tibble("Type" = "a", "Kernel" = "b", "Category" = "d", "Lifestage" = "e", "Dims" = 0, "Colour" = "f", .rows = 0)
+    rtable <- tibble("Type" = "a", "Kernel" = "b", "Kinship" = "d", "Lifestage" = "e", "Dims" = 0, "Colour" = "f", .rows = 0)
     if ('1' %in% input$testsaveops) {
       temp <- app_env$d1
-      rtable <- rtable %>% add_row("Type" = temp@simtype, "Kernel" = temp@kerneltype, "Category" = temp@category,
+      rtable <- rtable %>% add_row("Type" = temp@simtype, "Kernel" = temp@kerneltype, "Kinship" = temp@kinship,
                                    "Lifestage" = temp@lifestage, "Dims" = temp@simdims, "Colour" = "blue")
     }
     if ('2' %in% input$testsaveops) {
       temp <- app_env$d2
-      rtable <- rtable %>% add_row("Type" = temp@simtype, "Kernel" = temp@kerneltype, "Category" = temp@category,
+      rtable <- rtable %>% add_row("Type" = temp@simtype, "Kernel" = temp@kerneltype, "Kinship" = temp@kinship,
                                    "Lifestage" = temp@lifestage, "Dims" = temp@simdims, "Colour" = "red")
     }
     if ('3' %in% input$testsaveops) {
       temp <- app_env$d3
-      rtable <- rtable %>% add_row("Type" = temp@simtype, "Kernel" = temp@kerneltype, "Category" = temp@category,
+      rtable <- rtable %>% add_row("Type" = temp@simtype, "Kernel" = temp@kerneltype, "Kinship" = temp@kinship,
                                    "Lifestage" = temp@lifestage, "Dims" = temp@simdims, "Colour" = "orange")
     }
     if ('4' %in% input$testsaveops) {
       temp <- app_env$d4
-      rtable <- rtable %>% add_row("Type" = temp@simtype, "Kernel" = temp@kerneltype, "Category" = temp@category,
+      rtable <- rtable %>% add_row("Type" = temp@simtype, "Kernel" = temp@kerneltype, "Kinship" = temp@kinship,
                                    "Lifestage" = temp@lifestage, "Dims" = temp@simdims, "Colour" = "green")
     }
     if ('5' %in% input$testsaveops) {
       temp <- app_env$d5
-      rtable <- rtable %>% add_row("Type" = temp@simtype, "Kernel" = temp@kerneltype, "Category" = temp@category,
+      rtable <- rtable %>% add_row("Type" = temp@simtype, "Kernel" = temp@kerneltype, "Kinship" = temp@kinship,
                                    "Lifestage" = temp@lifestage, "Dims" = temp@simdims, "Colour" = "purple")
     }
     if ('6' %in% input$testsaveops) {
       temp <- app_env$d6
-      rtable <- rtable %>% add_row("Type" = temp@simtype, "Kernel" = temp@kerneltype, "Category" = temp@category,
+      rtable <- rtable %>% add_row("Type" = temp@simtype, "Kernel" = temp@kerneltype, "Kinship" = temp@kinship,
                                    "Lifestage" = temp@lifestage, "Dims" = temp@simdims, "Colour" = "black")
     }
     if ('7' %in% input$testsaveops) {
       temp <- app_env$d7
-      rtable <- rtable %>% add_row("Type" = temp@simtype, "Kernel" = temp@kerneltype, "Category" = temp@category,
+      rtable <- rtable %>% add_row("Type" = temp@simtype, "Kernel" = temp@kerneltype, "Kinship" = temp@kinship,
                                    "Lifestage" = temp@lifestage, "Dims" = temp@simdims, "Colour" = "grey")
     }
     if ('8' %in% input$testsaveops) {
       temp <- app_env$d8
-      rtable <- rtable %>% add_row("Type" = temp@simtype, "Kernel" = temp@kerneltype, "Category" = temp@category,
+      rtable <- rtable %>% add_row("Type" = temp@simtype, "Kernel" = temp@kerneltype, "Kinship" = temp@kinship,
                                    "Lifestage" = temp@lifestage, "Dims" = temp@simdims, "Colour" = "pink")
     }
     if ('9' %in% input$testsaveops) {
       temp <- app_env$d9
-      rtable <- rtable %>% add_row("Type" = temp@simtype, "Kernel" = temp@kerneltype, "Category" = temp@category,
+      rtable <- rtable %>% add_row("Type" = temp@simtype, "Kernel" = temp@kerneltype, "Kinship" = temp@kinship,
                                    "Lifestage" = temp@lifestage, "Dims" = temp@simdims, "Colour" = "brown")
     }
     if ('10' %in% input$testsaveops) {
       temp <- app_env$d10
-      rtable <- rtable %>% add_row("Type" = temp@simtype, "Kernel" = temp@kerneltype, "Category" = temp@category,
+      rtable <- rtable %>% add_row("Type" = temp@simtype, "Kernel" = temp@kerneltype, "Kinship" = temp@kinship,
                                    "Lifestage" = temp@lifestage, "Dims" = temp@simdims, "Colour" = "yellow")
     }
     rtable
@@ -1238,10 +1238,10 @@ server <- function(input, output, session){
   })
 
   output$samp_retrieve_table <- renderTable({
-    rtable <- tibble("Type" = "a", "Kernel" = "b", "Category" = "d", "Lifestage" = "e", "Dims" = 0, .rows = 0)
+    rtable <- tibble("Type" = "a", "Kernel" = "b", "Kinship" = "d", "Lifestage" = "e", "Dims" = 0, .rows = 0)
     if (! is.null(samp_loaded_kindata())) {
       temp <- samp_loaded_kindata()
-      rtable <- rtable %>% add_row("Type" = temp@simtype, "Kernel" = temp@kerneltype, "Category" = temp@category,
+      rtable <- rtable %>% add_row("Type" = temp@simtype, "Kernel" = temp@kerneltype, "Kinship" = temp@kinship,
                                    "Lifestage" = temp@lifestage, "Dims" = temp@simdims)
     }
   })
@@ -1407,21 +1407,21 @@ server <- function(input, output, session){
   est_std_sum <- eventReactive(
     input$top_data_update,
     {
-      rtable <- tibble("Slot" = "a", "Type" = "a", "Kernel" = "b", "Category" = "d", "Lifestage" = "e", "Dims" = 0, "Count" = 0, .rows = 0)
+      rtable <- tibble("Slot" = "a", "Type" = "a", "Kernel" = "b", "Kinship" = "d", "Lifestage" = "e", "Dims" = 0, "Count" = 0, .rows = 0)
       temp <- app_env$d1
-      rtable <- rtable %>% add_row("Slot" = "1", "Type" = temp@simtype, "Kernel" = temp@kerneltype, "Category" = temp@category,
+      rtable <- rtable %>% add_row("Slot" = "1", "Type" = temp@simtype, "Kernel" = temp@kerneltype, "Kinship" = temp@kinship,
                                    "Lifestage" = temp@lifestage, "Dims" = temp@simdims, "Count" = nrow(temp@tab))
       temp <- app_env$d2
-      rtable <- rtable %>% add_row("Slot" = "2", "Type" = temp@simtype, "Kernel" = temp@kerneltype, "Category" = temp@category,
+      rtable <- rtable %>% add_row("Slot" = "2", "Type" = temp@simtype, "Kernel" = temp@kerneltype, "Kinship" = temp@kinship,
                                    "Lifestage" = temp@lifestage, "Dims" = temp@simdims, "Count" = nrow(temp@tab))
       temp <- app_env$d3
-      rtable <- rtable %>% add_row("Slot" = "3", "Type" = temp@simtype, "Kernel" = temp@kerneltype, "Category" = temp@category,
+      rtable <- rtable %>% add_row("Slot" = "3", "Type" = temp@simtype, "Kernel" = temp@kerneltype, "Kinship" = temp@kinship,
                                    "Lifestage" = temp@lifestage, "Dims" = temp@simdims, "Count" = nrow(temp@tab))
       temp <- app_env$d4
-      rtable <- rtable %>% add_row("Slot" = "4", "Type" = temp@simtype, "Kernel" = temp@kerneltype, "Category" = temp@category,
+      rtable <- rtable %>% add_row("Slot" = "4", "Type" = temp@simtype, "Kernel" = temp@kerneltype, "Kinship" = temp@kinship,
                                    "Lifestage" = temp@lifestage, "Dims" = temp@simdims, "Count" = nrow(temp@tab))
       temp <- app_env$d5
-      rtable <- rtable %>% add_row("Slot" = "5", "Type" = temp@simtype, "Kernel" = temp@kerneltype, "Category" = temp@category,
+      rtable <- rtable %>% add_row("Slot" = "5", "Type" = temp@simtype, "Kernel" = temp@kerneltype, "Kinship" = temp@kinship,
                                    "Lifestage" = temp@lifestage, "Dims" = temp@simdims, "Count" = nrow(temp@tab))
 
       return(rtable)
@@ -1431,19 +1431,19 @@ server <- function(input, output, session){
     est_std_sum()
   })
   #temp <- readRDS(here(paste0("temp/6.R")))
-  #rtable <- rtable %>% add_row("Number" = 6, "Type" = temp@simtype, "Kernel" = temp@kerneltype, "Category" = temp@category,
+  #rtable <- rtable %>% add_row("Number" = 6, "Type" = temp@simtype, "Kernel" = temp@kerneltype, "Kinship" = temp@kinship,
   #                             "Lifestage" = temp@lifestage, "Dims" = temp@simdims)
   #temp <- readRDS(here(paste0("temp/7.R")))
-  #rtable <- rtable %>% add_row("Number" = 7, "Type" = temp@simtype, "Kernel" = temp@kerneltype, "Category" = temp@category,
+  #rtable <- rtable %>% add_row("Number" = 7, "Type" = temp@simtype, "Kernel" = temp@kerneltype, "Kinship" = temp@kinship,
   #                             "Lifestage" = temp@lifestage, "Dims" = temp@simdims,)
   #temp <- readRDS(here(paste0("temp/8.R")))
-  #rtable <- rtable %>% add_row("Number" = 8, "Type" = temp@simtype, "Kernel" = temp@kerneltype, "Category" = temp@category,
+  #rtable <- rtable %>% add_row("Number" = 8, "Type" = temp@simtype, "Kernel" = temp@kerneltype, "Kinship" = temp@kinship,
   #                             "Lifestage" = temp@lifestage, "Dims" = temp@simdims)
   #temp <- readRDS(here(paste0("temp/9.R")))
-  #rtable <- rtable %>% add_row("Number" = 9, "Type" = temp@simtype, "Kernel" = temp@kerneltype, "Category" = temp@category,
+  #rtable <- rtable %>% add_row("Number" = 9, "Type" = temp@simtype, "Kernel" = temp@kerneltype, "Kinship" = temp@kinship,
   #                             "Lifestage" = temp@lifestage, "Dims" = temp@simdims)
   #temp <- readRDS(here(paste0("temp/10.R")))
-  #rtable <- rtable %>% add_row("Number" = 10, "Type" = temp@simtype, "Kernel" = temp@kerneltype, "Category" = temp@category,
+  #rtable <- rtable %>% add_row("Number" = 10, "Type" = temp@simtype, "Kernel" = temp@kerneltype, "Kinship" = temp@kinship,
   #                             "Lifestage" = temp@lifestage, "Dims" = temp@simdims)
   #
   #  rtable

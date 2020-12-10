@@ -2,7 +2,7 @@ methods::setOldClass(c("tbl_df", "tbl", "data.frame"))
 
 #' KinPairSimulation Class
 #'
-#' @slot category character - one of PO, FS, HS, AV, HAV, GG, 1C, H1C, GAV, HGAV, 1C1, H1C1, GGG, 2C, and H2C.
+#' @slot kinship character - one of PO, FS, HS, AV, HAV, GG, 1C, H1C, GAV, HGAV, 1C1, H1C1, GGG, 2C, and H2C.
 #' @slot simtype character.
 #' @slot kerneltype character. - 'Gaussian' or 'Laplace'
 #' @slot dsigma numeric.       - overall value of dispersal sigma (for simple kernel)
@@ -25,7 +25,7 @@ methods::setOldClass(c("tbl_df", "tbl", "data.frame"))
 #' @export
 #'
 KinPairSimulation <- setClass("KinPairSimulation",
-         slots = list(category = "character", simtype = "character", kerneltype = "character",
+         slots = list(kinship = "character", simtype = "character", kerneltype = "character",
                       dsigma = "numeric", juvsigma = "numeric", breedsigma = "numeric",
                       gravsigma = "numeric", ovisigma = "numeric", simdims = "numeric",
                       lifestage = "character", call = "call", tab = "tbl_df",
@@ -493,7 +493,7 @@ setMethod(
     cat("-----------------------------------\n")
     cat("simtype:\t\t", object@simtype, "\n")
     cat("kerneltype:\t\t", object@kerneltype, "\n")
-    cat('category:\t\t', object@category, '\n')
+    cat('kinship:\t\t', object@kinship, '\n')
     cat('simdims:\t\t', object@simdims, '\n')
     if (is.na(object@simtype)) {cat('')}
     else if  (object@simtype == "simple"){
@@ -530,7 +530,7 @@ setMethod(
 setMethod("initialize", "KinPairSimulation",
           function(.Object,
                    data = NULL,
-                   category = NULL,
+                   kinship = NULL,
                    lifestage = NULL,
                    simtype = NULL,
                    kerneltype = NULL,
@@ -547,7 +547,7 @@ setMethod("initialize", "KinPairSimulation",
                    spacing = NULL,
                    samplenum = NULL,
                    sampledims = NULL){
-            if (! is.null(category)) .Object@category <- category else .Object@category <- "UN"
+            if (! is.null(kinship)) .Object@kinship <- kinship else .Object@kinship <- "UN"
             if (! is.null(lifestage)) .Object@lifestage <- lifestage else .Object@lifestage <- "unknown"
             if (! is.null(simtype)) .Object@simtype <- simtype else .Object@simtype <- NA_character_
             if (! is.null(kerneltype)) .Object@kerneltype <- kerneltype else .Object@kerneltype <- NA_character_
@@ -581,8 +581,8 @@ setMethod("initialize", "KinPairSimulation",
                   }
                   else {data <- mutate(data, distance = sqrt((.data$x1 - .data$x2)^2 + (.data$y1 - .data$y2)^2))}
                 }
-                if (! "category" %in% colnames(data)){
-                  data <- mutate(data, category = .Object@category)
+                if (! "kinship" %in% colnames(data)){
+                  data <- mutate(data, kinship = .Object@kinship)
                 }
                 if (! "id1" %in% colnames(data)){
                   data <- add_column(data, id1 = paste0(1:nrow(data), "a"))
@@ -590,19 +590,19 @@ setMethod("initialize", "KinPairSimulation",
                 if (! "id2" %in% colnames(data)){
                   data <- add_column(data, id2 = paste0(1:nrow(data), "b"))
                 }
-                data <- select(data, .data$id1, .data$id2, .data$category, .data$distance, everything())
+                data <- select(data, .data$id1, .data$id2, .data$kinship, .data$distance, everything())
                 .Object@tab <- data
               }
               else { # check if just distances included
                 if (is.numeric(data)) {
                   cat("Note: numeric vector interpreted as kin distances!\n")
-                  data <- tibble(id1 = paste0(1:length(data), "a"), id2 = paste0(1:length(data), "b"), category = .Object@category, distance = data)
+                  data <- tibble(id1 = paste0(1:length(data), "a"), id2 = paste0(1:length(data), "b"), kinship = .Object@kinship, distance = data)
                   .Object@tab <- data
                 }
               }
             }
             else {
-              .Object@tab <- tibble(id1 = "a", id2 = "b", category = "UN", distance = 0, .rows = 0)
+              .Object@tab <- tibble(id1 = "a", id2 = "b", kinship = "UN", distance = 0, .rows = 0)
             }
             validObject(.Object)
             return(.Object)
@@ -611,7 +611,7 @@ setMethod("initialize", "KinPairSimulation",
 #'
 #'
 #' @param data tbl_df. tibble  of simulation values
-#' @param category character - one of PO, FS, HS, AV, HAV, GG, 1C, H1C, GAV, HGAV, 1C1, H1C1, GGG, 2C, and H2C.
+#' @param kinship character - one of PO, FS, HS, AV, HAV, GG, 1C, H1C, GAV, HGAV, 1C1, H1C1, GGG, 2C, and H2C.
 #' @param lifestage character - one of 'unknown', 'larva' or 'oviposition'
 #' @param simtype character - simulation type
 #' @param kerneltype character. - 'Gaussian' or 'Laplace'
@@ -635,7 +635,7 @@ setMethod("initialize", "KinPairSimulation",
 #' @examples
 #' KinPairSimulation()
 KinPairSimulation <- function(data = NULL,
-                              category = NULL,
+                              kinship = NULL,
                               lifestage = NULL,
                               simtype = NULL,
                               kerneltype = NULL,
@@ -653,7 +653,7 @@ KinPairSimulation <- function(data = NULL,
                               samplenum = NULL,
                               sampledims = NULL){
   new("KinPairSimulation", data = data,
-      category = category,
+      kinship = kinship,
       lifestage = lifestage,
       simtype = simtype,
       kerneltype = kerneltype,
@@ -685,8 +685,8 @@ is.KinPairSimulation <- function(x){
 
 #' Constructor for KinPairSimulation Class (simple)
 #'
-#' @param data tibble of pairwise kin classes & distances. Ideally contains fields id1 & id2 (chr) an distance (dbl) optionally includes coords (x1, y1, x2, y2), lifestage (ls1 & ls2), category (chr) and sims (dbl)
-#' @param category  character. Code for kinship category of simulation. one of PO, FS, HS, AV, GG, HAV, GGG, 1C, 1C1, 2C, GAV, HGAV, H1C or H2C
+#' @param data tibble of pairwise kin classes & distances. Ideally contains fields id1 & id2 (chr) an distance (dbl) optionally includes coords (x1, y1, x2, y2), lifestage (ls1 & ls2), kinship (chr) and sims (dbl)
+#' @param kinship  character. Code for kinship category of simulation. one of PO, FS, HS, AV, GG, HAV, GGG, 1C, 1C1, 2C, GAV, HGAV, H1C or H2C
 #' @param kerneltype  character. Statistical model for simulated dispersal kernel. Currently either "Gaussian" or "Laplace".
 #' @param dsigma numeric. Axial sigma of dispersal kernel (axial standard deviation).
 #' @param simdims  numeric. Length of side of simulated area square.
@@ -698,19 +698,19 @@ is.KinPairSimulation <- function(x){
 #'
 #' @examples
 #' kindata <- tibble::tibble(id1 = c("a", "b", "c"), id2 = c("x", "y", "z"),
-#'     distance = c(50, 45, 65), category = c("1C", "1C", "1C"))
-#' KinPairSimulation_simple(kindata, category = "1C", kerneltype = "Gaussian",
+#'     distance = c(50, 45, 65), kinship = c("1C", "1C", "1C"))
+#' KinPairSimulation_simple(kindata, kinship = "1C", kerneltype = "Gaussian",
 #'     dsigma = 38, lifestage = "larva")
-KinPairSimulation_simple <- function(data=NULL, category=NULL, kerneltype=NULL, dsigma=NULL, simdims = NULL, lifestage=NULL, call=NULL){
+KinPairSimulation_simple <- function(data=NULL, kinship=NULL, kerneltype=NULL, dsigma=NULL, simdims = NULL, lifestage=NULL, call=NULL){
   if (is.null(call)) {call <- sys.call()}
-  return(KinPairSimulation(data=data, category=category, simtype="simple", kerneltype=kerneltype, dsigma=dsigma, simdims = simdims, lifestage=lifestage, call=call))
+  return(KinPairSimulation(data=data, kinship=kinship, simtype="simple", kerneltype=kerneltype, dsigma=dsigma, simdims = simdims, lifestage=lifestage, call=call))
 }
 
 
 #' Constructor for KinPairSimulation Class (composite)
 #'
-#' @param data tibble of pairwise kin classes & distances. Ideally contains fields id1 & id2 (chr) an distance (dbl) optionally includes coords (x1, y1, x2, y2), lifestage (ls1 & ls2), category (chr) and sims (dbl)
-#' @param category  character. Code for kinship category of simulation. one of PO, FS, HS, AV, GG, HAV, GGG, 1C, 1C1, 2C, GAV, HGAV, H1C or H2C
+#' @param data tibble of pairwise kin classes & distances. Ideally contains fields id1 & id2 (chr) an distance (dbl) optionally includes coords (x1, y1, x2, y2), lifestage (ls1 & ls2), kinship (chr) and sims (dbl)
+#' @param kinship  character. Code for kinship category of simulation. one of PO, FS, HS, AV, GG, HAV, GGG, 1C, 1C1, 2C, GAV, HGAV, H1C or H2C
 #' @param kerneltype  character. Statistical model for simulated dispersal kernel. Currently either "Gaussian" or "Laplace".
 #' @param juvsigma  numeric. Axial sigma of prebreeding ('juvenile') dispersal kernel (axial standard deviation).
 #' @param breedsigma  numeric. Axial sigma of breeding dispersal kernel (axial standard deviation).
@@ -725,13 +725,13 @@ KinPairSimulation_simple <- function(data=NULL, category=NULL, kerneltype=NULL, 
 #'
 #' @examples
 #' kindata <- tibble::tibble(id1 = c("a", "b", "c"), id2 = c("x", "y", "z"),
-#'                 distance = c(50, 45, 65), category = c("1C", "1C", "1C"))
-#' KinPairSimulation_composite(kindata, category = "1C", kerneltype = "Gaussian",
+#'                 distance = c(50, 45, 65), kinship = c("1C", "1C", "1C"))
+#' KinPairSimulation_composite(kindata, kinship = "1C", kerneltype = "Gaussian",
 #'     juvsigma = 15, breedsigma = 25, gravsigma = 20, ovisigma = 10, lifestage = "larva")
-KinPairSimulation_composite <- function(data = NULL, category=NULL, kerneltype=NULL, juvsigma=NULL, breedsigma=NULL,
+KinPairSimulation_composite <- function(data = NULL, kinship=NULL, kerneltype=NULL, juvsigma=NULL, breedsigma=NULL,
                                              gravsigma=NULL, ovisigma=NULL, simdims = NULL, lifestage=NULL, call=NULL){
   if (is.null(call)) {call <- sys.call()}
-  return(KinPairSimulation(data=data, category=category, simtype="composite", kerneltype=kerneltype, juvsigma=juvsigma, breedsigma=breedsigma,
+  return(KinPairSimulation(data=data, kinship=kinship, simtype="composite", kerneltype=kerneltype, juvsigma=juvsigma, breedsigma=breedsigma,
                                 gravsigma=gravsigma, ovisigma=ovisigma, simdims = simdims, lifestage=lifestage, call=call))
 }
 

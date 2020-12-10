@@ -6,7 +6,7 @@
 \usage{
 KinPairSimulation(
   data = NULL,
-  category = NULL,
+  kinship = NULL,
   lifestage = NULL,
   simtype = NULL,
   kerneltype = NULL,
@@ -27,7 +27,7 @@ KinPairSimulation(
 
 KinPairSimulation(
   data = NULL,
-  category = NULL,
+  kinship = NULL,
   lifestage = NULL,
   simtype = NULL,
   kerneltype = NULL,
@@ -49,7 +49,7 @@ KinPairSimulation(
 \arguments{
 \item{data}{tbl_df. tibble  of simulation values}
 
-\item{category}{character - one of PO, FS, HS, AV, HAV, GG, 1C, H1C, GAV, HGAV, 1C1, H1C1, GGG, 2C, and H2C.}
+\item{kinship}{character - one of PO, FS, HS, AV, HAV, GG, 1C, H1C, GAV, HGAV, 1C1, H1C1, GGG, 2C, and H2C.}
 
 \item{lifestage}{character - one of 'unknown', 'larva' or 'oviposition'}
 
@@ -92,7 +92,7 @@ KinPairSimulation Class
 \section{Slots}{
 
 \describe{
-\item{\code{category}}{character - one of PO, FS, HS, AV, HAV, GG, 1C, H1C, GAV, HGAV, 1C1, H1C1, GGG, 2C, and H2C.}
+\item{\code{kinship}}{character - one of PO, FS, HS, AV, HAV, GG, 1C, H1C, GAV, HGAV, 1C1, H1C1, GGG, 2C, and H2C.}
 
 \item{\code{simtype}}{character.}
 
