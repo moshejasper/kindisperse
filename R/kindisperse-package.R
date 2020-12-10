@@ -14,7 +14,7 @@
 #' @importFrom magrittr %>%
 #' @importFrom methods new setMethod validObject setGeneric setValidity is initialize show
 #' @importFrom plotly ggplotly plotlyOutput renderPlotly
-#' @importFrom readr read_rds write_rds
+#' @importFrom readr read_rds write_rds read_tsv write_tsv read_csv write_csv
 #' @importFrom rlang .data env env_poke
 #' @importFrom shiny column conditionalPanel fluidPage fluidRow mainPanel navbarPage sidebarLayout sidebarPanel tabPanel titlePanel shinyApp
 #' @importFrom shiny actionButton checkboxGroupInput checkboxInput fileInput numericInput radioButtons selectInput sliderInput
@@ -23,6 +23,7 @@
 #' @importFrom shiny plotOutput renderPlot renderTable renderText tableOutput textOutput
 #' @importFrom shinythemes shinytheme
 #' @importFrom stats quantile rexp rnorm runif rweibull
+#' @importFrom stringr str_ends
 #' @importFrom tibble add_row tibble as_tibble is_tibble add_column
 #' @importFrom tidyselect everything
 #' @importFrom utils read.csv
