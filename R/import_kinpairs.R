@@ -115,5 +115,9 @@ check_valid_lifestage <- function(vect){
 #' @export
 #'
 kinpair_to_tibble <- function(x){
-  x@tab
+  x_out <- x@tab
+  if (! "lifestage" %in% colnames(x_out)){
+    if (! is.null(x@lifestage)) x_out <- add_column(x_out, lifestage = x@lifestage)
+  }
+  x_out
 }
