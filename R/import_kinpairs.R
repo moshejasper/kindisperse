@@ -21,6 +21,7 @@ df_to_kinpair <- function(data, kinship = NULL, lifestage = NULL){
       else kinship <- cats
       check_valid_kinship(tib$kinship)
     }
+    else kinship <- "UN"
   }
   else {
     check_valid_kinship(kinship)
@@ -46,7 +47,7 @@ df_to_kinpair <- function(data, kinship = NULL, lifestage = NULL){
       tib <- filter(tib, .data$lifestage == lf)
     }
   }
-  KinPairData(data = tib, kinship = kinship, lifestage = lifestage)
+  return(KinPairData(data = tib, kinship = kinship, lifestage = lifestage))
 }
 
 #' Convert vector of kin separation distances to KinPairData class

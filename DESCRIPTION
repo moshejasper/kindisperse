@@ -1,6 +1,6 @@
 Package: kindisperse
 Title: Simulate and Estimate Close-Kin Dispersal Kernels
-Version: 0.5.4
+Version: 0.6.0
 Authors@R: 
     person(given = "Moshe-Elijah",
            family = "Jasper",
