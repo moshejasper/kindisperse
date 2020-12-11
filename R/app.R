@@ -1107,7 +1107,10 @@ server <- function(input, output, session){
       }
     }
     else if (input$load_source == "mounted"){
-      return(retrieve_appdata(input$load_retrieve_choice_mounted))
+      if (input$load_retrieve_choice_mounted != ""){
+        return(retrieve_appdata(input$load_retrieve_choice_mounted))
+      }
+      else return(KinPairSimulation())
     }
     else if (input$load_source == "simple"){
       return(sim_simple_kindata())
@@ -1124,17 +1127,19 @@ server <- function(input, output, session){
     if (is.KinPairSimulation(staged_object())){
       out <- "KINDISPERSE SIMULATION of KIN PAIRS\n"
       out <- str_c(out, "-----------------------------------\n")
-      out <- str_c(out, "simtype:\t\t", staged_object()@simtype, "\n")
-      out <- str_c(out, "kerneltype:\t\t", staged_object()@kerneltype, "\n")
+      out <- str_c(out, "simtype:\t\t", ifelse(is.na(staged_object()@simtype), "NA", staged_object()@simtype), "\n")
+      out <- str_c(out, "kerneltype:\t\t", ifelse(is.na(staged_object()@kerneltype), "NA", staged_object()@kerneltype), "\n")
       out <- str_c(out, 'kinship:\t\t', staged_object()@kinship, '\n')
-      out <- str_c(out, 'simdims:\t\t', staged_object()@simdims, '\n')
+      out <- str_c(out, 'simdims:\t\t', ifelse(is.na(staged_object()@simdims), "NA", staged_object()@simdims), '\n')
       if (is.na(staged_object()@simtype)) {out <- str_c(out, '')}
       else if  (staged_object()@simtype == "simple"){
-        out <- str_c(out, 'dsigma:\t\t\t', staged_object()@dsigma, '\n')
+        out <- str_c(out, 'dsigma:\t\t\t', ifelse(is.na(staged_object()@dsigma), "NA", staged_object()@dsigma), '\n')
       }
       else if (staged_object()@simtype == "composite"){
-        out <- str_c(out, 'juvsigma\t\t', staged_object()@juvsigma, '\nbreedsigma\t\t', staged_object()@breedsigma,
-                     '\ngravsigma\t\t', staged_object()@gravsigma, '\novisigma\t\t', staged_object()@ovisigma, '\n')
+        out <- str_c(out, 'juvsigma\t\t', ifelse(is.na(staged_object()@juvsigma), "NA", staged_object()@juvsigma),
+                     '\nbreedsigma\t\t', ifelse(is.na(staged_object()@breedsigma), "NA", staged_object()@breedsigma),
+                     '\ngravsigma\t\t', ifelse(is.na(staged_object()@gravsigma), "NA", staged_object()@gravsigma),
+                     '\novisigma\t\t', ifelse(is.na(staged_object()@ovisigma), "NA", staged_object()@ovisigma), '\n')
       }
       out <- str_c(out, 'lifestage:\t\t', staged_object()@lifestage, '\n')
       out <- str_c(out, 'rows:\t\t\t', nrow(staged_object()@tab), '\n\n')
@@ -1186,7 +1191,9 @@ server <- function(input, output, session){
 
   load_store <- observeEvent(input$load_storeclick, {
     saveval <- staged_object()
-    env_poke(app_env, paste0("d", input$load_saveops), saveval)
+    if (is.KinPairData(saveval)){
+      env_poke(app_env, paste0("d", input$load_saveops), saveval)
+    }
   })
 
   ####_####
