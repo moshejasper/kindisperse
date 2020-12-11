@@ -1260,7 +1260,7 @@ server <- function(input, output, session){
   output$save_button <- downloadHandler(
     filename = function(){
       if (input$save_filetype == "csv") paste0(input$save_filename, ".csv")
-      else if (input$save_filetype == "tsv") pastename0(input$save_filename, ".tsv")
+      else if (input$save_filetype == "tsv") paste0(input$save_filename, ".tsv")
       else if (input$save_filetype == "kindata") paste0(input$save_filename, ".kindata")
     },
     content = function(file){
