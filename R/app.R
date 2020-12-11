@@ -317,7 +317,8 @@ ui <- fluidPage(
                    condition = "input.load_source.includes('mounted')",
                    textInput(
                      inputId = "load_retrieve_choice_mounted",
-                     label = "Enter object name to be loaded from appdata"
+                     label = "Enter object name to be loaded from appdata",
+                     value = "name"
                    )
                  ),
 
@@ -325,7 +326,67 @@ ui <- fluidPage(
                    inputId = "load_retrieveclick",
                    label = "Load",
                    icon = icon("upload")
-                 )
+                 ),
+
+                 hr(),
+                 hr(),
+
+                 h3("Save KinPairData"),
+
+                 selectInput(
+                   inputId = "save_source",
+                   label = "Choose output type",
+                   choices = c("Save to File" = "filedata", "Mount to R" = "mounted")
+                 ),
+
+                 conditionalPanel(
+                   condition = "input.save_source.includes('filedata')",
+                   h4("Saving data to filesystem"),
+                   selectInput(
+                     inputId = "save_filetype",
+                     label = "Choose filetype to save as",
+                     choices = c(".csv" = "csv", ".tsv" = "tsv", ".kindata" = "kindata")
+                   ),
+                   p("Save a .csv  or .tsv file with a 'kinship' column obeying standard conventions and a 'distance' column (numeric),
+                     or save a .kindata file storing a KinPairData or KinPairSimulation object."),
+
+                   textInput(
+                     inputId = "save_filename",
+                     label = "Enter filename to save as",
+                     value = "kin_pairs"
+                   ),
+
+                   downloadButton(
+                     outputId = "save_button",
+                     label = "Download"
+                   )
+                 ),
+
+                 conditionalPanel(
+                   condition = "input.save_source.includes('mounted')",
+
+                   p("This interface saves the staged object to the appdata interface with the active R session
+                     for coding access after the app is closed. Data mounted here can be accessed in your
+                     R session with the functions retrieve_appdata() and retrieveall_appdata() - see help files."),
+
+                   textInput(
+                     inputId = "save_choice_mounted",
+                     label = "Enter name to save object as in appdata",
+                     value = "name"
+                   ),
+
+                   actionButton(
+                     inputId = "mount_button",
+                     label = "Mount",
+                     icon = icon("box-open")
+                   ),
+
+                   actionButton(
+                     inputId = "unmount_button",
+                     label = "Unmount",
+                     icon = icon("ban")
+                   )
+                 ),
 
                ),
                mainPanel(
@@ -1194,6 +1255,27 @@ server <- function(input, output, session){
     if (is.KinPairData(saveval)){
       env_poke(app_env, paste0("d", input$load_saveops), saveval)
     }
+  })
+
+  output$save_button <- downloadHandler(
+    filename = function(){
+      if (input$save_filetype == "csv") paste0(input$save_filename, ".csv")
+      else if (input$save_filetype == "tsv") pastename0(input$save_filename, ".tsv")
+      else if (input$save_filetype == "kindata") paste0(input$save_filename, ".kindata")
+    },
+    content = function(file){
+      if (input$save_filetype == "csv") kinpair_to_csv(staged_object(), file)
+      else if (input$save_filetype == "tsv") kinpair_to_tsv(staged_object(), file)
+      else if (input$save_filetype == "kindata") write_kindata(staged_object(), file)
+    }
+  )
+
+  data_mount <- observeEvent(input$mount_button, {
+    mount_appdata(staged_object(), input$save_choice_mounted)
+  })
+
+  data_unmount <- observeEvent(input$unmount_button, {
+    unmount_appdata(input$save_choice_mounted)
   })
 
   ####_####
