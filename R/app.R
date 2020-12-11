@@ -13,11 +13,8 @@
 # preload some data here!
 
 #source("kindisperse_functions.R")
-
 # run early setup functions
-
 # set environment for data storage
-
 app_env <- env(
   d1 = KinPairSimulation(),
   d2 = KinPairSimulation(),
@@ -262,22 +259,98 @@ ui <- fluidPage(
 
     ),
 
+    ####_####
+    ########################### Load Tab ###################################
+
     tabPanel("Load",
              h1("Load Dispersal & Kinship Data from Files"),
 
              sidebarLayout(
                sidebarPanel(
 
-                 p("Upload a .csv file with a 'kinship' column obeying standard conventions and a 'distance' column (numeric)"),
+                 h3("Load KinPairData"),
 
-                 fileInput(
-                   inputId = "load_file1",
-                   label = "Choose .csv to upload",
-                   accept = c("text/csv", "text/comma-separated-values,text/plain", ".csv")
+                 selectInput(
+                   inputId = "load_source",
+                   label = "Choose data source",
+                   choices = c("Stored" = "stored", "File" = "filedata", "Mounted from R" = "mounted",
+                               "Simulation (simple)" = "simple", "Simulation (composite)" = "composite",
+                               "Sampled" = "sampled")
+                 ),
+
+                 conditionalPanel(
+                   condition = "input.load_source.includes('stored')",
+                   h4("Retrieving from app tempdata"),
+                   selectInput(
+                     inputId = "load_retrieve_choice_source",
+                     label = "Choose dataslot to load to staging area",
+                     choices = c("Slot 1" = '1', "Slot 2" = '2', "Slot 3" = '3', "Slot 4" = '4', "Slot 5" = '5',
+                                 "Slot 6" = '6', "Slot 7" = '7', "Slot 8" = '8', "Slot 9" = '9', "Slot 10" = '10')
+                   )),
+
+                 conditionalPanel(
+                   condition = "input.load_source.includes('filedata')",
+                   h4("Loading data from filesystem"),
+                   selectInput(
+                     inputId = "load_filetype",
+                     label = "Choose filetype to load",
+                     choices = c(".csv" = "csv", ".tsv" = "tsv", ".kindata" = "kindata")
+                   ),
+                   p("Load a .csv  or .tsv file with a 'kinship' column obeying standard conventions and a 'distance' column (numeric),
+                     or load a .kindata file storing a KinPairData or KinPairSimulation object."),
+
+                   fileInput(
+                     inputId = "load_file1",
+                     label = "Choose file to load",
+                     accept = c("text/csv", "text/comma-separated-values,text/plain", ".csv",
+                                "text/tsv", "text/tab-separated-values,text/plain", ".tsv",
+                                ".kindata")
+                   )
+                 ),
+
+                 conditionalPanel(
+                   h6("Enter one of the items below:"),
+
+                   textOutput(
+                     outputId = "appenv_list"
+                   ),
+                   condition = "input.load_source.includes('mounted')",
+                   textInput(
+                     inputId = "load_retrieve_choice_mounted",
+                     label = "Enter object name to be loaded from appdata"
+                   )
+                 ),
+
+                 actionButton(
+                   inputId = "load_retrieveclick",
+                   label = "Load",
+                   icon = icon("upload")
                  )
 
                ),
                mainPanel(
+
+                 h3("Staged Data"),
+
+                 shiny::verbatimTextOutput("load_mount"),
+
+                 hr(),
+
+                 h3("Pass staged data to app memory"),
+
+                 selectInput(
+                   inputId = "load_saveops",
+                   label = "Choose storage slot",
+                   choices = c("Slot 1" = '1', "Slot 2" = '2', "Slot 3" = '3', "Slot 4" = '4', "Slot 5" = '5',
+                               "Slot 6" = '6', "Slot 7" = '7', "Slot 8" = '8', "Slot 9" = '9', "Slot 10" = '10')
+                 ),
+
+                 actionButton(
+                   inputId = "load_storeclick",
+                   label = "Store",
+                   icon = icon("archive")
+                 ),
+                 hr(),
 
                  tableOutput("load_stats1"),
 
@@ -1003,6 +1076,120 @@ server <- function(input, output, session){
   })
 
   ####_####
+  ################## Load #######################
+
+  mounted_select_refresh <- eventReactive(input$load_mounted_refresh, {
+    updateSelectInput(
+      session,
+      inputId = "load_retrieve_choice_mounted",
+      choices = env_names(env_appdata)
+    )
+  })
+
+  output$appenv_list <- renderText({
+    env_names(env_appdata)
+  })
+
+  staged_object <- eventReactive(input$load_retrieveclick, {
+
+    if (input$load_source == "stored") {
+      return(app_env[[paste0("d", input$load_retrieve_choice_source)]])
+    }
+    else if (input$load_source == "filedata"){
+      if (input$load_filetype == "csv"){
+        return(csv_to_kinpair(input$load_file1$datapath))
+      }
+      else if (input$load_filetype == "tsv"){
+        return(tsv_to_kinpair(input$load_file1$datapath))
+      }
+      else if (input$load_filetype == "kindata"){
+        return(read_kindata(input$load_file1$datapath))
+      }
+    }
+    else if (input$load_source == "mounted"){
+      return(retrieve_appdata(input$load_retrieve_choice_mounted))
+    }
+    else if (input$load_source == "simple"){
+      return(sim_simple_kindata())
+    }
+    else if (input$load_source == "composite"){
+      return(sim_composite_kindata())
+    }
+    else if (input$load_source == "sampled"){
+      return(samp_kindata())
+    }
+  })
+
+  output$load_mount <- renderText({
+    if (is.KinPairSimulation(staged_object())){
+      out <- "KINDISPERSE SIMULATION of KIN PAIRS\n"
+      out <- str_c(out, "-----------------------------------\n")
+      out <- str_c(out, "simtype:\t\t", staged_object()@simtype, "\n")
+      out <- str_c(out, "kerneltype:\t\t", staged_object()@kerneltype, "\n")
+      out <- str_c(out, 'kinship:\t\t', staged_object()@kinship, '\n')
+      out <- str_c(out, 'simdims:\t\t', staged_object()@simdims, '\n')
+      if (is.na(staged_object()@simtype)) {out <- str_c(out, '')}
+      else if  (staged_object()@simtype == "simple"){
+        out <- str_c(out, 'dsigma:\t\t\t', staged_object()@dsigma, '\n')
+      }
+      else if (staged_object()@simtype == "composite"){
+        out <- str_c(out, 'juvsigma\t\t', staged_object()@juvsigma, '\nbreedsigma\t\t', staged_object()@breedsigma,
+                     '\ngravsigma\t\t', staged_object()@gravsigma, '\novisigma\t\t', staged_object()@ovisigma, '\n')
+      }
+      out <- str_c(out, 'lifestage:\t\t', staged_object()@lifestage, '\n')
+      out <- str_c(out, 'rows:\t\t\t', nrow(staged_object()@tab), '\n\n')
+      if (! is.na(staged_object()@filtertype)) { if (staged_object()@filtertype == "filtered") {
+        out <- str_c(out, 'FILTERED\n')
+        out <- str_c(out, '--------\n')
+        if (! is.na(staged_object()@upper)) {out <- str_c(out, 'upper:\t\t\t', staged_object()@upper, '\n')}
+        if (! is.na(staged_object()@lower)) {out <- str_c(out, 'lower:\t\t\t', staged_object()@lower, '\n')}
+        if (! is.na(staged_object()@spacing)) {out <- str_c(out, 'spacing:\t\t', staged_object()@spacing, '\n')}
+        if (! is.na(staged_object()@samplenum)) {out <- str_c(out, 'samplenum:\t\t', staged_object()@samplenum, '\n')}
+        if (! is.na(staged_object()@sampledims)) {out <- str_c(out, 'sampledims:\t\t', staged_object()@sampledims, '\n')}
+        out <- str_c(out, '\n')
+      }}
+      out <- str_c(out, 'tab\n')
+      out <- str_c(out, paste(colnames(staged_object()@tab), collapse = "\t"), "\n")
+      temp <- staged_object()@tab[1:5,]
+      for (nm in 1:ncol(temp)){
+        if (is.numeric(temp[[nm]])) temp[nm] <- round(temp[nm], digits = 1)
+      }
+      out <- str_c(out, paste(temp[1,], collapse = "\t"), "\n")
+      out <- str_c(out, paste(temp[2,], collapse = "\t"), "\n")
+      out <- str_c(out, paste(temp[3,], collapse = "\t"), "\n")
+      out <- str_c(out, paste(temp[4,], collapse = "\t"), "\n")
+      out <- str_c(out, paste(temp[5,], collapse = "\t"), "\n")
+      out <- str_c(out, "-----------------------------------")
+      out
+    }
+    else if (is.KinPairData(staged_object())){
+      out <- ("KINDISPERSE RECORD OF KIN PAIRS\n")
+      out <- str_c(out, "-------------------------------\n")
+      out <- str_c(out, 'kinship:\t\t', staged_object()@kinship, '\n')
+      out <- str_c(out, 'lifestage:\t\t', staged_object()@lifestage, '\n')
+      out <- str_c(out, 'rows:\t\t\t', nrow(staged_object()@tab), '\n\n')
+      out <- str_c(out, 'tab\n')
+      out <- str_c(out, paste(colnames(staged_object()@tab), collapse = "\t"), "\n")
+      temp <- staged_object()@tab[1:5,]
+      for (nm in 1:ncol(temp)){
+        if (is.numeric(temp[[nm]])) temp[nm] <- round(temp[nm], digits = 1)
+      }
+      out <- str_c(out, paste(temp[1,], collapse = "\t"), "\n")
+      out <- str_c(out, paste(temp[2,], collapse = "\t"), "\n")
+      out <- str_c(out, paste(temp[3,], collapse = "\t"), "\n")
+      out <- str_c(out, paste(temp[4,], collapse = "\t"), "\n")
+      out <- str_c(out, paste(temp[5,], collapse = "\t"), "\n")
+      out <- str_c(out, "-------------------------------")
+    }
+
+  })
+
+  load_store <- observeEvent(input$load_storeclick, {
+    saveval <- staged_object()
+    env_poke(app_env, paste0("d", input$load_saveops), saveval)
+  })
+
+  ####_####
   ################## Simulate #####################
 
 
@@ -1238,12 +1425,19 @@ server <- function(input, output, session){
   })
 
   output$samp_retrieve_table <- renderTable({
-    rtable <- tibble("Type" = "a", "Kernel" = "b", "Kinship" = "d", "Lifestage" = "e", "Dims" = 0, .rows = 0)
+    rtable <- tibble("Type" = "a", "Kernel" = "b", "Kinship" = "d", "Lifestage" = "e", "Dims" = 0, "Count" = 0, .rows = 0)
     if (! is.null(samp_loaded_kindata())) {
       temp <- samp_loaded_kindata()
-      rtable <- rtable %>% add_row("Type" = temp@simtype, "Kernel" = temp@kerneltype, "Kinship" = temp@kinship,
-                                   "Lifestage" = temp@lifestage, "Dims" = temp@simdims)
+      if (is.KinPairSimulation(temp)){
+        rtable <- rtable %>% add_row("Type" = temp@simtype, "Kernel" = temp@kerneltype, "Kinship" = temp@kinship,
+                                     "Lifestage" = temp@lifestage, "Dims" = temp@simdims, "Count" = nrow(temp@tab))
+      }
+      else {
+        rtable <- rtable %>% add_row("Type" = "KinPairData", "Kernel" = NA, "Kinship" = temp@kinship,
+                                     "Lifestage" = temp@lifestage, "Dims" = NA, "Count" = nrow(temp@tab))
+      }
     }
+    rtable
   })
 
   samp_kindata <- reactive({
@@ -1409,20 +1603,50 @@ server <- function(input, output, session){
     {
       rtable <- tibble("Slot" = "a", "Type" = "a", "Kernel" = "b", "Kinship" = "d", "Lifestage" = "e", "Dims" = 0, "Count" = 0, .rows = 0)
       temp <- app_env$d1
+      if (is.KinPairSimulation(temp)){
       rtable <- rtable %>% add_row("Slot" = "1", "Type" = temp@simtype, "Kernel" = temp@kerneltype, "Kinship" = temp@kinship,
                                    "Lifestage" = temp@lifestage, "Dims" = temp@simdims, "Count" = nrow(temp@tab))
+      }
+      else {
+        rtable <- rtable %>% add_row("Slot" = "1", "Type" = "KinPairData", "Kernel" = NA, "Kinship" = temp@kinship,
+                                     "Lifestage" = temp@lifestage, "Dims" = NA, "Count" = nrow(temp@tab))
+      }
       temp <- app_env$d2
-      rtable <- rtable %>% add_row("Slot" = "2", "Type" = temp@simtype, "Kernel" = temp@kerneltype, "Kinship" = temp@kinship,
-                                   "Lifestage" = temp@lifestage, "Dims" = temp@simdims, "Count" = nrow(temp@tab))
+      if (is.KinPairSimulation(temp)){
+        rtable <- rtable %>% add_row("Slot" = "2", "Type" = temp@simtype, "Kernel" = temp@kerneltype, "Kinship" = temp@kinship,
+                                     "Lifestage" = temp@lifestage, "Dims" = temp@simdims, "Count" = nrow(temp@tab))
+      }
+      else {
+        rtable <- rtable %>% add_row("Slot" = "3", "Type" = "KinPairData", "Kernel" = NA, "Kinship" = temp@kinship,
+                                     "Lifestage" = temp@lifestage, "Dims" = NA, "Count" = nrow(temp@tab))
+      }
       temp <- app_env$d3
-      rtable <- rtable %>% add_row("Slot" = "3", "Type" = temp@simtype, "Kernel" = temp@kerneltype, "Kinship" = temp@kinship,
-                                   "Lifestage" = temp@lifestage, "Dims" = temp@simdims, "Count" = nrow(temp@tab))
+      if (is.KinPairSimulation(temp)){
+        rtable <- rtable %>% add_row("Slot" = "3", "Type" = temp@simtype, "Kernel" = temp@kerneltype, "Kinship" = temp@kinship,
+                                     "Lifestage" = temp@lifestage, "Dims" = temp@simdims, "Count" = nrow(temp@tab))
+      }
+      else {
+        rtable <- rtable %>% add_row("Slot" = "4", "Type" = "KinPairData", "Kernel" = NA, "Kinship" = temp@kinship,
+                                     "Lifestage" = temp@lifestage, "Dims" = NA, "Count" = nrow(temp@tab))
+      }
       temp <- app_env$d4
-      rtable <- rtable %>% add_row("Slot" = "4", "Type" = temp@simtype, "Kernel" = temp@kerneltype, "Kinship" = temp@kinship,
-                                   "Lifestage" = temp@lifestage, "Dims" = temp@simdims, "Count" = nrow(temp@tab))
+      if (is.KinPairSimulation(temp)){
+        rtable <- rtable %>% add_row("Slot" = "4", "Type" = temp@simtype, "Kernel" = temp@kerneltype, "Kinship" = temp@kinship,
+                                     "Lifestage" = temp@lifestage, "Dims" = temp@simdims, "Count" = nrow(temp@tab))
+      }
+      else {
+        rtable <- rtable %>% add_row("Slot" = "4", "Type" = "KinPairData", "Kernel" = NA, "Kinship" = temp@kinship,
+                                     "Lifestage" = temp@lifestage, "Dims" = NA, "Count" = nrow(temp@tab))
+      }
       temp <- app_env$d5
-      rtable <- rtable %>% add_row("Slot" = "5", "Type" = temp@simtype, "Kernel" = temp@kerneltype, "Kinship" = temp@kinship,
-                                   "Lifestage" = temp@lifestage, "Dims" = temp@simdims, "Count" = nrow(temp@tab))
+      if (is.KinPairSimulation(temp)){
+        rtable <- rtable %>% add_row("Slot" = "5", "Type" = temp@simtype, "Kernel" = temp@kerneltype, "Kinship" = temp@kinship,
+                                     "Lifestage" = temp@lifestage, "Dims" = temp@simdims, "Count" = nrow(temp@tab))
+      }
+      else {
+        rtable <- rtable %>% add_row("Slot" = "5", "Type" = "KinPairData", "Kernel" = NA, "Kinship" = temp@kinship,
+                                     "Lifestage" = temp@lifestage, "Dims" = NA, "Count" = nrow(temp@tab))
+      }
 
       return(rtable)
     })
