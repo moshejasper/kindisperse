@@ -69,7 +69,7 @@ Takes (at least) two vectors of kinship dispersal distances from defined kinship
 Further tests
 }
 \examples{
-cous <- rexp(100, 1/100)
-fullsibs <- rexp(50, 1/50)
+cous <- rexp(100, 1 / 100)
+fullsibs <- rexp(50, 1 / 50)
 axpermute_standard(cous, fullsibs, acat = "1C", bcat = "FS")
 }

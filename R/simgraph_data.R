@@ -14,21 +14,22 @@
 #' @examples
 #' simgraph_data(nsims = 100, dims = 1000, kinship = "GAV", centred = TRUE)
 simgraph_data <- function(nsims = 10, dsigma = 50, dims = 250, kinship = "2C",
-                          centred = FALSE, pinwheel = FALSE, scattered = FALSE){
-
-  if (! kinship %in% c("PO", "FS", "HS", "AV", "GG", "HAV", "GGG", "1C", "1C1", "2C", "GAV")) {
+                          centred = FALSE, pinwheel = FALSE, scattered = FALSE) {
+  if (!kinship %in% c("PO", "FS", "HS", "AV", "GG", "HAV", "GGG", "1C", "1C1", "2C", "GAV")) {
     stop("Invalid Kinship Category")
   }
 
   nsims <- nsims
   dsigma <- dsigma
   dims <- dims
-  if (pinwheel == TRUE | scattered == TRUE) {centred <- TRUE}
-  if (centred == TRUE){
+  if (pinwheel == TRUE | scattered == TRUE) {
+    centred <- TRUE
+  }
+  if (centred == TRUE) {
     f0x <- runif(nsims, 0, 0)
     f0y <- runif(nsims, 0, 0)
   }
-  if (centred == FALSE){
+  if (centred == FALSE) {
     f0x <- runif(nsims, 0, dims)
     f0y <- runif(nsims, 0, dims)
     # sample = 10...
@@ -50,28 +51,80 @@ simgraph_data <- function(nsims = 10, dsigma = 50, dims = 250, kinship = "2C",
   f3by <- rnorm(nsims, 0, dsigma) + f2by
 
 
-  if (kinship == "PO"){k1x <- f0x ; k1y <- f0y ; k2x <- f1ax; k2y <- f1ay}
-  if (kinship == "FS" | kinship == "HS") {k1x <- f1ax ; k1y <- f1ay ; k2x <- f1bx; k2y <- f1by}
-  if (kinship == "AV" | kinship == "HAV") {k1x <- f2ax ; k1y <- f2ay ; k2x <- f1bx; k2y <- f1by}
-  if (kinship == "GG") {k1x <- f0x ; k1y <- f0y ; k2x <- f2ax; k2y <- f2ay}
-  if (kinship == "1C") {k1x <- f2ax ; k1y <- f2ay ; k2x <- f2bx; k2y <- f2by}
-  if (kinship == "GGG") {k1x <- f0x ; k1y <- f0y ; k2x <- f3ax; k2y <- f3ay}
-  if (kinship == "GAV") {k1x <- f3ax; k1y <- f3ay; k2x <- f1bx; k2y <- f1by}
-  if (kinship == "1C1") {k1x <- f3ax ; k1y <- f3ay ; k2x <- f2bx; k2y <- f2by}
-  if (kinship == "2C") {k1x <- f3ax ; k1y <- f3ay ; k2x <- f3bx; k2y <- f3by}
+  if (kinship == "PO") {
+    k1x <- f0x
+    k1y <- f0y
+    k2x <- f1ax
+    k2y <- f1ay
+  }
+  if (kinship == "FS" | kinship == "HS") {
+    k1x <- f1ax
+    k1y <- f1ay
+    k2x <- f1bx
+    k2y <- f1by
+  }
+  if (kinship == "AV" | kinship == "HAV") {
+    k1x <- f2ax
+    k1y <- f2ay
+    k2x <- f1bx
+    k2y <- f1by
+  }
+  if (kinship == "GG") {
+    k1x <- f0x
+    k1y <- f0y
+    k2x <- f2ax
+    k2y <- f2ay
+  }
+  if (kinship == "1C") {
+    k1x <- f2ax
+    k1y <- f2ay
+    k2x <- f2bx
+    k2y <- f2by
+  }
+  if (kinship == "GGG") {
+    k1x <- f0x
+    k1y <- f0y
+    k2x <- f3ax
+    k2y <- f3ay
+  }
+  if (kinship == "GAV") {
+    k1x <- f3ax
+    k1y <- f3ay
+    k2x <- f1bx
+    k2y <- f1by
+  }
+  if (kinship == "1C1") {
+    k1x <- f3ax
+    k1y <- f3ay
+    k2x <- f2bx
+    k2y <- f2by
+  }
+  if (kinship == "2C") {
+    k1x <- f3ax
+    k1y <- f3ay
+    k2x <- f3bx
+    k2y <- f3by
+  }
 
-  if (pinwheel == TRUE | scattered == TRUE) {k1x <- k1x - k1x; k1y <- k1y - k1y; k2x <- k2x - k1x; k2y <- k2y - k1y}
+  if (pinwheel == TRUE | scattered == TRUE) {
+    k1x <- k1x - k1x
+    k1y <- k1y - k1y
+    k2x <- k2x - k1x
+    k2y <- k2y - k1y
+  }
   kindist <- round(sqrt((k1x - k2x)^2 + (k1y - k2y)^2), digits = 1)
   kinmidx <- (k1x + k2x) / 2
   kinmidy <- (k1y + k2y) / 2
 
 
-  result <- tibble(f0x = f0x, f0y = f0y, f1ax = f1ax, f1ay = f1ay,
-                   f1bx = f1bx, f1by = f1by, f1cx = f1cx, f1cy = f1cy,
-                   f2ax = f2ax, f2ay = f2ay, f2bx = f2bx, f2by = f2by,
-                   f3ax = f3ax, f3ay = f3ay, f3bx = f3bx, f3by = f3by,
-                   kindist = kindist, kinmidx = kinmidx, kinmidy = kinmidy,
-                   k1x = k1x, k1y = k1y, k2x = k2x, k2y = k2y)
+  result <- tibble(
+    f0x = f0x, f0y = f0y, f1ax = f1ax, f1ay = f1ay,
+    f1bx = f1bx, f1by = f1by, f1cx = f1cx, f1cy = f1cy,
+    f2ax = f2ax, f2ay = f2ay, f2bx = f2bx, f2by = f2by,
+    f3ax = f3ax, f3ay = f3ay, f3bx = f3bx, f3by = f3by,
+    kindist = kindist, kinmidx = kinmidx, kinmidy = kinmidy,
+    k1x = k1x, k1y = k1y, k2x = k2x, k2y = k2y
+  )
 
   return(result)
 }

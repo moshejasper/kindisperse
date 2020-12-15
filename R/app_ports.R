@@ -13,8 +13,8 @@ attributes(env_appdata) <- list(name = "kindisperse_appdata")
 #'
 #' @examples
 #' mount_appdata(KinPairData(), "mydata")
-mount_appdata <- function(x, nm){
-  if (! is.KinPairData(x)) stop("Object x is not of class KinPairData!")
+mount_appdata <- function(x, nm) {
+  if (!is.KinPairData(x)) stop("Object x is not of class KinPairData!")
   env_poke(env_appdata, nm, x)
   invisible(x)
 }
@@ -30,7 +30,7 @@ mount_appdata <- function(x, nm){
 #' mount_appdata(KinPairData(), "mydata")
 #'
 #' unmount_appdata("mydata")
-unmount_appdata <- function(nms){
+unmount_appdata <- function(nms) {
   env_unbind(env_appdata, nms)
 }
 
@@ -41,7 +41,7 @@ unmount_appdata <- function(nms){
 #'
 #' @examples
 #' reset_appdata()
-reset_appdata <- function(){
+reset_appdata <- function() {
   env_unbind(env_appdata, env_names(env_appdata))
 }
 
@@ -56,7 +56,7 @@ reset_appdata <- function(){
 #' mount_appdata(KinPairData(), "mydata")
 #'
 #' retrieve_appdata("mydata")
-retrieve_appdata <- function(nm){
+retrieve_appdata <- function(nm) {
   env_get(env_appdata, nm)
 }
 
@@ -69,7 +69,7 @@ retrieve_appdata <- function(nm){
 #' mount_appdata(KinPairData(), "k1")
 #' mount_appdata(KinPairSimulation(), "s1")
 #' retrieveall_appdata()
-retrieveall_appdata <- function(){
+retrieveall_appdata <- function() {
   env_get_list(env_appdata, env_names(env_appdata))
 }
 
@@ -80,7 +80,7 @@ retrieveall_appdata <- function(){
 #'
 #' @examples
 #' reset_tempdata()
-reset_tempdata <- function(){
+reset_tempdata <- function() {
   env_poke(app_env, "d1", KinPairSimulation())
   env_poke(app_env, "d2", KinPairSimulation())
   env_poke(app_env, "d3", KinPairSimulation())
@@ -100,7 +100,7 @@ reset_tempdata <- function(){
 #'
 #' @examples
 #' retrieve_tempdata()
-retrieve_tempdata <- function(){
+retrieve_tempdata <- function() {
   env_get_list(app_env, env_names(app_env))
 }
 
@@ -114,6 +114,6 @@ retrieve_tempdata <- function(){
 #' mount_appdata(simulate_kindist_simple(nsims = 10), "my_simdata")
 #'
 #' display_appdata()
-display_appdata <- function(){
+display_appdata <- function() {
   env_print(env_appdata)
 }

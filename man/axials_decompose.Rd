@@ -20,6 +20,6 @@ Decomposes an axial distribution into simple components. Note that this should o
 \examples{
 fs_vect <- c(10, 11, 12)
 fs_axial_raw <- axials(fs_vect, composite = 1) # composite hasn't corrected for two dispersal events
-#inherent to this kin category!
+# inherent to this kin category!
 fs_axial_final <- axials_decompose(fs_axial_raw, n_composites = 2)
 }

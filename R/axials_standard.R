@@ -19,34 +19,41 @@
 #' @export
 #'
 #' @examples
-#' cous <- rexp(100, 1/100)
-#' fullsibs <- rexp(50, 1/50)
+#' cous <- rexp(100, 1 / 100)
+#' fullsibs <- rexp(50, 1 / 50)
 #' axials_standard(cous, fullsibs, acat = "1C", bcat = "FS")
 axials_standard <- function(avect, bvect, acat = NULL, bcat = NULL,
                             amix = F, bmix = F, amixcat = NULL, bmixcat = NULL, acomp = F, bcomp = F,
-                            acompvect = NULL, bcompvect = NULL, acompcat = NULL, bcompcat = NULL){
-
-  if (is.KinPairData(avect)){
+                            acompvect = NULL, bcompvect = NULL, acompcat = NULL, bcompcat = NULL) {
+  if (is.KinPairData(avect)) {
     if (is.null(acat)) acat <- kinship(avect)
     avect <- distances(avect)
   }
-  if (is.KinPairData(bvect)){
+  if (is.KinPairData(bvect)) {
     if (is.null(bcat)) bcat <- kinship(bvect)
     bvect <- distances(bvect)
   }
-  if (is.KinPairData(acompvect)){
+  if (is.KinPairData(acompvect)) {
     if (is.null(acompcat)) acompcat <- kinship(acompvect)
     acompvect <- distances(acompvect)
   }
-  if (is.KinPairData(bcompvect)){
+  if (is.KinPairData(bcompvect)) {
     if (is.null(bcompcat)) bcompcat <- kinship(bcompvect)
     bcompvect <- distances(bcompvect)
   }
   # Run tests - these check basic pairings between categories
-  if (is.null(avect)) {stop("Please supply kin dispersal distance vector a!")}
-  if (is.null(bvect)) {stop("Please supply kin dispersal distance vector b!")}
-  if (is.null(acat)) {stop("Please supply kin category a!")}
-  if (is.null(bcat)) {stop("Please supply kin category b!")}
+  if (is.null(avect)) {
+    stop("Please supply kin dispersal distance vector a!")
+  }
+  if (is.null(bvect)) {
+    stop("Please supply kin dispersal distance vector b!")
+  }
+  if (is.null(acat)) {
+    stop("Please supply kin category a!")
+  }
+  if (is.null(bcat)) {
+    stop("Please supply kin category b!")
+  }
 
   aphase <- phase_assigner(acat)
   bphase <- phase_assigner(bcat)
@@ -61,18 +68,30 @@ axials_standard <- function(avect, bvect, acat = NULL, bcat = NULL,
   b_ax <- axials(bvect)
 
   if (amix == T) {
-    if (is.null(amixcat)) {stop("please supply mixture kin category for a!")}
-    if (bcomp == F & bmix == F) {stop("Mixed category a must be paired with a mixed category or composite b!")}
-    if (acomp ==T) {stop("Estimate a cannot be both composite & mixed ('amix' & 'acomp' both == T)")}
+    if (is.null(amixcat)) {
+      stop("please supply mixture kin category for a!")
+    }
+    if (bcomp == F & bmix == F) {
+      stop("Mixed category a must be paired with a mixed category or composite b!")
+    }
+    if (acomp == T) {
+      stop("Estimate a cannot be both composite & mixed ('amix' & 'acomp' both == T)")
+    }
     amixphase <- phase_assigner(amixcat)
     aphasetest <- c(aphasetest, amixphase)
     amixspan <- span_assigner(amixcat)
     aspantest <- mean(c(aspantest, amixspan))
   }
   if (bmix == T) {
-    if (is.null(bmixcat)) {stop("please supply mixture kin category for b!")}
-    if (acomp == F & amix == F) {stop("Mixed category b must be paired with a mixed category or composite a!")}
-    if (bcomp ==T) {stop("Estimate b cannot be both composite & mixed ('bmix' & 'bcomp' both == T)")}
+    if (is.null(bmixcat)) {
+      stop("please supply mixture kin category for b!")
+    }
+    if (acomp == F & amix == F) {
+      stop("Mixed category b must be paired with a mixed category or composite a!")
+    }
+    if (bcomp == T) {
+      stop("Estimate b cannot be both composite & mixed ('bmix' & 'bcomp' both == T)")
+    }
     bmixphase <- phase_assigner(bmixcat)
     bphasetest <- c(bphasetest, bmixphase)
     bmixspan <- span_assigner(bmixcat)
@@ -80,10 +99,18 @@ axials_standard <- function(avect, bvect, acat = NULL, bcat = NULL,
   }
 
   if (acomp == T) {
-    if (is.null(acompvect)) {stop("please supply composite vector for a!")}
-    if (bcomp == F & bmix == F) {stop("Composite estimate a must be paired with a mixed category or composite b!")}
-    if (is.null(acompcat)) {stop("Please supply kin category for composite a")}
-    if (amix ==T) {stop("Estimate a cannot be both composite & mixed ('amix' & 'acomp' both T)")}
+    if (is.null(acompvect)) {
+      stop("please supply composite vector for a!")
+    }
+    if (bcomp == F & bmix == F) {
+      stop("Composite estimate a must be paired with a mixed category or composite b!")
+    }
+    if (is.null(acompcat)) {
+      stop("Please supply kin category for composite a")
+    }
+    if (amix == T) {
+      stop("Estimate a cannot be both composite & mixed ('amix' & 'acomp' both T)")
+    }
     acompphase <- phase_assigner(acompcat)
     aphasetest <- c(aphasetest, acompphase)
     acompspan <- span_assigner(acompcat)
@@ -93,10 +120,18 @@ axials_standard <- function(avect, bvect, acat = NULL, bcat = NULL,
   }
 
   if (bcomp == T) {
-    if (is.null(bcompvect)) {stop("please supply composite vector for b!")}
-    if (acomp == F & amix == F) {stop("Composite estimate b must be paired with a mixed category or composite a!")}
-    if (is.null(bcompcat)) {stop("Please supply kin category for composite b")}
-    if (bmix ==T) {stop("Estimate a cannot be both composite & mixed ('amix' & 'acomp' both T)")}
+    if (is.null(bcompvect)) {
+      stop("please supply composite vector for b!")
+    }
+    if (acomp == F & amix == F) {
+      stop("Composite estimate b must be paired with a mixed category or composite a!")
+    }
+    if (is.null(bcompcat)) {
+      stop("Please supply kin category for composite b")
+    }
+    if (bmix == T) {
+      stop("Estimate a cannot be both composite & mixed ('amix' & 'acomp' both T)")
+    }
     bcompphase <- phase_assigner(bcompcat)
     bphasetest <- c(bphasetest, bcompphase)
     bcompspan <- span_assigner(bcompcat)
@@ -105,8 +140,12 @@ axials_standard <- function(avect, bvect, acat = NULL, bcat = NULL,
     b_ax <- axials_combine(c(b_ax, bcomp_ax))
   }
 
-  if (! identical(sort(aphasetest), sort(bphasetest))) {stop(paste0("A and B phases are mismatched! A: ", sort(aphasetest), " B: ", sort(bphasetest)))}
-  if (aspantest <= bspantest) {stop(paste0("A categories should contain more dispersed kin categories than B categories: A spans: ", aspantest, " B spans: ", bspantest))}
+  if (!identical(sort(aphasetest), sort(bphasetest))) {
+    stop(paste0("A and B phases are mismatched! A: ", sort(aphasetest), " B: ", sort(bphasetest)))
+  }
+  if (aspantest <= bspantest) {
+    stop(paste0("A categories should contain more dispersed kin categories than B categories: A spans: ", aspantest, " B spans: ", bspantest))
+  }
 
   spandiff <- aspantest - bspantest
   print(aspantest)
@@ -114,7 +153,6 @@ axials_standard <- function(avect, bvect, acat = NULL, bcat = NULL,
   lifeax_prelim <- axials_subtract(a_ax, b_ax)
   lifeax_final <- axials_decompose(lifeax_prelim, spandiff)
   return(lifeax_final)
-
 }
 
 
@@ -143,35 +181,42 @@ axials_standard <- function(avect, bvect, acat = NULL, bcat = NULL,
 #' @export
 #'
 #' @examples
-#' cous <- rexp(100, 1/100)
-#' fullsibs <- rexp(50, 1/50)
+#' cous <- rexp(100, 1 / 100)
+#' fullsibs <- rexp(50, 1 / 50)
 #' axpermute_standard(cous, fullsibs, acat = "1C", bcat = "FS")
-axpermute_standard <- function(avect=NULL, bvect=NULL, acat=NULL, bcat=NULL, nreps = 1000, nsamp = "std",
+axpermute_standard <- function(avect = NULL, bvect = NULL, acat = NULL, bcat = NULL, nreps = 1000, nsamp = "std",
                                amix = F, bmix = F, amixcat = NULL, bmixcat = NULL, acomp = F, bcomp = F,
-                               acompvect = NULL, bcompvect = NULL, acompcat = NULL, bcompcat = NULL, output = "confs"){
-
-  if (is.KinPairData(avect)){
+                               acompvect = NULL, bcompvect = NULL, acompcat = NULL, bcompcat = NULL, output = "confs") {
+  if (is.KinPairData(avect)) {
     if (is.null(acat)) acat <- kinship(avect)
     avect <- distances(avect)
   }
-  if (is.KinPairData(bvect)){
+  if (is.KinPairData(bvect)) {
     if (is.null(bcat)) bcat <- kinship(bvect)
     bvect <- distances(bvect)
   }
-  if (is.KinPairData(acompvect)){
+  if (is.KinPairData(acompvect)) {
     if (is.null(acompcat)) acompcat <- kinship(acompvect)
     acompvect <- distances(acompvect)
   }
-  if (is.KinPairData(bcompvect)){
+  if (is.KinPairData(bcompvect)) {
     if (is.null(bcompcat)) bcompcat <- kinship(bcompvect)
     bcompvect <- distances(bcompvect)
   }
 
   # Run tests - these check basic pairings between categories
-  if (is.null(avect)) {stop("Please supply kin dispersal distance vector a!")}
-  if (is.null(bvect)) {stop("Please supply kin dispersal distance vector b!")}
-  if (is.null(acat)) {stop("Please supply kin category a!")}
-  if (is.null(bcat)) {stop("Please supply kin category b!")}
+  if (is.null(avect)) {
+    stop("Please supply kin dispersal distance vector a!")
+  }
+  if (is.null(bvect)) {
+    stop("Please supply kin dispersal distance vector b!")
+  }
+  if (is.null(acat)) {
+    stop("Please supply kin category a!")
+  }
+  if (is.null(bcat)) {
+    stop("Please supply kin category b!")
+  }
 
   aphase <- phase_assigner(acat)
   bphase <- phase_assigner(bcat)
@@ -194,22 +239,36 @@ axpermute_standard <- function(avect=NULL, bvect=NULL, acat=NULL, bcat=NULL, nre
       cat("More than 1,000 kinpairs in vector bvect: setting permutation sample number to 1,000\n")
       bnum <- 1000
     }
-    }
-  else {anum <- bnum <- nsamp}
+  }
+  else {
+    anum <- bnum <- nsamp
+  }
 
   if (amix == T) {
-    if (is.null(amixcat)) {stop("please supply mixture kin category for a!")}
-    if (bcomp == F & bmix == F) {stop("Mixed category a must be paired with a mixed category or composite b!")}
-    if (acomp ==T) {stop("Estimate a cannot be both composite & mixed ('amix' & 'acomp' both == T)")}
+    if (is.null(amixcat)) {
+      stop("please supply mixture kin category for a!")
+    }
+    if (bcomp == F & bmix == F) {
+      stop("Mixed category a must be paired with a mixed category or composite b!")
+    }
+    if (acomp == T) {
+      stop("Estimate a cannot be both composite & mixed ('amix' & 'acomp' both == T)")
+    }
     amixphase <- phase_assigner(amixcat)
     aphasetest <- c(aphasetest, amixphase)
     amixspan <- span_assigner(amixcat)
     aspantest <- mean(c(aspantest, amixspan))
   }
   if (bmix == T) {
-    if (is.null(bmixcat)) {stop("please supply mixture kin category for b!")}
-    if (acomp == F & amix == F) {stop("Mixed category b must be paired with a mixed category or composite a!")}
-    if (bcomp ==T) {stop("Estimate b cannot be both composite & mixed ('bmix' & 'bcomp' both == T)")}
+    if (is.null(bmixcat)) {
+      stop("please supply mixture kin category for b!")
+    }
+    if (acomp == F & amix == F) {
+      stop("Mixed category b must be paired with a mixed category or composite a!")
+    }
+    if (bcomp == T) {
+      stop("Estimate b cannot be both composite & mixed ('bmix' & 'bcomp' both == T)")
+    }
     bmixphase <- phase_assigner(bmixcat)
     bphasetest <- c(bphasetest, bmixphase)
     bmixspan <- span_assigner(bmixcat)
@@ -217,10 +276,18 @@ axpermute_standard <- function(avect=NULL, bvect=NULL, acat=NULL, bcat=NULL, nre
   }
 
   if (acomp == T) {
-    if (is.null(acompvect)) {stop("please supply composite vector for a!")}
-    if (bcomp == F & bmix == F) {stop("Composite estimate a must be paired with a mixed category or composite b!")}
-    if (is.null(acompcat)) {stop("Please supply kin category for composite a")}
-    if (amix ==T) {stop("Estimate a cannot be both composite & mixed ('amix' & 'acomp' both T)")}
+    if (is.null(acompvect)) {
+      stop("please supply composite vector for a!")
+    }
+    if (bcomp == F & bmix == F) {
+      stop("Composite estimate a must be paired with a mixed category or composite b!")
+    }
+    if (is.null(acompcat)) {
+      stop("Please supply kin category for composite a")
+    }
+    if (amix == T) {
+      stop("Estimate a cannot be both composite & mixed ('amix' & 'acomp' both T)")
+    }
     acompphase <- phase_assigner(acompcat)
     aphasetest <- c(aphasetest, acompphase)
     acompspan <- span_assigner(acompcat)
@@ -231,33 +298,51 @@ axpermute_standard <- function(avect=NULL, bvect=NULL, acat=NULL, bcat=NULL, nre
         cat("More than 1,000 kinpairs in vector acompvect: setting permutation sample number to 1,000\n")
         acompnum <- 1000
       }
-      }
-    else {acompnum <- nsamp}
+    }
+    else {
+      acompnum <- nsamp
+    }
   }
 
   if (bcomp == T) {
-    if (is.null(bcompvect)) {stop("please supply composite vector for b!")}
-    if (acomp == F & amix == F) {stop("Composite estimate b must be paired with a mixed category or composite a!")}
-    if (is.null(bcompcat)) {stop("Please supply kin category for composite b")}
-    if (bmix ==T) {stop("Estimate a cannot be both composite & mixed ('amix' & 'acomp' both T)")}
+    if (is.null(bcompvect)) {
+      stop("please supply composite vector for b!")
+    }
+    if (acomp == F & amix == F) {
+      stop("Composite estimate b must be paired with a mixed category or composite a!")
+    }
+    if (is.null(bcompcat)) {
+      stop("Please supply kin category for composite b")
+    }
+    if (bmix == T) {
+      stop("Estimate a cannot be both composite & mixed ('amix' & 'acomp' both T)")
+    }
     bcompphase <- phase_assigner(bcompcat)
     bphasetest <- c(bphasetest, bcompphase)
     bcompspan <- span_assigner(bcompcat)
     bspantest <- mean(c(bspantest, bcompspan))
     if (nsamp == "std") {
       bcompnum <- length(bcompvect)
-      if (bcompnum > 1000){
+      if (bcompnum > 1000) {
         cat("More than 1,000 kinpairs in vector bcompvect: setting permutation sample number to 1,000\n")
         bcompnum <- 1000
       }
-      }
-    else {bcompnum <- nsamp}
+    }
+    else {
+      bcompnum <- nsamp
+    }
   }
 
-  if (! identical(sort(aphasetest), sort(bphasetest))) {stop(paste0("A and B phases are mismatched! A: ", sort(aphasetest), " B: ", sort(bphasetest)))}
-  if (aspantest <= bspantest) {stop(paste0("A categories should contain more dispersed kin categories than B categories: A spans: ", aspantest, " B spans: ", bspantest))}
+  if (!identical(sort(aphasetest), sort(bphasetest))) {
+    stop(paste0("A and B phases are mismatched! A: ", sort(aphasetest), " B: ", sort(bphasetest)))
+  }
+  if (aspantest <= bspantest) {
+    stop(paste0("A categories should contain more dispersed kin categories than B categories: A spans: ", aspantest, " B spans: ", bspantest))
+  }
 
-  if (! output %in% c("confs", "vect")) {stop("'output' must be set to either confidence intervals 'confs' or vector 'vect'")}
+  if (!output %in% c("confs", "vect")) {
+    stop("'output' must be set to either confidence intervals 'confs' or vector 'vect'")
+  }
 
   spandiff <- aspantest - bspantest
 
@@ -265,8 +350,7 @@ axpermute_standard <- function(avect=NULL, bvect=NULL, acat=NULL, bcat=NULL, nre
 
   container <- tibble(ax = 0.0, .rows = 0)
 
-  for (val in 1:nreps){
-
+  for (val in 1:nreps) {
     asub <- sample(avect, anum, replace = TRUE)
     bsub <- sample(bvect, bnum, replace = TRUE)
 
@@ -296,7 +380,6 @@ axpermute_standard <- function(avect=NULL, bvect=NULL, acat=NULL, bcat=NULL, nre
 
 
     container <- tibble::add_row(container, ax = lifeax_final)
-
   }
 
   # return values
@@ -307,5 +390,4 @@ axpermute_standard <- function(avect=NULL, bvect=NULL, acat=NULL, bcat=NULL, nre
   else if (output == "vect") {
     return(sort(container$ax))
   }
-
 }

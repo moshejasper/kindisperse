@@ -11,7 +11,8 @@ methods::setOldClass(c("tbl_df", "tbl", "data.frame"))
 #'
 #'
 KinPairData <- setClass("KinPairData",
-                        slots = list(kinship = "character", lifestage = "character", tab = "tbl_df"))
+  slots = list(kinship = "character", lifestage = "character", tab = "tbl_df")
+)
 
 
 ######### GENERICS and METHODS#############
@@ -115,7 +116,7 @@ setMethod("kinship", "KinPairData", function(x) x@kinship)
 #' @export
 #'
 #' @describeIn KinPairData assign kin category
-setMethod("kinship<-", "KinPairData", function(x, value){
+setMethod("kinship<-", "KinPairData", function(x, value) {
   x@kinship <- value
   validObject(x)
   x
@@ -141,7 +142,7 @@ setMethod("lifestage", "KinPairData", function(x) x@lifestage)
 #' @export
 #'
 #' @describeIn KinPairData assign lifestage
-setMethod("lifestage<-", "KinPairData", function(x, value){
+setMethod("lifestage<-", "KinPairData", function(x, value) {
   x@lifestage <- value
   validObject(x)
   x
@@ -158,12 +159,12 @@ setMethod("lifestage<-", "KinPairData", function(x, value){
 setMethod(
   "show",
   "KinPairData",
-  function(object){
+  function(object) {
     cat("KINDISPERSE RECORD OF KIN PAIRS\n")
     cat("-------------------------------\n")
-    cat('kinship:\t\t', object@kinship, '\n')
-    cat('lifestage:\t\t', object@lifestage, '\n\n')
-    cat('tab\n')
+    cat("kinship:\t\t", object@kinship, "\n")
+    cat("lifestage:\t\t", object@lifestage, "\n\n")
+    cat("tab\n")
     print(object@tab)
     cat("-------------------------------")
   }
@@ -179,64 +180,69 @@ setMethod(
 #' @export
 #'
 #' @describeIn KinPairData initialize method
-setMethod("initialize", "KinPairData",
-          function(.Object,
-          data = NULL,
-          kinship = NULL,
-          lifestage = NULL,
-          ...){
-
-  if (! is.null(kinship)){
-    .Object@kinship <- kinship
-  }
-  else {.Object@kinship <- "UN"}
-  if (! is.null(lifestage)){
-    .Object@lifestage <- lifestage
-  }
-  else {.Object@lifestage <- "unknown"}
-  if (! is.null(data)){
-    if (is.data.frame(data) & ! is_tibble(data)){
-      data <- as_tibble(data)
+setMethod(
+  "initialize", "KinPairData",
+  function(.Object,
+           data = NULL,
+           kinship = NULL,
+           lifestage = NULL,
+           ...) {
+    if (!is.null(kinship)) {
+      .Object@kinship <- kinship
     }
-    if (is_tibble(data)){
-      if (ncol(data) == 1){
-        data <- data[[1]]
+    else {
+      .Object@kinship <- "UN"
+    }
+    if (!is.null(lifestage)) {
+      .Object@lifestage <- lifestage
+    }
+    else {
+      .Object@lifestage <- "unknown"
+    }
+    if (!is.null(data)) {
+      if (is.data.frame(data) & !is_tibble(data)) {
+        data <- as_tibble(data)
       }
-    }
-    if (is_tibble(data)){
-      if (!"distance" %in% colnames(data)) {
-        if (! ("x1" %in% colnames(data) & "y1" %in% colnames(data) & "x2" %in% colnames(data) & "y2" %in% colnames(data))){
-          stop("Unable to determine kin distances!")
+      if (is_tibble(data)) {
+        if (ncol(data) == 1) {
+          data <- data[[1]]
         }
-        else {data <- mutate(data, distance = sqrt((.data$x1 - .data$x2)^2 + (.data$y1 - .data$y2)^2))}
       }
-      if (! "kinship" %in% colnames(data)){
-        data <- mutate(data, kinship = .Object@kinship)
-      }
-      if (! "id1" %in% colnames(data)){
-        data <- add_column(data, id1 = paste0(1:nrow(data), "a"))
-      }
-      if (! "id2" %in% colnames(data)){
-        data <- add_column(data, id2 = paste0(1:nrow(data), "b"))
-      }
-      data <- select(data, .data$id1, .data$id2, .data$kinship, .data$distance, everything())
-      .Object@tab <- data
-    }
-    else { # check if just distances included
-      if (is.numeric(data)) {
-        cat("Note: numeric vector interpreted as kin distances!\n")
-        data <- tibble(id1 = paste0(1:length(data), "a"), id2 = paste0(1:length(data), "b"), kinship = .Object@kinship, distance = data)
+      if (is_tibble(data)) {
+        if (!"distance" %in% colnames(data)) {
+          if (!("x1" %in% colnames(data) & "y1" %in% colnames(data) & "x2" %in% colnames(data) & "y2" %in% colnames(data))) {
+            stop("Unable to determine kin distances!")
+          }
+          else {
+            data <- mutate(data, distance = sqrt((.data$x1 - .data$x2)^2 + (.data$y1 - .data$y2)^2))
+          }
+        }
+        if (!"kinship" %in% colnames(data)) {
+          data <- mutate(data, kinship = .Object@kinship)
+        }
+        if (!"id1" %in% colnames(data)) {
+          data <- add_column(data, id1 = paste0(1:nrow(data), "a"))
+        }
+        if (!"id2" %in% colnames(data)) {
+          data <- add_column(data, id2 = paste0(1:nrow(data), "b"))
+        }
+        data <- select(data, .data$id1, .data$id2, .data$kinship, .data$distance, everything())
         .Object@tab <- data
       }
+      else { # check if just distances included
+        if (is.numeric(data)) {
+          cat("Note: numeric vector interpreted as kin distances!\n")
+          data <- tibble(id1 = paste0(1:length(data), "a"), id2 = paste0(1:length(data), "b"), kinship = .Object@kinship, distance = data)
+          .Object@tab <- data
+        }
+      }
     }
+    else {
+      .Object@tab <- tibble(id1 = "a", id2 = "b", kinship = "UN", distance = 0, .rows = 0)
+    }
+    validObject(.Object)
+    return(.Object)
   }
-  else {
-    .Object@tab <- tibble(id1 = "a", id2 = "b", kinship = "UN", distance = 0, .rows = 0)
-  }
-  validObject(.Object)
-  return(.Object
-         )
-}
 )
 
 #' Make new KinPairData object
@@ -250,18 +256,18 @@ setMethod("initialize", "KinPairData",
 #'
 #' @examples
 #' KinPairData()
-KinPairData <- function(data = NULL, kinship = NULL, lifestage = NULL){
+KinPairData <- function(data = NULL, kinship = NULL, lifestage = NULL) {
   new("KinPairData", data = data, kinship = kinship, lifestage = lifestage)
 }
 
 
-setValidity("KinPairData", function(object){
-  if (! object@kinship %in% c("UN", "PO", "GG", "GGG", "FS", "AV", "GAV", "1C", "1C1", "2C", "HS", "HAV", "HGAV", "H1C", "H1C1", "H2C")) {
+setValidity("KinPairData", function(object) {
+  if (!object@kinship %in% c("UN", "PO", "GG", "GGG", "FS", "AV", "GAV", "1C", "1C1", "2C", "HS", "HAV", "HGAV", "H1C", "H1C1", "H2C")) {
     "@kinship must be one of UN PO GG GGG FS AV GAV 1C 1C1 2C HS HAV HGAV H1C H1C1 H2C"
   }
-  else if (! object@lifestage %in% c("unknown", "larva", "oviposition")){
+  else if (!object@lifestage %in% c("unknown", "larva", "oviposition")) {
     "@lifestage must currently be set to 'unknown', 'larva', or 'oviposition'"
-  } else{
+  } else {
     TRUE
   }
 })
@@ -274,6 +280,6 @@ setValidity("KinPairData", function(object){
 #' @export
 #'
 #'
-is.KinPairData <- function(x){
+is.KinPairData <- function(x) {
   "KinPairData" %in% is(x)
 }
