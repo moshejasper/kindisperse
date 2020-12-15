@@ -73,4 +73,4 @@ kindat <- simgraph_data(nsims = 5, kinship = "1C")
 simgraph_graph(kindat, nsims = 5, kinship = "1C")
 ```
 
-In that case, don't forget to commit and push the resulting figure files, so they display on GitHub!
+In that case, don't forget to commit and push the resulting figure files, so they display on GitHub! The end. 
