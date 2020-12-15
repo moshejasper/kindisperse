@@ -33,7 +33,7 @@ ui <- fluidPage(
 
   titlePanel("kindisperse"),
   theme = shinytheme("flatly"),
-  h5(paste0("v", packageVersion("kindisperse"))),
+  h5(paste0("v", utils::packageVersion("kindisperse"))),
 
   fluidRow(
     column(

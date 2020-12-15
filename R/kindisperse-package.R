@@ -29,3 +29,7 @@
 #' @importFrom utils read.csv
 ## usethis namespace: end
 NULL
+
+.onLoad <- function(libname, pkgname){
+  packageStartupMessage(paste0("kindisperse v", utils::packageVersion("kindisperse")))
+}
