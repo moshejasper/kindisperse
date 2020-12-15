@@ -75,18 +75,18 @@ simulate_kindist_composite()
 #> 
 #> tab
 #> # A tibble: 100 x 8
-#>    id1   id2   kinship distance     x1     y1    x2     y2
-#>    <chr> <chr> <chr>      <dbl>  <dbl>  <dbl> <dbl>  <dbl>
-#>  1 1a    1b    FS          52.2  86.9   66.5   77.3  15.2 
-#>  2 2a    2b    FS          59.7 -12.8   21.5   45.6   9.33
-#>  3 3a    3b    FS          32.6  10.3   10.1  -21.2  18.5 
-#>  4 4a    4b    FS          33.2  47.6   -7.24  39.4  24.9 
-#>  5 5a    5b    FS         110.   92.1  -13.8   13.2  62.4 
-#>  6 6a    6b    FS          27.7  65.2   -1.39  90.8 -12.0 
-#>  7 7a    7b    FS          50.1  -1.44  46.3   48.3  40.8 
-#>  8 8a    8b    FS          34.5  37.2   69.0   13.3  93.9 
-#>  9 9a    9b    FS          25.1  49.0   83.9   64.4 104.  
-#> 10 10a   10b   FS          75.9  85.1   21.0   36.1  79.0 
+#>    id1   id2   kinship distance      x1     y1      x2     y2
+#>    <chr> <chr> <chr>      <dbl>   <dbl>  <dbl>   <dbl>  <dbl>
+#>  1 1a    1b    FS          33.5  38.4   101.    54.8   72.3  
+#>  2 2a    2b    FS          33.9  23.7   -22.1   -1.55   0.521
+#>  3 3a    3b    FS          19.5  15.6    50.7    0.112 62.6  
+#>  4 4a    4b    FS          46.0  37.9     5.79  78.5   27.6  
+#>  5 5a    5b    FS          37.8   0.924  -7.85  24.1   22.1  
+#>  6 6a    6b    FS          45.0  39.0    61.2   12.7   24.7  
+#>  7 7a    7b    FS          48.3  53.7    28.9   71.7   73.7  
+#>  8 8a    8b    FS          19.2  86.0   107.    73.0   93.0  
+#>  9 9a    9b    FS          59.1 110.    103.   116.    43.9  
+#> 10 10a   10b   FS          21.0  32.2    13.7   13.4   23.1  
 #> # ... with 90 more rows
 #> -----------------------------------
 ```
@@ -113,4 +113,4 @@ You can also embed plots, for example:
 <img src="man/figures/README-kinsim-1.png" width="100%" />
 
 In that case, don’t forget to commit and push the resulting figure
-files, so they display on GitHub\!
+files, so they display on GitHub\! The end. The end.
