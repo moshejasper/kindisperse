@@ -34,6 +34,19 @@ And the development version from [GitHub](https://github.com/) with:
 # install.packages("devtools")
 devtools::install_github("moshejasper/kindisperse")
 ```
+
+## Introduction
+
+Dispersal is a key evolutionary process that connects organisms in space and time. Assessing the dispersal of organisms within an area is an important component of estimating risks from invasive species, planning pest management operations, and evaluating conservation strategies for threatened species. 
+
+Assessing the dispersal of small, abundant and short-lived animals such as insects as traditionally been more difficult than for animals that can be easily tagged. Responding to this challenge, researchers have developed various methods based around mark-release-recapture that mark the organisms with dyes, paint, or chemical tags, before releasing the individuals and in various ways measuring the number of recaptures. 
+
+Such methods suffer the limitations of requiring manipulation of the same individuals in which dispersal is being assessed, are labour-intensive when conducted across a large enough area to be informative, and typically are not estimates of true intergenerational dispersal (which is measured life-stage ot lifestage, e.g. from the egg of the parent to the egg of its offspring). Such lifestage-to-lifestage estimates are important as they are readily interpretable within established intergenerational analytical frameworks such as Wright's neighbourhood size. 
+
+
+
+
+
 ## Example
 
 This is a basic example which shows you how to solve a common problem:
@@ -56,8 +69,8 @@ You'll still need to render `README.Rmd` regularly, to keep `README.md` up-to-da
 You can also embed plots, for example:
 
 ```{r kinsim, echo = FALSE}
-kindat <- simgraph_data(nsims = 5, category = "1C")
-simgraph_graph(kindat, nsims = 5, category = "1C")
+kindat <- simgraph_data(nsims = 5, kinship = "1C")
+simgraph_graph(kindat, nsims = 5, kinship = "1C")
 ```
 
 In that case, don't forget to commit and push the resulting figure files, so they display on GitHub!

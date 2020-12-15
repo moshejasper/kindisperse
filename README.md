@@ -27,6 +27,31 @@ And the development version from [GitHub](https://github.com/) with:
 devtools::install_github("moshejasper/kindisperse")
 ```
 
+## Introduction
+
+Dispersal is a key evolutionary process that connects organisms in space
+and time. Assessing the dispersal of organisms within an area is an
+important component of estimating risks from invasive species, planning
+pest management operations, and evaluating conservation strategies for
+threatened species.
+
+Assessing the dispersal of small, abundant and short-lived animals such
+as insects as traditionally been more difficult than for animals that
+can be easily tagged. Responding to this challenge, researchers have
+developed various methods based around mark-release-recapture that mark
+the organisms with dyes, paint, or chemical tags, before releasing the
+individuals and in various ways measuring the number of recaptures.
+
+Such methods suffer the limitations of requiring manipulation of the
+same individuals in which dispersal is being assessed, are
+labour-intensive when conducted across a large enough area to be
+informative, and typically are not estimates of true intergenerational
+dispersal (which is measured life-stage ot lifestage, e.g. from the egg
+of the parent to the egg of its offspring). Such lifestage-to-lifestage
+estimates are important as they are readily interpretable within
+established intergenerational analytical frameworks such as Wright’s
+neighbourhood size.
+
 ## Example
 
 This is a basic example which shows you how to solve a common problem:
@@ -40,8 +65,8 @@ simulate_kindist_composite()
 #> -----------------------------------
 #> simtype:      composite 
 #> kerneltype:       Gaussian 
-#> category:         FS 
-#> dims:             100 
+#> kinship:      FS 
+#> simdims:      100 
 #> juvsigma      100 
 #> breedsigma        50 
 #> gravsigma         50 
@@ -49,19 +74,19 @@ simulate_kindist_composite()
 #> lifestage:        larva 
 #> 
 #> tab
-#> # A tibble: 100 x 11
-#>    id1   id2      x1    y1     x2     y2 ls1   ls2   distance category  dims
-#>    <chr> <chr> <dbl> <dbl>  <dbl>  <dbl> <chr> <chr>    <dbl> <chr>    <dbl>
-#>  1 1a    1b    -14.2 89.4  -19.9   75.9  larva larva    14.7  FS         100
-#>  2 2a    2b     30.9 74.3   87.6   83.4  larva larva    57.4  FS         100
-#>  3 3a    3b     64.2  6.77  54.2  102.   larva larva    95.5  FS         100
-#>  4 4a    4b     98.1 79.6  105.    15.3  larva larva    64.7  FS         100
-#>  5 5a    5b     96.2 76.1   97.3   69.9  larva larva     6.24 FS         100
-#>  6 6a    6b     69.8 82.1   92.8   78.9  larva larva    23.2  FS         100
-#>  7 7a    7b     26.1 48.1    8.81  89.9  larva larva    45.2  FS         100
-#>  8 8a    8b     90.6 40.9   74.0  104.   larva larva    65.3  FS         100
-#>  9 9a    9b     67.3 33.6  -19.4    1.92 larva larva    92.3  FS         100
-#> 10 10a   10b    40.8 32.8   84.1   42.3  larva larva    44.3  FS         100
+#> # A tibble: 100 x 8
+#>    id1   id2   kinship distance     x1     y1     x2     y2
+#>    <chr> <chr> <chr>      <dbl>  <dbl>  <dbl>  <dbl>  <dbl>
+#>  1 1a    1b    FS         49.6   -8.66  69.1  -17.3  118.  
+#>  2 2a    2b    FS         87.8   40.9   91.0   73.0    9.31
+#>  3 3a    3b    FS         24.4   -5.43   3.36  11.0  -14.6 
+#>  4 4a    4b    FS         95.6  104.    25.5   68.6  114.  
+#>  5 5a    5b    FS         60.0   93.7  124.    34.6  114.  
+#>  6 6a    6b    FS         29.1   35.1   44.9   33.8   74.0 
+#>  7 7a    7b    FS         31.1   29.1   52.6   -1.18  45.4 
+#>  8 8a    8b    FS         28.5  -27.4   40.4    1.11  40.6 
+#>  9 9a    9b    FS         45.7   26.0   32.9   30.0   78.4 
+#> 10 10a   10b   FS          5.69  64.6   -2.47  67.8   -7.20
 #> # ... with 90 more rows
 #> -----------------------------------
 ```
@@ -84,8 +109,6 @@ You’ll still need to render `README.Rmd` regularly, to keep `README.md`
 up-to-date.
 
 You can also embed plots, for example:
-
-    #> Loading required namespace: ggrepel
 
 <img src="man/figures/README-kinsim-1.png" width="100%" />
 
