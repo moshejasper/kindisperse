@@ -31,9 +31,10 @@ app_env <- env(
 
 ui <- fluidPage(
 
-  titlePanel("Kin Dispersal Simulator"),
+  titlePanel("kindisperse"),
 
   theme = shinytheme("flatly"),
+  h5(paste0("v", packageVersion("kindisperse"))),
 
   fluidRow(
     column(offset = 4, width = 4,
@@ -237,7 +238,7 @@ ui <- fluidPage(
                    mainPanel(
 
                      # Output: histogram --
-                     plotlyOutput(outputId = "sand_dispersalPlot", height = 750),
+                     plotOutput(outputId = "sand_dispersalPlot", height = 750),
 
                      textOutput(outputId = "sand_dispersalcheck")
 
@@ -298,6 +299,35 @@ ui <- fluidPage(
                    ),
                    p("Load a .csv  or .tsv file with a 'kinship' column obeying standard conventions and a 'distance' column (numeric),
                      or load a .kindata file storing a KinPairData or KinPairSimulation object."),
+
+                   checkboxGroupInput(
+                     inputId = "load_usekin",
+                     label = "Manually select kinship or lifestage to extract from file?",
+                     choices = c("kinship", "lifestage")
+                   ),
+
+                   conditionalPanel(
+                     condition = "input.load_usekin.includes('kinship')",
+
+                     selectInput(
+                       inputId = "load_kinship_choice",
+                       label = "Choose kinship category to extract/assign",
+                       choices = c("UN", "PO", "FS", "HS", "AV", "GG", "HAV", "GGG", "1C", "1C1", "2C", "GAV",
+                                   "HGAV", "H1C", "H1C1", "H2C"),
+                       selected = "UN"
+                     )
+                   ),
+
+                   conditionalPanel(
+                     condition = "input.load_usekin.includes('lifestage')",
+
+                     selectInput(
+                       inputId = "load_lifestage_choice",
+                       label = "Choose lifestage category to extract/assign",
+                       choices = c("unknown", "larva", "oviposition"),
+                       selected = "unknown"
+                     )
+                   ),
 
                    fileInput(
                      inputId = "load_file1",
@@ -620,34 +650,14 @@ ui <- fluidPage(
                  sidebarLayout(
                    sidebarPanel(
 
-                     numericInput(
-                       inputId = "testnum",
-                       label = "enter a number here",
-                       min = 0, max = 1000, value = 1
-                     ),
+
 
                      checkboxGroupInput(
                        inputId = "testsaveops",
-                       label = "choose store slot",
+                       label = "choose store slot to add to comparison",
                        choices = c("Slot 1" = '1', "Slot 2" = '2', "Slot 3" = '3', "Slot 4" = '4',
                                    "Slot 5" = '5', "Slot 6" = '6', "Slot 7" = '7', "Slot 8" = '8',
                                    "Slot 9" = '9', "Slot 10" = '10')
-                     ),
-
-                     actionButton(
-                       inputId = "storeclick",
-                       label = "Store",
-                       icon = icon("archive")
-                     ),
-
-                     actionButton(
-                       inputId = "retrieveclick",
-                       label = "Retrieve"
-                     ),
-
-                     actionButton(
-                       inputId = "clearclick",
-                       label = "Clear"
                      ),
 
                      textOutput(
@@ -664,10 +674,6 @@ ui <- fluidPage(
                          outputId = "sim_compare_table"
                        ))
                    ))
-               ),
-
-               tabPanel(
-                 "FiRa comparisons"
                )
 
              )
@@ -1033,12 +1039,12 @@ ui <- fluidPage(
                      #)
                    )
                  )
-               ),
+               )
 
                ##### c. custom #####
-               tabPanel(
-                 "Custom"
-               )
+               #tabPanel(
+               #   "Custom"
+               # )
              )
 
     )
@@ -1128,11 +1134,11 @@ server <- function(input, output, session){
     dim(sandbox_data())
   })
 
-  output$sand_dispersalPlot <- renderPlotly({
-    ggplotly(simgraph_graph(sandbox_data(), nsims = input$sand_nsims, dsigma = input$sand_dsigma, dims = input$sand_dims, labls = input$sand_labls,
-                            moves = input$sand_moves, shadows = input$sand_shadows, kinship = input$sand_category,
-                            show_area = input$sand_show_area, #centred = input$sand_centred, #pinwheel = input$sand_pinwheel, scattered = input$sand_scattered,
-                            lengths = input$sand_lengths, lengthlabs = input$sand_lengthlabs))#, histogram = input$sand_histogram, binwidth = input$sand_binwidth)#,
+  output$sand_dispersalPlot <- renderPlot({
+    simgraph_graph(sandbox_data(), nsims = input$sand_nsims, dsigma = input$sand_dsigma, dims = input$sand_dims, labls = input$sand_labls,
+                   moves = input$sand_moves, shadows = input$sand_shadows, kinship = input$sand_category,
+                   show_area = input$sand_show_area, #centred = input$sand_centred, #pinwheel = input$sand_pinwheel, scattered = input$sand_scattered,
+                   lengths = input$sand_lengths, lengthlabs = input$sand_lengthlabs)#, histogram = input$sand_histogram, binwidth = input$sand_binwidth)#,
     #freqpoly = input$sand_freqpoly)
   })
 
@@ -1158,10 +1164,14 @@ server <- function(input, output, session){
     }
     else if (input$load_source == "filedata"){
       if (input$load_filetype == "csv"){
-        return(csv_to_kinpair(input$load_file1$datapath))
+        return(csv_to_kinpair(input$load_file1$datapath,
+                              kinship = ifelse("kinship" %in% input$load_usekin, input$load_kinship_choice, NULL),
+                              lifestage = ifelse("lifestage" %in% input$load_usekin, input$load_lifestage_choice, NULL)))
       }
       else if (input$load_filetype == "tsv"){
-        return(tsv_to_kinpair(input$load_file1$datapath))
+        return(tsv_to_kinpair(input$load_file1$datapath,
+                              kinship = ifelse("kinship" %in% input$load_usekin, input$load_kinship_choice, NULL),
+                              lifestage = ifelse("lifestage" %in% input$load_usekin, input$load_lifestage_choice, NULL)))
       }
       else if (input$load_filetype == "kindata"){
         return(read_kindata(input$load_file1$datapath))
@@ -1514,7 +1524,7 @@ server <- function(input, output, session){
   })
 
   output$samp_retrieve_table <- renderTable({
-    rtable <- tibble("Type" = "a", "Kernel" = "b", "Kinship" = "d", "Lifestage" = "e", "Dims" = 0, "Count" = 0, .rows = 0)
+    rtable <- tibble("Type" = "a", "Kernel" = "b", "Kinship" = "d", "Lifestage" = "e", "Dims" = 0, "Count" = 0L, .rows = 0)
     if (! is.null(samp_loaded_kindata())) {
       temp <- samp_loaded_kindata()
       if (is.KinPairSimulation(temp)){
@@ -1690,11 +1700,11 @@ server <- function(input, output, session){
   est_std_sum <- eventReactive(
     input$top_data_update,
     {
-      rtable <- tibble("Slot" = "a", "Type" = "a", "Kernel" = "b", "Kinship" = "d", "Lifestage" = "e", "Dims" = 0, "Count" = 0, .rows = 0)
+      rtable <- tibble("Slot" = "a", "Type" = "a", "Kernel" = "b", "Kinship" = "d", "Lifestage" = "e", "Dims" = 0, "Count" = 0L, .rows = 0)
       temp <- app_env$d1
       if (is.KinPairSimulation(temp)){
-      rtable <- rtable %>% add_row("Slot" = "1", "Type" = temp@simtype, "Kernel" = temp@kerneltype, "Kinship" = temp@kinship,
-                                   "Lifestage" = temp@lifestage, "Dims" = temp@simdims, "Count" = nrow(temp@tab))
+        rtable <- rtable %>% add_row("Slot" = "1", "Type" = temp@simtype, "Kernel" = temp@kerneltype, "Kinship" = temp@kinship,
+                                     "Lifestage" = temp@lifestage, "Dims" = temp@simdims, "Count" = nrow(temp@tab))
       }
       else {
         rtable <- rtable %>% add_row("Slot" = "1", "Type" = "KinPairData", "Kernel" = NA, "Kinship" = temp@kinship,
@@ -1706,7 +1716,7 @@ server <- function(input, output, session){
                                      "Lifestage" = temp@lifestage, "Dims" = temp@simdims, "Count" = nrow(temp@tab))
       }
       else {
-        rtable <- rtable %>% add_row("Slot" = "3", "Type" = "KinPairData", "Kernel" = NA, "Kinship" = temp@kinship,
+        rtable <- rtable %>% add_row("Slot" = "2", "Type" = "KinPairData", "Kernel" = NA, "Kinship" = temp@kinship,
                                      "Lifestage" = temp@lifestage, "Dims" = NA, "Count" = nrow(temp@tab))
       }
       temp <- app_env$d3
@@ -1715,7 +1725,7 @@ server <- function(input, output, session){
                                      "Lifestage" = temp@lifestage, "Dims" = temp@simdims, "Count" = nrow(temp@tab))
       }
       else {
-        rtable <- rtable %>% add_row("Slot" = "4", "Type" = "KinPairData", "Kernel" = NA, "Kinship" = temp@kinship,
+        rtable <- rtable %>% add_row("Slot" = "3", "Type" = "KinPairData", "Kernel" = NA, "Kinship" = temp@kinship,
                                      "Lifestage" = temp@lifestage, "Dims" = NA, "Count" = nrow(temp@tab))
       }
       temp <- app_env$d4
