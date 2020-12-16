@@ -9,8 +9,8 @@
 #' @return Invisibly returns the initial object
 #' @export
 #'
-kinpair_to_csv <- function(x, file, ...){
-  if (! is.KinPairData(x)) stop("x is not an object of class KinPairData!")
+kinpair_to_csv <- function(x, file, ...) {
+  if (!is.KinPairData(x)) stop("x is not an object of class KinPairData!")
   write_csv(kinpair_to_tibble(x), file, ...)
   invisible(x)
 }
@@ -24,8 +24,8 @@ kinpair_to_csv <- function(x, file, ...){
 #' @return Invisibly returns the initial object
 #' @export
 #'
-kinpair_to_tsv <- function(x, file, ...){
-  if (! is.KinPairData(x)) stop("x is not an object of class KinPairData!")
+kinpair_to_tsv <- function(x, file, ...) {
+  if (!is.KinPairData(x)) stop("x is not an object of class KinPairData!")
   write_tsv(kinpair_to_tibble(x), file, ...)
   invisible(x)
 }
@@ -38,9 +38,9 @@ kinpair_to_tsv <- function(x, file, ...){
 #' @return Invisibly returns the initial object
 #' @export
 #'
-write_kindata <- function(x, file){
-  if (! is.KinPairData(x)) stop("x is not an object of class KinPairData!")
-  if (! str_ends(file, ".kindata")) {
+write_kindata <- function(x, file) {
+  if (!is.KinPairData(x)) stop("x is not an object of class KinPairData!")
+  if (!str_ends(file, ".kindata")) {
     file <- paste0(file, ".kindata")
     cat(paste0("Adding extension '.kindata': final filename '", file, "'\n"))
   }
@@ -60,7 +60,7 @@ write_kindata <- function(x, file){
 #' @return
 #' @export
 #'
-csv_to_kinpair <- function(file, kinship = NULL, lifestage = NULL, ...){
+csv_to_kinpair <- function(file, kinship = NULL, lifestage = NULL, ...) {
   tib <- read_csv(file)
   return(df_to_kinpair(tib, kinship = kinship, lifestage = lifestage))
 }
@@ -75,7 +75,7 @@ csv_to_kinpair <- function(file, kinship = NULL, lifestage = NULL, ...){
 #' @return Returns object of class \code{KinPairData}
 #' @export
 #'
-tsv_to_kinpair <- function(file, kinship = NULL, lifestage = NULL, ...){
+tsv_to_kinpair <- function(file, kinship = NULL, lifestage = NULL, ...) {
   tib <- read_tsv(file)
   return(df_to_kinpair(tib, kinship = kinship, lifestage = lifestage))
 }
@@ -87,10 +87,14 @@ tsv_to_kinpair <- function(file, kinship = NULL, lifestage = NULL, ...){
 #' @return Returns either \code{KinPairData} or \code{KinPairSimulation} object.
 #' @export
 #'
-read_kindata <- function(file){
-  if (str_ends(file, ".kindata")) kinpair <- read_rds(file)
-  else if (file.exists(paste0(file, ".kindata"))) kinpair <- read_rds(paste0(file, ".kindata"))
-  else stop("Invalid file extension!")
-  if (! is.KinPairData(kinpair)) stop("Could not retrieve object of class KinPairData!")
+read_kindata <- function(file) {
+  if (str_ends(file, ".kindata")) {
+    kinpair <- read_rds(file)
+  } else if (file.exists(paste0(file, ".kindata"))) {
+    kinpair <- read_rds(paste0(file, ".kindata"))
+  } else {
+    stop("Invalid file extension!")
+  }
+  if (!is.KinPairData(kinpair)) stop("Could not retrieve object of class KinPairData!")
   return(kinpair)
 }

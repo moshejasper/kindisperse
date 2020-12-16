@@ -45,8 +45,12 @@ Returns a KinPairSimulation Class object with simtype set to 'composite' and rel
 Constructor for KinPairSimulation Class (composite)
 }
 \examples{
-kindata <- tibble::tibble(id1 = c("a", "b", "c"), id2 = c("x", "y", "z"),
-                distance = c(50, 45, 65), kinship = c("1C", "1C", "1C"))
-KinPairSimulation_composite(kindata, kinship = "1C", kerneltype = "Gaussian",
-    juvsigma = 15, breedsigma = 25, gravsigma = 20, ovisigma = 10, lifestage = "larva")
+kindata <- tibble::tibble(
+  id1 = c("a", "b", "c"), id2 = c("x", "y", "z"),
+  distance = c(50, 45, 65), kinship = c("1C", "1C", "1C")
+)
+KinPairSimulation_composite(kindata,
+  kinship = "1C", kerneltype = "Gaussian",
+  juvsigma = 15, breedsigma = 25, gravsigma = 20, ovisigma = 10, lifestage = "larva"
+)
 }

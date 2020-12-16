@@ -25,13 +25,16 @@ methods::setOldClass(c("tbl_df", "tbl", "data.frame"))
 #' @export
 #'
 KinPairSimulation <- setClass("KinPairSimulation",
-         slots = list(kinship = "character", simtype = "character", kerneltype = "character",
-                      dsigma = "numeric", juvsigma = "numeric", breedsigma = "numeric",
-                      gravsigma = "numeric", ovisigma = "numeric", simdims = "numeric",
-                      lifestage = "character", call = "call", tab = "tbl_df",
-                      filtertype = "character", upper = "numeric", lower = "numeric",
-                      spacing = "numeric", samplenum = "numeric", sampledims = "numeric"),
-         contains = "KinPairData")
+  slots = list(
+    kinship = "character", simtype = "character", kerneltype = "character",
+    dsigma = "numeric", juvsigma = "numeric", breedsigma = "numeric",
+    gravsigma = "numeric", ovisigma = "numeric", simdims = "numeric",
+    lifestage = "character", call = "call", tab = "tbl_df",
+    filtertype = "character", upper = "numeric", lower = "numeric",
+    spacing = "numeric", samplenum = "numeric", sampledims = "numeric"
+  ),
+  contains = "KinPairData"
+)
 
 
 
@@ -406,8 +409,8 @@ setMethod("sampledims", "KinPairSimulation", function(x) x@sampledims)
 #' @return
 #' @export
 #' @describeIn KinPairSimulation assign and filter by upper distance (uses sample_kindist())
-setMethod("upper<-", "KinPairSimulation", function(x, value){
-  if (! is.na(x@upper)){
+setMethod("upper<-", "KinPairSimulation", function(x, value) {
+  if (!is.na(x@upper)) {
     if (x@upper < value) {
       cat("Redundant. Skipped.\n")
       return(x)
@@ -422,8 +425,8 @@ setMethod("upper<-", "KinPairSimulation", function(x, value){
 #' @return
 #' @export
 #' @describeIn KinPairSimulation assign and filter by lower distance (uses sample_kindist())
-setMethod("lower<-", "KinPairSimulation", function(x, value){
-  if (! is.na(x@lower)){
+setMethod("lower<-", "KinPairSimulation", function(x, value) {
+  if (!is.na(x@lower)) {
     if (x@lower < value) {
       cat("Redundant. Skipped.\n")
       return(x)
@@ -438,8 +441,8 @@ setMethod("lower<-", "KinPairSimulation", function(x, value){
 #' @return
 #' @export
 #' @describeIn KinPairSimulation assign kin spacing (uses sample_kindist())
-setMethod("spacing<-", "KinPairSimulation", function(x, value){
-  if (! is.na(x@spacing)){
+setMethod("spacing<-", "KinPairSimulation", function(x, value) {
+  if (!is.na(x@spacing)) {
     cat("Can't apply spacing twice. Skipped")
     return(x)
   }
@@ -452,8 +455,8 @@ setMethod("spacing<-", "KinPairSimulation", function(x, value){
 #' @return
 #' @export
 #' @describeIn KinPairSimulation assign and downsample to samplenum (uses sample_kindist())
-setMethod("samplenum<-", "KinPairSimulation", function(x, value){
-  if (! is.na(x@samplenum)){
+setMethod("samplenum<-", "KinPairSimulation", function(x, value) {
+  if (!is.na(x@samplenum)) {
     if (x@samplenum < value) {
       cat("Redundant. Skipped.\n")
       return(x)
@@ -468,8 +471,8 @@ setMethod("samplenum<-", "KinPairSimulation", function(x, value){
 #' @return
 #' @export
 #' @describeIn KinPairSimulation assign and filter by sample dimensions (uses sample_kindist())
-setMethod("sampledims<-", "KinPairSimulation", function(x, value){
-  if (! is.na(x@sampledims)){
+setMethod("sampledims<-", "KinPairSimulation", function(x, value) {
+  if (!is.na(x@sampledims)) {
     if (x@sampledims < value) {
       cat("Redundant. Skipped.\n")
       return(x)
@@ -488,32 +491,46 @@ setMethod("sampledims<-", "KinPairSimulation", function(x, value){
 setMethod(
   "show",
   "KinPairSimulation",
-  function(object){
+  function(object) {
     cat("KINDISPERSE SIMULATION of KIN PAIRS\n")
     cat("-----------------------------------\n")
     cat("simtype:\t\t", object@simtype, "\n")
     cat("kerneltype:\t\t", object@kerneltype, "\n")
-    cat('kinship:\t\t', object@kinship, '\n')
-    cat('simdims:\t\t', object@simdims, '\n')
-    if (is.na(object@simtype)) {cat('')}
-    else if  (object@simtype == "simple"){
-      cat('dsigma:\t\t\t', object@dsigma, '\n')
+    cat("kinship:\t\t", object@kinship, "\n")
+    cat("simdims:\t\t", object@simdims, "\n")
+    if (is.na(object@simtype)) {
+      cat("")
     }
-    else if (object@simtype == "composite"){
-      cat('juvsigma\t\t', object@juvsigma, '\nbreedsigma\t\t', object@breedsigma, '\ngravsigma\t\t', object@gravsigma, '\novisigma\t\t', object@ovisigma, '\n')
+    else if (object@simtype == "simple") {
+      cat("dsigma:\t\t\t", object@dsigma, "\n")
     }
-    cat('lifestage:\t\t', object@lifestage, '\n\n')
-    if (! is.na(object@filtertype)) { if (object@filtertype == "filtered") {
-      cat('FILTERED\n')
-      cat('--------\n')
-      if (! is.na(object@upper)) {cat('upper:\t\t\t', object@upper, '\n')}
-      if (! is.na(object@lower)) {cat('lower:\t\t\t', object@lower, '\n')}
-      if (! is.na(object@spacing)) {cat('spacing:\t\t', object@spacing, '\n')}
-      if (! is.na(object@samplenum)) {cat('samplenum:\t\t', object@samplenum, '\n')}
-      if (! is.na(object@sampledims)) {cat('sampledims:\t\t', object@sampledims, '\n')}
-      cat('\n')
-    }}
-    cat('tab\n')
+    else if (object@simtype == "composite") {
+      cat("juvsigma\t\t", object@juvsigma, "\nbreedsigma\t\t", object@breedsigma, "\ngravsigma\t\t", object@gravsigma, "\novisigma\t\t", object@ovisigma, "\n")
+    }
+    cat("lifestage:\t\t", object@lifestage, "\n\n")
+    if (!is.na(object@filtertype)) {
+      if (object@filtertype == "filtered") {
+        cat("FILTERED\n")
+        cat("--------\n")
+        if (!is.na(object@upper)) {
+          cat("upper:\t\t\t", object@upper, "\n")
+        }
+        if (!is.na(object@lower)) {
+          cat("lower:\t\t\t", object@lower, "\n")
+        }
+        if (!is.na(object@spacing)) {
+          cat("spacing:\t\t", object@spacing, "\n")
+        }
+        if (!is.na(object@samplenum)) {
+          cat("samplenum:\t\t", object@samplenum, "\n")
+        }
+        if (!is.na(object@sampledims)) {
+          cat("sampledims:\t\t", object@sampledims, "\n")
+        }
+        cat("\n")
+      }
+    }
+    cat("tab\n")
     print(object@tab)
     cat("-----------------------------------")
   }
@@ -527,86 +544,90 @@ setMethod(
 #' @return
 #' @export
 #' @describeIn KinPairSimulation initialisation method
-setMethod("initialize", "KinPairSimulation",
-          function(.Object,
-                   data = NULL,
-                   kinship = NULL,
-                   lifestage = NULL,
-                   simtype = NULL,
-                   kerneltype = NULL,
-                   dsigma = NULL,
-                   juvsigma = NULL,
-                   breedsigma = NULL,
-                   gravsigma = NULL,
-                   ovisigma = NULL,
-                   simdims = NULL,
-                   call = NULL,
-                   filtertype = NULL,
-                   upper = NULL,
-                   lower = NULL,
-                   spacing = NULL,
-                   samplenum = NULL,
-                   sampledims = NULL){
-            if (! is.null(kinship)) .Object@kinship <- kinship else .Object@kinship <- "UN"
-            if (! is.null(lifestage)) .Object@lifestage <- lifestage else .Object@lifestage <- "unknown"
-            if (! is.null(simtype)) .Object@simtype <- simtype else .Object@simtype <- NA_character_
-            if (! is.null(kerneltype)) .Object@kerneltype <- kerneltype else .Object@kerneltype <- NA_character_
-            if (! is.null(dsigma)) .Object@dsigma <- dsigma else .Object@dsigma <- NA_real_
-            if (! is.null(juvsigma)) .Object@juvsigma <- juvsigma else .Object@juvsigma <- NA_real_
-            if (! is.null(breedsigma)) .Object@breedsigma <- breedsigma else .Object@breedsigma <- NA_real_
-            if (! is.null(gravsigma)) .Object@gravsigma <- gravsigma else .Object@gravsigma <- NA_real_
-            if (! is.null(ovisigma)) .Object@ovisigma <- ovisigma else .Object@ovisigma <- NA_real_
-            if (! is.null(simdims)) .Object@simdims <- simdims else .Object@simdims <- NA_real_
-            if (! is.null(call)) .Object@call <- call else .Object@call <- sys.call()
-            if (! is.null(filtertype)) .Object@filtertype <- filtertype else .Object@filtertype <- NA_character_
-            if (! is.null(upper)) .Object@upper <- upper else .Object@upper <- NA_real_
-            if (! is.null(lower)) .Object@lower <- lower else .Object@lower <- NA_real_
-            if (! is.null(spacing)) .Object@spacing <- spacing else .Object@spacing <- NA_real_
-            if (! is.null(samplenum)) .Object@samplenum <- samplenum else .Object@samplenum <- NA_real_
-            if (! is.null(sampledims)) .Object@sampledims <- sampledims else .Object@sampledims <- NA_real_
+setMethod(
+  "initialize", "KinPairSimulation",
+  function(.Object,
+           data = NULL,
+           kinship = NULL,
+           lifestage = NULL,
+           simtype = NULL,
+           kerneltype = NULL,
+           dsigma = NULL,
+           juvsigma = NULL,
+           breedsigma = NULL,
+           gravsigma = NULL,
+           ovisigma = NULL,
+           simdims = NULL,
+           call = NULL,
+           filtertype = NULL,
+           upper = NULL,
+           lower = NULL,
+           spacing = NULL,
+           samplenum = NULL,
+           sampledims = NULL) {
+    if (!is.null(kinship)) .Object@kinship <- kinship else .Object@kinship <- "UN"
+    if (!is.null(lifestage)) .Object@lifestage <- lifestage else .Object@lifestage <- "unknown"
+    if (!is.null(simtype)) .Object@simtype <- simtype else .Object@simtype <- NA_character_
+    if (!is.null(kerneltype)) .Object@kerneltype <- kerneltype else .Object@kerneltype <- NA_character_
+    if (!is.null(dsigma)) .Object@dsigma <- dsigma else .Object@dsigma <- NA_real_
+    if (!is.null(juvsigma)) .Object@juvsigma <- juvsigma else .Object@juvsigma <- NA_real_
+    if (!is.null(breedsigma)) .Object@breedsigma <- breedsigma else .Object@breedsigma <- NA_real_
+    if (!is.null(gravsigma)) .Object@gravsigma <- gravsigma else .Object@gravsigma <- NA_real_
+    if (!is.null(ovisigma)) .Object@ovisigma <- ovisigma else .Object@ovisigma <- NA_real_
+    if (!is.null(simdims)) .Object@simdims <- simdims else .Object@simdims <- NA_real_
+    if (!is.null(call)) .Object@call <- call else .Object@call <- sys.call()
+    if (!is.null(filtertype)) .Object@filtertype <- filtertype else .Object@filtertype <- NA_character_
+    if (!is.null(upper)) .Object@upper <- upper else .Object@upper <- NA_real_
+    if (!is.null(lower)) .Object@lower <- lower else .Object@lower <- NA_real_
+    if (!is.null(spacing)) .Object@spacing <- spacing else .Object@spacing <- NA_real_
+    if (!is.null(samplenum)) .Object@samplenum <- samplenum else .Object@samplenum <- NA_real_
+    if (!is.null(sampledims)) .Object@sampledims <- sampledims else .Object@sampledims <- NA_real_
 
-            if (! is.null(data)){
-              if (is.data.frame(data) & ! is_tibble(data)){
-                data <- as_tibble(data)
-              }
-              if (is_tibble(data)){
-                if (ncol(data) == 1){
-                  data <- data[[1]]
-                }
-              }
-              if (is_tibble(data)){
-                if (!"distance" %in% colnames(data)) {
-                  if (! ("x1" %in% colnames(data) & "y1" %in% colnames(data) & "x2" %in% colnames(data) & "y2" %in% colnames(data))){
-                    stop("Unable to determine kin distances!")
-                  }
-                  else {data <- mutate(data, distance = sqrt((.data$x1 - .data$x2)^2 + (.data$y1 - .data$y2)^2))}
-                }
-                if (! "kinship" %in% colnames(data)){
-                  data <- mutate(data, kinship = .Object@kinship)
-                }
-                if (! "id1" %in% colnames(data)){
-                  data <- add_column(data, id1 = paste0(1:nrow(data), "a"))
-                }
-                if (! "id2" %in% colnames(data)){
-                  data <- add_column(data, id2 = paste0(1:nrow(data), "b"))
-                }
-                data <- select(data, .data$id1, .data$id2, .data$kinship, .data$distance, everything())
-                .Object@tab <- data
-              }
-              else { # check if just distances included
-                if (is.numeric(data)) {
-                  cat("Note: numeric vector interpreted as kin distances!\n")
-                  data <- tibble(id1 = paste0(1:length(data), "a"), id2 = paste0(1:length(data), "b"), kinship = .Object@kinship, distance = data)
-                  .Object@tab <- data
-                }
-              }
-            }
-            else {
-              .Object@tab <- tibble(id1 = "a", id2 = "b", kinship = "UN", distance = 0, .rows = 0)
-            }
-            validObject(.Object)
-            return(.Object)
-          })
+    if (!is.null(data)) {
+      if (is.data.frame(data) & !is_tibble(data)) {
+        data <- as_tibble(data)
+      }
+      if (is_tibble(data)) {
+        if (ncol(data) == 1) {
+          data <- data[[1]]
+        }
+      }
+      if (is_tibble(data)) {
+        if (!"distance" %in% colnames(data)) {
+          if (!("x1" %in% colnames(data) & "y1" %in% colnames(data) & "x2" %in% colnames(data) & "y2" %in% colnames(data))) {
+            stop("Unable to determine kin distances!")
+          }
+          else {
+            data <- mutate(data, distance = sqrt((.data$x1 - .data$x2)^2 + (.data$y1 - .data$y2)^2))
+          }
+        }
+        if (!"kinship" %in% colnames(data)) {
+          data <- mutate(data, kinship = .Object@kinship)
+        }
+        if (!"id1" %in% colnames(data)) {
+          data <- add_column(data, id1 = paste0(1:nrow(data), "a"))
+        }
+        if (!"id2" %in% colnames(data)) {
+          data <- add_column(data, id2 = paste0(1:nrow(data), "b"))
+        }
+        data <- select(data, .data$id1, .data$id2, .data$kinship, .data$distance, everything())
+        .Object@tab <- data
+      }
+      else { # check if just distances included
+        if (is.numeric(data)) {
+          cat("Note: numeric vector interpreted as kin distances!\n")
+          data <- tibble(id1 = paste0(1:length(data), "a"), id2 = paste0(1:length(data), "b"), kinship = .Object@kinship, distance = data)
+          .Object@tab <- data
+        }
+      }
+    }
+    else {
+      .Object@tab <- tibble(id1 = "a", id2 = "b", kinship = "UN", distance = 0, .rows = 0)
+    }
+    validObject(.Object)
+    return(.Object)
+  }
+)
 
 #'
 #'
@@ -651,25 +672,27 @@ KinPairSimulation <- function(data = NULL,
                               lower = NULL,
                               spacing = NULL,
                               samplenum = NULL,
-                              sampledims = NULL){
-  new("KinPairSimulation", data = data,
-      kinship = kinship,
-      lifestage = lifestage,
-      simtype = simtype,
-      kerneltype = kerneltype,
-      dsigma = dsigma,
-      juvsigma = juvsigma,
-      breedsigma = breedsigma,
-      gravsigma = gravsigma,
-      ovisigma = ovisigma,
-      simdims = simdims,
-      call = call,
-      filtertype = filtertype,
-      upper = upper,
-      lower = lower,
-      spacing = spacing,
-      samplenum = samplenum,
-      sampledims = sampledims)
+                              sampledims = NULL) {
+  new("KinPairSimulation",
+    data = data,
+    kinship = kinship,
+    lifestage = lifestage,
+    simtype = simtype,
+    kerneltype = kerneltype,
+    dsigma = dsigma,
+    juvsigma = juvsigma,
+    breedsigma = breedsigma,
+    gravsigma = gravsigma,
+    ovisigma = ovisigma,
+    simdims = simdims,
+    call = call,
+    filtertype = filtertype,
+    upper = upper,
+    lower = lower,
+    spacing = spacing,
+    samplenum = samplenum,
+    sampledims = sampledims
+  )
 }
 
 #' Check if object is of class KinPairSimulation
@@ -679,7 +702,7 @@ KinPairSimulation <- function(data = NULL,
 #' @return Returns TRUE if of class KinPairSimulation, FALSE if not
 #' @export
 #'
-is.KinPairSimulation <- function(x){
+is.KinPairSimulation <- function(x) {
   "KinPairSimulation" %in% is(x)
 }
 
@@ -697,13 +720,19 @@ is.KinPairSimulation <- function(x){
 #' @export
 #'
 #' @examples
-#' kindata <- tibble::tibble(id1 = c("a", "b", "c"), id2 = c("x", "y", "z"),
-#'     distance = c(50, 45, 65), kinship = c("1C", "1C", "1C"))
-#' KinPairSimulation_simple(kindata, kinship = "1C", kerneltype = "Gaussian",
-#'     dsigma = 38, lifestage = "larva")
-KinPairSimulation_simple <- function(data=NULL, kinship=NULL, kerneltype=NULL, dsigma=NULL, simdims = NULL, lifestage=NULL, call=NULL){
-  if (is.null(call)) {call <- sys.call()}
-  return(KinPairSimulation(data=data, kinship=kinship, simtype="simple", kerneltype=kerneltype, dsigma=dsigma, simdims = simdims, lifestage=lifestage, call=call))
+#' kindata <- tibble::tibble(
+#'   id1 = c("a", "b", "c"), id2 = c("x", "y", "z"),
+#'   distance = c(50, 45, 65), kinship = c("1C", "1C", "1C")
+#' )
+#' KinPairSimulation_simple(kindata,
+#'   kinship = "1C", kerneltype = "Gaussian",
+#'   dsigma = 38, lifestage = "larva"
+#' )
+KinPairSimulation_simple <- function(data = NULL, kinship = NULL, kerneltype = NULL, dsigma = NULL, simdims = NULL, lifestage = NULL, call = NULL) {
+  if (is.null(call)) {
+    call <- sys.call()
+  }
+  return(KinPairSimulation(data = data, kinship = kinship, simtype = "simple", kerneltype = kerneltype, dsigma = dsigma, simdims = simdims, lifestage = lifestage, call = call))
 }
 
 
@@ -724,14 +753,21 @@ KinPairSimulation_simple <- function(data=NULL, kinship=NULL, kerneltype=NULL, d
 #' @export
 #'
 #' @examples
-#' kindata <- tibble::tibble(id1 = c("a", "b", "c"), id2 = c("x", "y", "z"),
-#'                 distance = c(50, 45, 65), kinship = c("1C", "1C", "1C"))
-#' KinPairSimulation_composite(kindata, kinship = "1C", kerneltype = "Gaussian",
-#'     juvsigma = 15, breedsigma = 25, gravsigma = 20, ovisigma = 10, lifestage = "larva")
-KinPairSimulation_composite <- function(data = NULL, kinship=NULL, kerneltype=NULL, juvsigma=NULL, breedsigma=NULL,
-                                             gravsigma=NULL, ovisigma=NULL, simdims = NULL, lifestage=NULL, call=NULL){
-  if (is.null(call)) {call <- sys.call()}
-  return(KinPairSimulation(data=data, kinship=kinship, simtype="composite", kerneltype=kerneltype, juvsigma=juvsigma, breedsigma=breedsigma,
-                                gravsigma=gravsigma, ovisigma=ovisigma, simdims = simdims, lifestage=lifestage, call=call))
+#' kindata <- tibble::tibble(
+#'   id1 = c("a", "b", "c"), id2 = c("x", "y", "z"),
+#'   distance = c(50, 45, 65), kinship = c("1C", "1C", "1C")
+#' )
+#' KinPairSimulation_composite(kindata,
+#'   kinship = "1C", kerneltype = "Gaussian",
+#'   juvsigma = 15, breedsigma = 25, gravsigma = 20, ovisigma = 10, lifestage = "larva"
+#' )
+KinPairSimulation_composite <- function(data = NULL, kinship = NULL, kerneltype = NULL, juvsigma = NULL, breedsigma = NULL,
+                                        gravsigma = NULL, ovisigma = NULL, simdims = NULL, lifestage = NULL, call = NULL) {
+  if (is.null(call)) {
+    call <- sys.call()
+  }
+  return(KinPairSimulation(
+    data = data, kinship = kinship, simtype = "composite", kerneltype = kerneltype, juvsigma = juvsigma, breedsigma = breedsigma,
+    gravsigma = gravsigma, ovisigma = ovisigma, simdims = simdims, lifestage = lifestage, call = call
+  ))
 }
-

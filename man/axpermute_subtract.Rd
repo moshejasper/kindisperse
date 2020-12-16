@@ -40,7 +40,7 @@ For example, the FS category is subsumed by the 1C category, which can be writte
 In this circumstance, subtracting FS from 1C will yield an estimate of the PO kernel (the basic intergenerational dispersal kernel)
 }
 \examples{
-firstcous <- rexp(100, 1/80)
-fullsibs <- rexp(100, 1/50)
+firstcous <- rexp(100, 1 / 80)
+fullsibs <- rexp(100, 1 / 50)
 axpermute_subtract(firstcous, fullsibs)
 }

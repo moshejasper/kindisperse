@@ -27,6 +27,6 @@ if output = 'vect', returns a vector of all permuted axial value results
 Estimate the axial dispersal distance of a kernel with confidence intervals
 }
 \examples{
-po_dists <- rexp(100, 1/50)
+po_dists <- rexp(100, 1 / 50)
 axpermute(po_dists, composite = 1)
 }

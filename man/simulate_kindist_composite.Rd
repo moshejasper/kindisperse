@@ -46,6 +46,8 @@ Simulate kin dispersal distance pairs with composite sigmas
 }
 \examples{
 simulate_kindist_composite(nsims = 100)
-simulate_kindist_composite(nsims = 10000, juvsigma = 20, breedsigma = 30, gravsigma = 30,
-     ovisigma = 12, dims = 500, method = "Laplace", kinship = "1C", lifestage = "larva")
+simulate_kindist_composite(
+  nsims = 10000, juvsigma = 20, breedsigma = 30, gravsigma = 30,
+  ovisigma = 12, dims = 500, method = "Laplace", kinship = "1C", lifestage = "larva"
+)
 }
