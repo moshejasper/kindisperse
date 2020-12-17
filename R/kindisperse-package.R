@@ -22,7 +22,7 @@
 #' @importFrom shiny h1 h2 h3 h4 h5 h6 hr icon p
 #' @importFrom shiny plotOutput renderPlot renderTable renderText tableOutput textOutput renderPrint textInput
 #' @importFrom shinythemes shinytheme
-#' @importFrom stats quantile rexp rnorm runif rweibull
+#' @importFrom stats quantile rexp rnorm runif rweibull rgamma
 #' @importFrom stringr str_ends str_c
 #' @importFrom tibble add_row tibble as_tibble is_tibble add_column
 #' @importFrom tidyselect everything

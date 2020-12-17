@@ -39,7 +39,7 @@ ui <- fluidPage(
     column(
       offset = 4, width = 4,
 
-      textOutput(outputId = "appstatus")
+      #textOutput(outputId = "appstatus")
     ),
     column(
       width = 4,
@@ -282,16 +282,8 @@ ui <- fluidPage(
             )
           )
         )
-      ),
-
-
-      sidebarLayout(
-        sidebarPanel(
-          "Technical Details"
-        ),
-
-        mainPanel("Boring graph here...")
       )
+
     ),
 
     #### _####
@@ -382,12 +374,13 @@ ui <- fluidPage(
           ),
 
           conditionalPanel(
+            condition = "input.load_source.includes('mounted')",
+
             h6("Enter one of the items below:"),
 
             textOutput(
               outputId = "appenv_list"
             ),
-            condition = "input.load_source.includes('mounted')",
             textInput(
               inputId = "load_retrieve_choice_mounted",
               label = "Enter object name to be loaded from appdata",
@@ -519,20 +512,10 @@ ui <- fluidPage(
                 min = 1, max = 1000000, value = 100000
               ),
 
-              radioButtons(
-                inputId = "sim_type",
-                label = "Simulation Type",
-                choices = c("Simple", "Composite")
-              ),
-
-              conditionalPanel(
-                condition = "input.sim_type == 'Simple'",
-
-                sliderInput(
-                  inputId = "sim_simple_sigma",
-                  label = "Simple dispersal sigma",
-                  min = 1, max = 250, value = 50
-                )
+              sliderInput(
+                inputId = "sim_simple_sigma",
+                label = "Simple dispersal sigma",
+                min = 1, max = 250, value = 50
               ),
 
               sliderInput(
@@ -674,7 +657,7 @@ ui <- fluidPage(
               ),
 
               conditionalPanel(
-                condition = "input.sim_composite_method == 'Gamma",
+                condition = "input.sim_composite_method == 'Gamma'",
                 numericInput(
                   inputId = "sim_composite_shape",
                   label = "Shape of component kernels",
@@ -1152,11 +1135,11 @@ ui <- fluidPage(
     )
   ),
 
-  hr(),
-  textOutput(
-    outputId = "errorbar"
-  ),
   hr()
+  #textOutput(
+  #  outputId = "errorbar"
+  #),
+  #hr()
 )
 
 
@@ -1181,9 +1164,9 @@ server <- function(input, output, session) {
 
   ############# Setup ################
 
-  output$appstatus <- renderText({
-    "Everything is A-OK"
-  })
+  #output$appstatus <- renderText({
+  #  "Everything is A-OK"
+  #})
 
 
   ############## Maintenance ###############
@@ -1973,9 +1956,9 @@ server <- function(input, output, session) {
 
   ############# Error Functions #############
 
-  output$errorbar <- renderText({
-    error_report()
-  })
+  #output$errorbar <- renderText({
+  #  error_report()
+  #})
 
   # Need to gather checks and put them together here!
 
