@@ -561,8 +561,18 @@ ui <- fluidPage(
               radioButtons(
                 inputId = "sim_simple_method",
                 label = "Dispersal Kernel Type",
-                choices = c("Gaussian", "Laplace"),
+                choices = c("Gaussian", "Laplace", "Gamma"),
                 selected = "Gaussian"
+              ),
+
+              conditionalPanel(
+                condition = "input.sim_simple_method == 'Gamma'",
+
+                sliderInput(
+                  inputId = "sim_simple_gshape",
+                  label = "Select value of shape parameter",
+                  min = 0, max = 2, value = 1, step = 0.01
+                )
               ),
 
               sliderInput(
@@ -659,8 +669,17 @@ ui <- fluidPage(
               radioButtons(
                 inputId = "sim_composite_method",
                 label = "Dispersal Kernel Type",
-                choices = c("Gaussian", "Laplace"),
+                choices = c("Gaussian", "Laplace", "Gamma"),
                 selected = "Gaussian"
+              ),
+
+              conditionalPanel(
+                condition = "input.sim_composite_method == 'Gamma",
+                numericInput(
+                  inputId = "sim_composite_shape",
+                  label = "Shape of component kernels",
+                  min = 0, max = 100, value = 1
+                )
               ),
 
               numericInput(
@@ -1288,6 +1307,7 @@ server <- function(input, output, session) {
       out <- str_c(out, "-----------------------------------\n")
       out <- str_c(out, "simtype:\t\t", ifelse(is.na(staged_object()@simtype), "NA", staged_object()@simtype), "\n")
       out <- str_c(out, "kerneltype:\t\t", ifelse(is.na(staged_object()@kerneltype), "NA", staged_object()@kerneltype), "\n")
+      if (! is.na(staged_object()@kernelshape)) out <- str_c(out, "kernelshape:\t\t", staged_object()@kernelshape, "\n")
       out <- str_c(out, "kinship:\t\t", staged_object()@kinship, "\n")
       out <- str_c(out, "simdims:\t\t", ifelse(is.na(staged_object()@simdims), "NA", staged_object()@simdims), "\n")
       if (is.na(staged_object()@simtype)) {
@@ -1412,7 +1432,8 @@ server <- function(input, output, session) {
 
     simulate_kindist_simple(
       nsims = input$sim_simple_nsims, sigma = input$sim_simple_sigma, method = input$sim_simple_method,
-      kinship = input$sim_simple_category, lifestage = input$sim_simple_lifestage, dims = input$sim_simple_dims
+      kinship = input$sim_simple_category, lifestage = input$sim_simple_lifestage, dims = input$sim_simple_dims,
+      shape = input$sim_simple_gshape
     )
   })
 
@@ -1439,10 +1460,15 @@ server <- function(input, output, session) {
       updateNumericInput(session, "sim_composite_nsims", value = 1000000)
       return(NULL)
     }
+    if (input$sim_composite_shape < 0) {
+      updateNumericInput(session, "sim_composite_shape", value = 0)
+      return(NULL)
+    }
     simulate_kindist_composite(
       nsims = input$sim_composite_nsims, juvsigma = input$sim_composite_juvsigma, breedsigma = input$sim_composite_breedsigma,
       gravsigma = input$sim_composite_gravsigma, ovisigma = input$sim_composite_ovisigma, dims = input$sim_composite_dims,
-      method = input$sim_composite_method, kinship = input$sim_composite_category, lifestage = input$sim_composite_lifestage
+      method = input$sim_composite_method, kinship = input$sim_composite_category, lifestage = input$sim_composite_lifestage,
+      shape = input$sim_composite_shape
     )
   })
 

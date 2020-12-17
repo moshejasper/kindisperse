@@ -16,6 +16,7 @@ KinPairSimulation(
   gravsigma = NULL,
   ovisigma = NULL,
   simdims = NULL,
+  kernelshape = NULL,
   call = NULL,
   filtertype = NULL,
   upper = NULL,
@@ -37,6 +38,7 @@ KinPairSimulation(
   gravsigma = NULL,
   ovisigma = NULL,
   simdims = NULL,
+  kernelshape = NULL,
   call = NULL,
   filtertype = NULL,
   upper = NULL,
@@ -55,7 +57,7 @@ KinPairSimulation(
 
 \item{simtype}{character - simulation type}
 
-\item{kerneltype}{character. - 'Gaussian' or 'Laplace'}
+\item{kerneltype}{character. - 'Gaussian', 'Laplace' or 'Gamma'}
 
 \item{dsigma}{numeric - overall value of dispersal sigma (for simple kernel)}
 
@@ -68,6 +70,8 @@ KinPairSimulation(
 \item{ovisigma}{numeric.    - value of oviposition dispersal sigma (for composite kernel)}
 
 \item{simdims}{numeric. - dimensions of sampling area (assumes one side of square)}
+
+\item{kernelshape}{numeric. - value of kernel shape of simulation (if using kernel with shape parameter e.g. gamma)}
 
 \item{call}{call. Call to create object}
 
@@ -96,7 +100,7 @@ KinPairSimulation Class
 
 \item{\code{simtype}}{character.}
 
-\item{\code{kerneltype}}{character. - 'Gaussian' or 'Laplace'}
+\item{\code{kerneltype}}{character. - 'Gaussian', 'Laplace' or 'Gamma'}
 
 \item{\code{dsigma}}{numeric.       - overall value of dispersal sigma (for simple kernel)}
 
@@ -111,6 +115,8 @@ KinPairSimulation Class
 \item{\code{simdims}}{numeric.        - dimensions of sampling area (assumes 1 side of square)}
 
 \item{\code{lifestage}}{character. - lifestage at sampling - either 'larva' or 'oviposition'}
+
+\item{\code{kernelshape}}{numeric.   - shape parameter if Gamma kerneltype}
 
 \item{\code{call}}{call.           - call to create initial simulation}
 
