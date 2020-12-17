@@ -11,6 +11,7 @@ KinPairSimulation_simple(
   dsigma = NULL,
   simdims = NULL,
   lifestage = NULL,
+  kernelshape = NULL,
   call = NULL
 )
 }
@@ -19,13 +20,15 @@ KinPairSimulation_simple(
 
 \item{kinship}{character. Code for kinship category of simulation. one of PO, FS, HS, AV, GG, HAV, GGG, 1C, 1C1, 2C, GAV, HGAV, H1C or H2C}
 
-\item{kerneltype}{character. Statistical model for simulated dispersal kernel. Currently either "Gaussian" or "Laplace".}
+\item{kerneltype}{character. Statistical model for simulated dispersal kernel. Currently either "Gaussian", "Laplace" or "Gamma".}
 
 \item{dsigma}{numeric. Axial sigma of dispersal kernel (axial standard deviation).}
 
 \item{simdims}{numeric. Length of side of simulated area square.}
 
 \item{lifestage}{character. Simulated lifestage of sampling. Either "larva" (sampled at hatching) or "oviposition" (sampled as an adult during oviposition - essentially one lifespan later that 'larva')}
+
+\item{kernelshape}{numeric. Value of shape parameter for simulated kernel if kernel requires one (e.g. gamma kernel).}
 
 \item{call}{call object. Use to pass the system call that led to the generation of this class. (via sys.call)}
 }

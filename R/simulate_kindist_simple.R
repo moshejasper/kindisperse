@@ -4,10 +4,10 @@
 #' @param nsims   (integer) -   number of pairs to simulate
 #' @param sigma   (numeric) -   size of simple (axial) sigma
 #' @param dims    (numeric) -   length of sides of (square) simulated site area
-#' @param method  (character) - kernel shape to use: either 'Gaussian' or 'Laplace'
+#' @param method  (character) - kernel shape to use: either 'Gaussian', 'Laplace' or 'Gamma'
 #' @param kinship (character)- kin category to simulate: one of PO, FS, HS, AV, GG, HAV, GGG, 1C, 1C1, 2C, GAV, HGAV, H1C or H2C
 #' @param lifestage (lifestage) lifestage at sample collection: either 'larva' or 'oviposition'
-#' @param shape   NULL - placeholder for future kernels
+#' @param shape   (numeric) value of shape parameter to use with 'Gamma' method.
 #'
 #' @return      returns an object of class 'KinPairSimulation' containing simulation details and a tibble (tab) of simulation values
 #' @export
@@ -16,9 +16,9 @@
 #' test <- simulate_kindist_simple(nsims = 10, sigma = 50, dims = 1000, method = "Laplace")
 #' simulate_kindist_simple(nsims = 10000, sigma = 75, kinship = "PO", lifestage = "oviposition")
 simulate_kindist_simple <- function(nsims = 100, sigma = 125, dims = 100, method = "Gaussian",
-                                    kinship = "PO", lifestage = "larva", shape = 2) {
-  if (!method %in% c("Gaussian", "Laplace")) {
-    stop("Invalid Method! - choose from 'Gaussian' or 'Laplace'")
+                                    kinship = "PO", lifestage = "larva", shape = 1) {
+  if (!method %in% c("Gaussian", "Laplace", "Gamma")) {
+    stop("Invalid Method! - choose from 'Gaussian', 'Laplace' or 'Gamma'")
     stop("Invalid Method! - choose from 'Gaussian', 'Exponential', 'Gamma', 'Weibull' or 'Laplace'")
   }
 
@@ -71,20 +71,21 @@ simulate_kindist_simple <- function(nsims = 100, sigma = 125, dims = 100, method
       return(matrix(c(xf, yf), ncol = 2))
     }
   }
-  # else if (method == "Gamma"){
-  #  rdistr <- function(sig){
-  #    sigdiag <- matrix(c(1, 0, 0, 1), ncol = 2)
-  #    xyi <- lcmix::rmvgamma(nsims, shape, sqrt(2)*sqrt(shape)/sig, sigdiag)
-  #    xi <- xyi[,1]
-  ##    yi <- xyi[,2]
-  #    dst <- sqrt(xi^2 + yi^2)
-  #    #dst <- rgamma(nsims, shape, scale = sig / sqrt(shape))
-  ##    angle <- runif(nsims, 0, 2 * pi)
-  #    xf <- dst * cos(angle)
-  #    yf <- dst * sin(angle)
-  #    return(matrix(c(xf, yf), ncol = 2))
-  #  }
-  # }
+   else if (method == "Gamma"){
+    rdistr <- function(sig){
+      Sigma <- matrix(c(sig^2, 0, 0, sig^2), ncol = 2)
+      mu <- rbind(c(0, 0))
+      n <- nsims
+
+      k <- ncol(Sigma)
+      if (n > nrow(mu))
+        mu <- matrix(mu, n, k, byrow = TRUE)
+      e <- matrix(rgamma(n, scale = 1, shape = shape), n, k) / shape
+      z <- LaplacesDemon::rmvn(n, rep(0, k), Sigma)
+      x <- mu + sqrt(e) * z
+      return(x)
+    }
+   }
   else if (method == "Laplace") { # bivariate symmetric laplacian
     rdistr <- function(sig) {
       sigdiag <- matrix(c(sig^2, 0, 0, sig^2), ncol = 2)
@@ -206,10 +207,12 @@ simulate_kindist_simple <- function(nsims = 100, sigma = 125, dims = 100, method
     distance = distance,
     kinship = kinship
   )
+  if (method == "Gamma") kernelshape <- shape
+  else kernelshape <- NULL
 
   return(KinPairSimulation_simple(
     data = tab, kinship = kinship, kerneltype = method,
     dsigma = sigma, simdims = dims, lifestage = lifestage,
-    call = sys.call()
+    kernelshape = kernelshape, call = sys.call()
   ))
 }

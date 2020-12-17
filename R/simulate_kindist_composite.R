@@ -6,10 +6,10 @@
 #' @param gravsigma   (numeric) -   size of post-breeding (axial) sigma
 #' @param ovisigma   (numeric) -   size of oviposition (axial) sigma
 #' @param dims    (numeric) -   length of sides of (square) simulated site area
-#' @param method  (character) - kernel shape to use: either 'Gaussian' or 'Laplace'
+#' @param method  (character) - kernel shape to use: either 'Gaussian', 'Laplace' or 'Gamma'
 #' @param kinship (character)- kin category to simulate: one of PO, FS, HS, AV, GG, HAV, GGG, 1C, 1C1, 2C, GAV, HGAV, H1C H1C1 or H2C
 #' @param lifestage (lifestage) lifestage at sample collection: either 'larva' or 'oviposition'
-#' @param shape   NULL - placeholder for future kernels
+#' @param shape   (numeric) - value of shape parameter to use with 'Gamma' method
 #'
 #' @return returns an object of class 'KinPairSimulation' containing simulation details and a tibble (tab) of simulation values
 #' @export
@@ -22,8 +22,9 @@
 #' )
 simulate_kindist_composite <- function(nsims = 100, juvsigma = 100, breedsigma = 50, gravsigma = 50,
                                        ovisigma = 25, dims = 100, method = "Gaussian", kinship = "FS",
-                                       lifestage = "larva", shape = 2) {
-  if (!method %in% c("Gaussian", "Exponential", "Weibull", "Laplace")) {
+                                       lifestage = "larva", shape = 1) {
+  if (!method %in% c("Gaussian", "Laplace", "Gamma")) {
+    stop("Invalid Method! - choose from 'Gaussian', 'Laplace' or 'Gamma'")
     stop("Invalid Method!")
   }
 
@@ -74,6 +75,21 @@ simulate_kindist_composite <- function(nsims = 100, juvsigma = 100, breedsigma =
       xf <- xyi[, 1]
       yf <- xyi[, 2]
       return(matrix(c(xf, yf), ncol = 2))
+    }
+  }
+  else if (method == "Gamma"){
+    rdistr <- function(sig){
+      Sigma <- matrix(c(sig^2, 0, 0, sig^2), ncol = 2)
+      mu <- rbind(c(0, 0))
+      n <- nsims
+
+      k <- ncol(Sigma)
+      if (n > nrow(mu))
+        mu <- matrix(mu, n, k, byrow = TRUE)
+      e <- matrix(rgamma(n, scale = 1, shape = shape), n, k) / shape
+      z <- LaplacesDemon::rmvn(n, rep(0, k), Sigma)
+      x <- mu + sqrt(e) * z
+      return(x)
     }
   }
 
@@ -189,9 +205,13 @@ simulate_kindist_composite <- function(nsims = 100, juvsigma = 100, breedsigma =
     kinship = kinship
   )
 
+  if (method == "Gamma") kernelshape <- shape
+  else kernelshape <- NULL
+
   return(KinPairSimulation_composite(tab,
     kinship = kinship, kerneltype = method, juvsigma = juvsigma,
     breedsigma = breedsigma, gravsigma = gravsigma, ovisigma = ovisigma,
-    simdims = dims, lifestage = lifestage, call = sys.call()
+    simdims = dims, lifestage = lifestage, kernelshape = kernelshape,
+    call = sys.call()
   ))
 }

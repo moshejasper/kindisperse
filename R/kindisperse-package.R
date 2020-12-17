@@ -31,5 +31,5 @@
 NULL
 
 .onLoad <- function(libname, pkgname){
-  packageStartupMessage(paste0("kindisperse v", utils::packageVersion("kindisperse")))
+  packageStartupMessage(paste0("kindisperse ", utils::packageVersion("kindisperse")))
 }
