@@ -91,52 +91,56 @@
 )
 }
 \arguments{
-\item{KinPairSimulation}{}
+\item{x}{object of class KinPairSimulation}
+
+\item{value}{value for parameter to be adjusted to}
+
+\item{object}{object of class KinPairSimulation}
+
+\item{.Object}{object to be constructed into KinPairSimulation class}
+
+\item{data}{tbl_df. tibble  of simulation values}
+
+\item{kinship}{character - one of PO, FS, HS, AV, HAV, GG, 1C, H1C, GAV, HGAV, 1C1, H1C1, GGG, 2C, and H2C.}
+
+\item{lifestage}{character - one of 'unknown', 'larva' or 'oviposition'}
+
+\item{simtype}{character - simulation type}
+
+\item{kerneltype}{character. - 'Gaussian', 'Laplace' or 'Gamma'}
+
+\item{kernelshape}{numeric. - value of kernel shape of simulation (if using kernel with shape parameter e.g. gamma)}
+
+\item{dsigma}{numeric - overall value of dispersal sigma (for simple kernel)}
+
+\item{juvsigma}{numeric.    - value of pre-breeding dispersal sigma (for composite kernel)}
+
+\item{breedsigma}{numeric.    - value of breeding dispersal sigma (for composite kernel)}
+
+\item{gravsigma}{numeric.    - value of post-breeding dispersal sigma (for composite kernel)}
+
+\item{ovisigma}{numeric.    - value of oviposition dispersal sigma (for composite kernel)}
+
+\item{simdims}{numeric. - dimensions of sampling area (assumes one side of square)}
+
+\item{call}{call. Call to create object}
+
+\item{filtertype}{character. whether the initial sim has been further filtered}
+
+\item{upper}{numeric.       - FILTER: upper threshold used}
+
+\item{lower}{numeric.       - FILTER: lower threshold used}
+
+\item{spacing}{numeric.       - FILTER: spacing used}
+
+\item{samplenum}{numeric.       - FILTER: sample number used}
+
+\item{sampledims}{numeric.       - FILTER: sample dimensions used}
+
+\item{KinPairSimulation}{an object of class KinPairSimulation}
 }
 \value{
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Returns an object of class \code{KinPairSimulation}
 }
 \description{
 )

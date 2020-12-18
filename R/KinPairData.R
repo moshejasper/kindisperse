@@ -40,7 +40,6 @@ setGeneric("kinship<-", function(x, value) standardGeneric("kinship<-"))
 #'
 #' @param x object with relevant method
 #'
-#' @return
 #' @export
 #'
 #'
@@ -50,7 +49,6 @@ setGeneric("lifestage", function(x) standardGeneric("lifestage"))
 #' @param x object with relevant method
 #' @param value new value to assign
 #'
-#' @return
 #' @export
 #'
 #'
@@ -72,8 +70,8 @@ setGeneric("distances", function(x) standardGeneric("distances"))
 #'
 #'
 #' @param KinPairData object of class \code{KinPairData}
+#' @param x object of class KinPairData
 #'
-#' @return
 #' @export
 #'
 #' @describeIn KinPairData access distances
@@ -83,7 +81,6 @@ setMethod("distances", "KinPairData", function(x) x@tab$distance)
 #'
 #' @param KinPairData object of class \code{KinPairData}
 #'
-#' @return
 #' @export
 #'
 #' @describeIn KinPairData access kin category
@@ -92,8 +89,9 @@ setMethod("kinship", "KinPairData", function(x) x@kinship)
 #'
 #'
 #' @param KinPairData object of class \code{KinPairData}
+#' @param x object of class \code{KinPairData}
+#' @param value value to assign to slot
 #'
-#' @return
 #' @export
 #'
 #' @describeIn KinPairData assign kin category
@@ -108,7 +106,6 @@ setMethod("kinship<-", "KinPairData", function(x, value) {
 #'
 #' @param KinPairData
 #'
-#' @return
 #' @export
 #'
 #' @describeIn KinPairData access lifestage
@@ -119,7 +116,6 @@ setMethod("lifestage", "KinPairData", function(x) x@lifestage)
 #'
 #' @param KinPairData
 #'
-#' @return
 #' @export
 #'
 #' @describeIn KinPairData assign lifestage
@@ -131,9 +127,9 @@ setMethod("lifestage<-", "KinPairData", function(x, value) {
 
 #'
 #'
-#' @param KinPairData
+#' @param KinPairData object of class KinPairData
+#' @param object an object of class KinpairData
 #'
-#' @return
 #' @export
 #'
 #' @describeIn KinPairData standard print method
@@ -153,12 +149,18 @@ setMethod(
 
 # Constructor method of KinPairData
 
-#' Title
+#' Constructor method for \code{KinPairData} objects.
 #'
-#' @param KinPairData
+#' @param KinPairData object of class KinPairData
+#' @param .Object the KinPairData object to be constructed
+#' @param data  data about kinship to be used to construct object (tibble, data.frame, or numeric vector of distances)
+#' @param kinship character. Kinship category value for object. - one of PO, FS, HS, AV, HAV, GG, 1C, H1C, GAV, HGAV, 1C1, H1C1, GGG, 2C, and H2C.
+#' @param lifestage character. Lifestage value for object. - one of 'larva', 'oviposition' or 'unknown'
+#' @param ... additional argument to pass to downstream functions in future
 #'
-#' @return
 #' @export
+#'
+#' @return Returns an object of class \code{KinPairData}
 #'
 #' @describeIn KinPairData initialize method
 setMethod(
@@ -229,7 +231,7 @@ setMethod(
 #' Make new KinPairData object
 #'
 #' @param data tlb_df. Tibble of kinpair distances
-#' @param kinship character. - one of PO, FS, HS, AV, HAV, GG, 1C, H1C, GAV, HGAV, 1C1, H1C1, GGG, 2C, and H2C.
+#' @param kinship character. - one of PO, FS, HS, AV, HAV, GG, 1C, H1C, GAV, HGAV, 1C1, H1C1, GGG, 2C, H2C & UN.
 #' @param lifestage character. - one of 'unknown', 'larva' or 'oviposition'
 #'
 #' @return returns an object of class \code{KinPairData}

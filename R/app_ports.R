@@ -23,7 +23,6 @@ mount_appdata <- function(x, nm) {
 #'
 #' @param nms A character vector of names of objects to unmount from the appdata environment
 #'
-#' @return
 #' @export
 #'
 #' @examples
@@ -36,7 +35,6 @@ unmount_appdata <- function(nms) {
 
 #' Reset kindisperse appdata
 #'
-#' @return
 #' @export
 #'
 #' @examples
@@ -62,7 +60,7 @@ retrieve_appdata <- function(nm) {
 
 #' Retrieve all KinPairData objects from appdata (as list)
 #'
-#' @return
+#' @return Returns a list of objects stored in the appdata environment
 #' @export
 #'
 #' @examples
@@ -75,7 +73,6 @@ retrieveall_appdata <- function() {
 
 #' Reset app tempdata (internal mem)
 #'
-#' @return
 #' @export
 #'
 #' @examples
@@ -106,7 +103,6 @@ retrieve_tempdata <- function() {
 
 #' Show printout of named items stored in appdata.
 #'
-#' @return
 #' @export
 #'
 #' @examples

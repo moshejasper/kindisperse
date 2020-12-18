@@ -8,7 +8,7 @@
 \alias{lifestage<-,KinPairData-method}
 \alias{show,KinPairData-method}
 \alias{initialize,KinPairData-method}
-\title{Title}
+\title{Constructor method for \code{KinPairData} objects.}
 \usage{
 \S4method{distances}{KinPairData}(x)
 
@@ -25,25 +25,29 @@
 \S4method{initialize}{KinPairData}(.Object, data = NULL, kinship = NULL, lifestage = NULL, ...)
 }
 \arguments{
-\item{KinPairData}{}
+\item{x}{object of class \code{KinPairData}}
+
+\item{value}{value to assign to slot}
+
+\item{object}{an object of class KinpairData}
+
+\item{.Object}{the KinPairData object to be constructed}
+
+\item{data}{data about kinship to be used to construct object (tibble, data.frame, or numeric vector of distances)}
+
+\item{kinship}{character. Kinship category value for object. - one of PO, FS, HS, AV, HAV, GG, 1C, H1C, GAV, HGAV, 1C1, H1C1, GGG, 2C, and H2C.}
+
+\item{lifestage}{character. Lifestage value for object. - one of 'larva', 'oviposition' or 'unknown'}
+
+\item{...}{additional argument to pass to downstream functions in future}
+
+\item{KinPairData}{object of class KinPairData}
 }
 \value{
-
-
-
-
-
-
-
-
-
-
-
-
-
+Returns an object of class \code{KinPairData}
 }
 \description{
-Title
+Constructor method for \code{KinPairData} objects.
 }
 \section{Methods (by generic)}{
 \itemize{
