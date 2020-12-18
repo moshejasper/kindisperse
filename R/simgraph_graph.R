@@ -2,14 +2,12 @@
 #'
 #' @param result      simulation supplied from simgraph_data() function (tibble)
 #' @param nsims       number of families to graph
-#' @param dsigma      Integer. The axial deviation of the (simple) parent-offspring dispersal kernel governing this simulation.
-#' @param dims        Integer. Lays out the length of the sides of a square within which parent individuals are seeded.
 #' @param labls       Logical. Displays labels.
 #' @param steps       Logical. Whether or not to show any details of dispersal movement
 #' @param moves       Logical. Whether or not to show (curved) lines denoting dispersal movement
 #' @param shadows     Logical. Whether or not to show (dashed) shadows tracing dispersal movement.
 #' @param kinship    Character. Lists the kin category the simulation is reconstructing. One of "PO", "FS", "HS", "AV", "GG", "HAV", "GGG", "1C", "1C1", "2C", "GAV" (no half-categoris included)
-#' @param show_area   Logical. Whether or not to show the parental seed area as defined in dims.
+#' @param show_area   Logical. Whether or not to show the parental seed area as defined in data$dims
 #' @param centred     Logical. Whether or not to centre the coordinates on one individual.
 #' @param pinwheel    Logical. Whether the final graph should be of the pinwheel form.
 #' @param scattered   Logical. Whether the final graph should be of the scatter form.
@@ -24,11 +22,21 @@
 #' @examples
 #' simdata <- simgraph_data()
 #' simgraph_graph(simdata)
-simgraph_graph <- function(result, nsims = 10, dsigma = 50, dims = 250, labls = TRUE, steps = TRUE,
-                           moves = TRUE, shadows = TRUE, kinship = "2C", show_area = TRUE,
+simgraph_graph <- function(result, nsims = 10, labls = TRUE, steps = TRUE,
+                           moves = TRUE, shadows = TRUE, kinship = NULL, show_area = TRUE,
                            centred = FALSE, pinwheel = FALSE, scattered = FALSE,
                            lengths = TRUE, lengthlabs = TRUE, histogram = FALSE,
                            binwidth = dsigma / 5, freqpoly = FALSE) {
+
+  dsigma <- result[1,]$dsigma
+  dims <- result[1,]$dims
+  if (is.null(kinship))
+    kinship <- result[1,]$kinship
+
+  if (nsims > nrow(result)){
+    cat(paste0("Too few families in datasource; reducing nsims to datasource maximum (", nrow(result), ").\n"))
+    nsims <- nrow(result)
+  }
   if (pinwheel == TRUE | scattered == TRUE) {
     centred <- TRUE
   }
@@ -402,60 +410,61 @@ simgraph_graph <- function(result, nsims = 10, dsigma = 50, dims = 250, labls = 
 }
 
 
-simgraph_basic <- function(result, nsims = 10, dsigma = 25, dims = 250,
-                           labls = F, steps = T, moves = T, shadows = F,
-                           show_area = T, kinship = "2C",
+simgraph_basic <- function(result, nsims = 10, labls = F, steps = T,
+                           moves = T, shadows = F, show_area = T, kinship = "2C",
                            lengths = T, lengthlabs = T) {
   return(simgraph_graph(result,
-    nsims = nsims, dsigma = dsigma, dims = dims, labls = labls, steps = steps, moves = moves, shadows = shadows,
+    nsims = nsims, labls = labls, steps = steps, moves = moves, shadows = shadows,
     show_area = show_area, kinship = kinship, lengths = lengths, lengthlabs = lengthlabs
   ))
 }
 
-simgraph_centred_graph <- function(result, nsims = 5, dsigma = 25, dims = 250,
+simgraph_centred_graph <- function(result, nsims = 5,
                                    labls = F, steps = T, moves = T, shadows = F,
                                    show_area = T, kinship = "2C",
                                    lengths = T, lengthlabs = F) {
   return(simgraph_graph(result,
-    nsims = nsims, dsigma = dsigma, dims = dims, labls = labls, steps = steps, moves = moves, shadows = shadows,
+    nsims = nsims, labls = labls, steps = steps, moves = moves, shadows = shadows,
     show_area = show_area, kinship = kinship, lengths = lengths, lengthlabs = lengthlabs, centred = T
   ))
 }
 
-simgraph_pinwheel <- function(result, nsims = 200, dsigma = 25, labls = F, kinship = "2C") {
-  return(simgraph_graph(result, nsims = nsims, dsigma = dsigma, labls = labls, kinship = kinship, pinwheel = TRUE))
+simgraph_pinwheel <- function(result, nsims = 25, labls = T, kinship = "2C") {
+  return(simgraph_graph(result, nsims = nsims, labls = labls, kinship = kinship, pinwheel = TRUE))
 }
 
-simgraph_scatter <- function(result, nsims = 500, dsigma = 25, kinship = "2C") {
-  return(simgraph_graph(result, nsims = nsims, dsigma = dsigma, kinship = kinship, scattered = TRUE))
+simgraph_scatter <- function(result, nsims = 500, kinship = "2C") {
+  return(simgraph_graph(result, nsims = nsims, kinship = kinship, scattered = TRUE))
 }
 
-simgraph_indv <- function(result, dsigma = 25, dims = 250, scalefactor = 4, scaled = T,
+simgraph_indv <- function(result, scalefactor = 4, scaled = T,
                           labls = F, steps = T, moves = T, shadows = F,
                           show_area = T, kinship = "2C",
                           lengths = T, lengthlabs = T) {
-  newtitle <- paste0(kinship, " Dispersal: sigma ", dsigma, "m")
+  dsigma <- result[1,]$dsigma
+  newtitle <- paste0(kinship, " Dispersal")
+  newsubtitle <- paste0("Sigma: ", dsigma, "m")
   if (scaled == TRUE) {
     return(simgraph_graph(result,
-      nsims = 1, dsigma = dsigma, dims = dims, labls = labls, steps = steps, moves = moves, shadows = shadows,
+      nsims = 1, labls = labls, steps = steps, moves = moves, shadows = shadows,
       show_area = show_area, kinship = kinship, lengths = lengths, lengthlabs = lengthlabs, centred = T
     ) +
       coord_fixed(
         xlim = c(-scalefactor * dsigma, scalefactor * dsigma),
         ylim = c(-scalefactor * dsigma, scalefactor * dsigma)
-      ) + ggtitle(newtitle))
+      ) + ggtitle(newtitle, newsubtitle))
   }
   return(simgraph_graph(result,
-    nsims = 1, dsigma = dsigma, dims = dims, labls = labls, steps = steps, moves = moves, shadows = shadows,
+    nsims = 1, labls = labls, steps = steps, moves = moves, shadows = shadows,
     show_area = show_area, kinship = kinship, lengths = lengths, lengthlabs = lengthlabs, centred = T
   ) +
-    ggtitle(newtitle))
+    ggtitle(newtitle, newsubtitle))
 }
 
-simgraph_histogram <- function(result, nsims = 500, dsigma = 25, kinship = "2C", binwidth = dsigma / 3) {
-  return(simgraph_graph(result, nsims = nsims, dsigma = dsigma, kinship = kinship, histogram = TRUE, binwidth = binwidth))
+simgraph_histogram <- function(result, nsims = 500, kinship = "2C", binwidth = dsigma / 3) {
+  return(simgraph_graph(result, nsims = nsims, kinship = kinship, histogram = TRUE, binwidth = binwidth))
 }
 
-simgraph_freqpoly <- function(result, nsims = 5000, dsigma = 25, kinship = "2C", binwidth = dsigma / 3) {
-  return(simgraph_graph(result, nsims = nsims, dsigma = dsigma, kinship = kinship, histogram = TRUE, binwidth = binwidth, freqpoly = TRUE))
+simgraph_freqpoly <- function(result, nsims = 5000, kinship = "2C", binwidth = dsigma / 3) {
+  return(simgraph_graph(result, nsims = nsims, kinship = kinship, histogram = TRUE, binwidth = binwidth, freqpoly = TRUE))
 }
