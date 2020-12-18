@@ -306,7 +306,7 @@ setGeneric("sampledims<-", function(x, value) standardGeneric("sampledims<-"))
 #' @export
 #'
 #' @describeIn KinPairSimulation access kernelshape
-setMethod("kernelshape", "KinPairSimulation", function(x) x@kerneltype)
+setMethod("kernelshape", "KinPairSimulation", function(x) x@kernelshape)
 
 #'
 #'

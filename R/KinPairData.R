@@ -17,25 +17,6 @@ KinPairData <- setClass("KinPairData",
 
 ######### GENERICS and METHODS#############
 
-#' Extract KinPairData to tibble (generic)
-#'
-#' @param x object of class \code{KinPairData}
-#'
-#' @return tibble (class \code{tbl_df})
-#' @export
-#'
-#'
-setGeneric("to_tibble", function(x) standardGeneric("to_tibble"))
-
-#'
-#'
-#' @param KinPairData object of class KinPairData
-#'
-#' @return
-#' @export
-#'
-#' @describeIn KinPairData extract to tibble
-setMethod("to_tibble", "KinPairData", function(x) x@tab)
 
 #' Access or assign kin category (generic for KinPairData class)
 #'
