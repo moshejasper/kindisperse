@@ -1220,8 +1220,8 @@ server <- function(input, output, session) {
   })
 
   output$sand_dispersalPlot <- renderPlot({
-    simgraph_graph(sandbox_data(),
-      nsims = input$sand_nsims, dsigma = input$sand_dsigma, dims = input$sand_dims, labls = input$sand_labls,
+    simgraph_graph(
+      sandbox_data(), nsims = input$sand_nsims, labls = input$sand_labls,
       moves = input$sand_moves, shadows = input$sand_shadows, kinship = input$sand_category,
       show_area = input$sand_show_area, # centred = input$sand_centred, #pinwheel = input$sand_pinwheel, scattered = input$sand_scattered,
       lengths = input$sand_lengths, lengthlabs = input$sand_lengthlabs
@@ -1494,7 +1494,7 @@ server <- function(input, output, session) {
     gp <- ggplot(sim_simple_kindata()@tab) +
       aes(x = .data$distance)
     if ("1" %in% input$testsaveops) {
-      gp <- gp + geom_freqpoly(data = app_env$d1@tab, colour = "pink", binwidth = 5)
+      gp <- gp + geom_freqpoly(data = app_env$d1@tab, colour = "blue", binwidth = 5)
     }
     if ("2" %in% input$testsaveops) {
       gp <- gp + geom_freqpoly(data = app_env$d2@tab, colour = "red", binwidth = 5)
