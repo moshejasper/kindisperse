@@ -144,8 +144,8 @@ Files can be loaded and saved to & from three separate formats: .csv and .tsv (v
 
 ``` {r files}
 kinobject <- simulate_kindist_simple(nsims = 25, kinship = "FS", lifestage = "larva")
-kinpair_to_csv(kinobject, "FS_kin.csv")
-csv_to_kinpair("FS_kin.csv")
+#kinpair_to_csv(kinobject, "FS_kin.csv") # saves data 
+#csv_to_kinpair("FS_kin.csv") # reloads it
 
 ```
 
