@@ -11,7 +11,7 @@ KinPairData(data = NULL, kinship = NULL, lifestage = NULL)
 \arguments{
 \item{data}{tlb_df. Tibble of kinpair distances}
 
-\item{kinship}{character. - one of PO, FS, HS, AV, HAV, GG, 1C, H1C, GAV, HGAV, 1C1, H1C1, GGG, 2C, and H2C.}
+\item{kinship}{character. - one of PO, FS, HS, AV, HAV, GG, 1C, H1C, GAV, HGAV, 1C1, H1C1, GGG, 2C, H2C & UN.}
 
 \item{lifestage}{character. - one of 'unknown', 'larva' or 'oviposition'}
 }
