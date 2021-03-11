@@ -11,9 +11,6 @@ filtertype(x) <- value
 
 \item{value}{new value to assign}
 }
-\value{
-
-}
 \description{
 Title
 }

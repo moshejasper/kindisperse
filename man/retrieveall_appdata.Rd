@@ -7,7 +7,7 @@
 retrieveall_appdata()
 }
 \value{
-
+Returns a list of objects stored in the appdata environment
 }
 \description{
 Retrieve all KinPairData objects from appdata (as list)

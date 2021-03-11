@@ -7,13 +7,11 @@
 simgraph_graph(
   result,
   nsims = 10,
-  dsigma = 50,
-  dims = 250,
   labls = TRUE,
   steps = TRUE,
   moves = TRUE,
   shadows = TRUE,
-  kinship = "2C",
+  kinship = NULL,
   show_area = TRUE,
   centred = FALSE,
   pinwheel = FALSE,
@@ -30,10 +28,6 @@ simgraph_graph(
 
 \item{nsims}{number of families to graph}
 
-\item{dsigma}{Integer. The axial deviation of the (simple) parent-offspring dispersal kernel governing this simulation.}
-
-\item{dims}{Integer. Lays out the length of the sides of a square within which parent individuals are seeded.}
-
 \item{labls}{Logical. Displays labels.}
 
 \item{steps}{Logical. Whether or not to show any details of dispersal movement}
@@ -44,7 +38,7 @@ simgraph_graph(
 
 \item{kinship}{Character. Lists the kin category the simulation is reconstructing. One of "PO", "FS", "HS", "AV", "GG", "HAV", "GGG", "1C", "1C1", "2C", "GAV" (no half-categoris included)}
 
-\item{show_area}{Logical. Whether or not to show the parental seed area as defined in dims.}
+\item{show_area}{Logical. Whether or not to show the parental seed area as defined in data$dims}
 
 \item{centred}{Logical. Whether or not to centre the coordinates on one individual.}
 

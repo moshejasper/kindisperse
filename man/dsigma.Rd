@@ -21,17 +21,6 @@ ovisigma(x)
 \arguments{
 \item{x}{object of class \code{KinPairSimulation}}
 }
-\value{
-
-
-
-
-
-
-
-
-
-}
 \description{
 kindisperse - access sigmas of KinPairSimulation objects
 }

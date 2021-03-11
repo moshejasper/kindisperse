@@ -38,27 +38,6 @@ sampledims(x) <- value
 
 \item{value}{new value to assign}
 }
-\value{
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-}
 \description{
 Access & filter by filter parameters of KinPairSimulation Object
 }
