@@ -7,3 +7,5 @@
 ^testr\.tsv$
 ^testr\.kindata$
 ^data-raw$
+^\.Rhistory$
+^\.gitignore$
