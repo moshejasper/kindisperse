@@ -14,6 +14,11 @@ lifestage(x) <- value
 
 \item{value}{new value to assign}
 }
+\value{
+
+
+
+}
 \description{
 Access or assign lifestage (generic for KinPairData class)
 }

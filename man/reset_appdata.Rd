@@ -6,6 +6,9 @@
 \usage{
 reset_appdata()
 }
+\value{
+
+}
 \description{
 Reset kindisperse appdata
 }

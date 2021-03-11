@@ -4,7 +4,15 @@
 \alias{simgraph_data}
 \title{Simple kin dispersal simulation for graphical display. (returns the data side as a tibble).}
 \usage{
-simgraph_data(nsims = 1000, dsigma = 50, dims = 250, kinship = "2C")
+simgraph_data(
+  nsims = 10,
+  dsigma = 50,
+  dims = 250,
+  kinship = "2C",
+  centred = FALSE,
+  pinwheel = FALSE,
+  scattered = FALSE
+)
 }
 \arguments{
 \item{nsims}{Integer. The number of kin dispersal families to simulate.}
@@ -14,6 +22,12 @@ simgraph_data(nsims = 1000, dsigma = 50, dims = 250, kinship = "2C")
 \item{dims}{Integer. Lays out the length of the sides of a square within which parent individuals are seeded.}
 
 \item{kinship}{Character. Lists the kin category the simulation is reconstructing. One of "PO", "FS", "HS", "AV", "GG", "HAV", "GGG", "1C", "1C1", "2C", "GAV" (no half-categoris included)}
+
+\item{centred}{Logical. Whether all parents are treated as originating in the same point (for pinwheel, scatter graphs, etc.)}
+
+\item{pinwheel}{Logical. Whether data is being prepared as if for a pinwheel graph.}
+
+\item{scattered}{Locigal. Whether data is being prepared as if for a scatter graph.}
 }
 \value{
 Returns a tibble containing the coordinates of the f0 to f2 generations, as well as coordinates and distances relative to the 'focus' kinship categories. (kindist, kinmid, k1 & k2)
@@ -22,5 +36,5 @@ Returns a tibble containing the coordinates of the f0 to f2 generations, as well
 Simple kin dispersal simulation for graphical display. (returns the data side as a tibble).
 }
 \examples{
-simgraph_data(nsims = 100, dims = 1000, kinship = "GAV")
+simgraph_data(nsims = 100, dims = 1000, kinship = "GAV", centred = TRUE)
 }

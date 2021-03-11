@@ -57,7 +57,7 @@ write_kindata <- function(x, file) {
 #' @param lifestage character. lifestage to assign or extract from data. one of 'unknown', 'larva' or 'oviposition'.
 #' @param ... additional arguments to pass to read_csv
 #'
-#' @return returns an object of class \code{KinPairData}
+#' @return
 #' @export
 #'
 csv_to_kinpair <- function(file, kinship = NULL, lifestage = NULL, ...) {

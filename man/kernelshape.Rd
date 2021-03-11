@@ -9,6 +9,9 @@ kernelshape(x)
 \arguments{
 \item{x}{object of class \code{KinPairSimulation}}
 }
+\value{
+
+}
 \description{
 kindisperse - access kerneltype of KinPairSimulation object
 }

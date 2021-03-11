@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 ```
 
 # kindisperse
-v0.7.4
+v0.7.0
 <!-- badges: start -->
 <!-- badges: end -->
 
@@ -78,7 +78,7 @@ This is designed primarily for introducing, exploring, and easily visualising di
 
 ## run graphical simulation
 graphdata <- simgraph_data(nsims = 1000, dsigma = 25, dims = 250)
-simgraph_graph(graphdata, nsim = 5, kinship = "1C")
+simgraph_graph(graphdata, nsim = 5, kinship = "1C", dsigma = 25)
 ```
 
 However, the options of both can be tweaked to show other data types, e.g. a pinwheel graph
@@ -86,7 +86,7 @@ However, the options of both can be tweaked to show other data types, e.g. a pin
 ```{r simgraphpin, fig.width = 10, fig.height = 10}
 
 graphdata <- simgraph_data(nsims = 1000, dsigma = 25, dims = 250)
-simgraph_graph(graphdata, nsims = 1000, pinwheel = T, kinship = "1C")
+simgraph_graph(graphdata, nsims = 1000, dsigma = 25, pinwheel = T, kinship = "1C")
 
 ```
 
@@ -95,7 +95,7 @@ or a histogram:
 ```{r simgraphhist, fig.width = 10, fig.height = 10 }
 
 graphdata <- simgraph_data(nsims = 1000, dsigma = 25, dims = 250)
-simgraph_graph(graphdata, nsims = 1000, histogram = T, kinship = "1C")
+simgraph_graph(graphdata, nsims = 1000, dsigma = 25, histogram = T, kinship = "1C")
 
 ```
 
@@ -145,8 +145,8 @@ Files can be loaded and saved to & from three separate formats: .csv and .tsv (v
 
 ``` {r files}
 kinobject <- simulate_kindist_simple(nsims = 25, kinship = "FS", lifestage = "larva")
-#kinpair_to_csv(kinobject, "FS_kin.csv") # saves file
-#csv_to_kinpair("FS_kin.csv") # reloads it
+kinpair_to_csv(kinobject, "FS_kin.csv")
+csv_to_kinpair("FS_kin.csv")
 
 ```
 

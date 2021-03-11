@@ -9,6 +9,9 @@ unmount_appdata(nms)
 \arguments{
 \item{nms}{A character vector of names of objects to unmount from the appdata environment}
 }
+\value{
+
+}
 \description{
 Unmount a KinPairData Object (clear slot from appdata environment)
 }

@@ -49,6 +49,7 @@ KinPairSimulation <- setClass("KinPairSimulation",
 #'
 #' @param x object of class \code{KinPairSimulation}
 #'
+#' @return
 #' @export
 #'
 setGeneric("kernelshape", function(x) standardGeneric("kernelshape"))
@@ -57,6 +58,7 @@ setGeneric("kernelshape", function(x) standardGeneric("kernelshape"))
 #'
 #' @param x object of class \code{KinPairSimulation}
 #'
+#' @return
 #' @export
 #'
 setGeneric("simtype", function(x) standardGeneric("simtype"))
@@ -65,6 +67,7 @@ setGeneric("simtype", function(x) standardGeneric("simtype"))
 #' @param x object of class \code{KinPairSimulation}
 #' @param value new value to assign
 #'
+#' @return
 #' @export
 #'
 setGeneric("simtype<-", function(x, value) standardGeneric("simtype<-"))
@@ -72,6 +75,7 @@ setGeneric("simtype<-", function(x, value) standardGeneric("simtype<-"))
 #'
 #' @param x object of class \code{KinPairSimulation}
 #'
+#' @return
 #' @export
 #'
 setGeneric("kerneltype", function(x) standardGeneric("kerneltype"))
@@ -80,6 +84,7 @@ setGeneric("kerneltype", function(x) standardGeneric("kerneltype"))
 #' @param x object of class \code{KinPairSimulation}
 #' @param value new value to assign
 #'
+#' @return
 #' @export
 #'
 setGeneric("kerneltype<-", function(x, value) standardGeneric("kerneltype<-"))
@@ -87,6 +92,7 @@ setGeneric("kerneltype<-", function(x, value) standardGeneric("kerneltype<-"))
 #'
 #' @param x object of class \code{KinPairSimulation}
 #'
+#' @return
 #' @export
 #'
 #'
@@ -96,6 +102,7 @@ setGeneric("dsigma", function(x) standardGeneric("dsigma"))
 #' @param x object of class \code{KinPairSimulation}
 #' @param value new value to assign
 #'
+#' @return
 #' @export
 #'
 setGeneric("dsigma<-", function(x, value) standardGeneric("dsigma<-"))
@@ -103,6 +110,7 @@ setGeneric("dsigma<-", function(x, value) standardGeneric("dsigma<-"))
 #'
 #' @param x object of class \code{KinPairSimulation}
 #'
+#' @return
 #' @export
 #'
 setGeneric("juvsigma", function(x) standardGeneric("juvsigma"))
@@ -111,6 +119,7 @@ setGeneric("juvsigma", function(x) standardGeneric("juvsigma"))
 #' @param x object of class \code{KinPairSimulation}
 #' @param value new value to assign
 #'
+#' @return
 #' @export
 #'
 setGeneric("juvsigma<-", function(x, value) standardGeneric("juvsigma<-"))
@@ -118,6 +127,7 @@ setGeneric("juvsigma<-", function(x, value) standardGeneric("juvsigma<-"))
 #'
 #' @param x object of class \code{KinPairSimulation}
 #'
+#' @return
 #' @export
 #'
 setGeneric("breedsigma", function(x) standardGeneric("breedsigma"))
@@ -126,6 +136,7 @@ setGeneric("breedsigma", function(x) standardGeneric("breedsigma"))
 #' @param x object with relevant method
 #' @param value new value to assign
 #'
+#' @return
 #' @export
 #'
 setGeneric("breedsigma<-", function(x, value) standardGeneric("breedsigma<-"))
@@ -133,6 +144,7 @@ setGeneric("breedsigma<-", function(x, value) standardGeneric("breedsigma<-"))
 #'
 #' @param x object of class \code{KinPairSimulation}
 #'
+#' @return
 #' @export
 #'
 setGeneric("gravsigma", function(x) standardGeneric("gravsigma"))
@@ -141,6 +153,7 @@ setGeneric("gravsigma", function(x) standardGeneric("gravsigma"))
 #' @param x object of class \code{KinPairSimulation}
 #' @param value new value to assign
 #'
+#' @return
 #' @export
 #'
 setGeneric("gravsigma<-", function(x, value) standardGeneric("gravsigma<-"))
@@ -148,6 +161,7 @@ setGeneric("gravsigma<-", function(x, value) standardGeneric("gravsigma<-"))
 #'
 #' @param x object of class \code{KinPairSimulation}
 #'
+#' @return
 #' @export
 #'
 setGeneric("ovisigma", function(x) standardGeneric("ovisigma"))
@@ -156,6 +170,7 @@ setGeneric("ovisigma", function(x) standardGeneric("ovisigma"))
 #' @param x object of class \code{KinPairSimulation}
 #' @param value new value to assign
 #'
+#' @return
 #' @export
 #'
 setGeneric("ovisigma<-", function(x, value) standardGeneric("ovisigma<-"))
@@ -163,6 +178,7 @@ setGeneric("ovisigma<-", function(x, value) standardGeneric("ovisigma<-"))
 #'
 #' @param x object of class \code{KinPairSimulation}
 #'
+#' @return
 #' @export
 #'
 setGeneric("simdims", function(x) standardGeneric("simdims"))
@@ -171,6 +187,7 @@ setGeneric("simdims", function(x) standardGeneric("simdims"))
 #' @param x object of class \code{KinPairSimulation}
 #' @param value new value to assign
 #'
+#' @return
 #' @export
 #'
 setGeneric("simdims<-", function(x, value) standardGeneric("simdims<-"))
@@ -178,6 +195,7 @@ setGeneric("simdims<-", function(x, value) standardGeneric("simdims<-"))
 #'
 #' @param x object of class \code{KinPairSimulation}
 #'
+#' @return
 #' @export
 #'
 setGeneric("filtertype", function(x) standardGeneric("filtertype"))
@@ -186,6 +204,7 @@ setGeneric("filtertype", function(x) standardGeneric("filtertype"))
 #' @param x object of class \code{KinPairSimulation}
 #' @param value new value to assign
 #'
+#' @return
 #' @export
 #'
 setGeneric("filtertype<-", function(x, value) standardGeneric("filtertype<-"))
@@ -193,6 +212,7 @@ setGeneric("filtertype<-", function(x, value) standardGeneric("filtertype<-"))
 #'
 #' @param x object of class \code{KinPairSimulation}
 #'
+#' @return
 #' @export
 #'
 setGeneric("upper", function(x) standardGeneric("upper"))
@@ -201,6 +221,7 @@ setGeneric("upper", function(x) standardGeneric("upper"))
 #' @param x object of class \code{KinPairSimulation}d
 #' @param value new value to assign
 #'
+#' @return
 #' @export
 #'
 setGeneric("upper<-", function(x, value) standardGeneric("upper<-"))
@@ -208,6 +229,7 @@ setGeneric("upper<-", function(x, value) standardGeneric("upper<-"))
 #'
 #' @param x object of class \code{KinPairSimulation}
 #'
+#' @return
 #' @export
 #'
 setGeneric("lower", function(x) standardGeneric("lower"))
@@ -216,6 +238,7 @@ setGeneric("lower", function(x) standardGeneric("lower"))
 #' @param x object of class \code{KinPairSimulation}
 #' @param value new value to assign
 #'
+#' @return
 #' @export
 #'
 setGeneric("lower<-", function(x, value) standardGeneric("lower<-"))
@@ -223,6 +246,7 @@ setGeneric("lower<-", function(x, value) standardGeneric("lower<-"))
 #'
 #' @param x object of class \code{KinPairSimulation}
 #'
+#' @return
 #' @export
 #'
 setGeneric("spacing", function(x) standardGeneric("spacing"))
@@ -231,6 +255,7 @@ setGeneric("spacing", function(x) standardGeneric("spacing"))
 #' @param x object of class \code{KinPairSimulation}
 #' @param value new value to assign
 #'
+#' @return
 #' @export
 #'
 setGeneric("spacing<-", function(x, value) standardGeneric("spacing<-"))
@@ -238,6 +263,7 @@ setGeneric("spacing<-", function(x, value) standardGeneric("spacing<-"))
 #'
 #' @param x object of class \code{KinPairSimulation}
 #'
+#' @return
 #' @export
 #'
 setGeneric("samplenum", function(x) standardGeneric("samplenum"))
@@ -246,6 +272,7 @@ setGeneric("samplenum", function(x) standardGeneric("samplenum"))
 #' @param x object of class \code{KinPairSimulation}
 #' @param value new value to assign
 #'
+#' @return
 #' @export
 #'
 setGeneric("samplenum<-", function(x, value) standardGeneric("samplenum<-"))
@@ -253,6 +280,7 @@ setGeneric("samplenum<-", function(x, value) standardGeneric("samplenum<-"))
 #'
 #' @param x object of class \code{KinPairSimulation}
 #'
+#' @return
 #' @export
 #'
 setGeneric("sampledims", function(x) standardGeneric("sampledims"))
@@ -261,6 +289,7 @@ setGeneric("sampledims", function(x) standardGeneric("sampledims"))
 #' @param x object of class \code{KinPairSimulation}
 #' @param value new value to assign
 #'
+#' @return
 #' @export
 #'
 setGeneric("sampledims<-", function(x, value) standardGeneric("sampledims<-"))
@@ -273,15 +302,17 @@ setGeneric("sampledims<-", function(x, value) standardGeneric("sampledims<-"))
 #'
 #' @param KinPairSimulation
 #'
+#' @return
 #' @export
 #'
 #' @describeIn KinPairSimulation access kernelshape
-setMethod("kernelshape", "KinPairSimulation", function(x) x@kernelshape)
+setMethod("kernelshape", "KinPairSimulation", function(x) x@kerneltype)
 
 #'
 #'
 #' @param KinPairSimulation object of class KinPairSimulation
 #'
+#' @return
 #' @export
 #' @describeIn KinPairSimulation access simulation type
 setMethod("simtype", "KinPairSimulation", function(x) x@simtype)
@@ -289,6 +320,7 @@ setMethod("simtype", "KinPairSimulation", function(x) x@simtype)
 #'
 #' @param KinPairSimulation
 #'
+#' @return
 #' @export
 #' @describeIn KinPairSimulation access kerneltype
 setMethod("kerneltype", "KinPairSimulation", function(x) x@kerneltype)
@@ -296,6 +328,7 @@ setMethod("kerneltype", "KinPairSimulation", function(x) x@kerneltype)
 #'
 #' @param KinPairSimulation
 #'
+#' @return
 #' @export
 #' @describeIn KinPairSimulation access sigma
 setMethod("dsigma", "KinPairSimulation", function(x) x@dsigma)
@@ -303,6 +336,7 @@ setMethod("dsigma", "KinPairSimulation", function(x) x@dsigma)
 #'
 #' @param KinPairSimulation
 #'
+#' @return
 #' @export
 #' @describeIn KinPairSimulation access juvsigma
 setMethod("juvsigma", "KinPairSimulation", function(x) x@juvsigma)
@@ -310,6 +344,7 @@ setMethod("juvsigma", "KinPairSimulation", function(x) x@juvsigma)
 #'
 #' @param KinPairSimulation
 #'
+#' @return
 #' @export
 #' @describeIn KinPairSimulation access breedsigma
 setMethod("breedsigma", "KinPairSimulation", function(x) x@breedsigma)
@@ -317,6 +352,7 @@ setMethod("breedsigma", "KinPairSimulation", function(x) x@breedsigma)
 #'
 #' @param KinPairSimulation
 #'
+#' @return
 #' @export
 #' @describeIn KinPairSimulation access gravsigma
 setMethod("gravsigma", "KinPairSimulation", function(x) x@gravsigma)
@@ -324,6 +360,7 @@ setMethod("gravsigma", "KinPairSimulation", function(x) x@gravsigma)
 #'
 #' @param KinPairSimulation
 #'
+#' @return
 #' @export
 #' @describeIn KinPairSimulation access ovisigma
 setMethod("ovisigma", "KinPairSimulation", function(x) x@ovisigma)
@@ -331,6 +368,7 @@ setMethod("ovisigma", "KinPairSimulation", function(x) x@ovisigma)
 #'
 #' @param KinPairSimulation
 #'
+#' @return
 #' @export
 #' @describeIn KinPairSimulation access simdims
 setMethod("simdims", "KinPairSimulation", function(x) x@simdims)
@@ -338,6 +376,7 @@ setMethod("simdims", "KinPairSimulation", function(x) x@simdims)
 #'
 #' @param KinPairSimulation
 #'
+#' @return
 #' @export
 #' @describeIn KinPairSimulation access filtertype
 setMethod("filtertype", "KinPairSimulation", function(x) x@filtertype)
@@ -345,6 +384,7 @@ setMethod("filtertype", "KinPairSimulation", function(x) x@filtertype)
 #'
 #' @param KinPairSimulation
 #'
+#' @return
 #' @export
 #' @describeIn KinPairSimulation access upper filter distance
 setMethod("upper", "KinPairSimulation", function(x) x@upper)
@@ -352,6 +392,7 @@ setMethod("upper", "KinPairSimulation", function(x) x@upper)
 #'
 #' @param KinPairSimulation
 #'
+#' @return
 #' @export
 #' @describeIn KinPairSimulation access lower filter distance
 setMethod("lower", "KinPairSimulation", function(x) x@lower)
@@ -359,6 +400,7 @@ setMethod("lower", "KinPairSimulation", function(x) x@lower)
 #'
 #' @param KinPairSimulation
 #'
+#' @return
 #' @export
 #' @describeIn KinPairSimulation access spacing
 setMethod("spacing", "KinPairSimulation", function(x) x@spacing)
@@ -366,6 +408,7 @@ setMethod("spacing", "KinPairSimulation", function(x) x@spacing)
 #'
 #' @param KinPairSimulation
 #'
+#' @return
 #' @export
 #' @describeIn KinPairSimulation access sampled samplenum
 setMethod("samplenum", "KinPairSimulation", function(x) x@samplenum)
@@ -373,6 +416,7 @@ setMethod("samplenum", "KinPairSimulation", function(x) x@samplenum)
 #'
 #' @param KinPairSimulation
 #'
+#' @return
 #' @export
 #' @describeIn KinPairSimulation access sampled dimensions
 setMethod("sampledims", "KinPairSimulation", function(x) x@sampledims)
@@ -381,6 +425,7 @@ setMethod("sampledims", "KinPairSimulation", function(x) x@sampledims)
 #'
 #' @param KinPairSimulation
 #'
+#' @return
 #' @export
 #' @describeIn KinPairSimulation assign and filter by upper distance (uses sample_kindist())
 setMethod("upper<-", "KinPairSimulation", function(x, value) {
@@ -396,6 +441,7 @@ setMethod("upper<-", "KinPairSimulation", function(x, value) {
 #'
 #' @param KinPairSimulation
 #'
+#' @return
 #' @export
 #' @describeIn KinPairSimulation assign and filter by lower distance (uses sample_kindist())
 setMethod("lower<-", "KinPairSimulation", function(x, value) {
@@ -411,6 +457,7 @@ setMethod("lower<-", "KinPairSimulation", function(x, value) {
 #'
 #' @param KinPairSimulation
 #'
+#' @return
 #' @export
 #' @describeIn KinPairSimulation assign kin spacing (uses sample_kindist())
 setMethod("spacing<-", "KinPairSimulation", function(x, value) {
@@ -424,6 +471,7 @@ setMethod("spacing<-", "KinPairSimulation", function(x, value) {
 #'
 #' @param KinPairSimulation
 #'
+#' @return
 #' @export
 #' @describeIn KinPairSimulation assign and downsample to samplenum (uses sample_kindist())
 setMethod("samplenum<-", "KinPairSimulation", function(x, value) {
@@ -437,10 +485,9 @@ setMethod("samplenum<-", "KinPairSimulation", function(x, value) {
 })
 #'
 #'
-#' @param KinPairSimulation object of class KinPairSimulation
-#' @param x object of class KinPairSimulation
-#' @param value value for parameter to be adjusted to
+#' @param KinPairSimulation
 #'
+#' @return
 #' @export
 #' @describeIn KinPairSimulation assign and filter by sample dimensions (uses sample_kindist())
 setMethod("sampledims<-", "KinPairSimulation", function(x, value) {
@@ -455,9 +502,9 @@ setMethod("sampledims<-", "KinPairSimulation", function(x, value) {
 
 #'
 #'
-#' @param KinPairSimulation object of class KinPairSimulation
-#' @param object object of class KinPairSimulation
+#' @param KinPairSimulation
 #'
+#' @return
 #' @export
 #' @describeIn KinPairSimulation print method
 setMethod(
@@ -513,29 +560,9 @@ setMethod(
 
 #'
 #'
-#' @param KinPairSimulation an object of class KinPairSimulation
-#' @param .Object object to be constructed into KinPairSimulation class
-#' @param data tbl_df. tibble  of simulation values
-#' @param kinship character - one of PO, FS, HS, AV, HAV, GG, 1C, H1C, GAV, HGAV, 1C1, H1C1, GGG, 2C, and H2C.
-#' @param lifestage character - one of 'unknown', 'larva' or 'oviposition'
-#' @param simtype character - simulation type
-#' @param kerneltype character. - 'Gaussian', 'Laplace' or 'Gamma'
-#' @param dsigma numeric - overall value of dispersal sigma (for simple kernel)
-#' @param juvsigma numeric.    - value of pre-breeding dispersal sigma (for composite kernel)
-#' @param breedsigma numeric.    - value of breeding dispersal sigma (for composite kernel)
-#' @param gravsigma numeric.    - value of post-breeding dispersal sigma (for composite kernel)
-#' @param ovisigma numeric.    - value of oviposition dispersal sigma (for composite kernel)
-#' @param simdims numeric. - dimensions of sampling area (assumes one side of square)
-#' @param kernelshape numeric. - value of kernel shape of simulation (if using kernel with shape parameter e.g. gamma)
-#' @param call call. Call to create object
-#' @param filtertype character. whether the initial sim has been further filtered
-#' @param upper numeric.       - FILTER: upper threshold used
-#' @param lower numeric.       - FILTER: lower threshold used
-#' @param spacing numeric.       - FILTER: spacing used
-#' @param samplenum numeric.       - FILTER: sample number used
-#' @param sampledims numeric.       - FILTER: sample dimensions used
+#' @param KinPairSimulation
 #'
-#' @return Returns an object of class \code{KinPairSimulation}
+#' @return
 #' @export
 #' @describeIn KinPairSimulation initialisation method
 setMethod(

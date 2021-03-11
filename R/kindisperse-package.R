@@ -30,6 +30,6 @@
 ## usethis namespace: end
 NULL
 
-.onAttach <- function(libname, pkgname){
+.onLoad <- function(libname, pkgname){
   packageStartupMessage(paste0("kindisperse ", utils::packageVersion("kindisperse")))
 }

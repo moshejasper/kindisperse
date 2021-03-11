@@ -6,6 +6,9 @@
 \usage{
 display_appdata()
 }
+\value{
+
+}
 \description{
 Show printout of named items stored in appdata.
 }

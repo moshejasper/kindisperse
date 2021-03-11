@@ -148,6 +148,8 @@ axials_standard <- function(avect, bvect, acat = NULL, bcat = NULL,
   }
 
   spandiff <- aspantest - bspantest
+  print(aspantest)
+  print(spandiff)
   lifeax_prelim <- axials_subtract(a_ax, b_ax)
   lifeax_final <- axials_decompose(lifeax_prelim, spandiff)
   return(lifeax_final)

@@ -2,8 +2,3 @@
 ^\.Rproj\.user$
 ^LICENSE\.md$
 ^README\.Rmd$
-^FS_kin\.csv$
-^testr\.csv$
-^testr\.tsv$
-^testr\.kindata$
-^data-raw$

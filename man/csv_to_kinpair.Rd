@@ -16,7 +16,7 @@ csv_to_kinpair(file, kinship = NULL, lifestage = NULL, ...)
 \item{...}{additional arguments to pass to read_csv}
 }
 \value{
-returns an object of class \code{KinPairData}
+
 }
 \description{
 Reads .csv and converts to KinPairData object

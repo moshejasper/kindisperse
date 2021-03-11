@@ -9,6 +9,9 @@ filtertype(x)
 \arguments{
 \item{x}{object of class \code{KinPairSimulation}}
 }
+\value{
+
+}
 \description{
 Access filter type of KinPairSimulation object
 }
