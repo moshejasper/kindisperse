@@ -2,7 +2,7 @@
 % Please edit documentation in R/KinPairSimulation.R
 \name{dsigma}
 \alias{dsigma}
-\alias{juvsigma}
+\alias{initsigma}
 \alias{breedsigma}
 \alias{gravsigma}
 \alias{ovisigma}
@@ -10,7 +10,7 @@
 \usage{
 dsigma(x)
 
-juvsigma(x)
+initsigma(x)
 
 breedsigma(x)
 

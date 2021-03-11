@@ -5,7 +5,7 @@
 \alias{simtype,KinPairSimulation-method}
 \alias{kerneltype,KinPairSimulation-method}
 \alias{dsigma,KinPairSimulation-method}
-\alias{juvsigma,KinPairSimulation-method}
+\alias{initsigma,KinPairSimulation-method}
 \alias{breedsigma,KinPairSimulation-method}
 \alias{gravsigma,KinPairSimulation-method}
 \alias{ovisigma,KinPairSimulation-method}
@@ -33,7 +33,7 @@
 
 \S4method{dsigma}{KinPairSimulation}(x)
 
-\S4method{juvsigma}{KinPairSimulation}(x)
+\S4method{initsigma}{KinPairSimulation}(x)
 
 \S4method{breedsigma}{KinPairSimulation}(x)
 
@@ -76,7 +76,7 @@
   kerneltype = NULL,
   kernelshape = NULL,
   dsigma = NULL,
-  juvsigma = NULL,
+  initsigma = NULL,
   breedsigma = NULL,
   gravsigma = NULL,
   ovisigma = NULL,
@@ -113,7 +113,7 @@
 
 \item{dsigma}{numeric - overall value of dispersal sigma (for simple kernel)}
 
-\item{juvsigma}{numeric.    - value of pre-breeding dispersal sigma (for composite kernel)}
+\item{initsigma}{numeric.    - value of pre-breeding dispersal sigma (for composite kernel)}
 
 \item{breedsigma}{numeric.    - value of breeding dispersal sigma (for composite kernel)}
 
@@ -155,7 +155,7 @@ Returns an object of class \code{KinPairSimulation}
 
 \item \code{dsigma}: access sigma
 
-\item \code{juvsigma}: access juvsigma
+\item \code{initsigma}: access initsigma
 
 \item \code{breedsigma}: access breedsigma
 

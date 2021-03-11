@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 ```
 
 # kindisperse
-v0.7.4
+v0.7.5
 <!-- badges: start -->
 <!-- badges: end -->
 
@@ -115,12 +115,12 @@ Example usage is shown below:
 simulate_kindist_simple(nsims = 5, sigma = 100, method = "Gaussian", kinship = "PO", lifestage = "larva")
 ```
 
-The composite simulation, `simulate_kindist_composite()`, defines four smaller dispersal movements which make up the lifestage dispersal kernel. It distinguishes between full and half siblings, cousins, etc. and handles larva that have only passed through a fraction of the lifespan. The four phases are 'juvenile' (handling any dispersal between hatching and breeding), 'breeding' (movement across the breeding aspect of the cycle), 'gravid' (movement after breeding but before deposition of young), and 'oviposition' (movement made while ovipositing/ bearing young). The addition of the variances of these four kernels together consitutes the lifespan dispersal kernel; the relationships between different categories inform the phase. For example, full-siblings, whether sampled at oviposition or larval states, differ in hatch position based on the ovipositing movements of the mother (including e.g. skip oviposition in the case of some mosquitoes). These categories (and any others containing a full-sib relationship buried in the pedigree) are thus of the 'full-sibling' or 'FS' phase. Half siblings, in mosquitoes (which this package is modelled on) are expected to be due to having the same father & separate mothers: the last contribution of the father's dispersal is at the breeding stage, so the 'HS' phase are differentiated by the breeding, gravid, & oviposition phases, but share in common the juvenile phase. The parent-offspring 'PO' phase, on the other hand, share all (or none) of the component dispersal distributions. 
+The composite simulation, `simulate_kindist_composite()`, defines four smaller dispersal movements which make up the lifestage dispersal kernel. It distinguishes between full and half siblings, cousins, etc. and handles larva that have only passed through a fraction of the lifespan. The four phases are 'initial' (handling any dispersal between hatching and breeding), 'breeding' (movement across the breeding aspect of the cycle), 'gravid' (movement after breeding but before deposition of young), and 'oviposition' (movement made while ovipositing/ bearing young). The addition of the variances of these four kernels together consitutes the lifespan dispersal kernel; the relationships between different categories inform the phase. For example, full-siblings, whether sampled at oviposition or larval states, differ in hatch position based on the ovipositing movements of the mother (including e.g. skip oviposition in the case of some mosquitoes). These categories (and any others containing a full-sib relationship buried in the pedigree) are thus of the 'full-sibling' or 'FS' phase. Half siblings, in mosquitoes (which this package is modelled on) are expected to be due to having the same father & separate mothers: the last contribution of the father's dispersal is at the breeding stage, so the 'HS' phase are differentiated by the breeding, gravid, & oviposition phases, but share in common the initial phase. The parent-offspring 'PO' phase, on the other hand, share all (or none) of the component dispersal distributions. 
 
 An example composite simulation is demostrated below: 
 
 ``` {r compsim}
-simulate_kindist_composite(nsims = 5, juvsigma = 50, breedsigma = 30, gravsigma = 50, ovisigma = 10, method = "Laplace", kinship = "H1C", lifestage = "oviposition")
+simulate_kindist_composite(nsims = 5, initsigma = 50, breedsigma = 30, gravsigma = 50, ovisigma = 10, method = "Laplace", kinship = "H1C", lifestage = "oviposition")
 ```
 
 ### Simulating Field Sampling of Kinship Distributions
@@ -197,13 +197,13 @@ Let's try out some simulated values see the funcion in action. First, we'll set 
 
 # set up initial sigma values
 
-juv = 50
+init = 50
 brd = 25
 grv = 75
 ovs = 10
 
 # calculate theoretical PO value
-po_sigma <- sqrt(juv^2 + brd^2 + grv^2 + ovs^2)
+po_sigma <- sqrt(init^2 + brd^2 + grv^2 + ovs^2)
 po_sigma
 
 ```
@@ -216,9 +216,9 @@ First, a simple example (full sibs & first cousins) - note that the larger value
 
 # set up sims
 
-fullsibs <- simulate_kindist_composite(nsims = 75, juvsigma = juv, breedsigma = brd, gravsigma = grv, ovisigma = ovs, kinship = "FS")
+fullsibs <- simulate_kindist_composite(nsims = 75, initsigma = init, breedsigma = brd, gravsigma = grv, ovisigma = ovs, kinship = "FS")
 
-fullcous <- simulate_kindist_composite(nsims = 75, juvsigma = juv, breedsigma = brd, gravsigma = grv, ovisigma = ovs, kinship = "1C")
+fullcous <- simulate_kindist_composite(nsims = 75, initsigma = init, breedsigma = brd, gravsigma = grv, ovisigma = ovs, kinship = "1C")
 
 # calculate PO axial sigma C.I. 
 
@@ -229,9 +229,9 @@ As we can see, the C.I. neatly brackets the actual axial value, though with fair
 
 ``` {r}
 # Set up new distributions
-halfsibs <- simulate_kindist_composite(nsims = 75, juvsigma = juv, breedsigma = brd, gravsigma = grv, ovisigma = ovs, kinship = "HS")
+halfsibs <- simulate_kindist_composite(nsims = 75, initsigma = init, breedsigma = brd, gravsigma = grv, ovisigma = ovs, kinship = "HS")
 
-halfcous <- simulate_kindist_composite(nsims = 75, juvsigma = juv, breedsigma = brd, gravsigma = grv, ovisigma = ovs, kinship = "H1C")
+halfcous <- simulate_kindist_composite(nsims = 75, initsigma = init, breedsigma = brd, gravsigma = grv, ovisigma = ovs, kinship = "H1C")
 
 # combine cousin distributions & recompose as object. Chaning kinship
 # to standard value for unknown as I will be combining the distributions. 

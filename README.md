@@ -3,7 +3,7 @@
 
 # kindisperse
 
-v0.7.4 <!-- badges: start --> <!-- badges: end -->
+v0.7.5 <!-- badges: start --> <!-- badges: end -->
 
 The goal of kindisperse is to simulate and estimate close-kin dispersal
 kernels.
@@ -153,7 +153,7 @@ Once installed, load the package as follows:
 
 ``` r
 library(kindisperse)
-#> kindisperse 0.7.3
+#> kindisperse 0.7.4
 ```
 
 ## Simulations and Sampling
@@ -172,7 +172,6 @@ visualisation function(`simgraph_graph()`). A standard example of their
 use is shown below:
 
 ``` r
-
 ## run graphical simulation
 graphdata <- simgraph_data(nsims = 1000, dsigma = 25, dims = 250)
 simgraph_graph(graphdata, nsim = 5, kinship = "1C")
@@ -184,7 +183,6 @@ However, the options of both can be tweaked to show other data types,
 e.g. a pinwheel graph
 
 ``` r
-
 graphdata <- simgraph_data(nsims = 1000, dsigma = 25, dims = 250)
 simgraph_graph(graphdata, nsims = 1000, pinwheel = T, kinship = "1C")
 ```
@@ -194,7 +192,6 @@ simgraph_graph(graphdata, nsims = 1000, pinwheel = T, kinship = "1C")
 or a histogram:
 
 ``` r
-
 graphdata <- simgraph_data(nsims = 1000, dsigma = 25, dims = 250)
 simgraph_graph(graphdata, nsims = 1000, histogram = T, kinship = "1C")
 ```
@@ -245,13 +242,13 @@ simulate_kindist_simple(nsims = 5, sigma = 100, method = "Gaussian", kinship = "
 #> 
 #> tab
 #> # A tibble: 5 x 8
-#>   id1   id2   kinship distance     x1    y1    x2      y2
-#>   <chr> <chr> <chr>      <dbl>  <dbl> <dbl> <dbl>   <dbl>
-#> 1 1a    1b    PO         87.9  53.7    58.5  85.7  140.  
-#> 2 2a    2b    PO        115.    0.311  81.6  75.4   -5.16
-#> 3 3a    3b    PO         76.7  26.7    42.0  99.7   18.2 
-#> 4 4a    4b    PO        127.    3.70   21.2 -32.6 -101.  
-#> 5 5a    5b    PO          6.60 62.1    33.4  56.3   30.3 
+#>   id1   id2   kinship distance    x1    y1    x2     y2
+#>   <chr> <chr> <chr>      <dbl> <dbl> <dbl> <dbl>  <dbl>
+#> 1 1a    1b    PO         148.   10.1  80.7 111.   -28.2
+#> 2 2a    2b    PO         190.   47.7  66.1  79.5 -121. 
+#> 3 3a    3b    PO          29.3  36.9  85.7  16.6   64.6
+#> 4 4a    4b    PO          63.9  77.3  98.9  20.5   69.7
+#> 5 5a    5b    PO          61.5  40.9  26.8  95.7   54.7
 #> -----------------------------------
 ```
 
@@ -259,7 +256,7 @@ The composite simulation, `simulate_kindist_composite()`, defines four
 smaller dispersal movements which make up the lifestage dispersal
 kernel. It distinguishes between full and half siblings, cousins, etc.
 and handles larva that have only passed through a fraction of the
-lifespan. The four phases are ‘juvenile’ (handling any dispersal between
+lifespan. The four phases are ‘initial’ (handling any dispersal between
 hatching and breeding), ‘breeding’ (movement across the breeding aspect
 of the cycle), ‘gravid’ (movement after breeding but before deposition
 of young), and ‘oviposition’ (movement made while ovipositing/ bearing
@@ -275,21 +272,21 @@ in mosquitoes (which this package is modelled on) are expected to be due
 to having the same father & separate mothers: the last contribution of
 the father’s dispersal is at the breeding stage, so the ‘HS’ phase are
 differentiated by the breeding, gravid, & oviposition phases, but share
-in common the juvenile phase. The parent-offspring ‘PO’ phase, on the
+in common the initial phase. The parent-offspring ‘PO’ phase, on the
 other hand, share all (or none) of the component dispersal
 distributions.
 
 An example composite simulation is demostrated below:
 
 ``` r
-simulate_kindist_composite(nsims = 5, juvsigma = 50, breedsigma = 30, gravsigma = 50, ovisigma = 10, method = "Laplace", kinship = "H1C", lifestage = "oviposition")
+simulate_kindist_composite(nsims = 5, initsigma = 50, breedsigma = 30, gravsigma = 50, ovisigma = 10, method = "Laplace", kinship = "H1C", lifestage = "oviposition")
 #> KINDISPERSE SIMULATION of KIN PAIRS
 #> -----------------------------------
 #> simtype:      composite 
 #> kerneltype:       Laplace 
 #> kinship:      H1C 
 #> simdims:      100 
-#> juvsigma      50 
+#> initsigma         50 
 #> breedsigma        30 
 #> gravsigma         50 
 #> ovisigma      10 
@@ -297,13 +294,13 @@ simulate_kindist_composite(nsims = 5, juvsigma = 50, breedsigma = 30, gravsigma 
 #> 
 #> tab
 #> # A tibble: 5 x 8
-#>   id1   id2   kinship distance     x1    y1    x2    y2
-#>   <chr> <chr> <chr>      <dbl>  <dbl> <dbl> <dbl> <dbl>
-#> 1 1a    1b    H1C        169.  133.    46.7  44.5 191. 
-#> 2 2a    2b    H1C        269.    5.13  46.2 265.  115. 
-#> 3 3a    3b    H1C        147.  156.   -87.3 155.   60.1
-#> 4 4a    4b    H1C        122.   34.4   42.9 -48.4 -46.5
-#> 5 5a    5b    H1C         94.3  40.1   13.0  60.0 105. 
+#>   id1   id2   kinship distance    x1    y1      x2    y2
+#>   <chr> <chr> <chr>      <dbl> <dbl> <dbl>   <dbl> <dbl>
+#> 1 1a    1b    H1C        341.  -69.1 157.   261.    74.9
+#> 2 2a    2b    H1C         40.1 -16.1 101.   -18.2  141. 
+#> 3 3a    3b    H1C        126.  -49.0 221.  -152.   293. 
+#> 4 4a    4b    H1C        113.  317.   12.6  257.   -83.3
+#> 5 5a    5b    H1C        173.  -94.6 187.     7.87  47.3
 #> -----------------------------------
 ```
 
@@ -316,7 +313,6 @@ classes and filters based on the study area size, number of kin expected
 to be found, & trap spacing. It is demonstrated below.
 
 ``` r
-
 compsim <- simulate_kindist_composite(nsims = 100000, kinship = "H2C")
 
 sample_kindist(compsim, upper = 1000, lower = 200, spacing = 50, n = 25)
@@ -331,7 +327,7 @@ sample_kindist(compsim, upper = 1000, lower = 200, spacing = 50, n = 25)
 #> kerneltype:       Gaussian 
 #> kinship:      H2C 
 #> simdims:      100 
-#> juvsigma      100 
+#> initsigma         100 
 #> breedsigma        50 
 #> gravsigma         50 
 #> ovisigma      25 
@@ -346,18 +342,18 @@ sample_kindist(compsim, upper = 1000, lower = 200, spacing = 50, n = 25)
 #> 
 #> tab
 #> # A tibble: 25 x 8
-#>    id1    id2    kinship distance     x1      y1     x2      y2
-#>    <chr>  <chr>  <chr>      <dbl>  <dbl>   <dbl>  <dbl>   <dbl>
-#>  1 38728a 38728b H2C          675  481.    44.2  -150.   339.  
-#>  2 16917a 16917b H2C          675  233.   163.   -334.  -180.  
-#>  3 51782a 51782b H2C          475 -374.    -3.25   39.9  195.  
-#>  4 50852a 50852b H2C          275  -23.1   86.4   232.    14.7 
-#>  5 98991a 98991b H2C          475 -262.   -44.5    88.4  271.  
-#>  6 82624a 82624b H2C          725 -105.   403.    480.     8.95
-#>  7 99378a 99378b H2C          475  158.  -330.     65.7  139.  
-#>  8 68721a 68721b H2C          325  -33.6  377.   -169.    91.7 
-#>  9 22578a 22578b H2C          325 -122.   309.    179.   153.  
-#> 10 12047a 12047b H2C          325  195.   140.     30.3 -136.  
+#>    id1    id2    kinship distance     x1    y1       x2      y2
+#>    <chr>  <chr>  <chr>      <dbl>  <dbl> <dbl>    <dbl>   <dbl>
+#>  1 22290a 22290b H2C          575 -235.   17.2  360.      57.7 
+#>  2 30998a 30998b H2C          325  -17.5  34.5  -72.4    352.  
+#>  3 19654a 19654b H2C          375  -18.2 -95.1  329.    -277.  
+#>  4 28613a 28613b H2C          375  103.  115.  -282.     220.  
+#>  5 93870a 93870b H2C          225  -50.5  49.6  105.    -121.  
+#>  6 30332a 30332b H2C          225  209.  -79.7  122.     147.  
+#>  7 40550a 40550b H2C          475  340.  216.  -153.     129.  
+#>  8 81656a 81656b H2C          425 -328.  273.    20.1     -7.16
+#>  9 98520a 98520b H2C          375  -68.0 113.    -0.789 -265.  
+#> 10 43467a 43467b H2C          325  130.  183.     5.97  -103.  
 #> # ... with 15 more rows
 #> -----------------------------------
 ```
@@ -434,31 +430,31 @@ the intergenerational dispersal kernel axial sigma.
 
 ### Basic estimation of axial sigma
 
-Axial sigma is most simply estimated with the function `axials(x,
-composite = 1)`. This function estimates the axial value of a simple
-kernel assuming that all distances measured represent one dispersal
-event governed by the kernel (e.g. the distance between a parent and
-their offspring at the equivalent lifestage, such as both as eggs). For
-slightly more complex situations, such as full siblings, where the
-distances between them result from two or more draws from the **same**
-underlying distribution (ovipositing parent to offspring \#1,
+Axial sigma is most simply estimated with the function
+`axials(x, composite = 1)`. This function estimates the axial value of a
+simple kernel assuming that all distances measured represent one
+dispersal event governed by the kernel (e.g. the distance between a
+parent and their offspring at the equivalent lifestage, such as both as
+eggs). For slightly more complex situations, such as full siblings,
+where the distances between them result from two or more draws from the
+**same** underlying distribution (ovipositing parent to offspring \#1,
 ovipositing parent to offspring \#2), the value of `composite` can be
 adjusted to reflect the number of such symmetrical component events(for
 this specific case, you can also use `axials_norm()`). (e.g. the
 great-grandparent to great-grandchild category, ‘GGG’ is a combination
-of three draws from the PO distribution, and thus would take `composite
-= 3`):
+of three draws from the PO distribution, and thus would take
+`composite = 3`):
 
 ``` r
 paroff <- simulate_kindist_simple(nsims = 1000, sigma = 75, kinship = "PO")
 axials(paroff)
-#> [1] 73.22004
+#> [1] 75.82567
 ```
 
 ``` r
 fullsibs <- simulate_kindist_composite(nsims = 10000, ovisigma = 25, kinship = "FS")
 axials(fullsibs, composite = 2)
-#> [1] 25.04289
+#> [1] 24.79196
 ```
 
 Various auxillary functions exist to further manipulate axial distances
@@ -509,16 +505,15 @@ we’ll set up our individual axial sigmas for the component
 distributions.
 
 ``` r
-
 # set up initial sigma values
 
-juv = 50
+init = 50
 brd = 25
 grv = 75
 ovs = 10
 
 # calculate theoretical PO value
-po_sigma <- sqrt(juv^2 + brd^2 + grv^2 + ovs^2)
+po_sigma <- sqrt(init^2 + brd^2 + grv^2 + ovs^2)
 po_sigma
 #> [1] 94.07444
 ```
@@ -532,18 +527,17 @@ Because they are simulated objects, categories don’t need to be
 supplied.
 
 ``` r
-
 # set up sims
 
-fullsibs <- simulate_kindist_composite(nsims = 75, juvsigma = juv, breedsigma = brd, gravsigma = grv, ovisigma = ovs, kinship = "FS")
+fullsibs <- simulate_kindist_composite(nsims = 75, initsigma = init, breedsigma = brd, gravsigma = grv, ovisigma = ovs, kinship = "FS")
 
-fullcous <- simulate_kindist_composite(nsims = 75, juvsigma = juv, breedsigma = brd, gravsigma = grv, ovisigma = ovs, kinship = "1C")
+fullcous <- simulate_kindist_composite(nsims = 75, initsigma = init, breedsigma = brd, gravsigma = grv, ovisigma = ovs, kinship = "1C")
 
 # calculate PO axial sigma C.I. 
 
 axpermute_standard(fullcous, fullsibs)
-#>      2.5%       50%     97.5% 
-#>  82.33003  92.51878 102.66794
+#>     2.5%      50%    97.5% 
+#> 77.21029 87.75758 99.53078
 ```
 
 As we can see, the C.I. neatly brackets the actual axial value, though
@@ -554,9 +548,9 @@ data-wrangling):
 
 ``` r
 # Set up new distributions
-halfsibs <- simulate_kindist_composite(nsims = 75, juvsigma = juv, breedsigma = brd, gravsigma = grv, ovisigma = ovs, kinship = "HS")
+halfsibs <- simulate_kindist_composite(nsims = 75, initsigma = init, breedsigma = brd, gravsigma = grv, ovisigma = ovs, kinship = "HS")
 
-halfcous <- simulate_kindist_composite(nsims = 75, juvsigma = juv, breedsigma = brd, gravsigma = grv, ovisigma = ovs, kinship = "H1C")
+halfcous <- simulate_kindist_composite(nsims = 75, initsigma = init, breedsigma = brd, gravsigma = grv, ovisigma = ovs, kinship = "H1C")
 
 # combine cousin distributions & recompose as object. Chaning kinship
 # to standard value for unknown as I will be combining the distributions. 
@@ -572,18 +566,18 @@ cousins
 #> 
 #> tab
 #> # A tibble: 150 x 9
-#>    id1   id2   kinship distance     x1      y1     x2       y2 lifestage
-#>    <chr> <chr> <chr>      <dbl>  <dbl>   <dbl>  <dbl>    <dbl> <chr>    
-#>  1 1a    1b    UN         177.  -91.3  162.     79.8   118.    larva    
-#>  2 2a    2b    UN         125.  164.    16.3    42.9    47.0   larva    
-#>  3 3a    3b    UN         153.  -22.1  -99.6    55.8    32.5   larva    
-#>  4 4a    4b    UN          90.2  -2.87 209.     60.3   145.    larva    
-#>  5 5a    5b    UN          43.0 -35.2   80.8     5.20   66.1   larva    
-#>  6 6a    6b    UN          66.8 -33.1   10.6    28.0    37.8   larva    
-#>  7 7a    7b    UN         143.  160.   201.     65.7    93.8   larva    
-#>  8 8a    8b    UN          52.7  92.0    0.258  40.3    -9.78  larva    
-#>  9 9a    9b    UN         299.  187.    34.9   -64.5  -126.    larva    
-#> 10 10a   10b   UN          84.3  -2.45  80.0    22.0    -0.657 larva    
+#>    id1   id2   kinship distance     x1     y1     x2     y2 lifestage
+#>    <chr> <chr> <chr>      <dbl>  <dbl>  <dbl>  <dbl>  <dbl> <chr>    
+#>  1 1a    1b    UN         244.   77.5   173.  -58.5   -30.1 larva    
+#>  2 2a    2b    UN         116.   44.2    68.2   8.52  -42.5 larva    
+#>  3 3a    3b    UN         143.   99.0   -49.9  -5.68   46.9 larva    
+#>  4 4a    4b    UN         176.   56.7   -94.2  62.9    81.9 larva    
+#>  5 5a    5b    UN          43.1 213.    120.  170.    116.  larva    
+#>  6 6a    6b    UN         121.   53.4   133.  -67.6   139.  larva    
+#>  7 7a    7b    UN         132.   46.5  -101.   90.7    23.0 larva    
+#>  8 8a    8b    UN         263.  -87.6    44.4  63.7  -170.  larva    
+#>  9 9a    9b    UN          85.4  -5.16   96.3 -80.1   137.  larva    
+#> 10 10a   10b   UN          46.3 181.     45.6 223.     63.8 larva    
 #> # ... with 140 more rows
 #> -------------------------------
 ```
@@ -594,13 +588,12 @@ simulation class data. Now to run the estimation function, supplying
 missing category data:
 
 ``` r
-
 # amix allows supply of additional (mixed) kin category H1C to acat 1C;
 # bcomp allows supply of distribution to composite with bvect (this is done to match 
 # the cousin mixture in phase)
 axpermute_standard(avect = cousins, acat = "1C", amix = TRUE, amixcat = "H1C", bvect = fullsibs, bcomp = TRUE, bcompvect = halfsibs)
-#>      2.5%       50%     97.5% 
-#>  76.59773  91.63796 106.20613
+#>     2.5%      50%    97.5% 
+#> 65.82374 80.23677 92.66320
 ```
 
 This estimate is a lot more convoluted, and not as ‘spot on’- but the
@@ -628,11 +621,12 @@ Alternatively, objects you have loaded or created in the R package
 environment can be passed to the app by first mounting them to the
 special `appdata` environment which can be accessed from within the app
 via the `Load` tab. Mounted objects must be of class `KinPairData` or
-`KinPairSimulation`. To mount an object, use the `mount_appdata(obj,
-"nm")` function (unmount with `unmount_appdata("nm")`). The `appdata`
-environment can be viewed with `display_appdata()` and cleared with
-`reset_appdata()`. Objects mounted to appdata from within the app can
-also be retrieved with `retrieve_appdata()` or `retrieveall_appdata()`.
+`KinPairSimulation`. To mount an object, use the
+`mount_appdata(obj, "nm")` function (unmount with
+`unmount_appdata("nm")`). The `appdata` environment can be viewed with
+`display_appdata()` and cleared with `reset_appdata()`. Objects mounted
+to appdata from within the app can also be retrieved with
+`retrieve_appdata()` or `retrieveall_appdata()`.
 
 ``` r
 fullsibs <- simulate_kindist_composite(nsims = 100, ovisigma = 25, kinship = "FS")
