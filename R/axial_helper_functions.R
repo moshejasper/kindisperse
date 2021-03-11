@@ -136,7 +136,7 @@ axmed <- function(ax) { # returns median distance of this distribution (at least
 #' @examples
 #' po_dists <- rexp(100, 1 / 50)
 #' axpermute(po_dists, composite = 1)
-axpermute <- function(vals, nreps = 1000, nsamp = "std", composite = 2, output = "confs") {
+axpermute <- function(vals, nreps = 1000, nsamp = "std", composite = 1, output = "confs") {
   if (is.KinPairData(vals)) vals <- distances(vals)
   container <- tibble(ax = 0.0, .rows = 0)
   if (nsamp == "std") {
