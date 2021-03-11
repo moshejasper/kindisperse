@@ -11,7 +11,7 @@ KinPairSimulation(
   simtype = NULL,
   kerneltype = NULL,
   dsigma = NULL,
-  juvsigma = NULL,
+  initsigma = NULL,
   breedsigma = NULL,
   gravsigma = NULL,
   ovisigma = NULL,
@@ -33,7 +33,7 @@ KinPairSimulation(
   simtype = NULL,
   kerneltype = NULL,
   dsigma = NULL,
-  juvsigma = NULL,
+  initsigma = NULL,
   breedsigma = NULL,
   gravsigma = NULL,
   ovisigma = NULL,
@@ -61,7 +61,7 @@ KinPairSimulation(
 
 \item{dsigma}{numeric - overall value of dispersal sigma (for simple kernel)}
 
-\item{juvsigma}{numeric.    - value of pre-breeding dispersal sigma (for composite kernel)}
+\item{initsigma}{numeric.    - value of pre-breeding dispersal sigma (for composite kernel)}
 
 \item{breedsigma}{numeric.    - value of breeding dispersal sigma (for composite kernel)}
 
@@ -104,7 +104,7 @@ KinPairSimulation Class
 
 \item{\code{dsigma}}{numeric.       - overall value of dispersal sigma (for simple kernel)}
 
-\item{\code{juvsigma}}{numeric.    - value of pre-breeding dispersal sigma (for composite kernel)}
+\item{\code{initsigma}}{numeric.    - value of pre-breeding dispersal sigma (for composite kernel)}
 
 \item{\code{breedsigma}}{numeric.  - value of breeding dispersal sigma (for composite kernel)}
 

@@ -603,7 +603,7 @@ ui <- fluidPage(
               ),
 
               numericInput(
-                inputId = "sim_composite_juvsigma",
+                inputId = "sim_composite_initsigma",
                 label = "Pre-breeding dispersal sigma",
                 min = 1, max = 250, value = 50
               ),
@@ -1301,7 +1301,7 @@ server <- function(input, output, session) {
       }
       else if (staged_object()@simtype == "composite") {
         out <- str_c(
-          out, "juvsigma\t\t", ifelse(is.na(staged_object()@juvsigma), "NA", staged_object()@juvsigma),
+          out, "initsigma\t\t", ifelse(is.na(staged_object()@initsigma), "NA", staged_object()@initsigma),
           "\nbreedsigma\t\t", ifelse(is.na(staged_object()@breedsigma), "NA", staged_object()@breedsigma),
           "\ngravsigma\t\t", ifelse(is.na(staged_object()@gravsigma), "NA", staged_object()@gravsigma),
           "\novisigma\t\t", ifelse(is.na(staged_object()@ovisigma), "NA", staged_object()@ovisigma), "\n"
@@ -1448,7 +1448,7 @@ server <- function(input, output, session) {
       return(NULL)
     }
     simulate_kindist_composite(
-      nsims = input$sim_composite_nsims, juvsigma = input$sim_composite_juvsigma, breedsigma = input$sim_composite_breedsigma,
+      nsims = input$sim_composite_nsims, initsigma = input$sim_composite_initsigma, breedsigma = input$sim_composite_breedsigma,
       gravsigma = input$sim_composite_gravsigma, ovisigma = input$sim_composite_ovisigma, dims = input$sim_composite_dims,
       method = input$sim_composite_method, kinship = input$sim_composite_category, lifestage = input$sim_composite_lifestage,
       shape = input$sim_composite_shape

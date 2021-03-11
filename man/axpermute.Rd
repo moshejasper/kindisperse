@@ -4,7 +4,7 @@
 \alias{axpermute}
 \title{Estimate the axial dispersal distance of a kernel with confidence intervals}
 \usage{
-axpermute(vals, nreps = 1000, nsamp = "std", composite = 2, output = "confs")
+axpermute(vals, nreps = 1000, nsamp = "std", composite = 1, output = "confs")
 }
 \arguments{
 \item{vals}{numeric. Vector of distances between close kin OR object of class KinPairData.}

@@ -8,7 +8,7 @@ KinPairSimulation_composite(
   data = NULL,
   kinship = NULL,
   kerneltype = NULL,
-  juvsigma = NULL,
+  initsigma = NULL,
   breedsigma = NULL,
   gravsigma = NULL,
   ovisigma = NULL,
@@ -25,7 +25,7 @@ KinPairSimulation_composite(
 
 \item{kerneltype}{character. Statistical model for simulated dispersal kernel. Currently either "Gaussian", "Laplace" or "Gamma".}
 
-\item{juvsigma}{numeric. Axial sigma of prebreeding ('juvenile') dispersal kernel (axial standard deviation).}
+\item{initsigma}{numeric. Axial sigma of prebreeding ('juvenile') dispersal kernel (axial standard deviation).}
 
 \item{breedsigma}{numeric. Axial sigma of breeding dispersal kernel (axial standard deviation).}
 
@@ -54,6 +54,6 @@ kindata <- tibble::tibble(
 )
 KinPairSimulation_composite(kindata,
   kinship = "1C", kerneltype = "Gaussian",
-  juvsigma = 15, breedsigma = 25, gravsigma = 20, ovisigma = 10, lifestage = "larva"
+  initsigma = 15, breedsigma = 25, gravsigma = 20, ovisigma = 10, lifestage = "larva"
 )
 }

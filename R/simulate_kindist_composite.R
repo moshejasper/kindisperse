@@ -1,7 +1,7 @@
 #' Simulate kin dispersal distance pairs with composite sigmas
 #'
 #' @param nsims   (integer) -   number of pairs to simulate
-#' @param juvsigma   (numeric) -   size of pre-breeding (axial) sigma
+#' @param initsigma   (numeric) -   size of pre-breeding (axial) sigma
 #' @param breedsigma   (numeric) -   size of breeding (axial) sigma
 #' @param gravsigma   (numeric) -   size of post-breeding (axial) sigma
 #' @param ovisigma   (numeric) -   size of oviposition (axial) sigma
@@ -17,10 +17,10 @@
 #' @examples
 #' simulate_kindist_composite(nsims = 100)
 #' simulate_kindist_composite(
-#'   nsims = 10000, juvsigma = 20, breedsigma = 30, gravsigma = 30,
+#'   nsims = 10000, initsigma = 20, breedsigma = 30, gravsigma = 30,
 #'   ovisigma = 12, dims = 500, method = "Laplace", kinship = "1C", lifestage = "larva"
 #' )
-simulate_kindist_composite <- function(nsims = 100, juvsigma = 100, breedsigma = 50, gravsigma = 50,
+simulate_kindist_composite <- function(nsims = 100, initsigma = 100, breedsigma = 50, gravsigma = 50,
                                        ovisigma = 25, dims = 100, method = "Gaussian", kinship = "FS",
                                        lifestage = "larva", shape = 1) {
   if (!method %in% c("Gaussian", "Laplace", "Gamma")) {
@@ -98,14 +98,14 @@ simulate_kindist_composite <- function(nsims = 100, juvsigma = 100, breedsigma =
       return(0)
     }
     if (spans == 1) {
-      return(rdistr(juvsigma) + rdistr(breedsigma) + rdistr(gravsigma) + rdistr(ovisigma))
+      return(rdistr(initsigma) + rdistr(breedsigma) + rdistr(gravsigma) + rdistr(ovisigma))
     }
 
     else {
-      disp <- rdistr(juvsigma) + rdistr(breedsigma) + rdistr(gravsigma) + rdistr(ovisigma)
+      disp <- rdistr(initsigma) + rdistr(breedsigma) + rdistr(gravsigma) + rdistr(ovisigma)
       s <- spans - 1
       while (s > 0) {
-        disp <- disp + rdistr(juvsigma) + rdistr(breedsigma) + rdistr(gravsigma) + rdistr(ovisigma)
+        disp <- disp + rdistr(initsigma) + rdistr(breedsigma) + rdistr(gravsigma) + rdistr(ovisigma)
         s <- s - 1
       }
       return(disp)
@@ -209,7 +209,7 @@ simulate_kindist_composite <- function(nsims = 100, juvsigma = 100, breedsigma =
   else kernelshape <- NULL
 
   return(KinPairSimulation_composite(tab,
-    kinship = kinship, kerneltype = method, juvsigma = juvsigma,
+    kinship = kinship, kerneltype = method, initsigma = initsigma,
     breedsigma = breedsigma, gravsigma = gravsigma, ovisigma = ovisigma,
     simdims = dims, lifestage = lifestage, kernelshape = kernelshape,
     call = sys.call()

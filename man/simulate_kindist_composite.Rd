@@ -6,7 +6,7 @@
 \usage{
 simulate_kindist_composite(
   nsims = 100,
-  juvsigma = 100,
+  initsigma = 100,
   breedsigma = 50,
   gravsigma = 50,
   ovisigma = 25,
@@ -20,7 +20,7 @@ simulate_kindist_composite(
 \arguments{
 \item{nsims}{(integer) -   number of pairs to simulate}
 
-\item{juvsigma}{(numeric) -   size of pre-breeding (axial) sigma}
+\item{initsigma}{(numeric) -   size of pre-breeding (axial) sigma}
 
 \item{breedsigma}{(numeric) -   size of breeding (axial) sigma}
 
@@ -47,7 +47,7 @@ Simulate kin dispersal distance pairs with composite sigmas
 \examples{
 simulate_kindist_composite(nsims = 100)
 simulate_kindist_composite(
-  nsims = 10000, juvsigma = 20, breedsigma = 30, gravsigma = 30,
+  nsims = 10000, initsigma = 20, breedsigma = 30, gravsigma = 30,
   ovisigma = 12, dims = 500, method = "Laplace", kinship = "1C", lifestage = "larva"
 )
 }

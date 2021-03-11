@@ -6,7 +6,7 @@ methods::setOldClass(c("tbl_df", "tbl", "data.frame"))
 #' @slot simtype character.
 #' @slot kerneltype character. - 'Gaussian', 'Laplace' or 'Gamma'
 #' @slot dsigma numeric.       - overall value of dispersal sigma (for simple kernel)
-#' @slot juvsigma numeric.    - value of pre-breeding dispersal sigma (for composite kernel)
+#' @slot initsigma numeric.    - value of pre-breeding dispersal sigma (for composite kernel)
 #' @slot breedsigma numeric.  - value of breeding dispersal sigma (for composite kernel)
 #' @slot gravsigma numeric.   - value of post-breeding dispersal sigma (for composite kernel)
 #' @slot ovisigma numeric.    - value of oviposition dispersal sigma (for composite kernel)
@@ -28,7 +28,7 @@ methods::setOldClass(c("tbl_df", "tbl", "data.frame"))
 KinPairSimulation <- setClass("KinPairSimulation",
   slots = list(
     kinship = "character", simtype = "character", kerneltype = "character",
-    dsigma = "numeric", juvsigma = "numeric", breedsigma = "numeric",
+    dsigma = "numeric", initsigma = "numeric", breedsigma = "numeric",
     gravsigma = "numeric", ovisigma = "numeric", simdims = "numeric",
     lifestage = "character", kernelshape = "numeric", call = "call", tab = "tbl_df",
     filtertype = "character", upper = "numeric", lower = "numeric",
@@ -105,7 +105,7 @@ setGeneric("dsigma<-", function(x, value) standardGeneric("dsigma<-"))
 #'
 #' @export
 #'
-setGeneric("juvsigma", function(x) standardGeneric("juvsigma"))
+setGeneric("initsigma", function(x) standardGeneric("initsigma"))
 #' Title
 #'
 #' @param x object of class \code{KinPairSimulation}
@@ -113,7 +113,7 @@ setGeneric("juvsigma", function(x) standardGeneric("juvsigma"))
 #'
 #' @export
 #'
-setGeneric("juvsigma<-", function(x, value) standardGeneric("juvsigma<-"))
+setGeneric("initsigma<-", function(x, value) standardGeneric("initsigma<-"))
 #' @rdname dsigma
 #'
 #' @param x object of class \code{KinPairSimulation}
@@ -304,8 +304,8 @@ setMethod("dsigma", "KinPairSimulation", function(x) x@dsigma)
 #' @param KinPairSimulation
 #'
 #' @export
-#' @describeIn KinPairSimulation access juvsigma
-setMethod("juvsigma", "KinPairSimulation", function(x) x@juvsigma)
+#' @describeIn KinPairSimulation access initsigma
+setMethod("initsigma", "KinPairSimulation", function(x) x@initsigma)
 #'
 #'
 #' @param KinPairSimulation
@@ -479,7 +479,7 @@ setMethod(
       cat("dsigma:\t\t\t", object@dsigma, "\n")
     }
     else if (object@simtype == "composite") {
-      cat("juvsigma\t\t", object@juvsigma, "\nbreedsigma\t\t", object@breedsigma, "\ngravsigma\t\t", object@gravsigma, "\novisigma\t\t", object@ovisigma, "\n")
+      cat("initsigma\t\t", object@initsigma, "\nbreedsigma\t\t", object@breedsigma, "\ngravsigma\t\t", object@gravsigma, "\novisigma\t\t", object@ovisigma, "\n")
     }
     cat("lifestage:\t\t", object@lifestage, "\n\n")
     if (!is.na(object@filtertype)) {
@@ -521,7 +521,7 @@ setMethod(
 #' @param simtype character - simulation type
 #' @param kerneltype character. - 'Gaussian', 'Laplace' or 'Gamma'
 #' @param dsigma numeric - overall value of dispersal sigma (for simple kernel)
-#' @param juvsigma numeric.    - value of pre-breeding dispersal sigma (for composite kernel)
+#' @param initsigma numeric.    - value of pre-breeding dispersal sigma (for composite kernel)
 #' @param breedsigma numeric.    - value of breeding dispersal sigma (for composite kernel)
 #' @param gravsigma numeric.    - value of post-breeding dispersal sigma (for composite kernel)
 #' @param ovisigma numeric.    - value of oviposition dispersal sigma (for composite kernel)
@@ -548,7 +548,7 @@ setMethod(
            kerneltype = NULL,
            kernelshape = NULL,
            dsigma = NULL,
-           juvsigma = NULL,
+           initsigma = NULL,
            breedsigma = NULL,
            gravsigma = NULL,
            ovisigma = NULL,
@@ -566,7 +566,7 @@ setMethod(
     if (!is.null(kerneltype)) .Object@kerneltype <- kerneltype else .Object@kerneltype <- NA_character_
     if (!is.null(kernelshape)) .Object@kernelshape <- kernelshape else .Object@kernelshape <- NA_real_
     if (!is.null(dsigma)) .Object@dsigma <- dsigma else .Object@dsigma <- NA_real_
-    if (!is.null(juvsigma)) .Object@juvsigma <- juvsigma else .Object@juvsigma <- NA_real_
+    if (!is.null(initsigma)) .Object@initsigma <- initsigma else .Object@initsigma <- NA_real_
     if (!is.null(breedsigma)) .Object@breedsigma <- breedsigma else .Object@breedsigma <- NA_real_
     if (!is.null(gravsigma)) .Object@gravsigma <- gravsigma else .Object@gravsigma <- NA_real_
     if (!is.null(ovisigma)) .Object@ovisigma <- ovisigma else .Object@ovisigma <- NA_real_
@@ -633,7 +633,7 @@ setMethod(
 #' @param simtype character - simulation type
 #' @param kerneltype character. - 'Gaussian', 'Laplace' or 'Gamma'
 #' @param dsigma numeric - overall value of dispersal sigma (for simple kernel)
-#' @param juvsigma numeric.    - value of pre-breeding dispersal sigma (for composite kernel)
+#' @param initsigma numeric.    - value of pre-breeding dispersal sigma (for composite kernel)
 #' @param breedsigma numeric.    - value of breeding dispersal sigma (for composite kernel)
 #' @param gravsigma numeric.    - value of post-breeding dispersal sigma (for composite kernel)
 #' @param ovisigma numeric.    - value of oviposition dispersal sigma (for composite kernel)
@@ -658,7 +658,7 @@ KinPairSimulation <- function(data = NULL,
                               simtype = NULL,
                               kerneltype = NULL,
                               dsigma = NULL,
-                              juvsigma = NULL,
+                              initsigma = NULL,
                               breedsigma = NULL,
                               gravsigma = NULL,
                               ovisigma = NULL,
@@ -678,7 +678,7 @@ KinPairSimulation <- function(data = NULL,
     simtype = simtype,
     kerneltype = kerneltype,
     dsigma = dsigma,
-    juvsigma = juvsigma,
+    initsigma = initsigma,
     breedsigma = breedsigma,
     gravsigma = gravsigma,
     ovisigma = ovisigma,
@@ -743,7 +743,7 @@ KinPairSimulation_simple <- function(data = NULL, kinship = NULL, kerneltype = N
 #' @param data tibble of pairwise kin classes & distances. Ideally contains fields id1 & id2 (chr) an distance (dbl) optionally includes coords (x1, y1, x2, y2), lifestage (ls1 & ls2), kinship (chr) and sims (dbl)
 #' @param kinship  character. Code for kinship category of simulation. one of PO, FS, HS, AV, GG, HAV, GGG, 1C, 1C1, 2C, GAV, HGAV, H1C or H2C
 #' @param kerneltype  character. Statistical model for simulated dispersal kernel. Currently either "Gaussian", "Laplace" or "Gamma".
-#' @param juvsigma  numeric. Axial sigma of prebreeding ('juvenile') dispersal kernel (axial standard deviation).
+#' @param initsigma  numeric. Axial sigma of prebreeding ('juvenile') dispersal kernel (axial standard deviation).
 #' @param breedsigma  numeric. Axial sigma of breeding dispersal kernel (axial standard deviation).
 #' @param gravsigma numeric. Axial sigma of post-breeding ('gravid') dispersal kernel (axial standard deviation).
 #' @param ovisigma  numeric. Axial sigma of oviposition dispersal kernel (axial standard deviation).
@@ -762,15 +762,15 @@ KinPairSimulation_simple <- function(data = NULL, kinship = NULL, kerneltype = N
 #' )
 #' KinPairSimulation_composite(kindata,
 #'   kinship = "1C", kerneltype = "Gaussian",
-#'   juvsigma = 15, breedsigma = 25, gravsigma = 20, ovisigma = 10, lifestage = "larva"
+#'   initsigma = 15, breedsigma = 25, gravsigma = 20, ovisigma = 10, lifestage = "larva"
 #' )
-KinPairSimulation_composite <- function(data = NULL, kinship = NULL, kerneltype = NULL, juvsigma = NULL, breedsigma = NULL,
+KinPairSimulation_composite <- function(data = NULL, kinship = NULL, kerneltype = NULL, initsigma = NULL, breedsigma = NULL,
                                         gravsigma = NULL, ovisigma = NULL, simdims = NULL, lifestage = NULL, kernelshape = NULL, call = NULL) {
   if (is.null(call)) {
     call <- sys.call()
   }
   return(KinPairSimulation(
-    data = data, kinship = kinship, simtype = "composite", kerneltype = kerneltype, juvsigma = juvsigma, breedsigma = breedsigma,
+    data = data, kinship = kinship, simtype = "composite", kerneltype = kerneltype, initsigma = initsigma, breedsigma = breedsigma,
     gravsigma = gravsigma, ovisigma = ovisigma, simdims = simdims, lifestage = lifestage, kernelshape = kernelshape, call = call
   ))
 }
