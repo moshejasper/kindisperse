@@ -20,7 +20,7 @@ A data frame with 98 rows and 10 variables
 }
 }
 \source{
-\url{"https://onlinelibrary.wiley.com/doi/full/10.1111/1755-0998.13043"}
+\url{https://onlinelibrary.wiley.com/doi/full/10.1111/1755-0998.13043}
 }
 \usage{
 mentari
