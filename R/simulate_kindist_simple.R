@@ -116,9 +116,14 @@ simulate_kindist_simple <- function(nsims = 100, sigma = 125, dims = 100, method
   }
 
   # initial locations
-
-  x0 <- runif(nsims, 0, dims)
-  y0 <- runif(nsims, 0, dims)
+  if (length(dims) > 2){
+    stop("'dims' vector can have no more than two elements")
+  }
+  if (length(dims) == 1){
+    dims <- c(dims, dims)
+  }
+  x0 <- runif(nsims, 0, dims[1])
+  y0 <- runif(nsims, 0, dims[2])
   xy0 <- matrix(c(x0, y0), ncol = 2)
 
   # test phase

@@ -471,7 +471,7 @@ setMethod(
     if (! is.na(object@kernelshape))
       cat("kernelshape:\t\t", object@kernelshape, "\n")
     cat("kinship:\t\t", object@kinship, "\n")
-    cat("simdims:\t\t", object@simdims, "\n")
+    cat("simdims:\t\t", signif(object@simdims, 3), "\n")
     if (is.na(object@simtype)) {
       cat("")
     }
@@ -498,8 +498,8 @@ setMethod(
         if (!is.na(object@samplenum)) {
           cat("samplenum:\t\t", object@samplenum, "\n")
         }
-        if (!is.na(object@sampledims)) {
-          cat("sampledims:\t\t", object@sampledims, "\n")
+        if (!is.na(object@sampledims[1])) {
+          cat("sampledims:\t\t", signif(object@sampledims, 3), "\n")
         }
         cat("\n")
       }

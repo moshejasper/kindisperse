@@ -5,7 +5,7 @@
 #' @param lower   numeric - lower cutoff for kin pair distances
 #' @param spacing numeric - spacing between traps (assume 1D layout)
 #' @param n       numeric - number of individuals to keep after filtering (if possible)
-#' @param dims    dimensions of square to sample within (works with the KinPairSimulation spatial & dimension information). Typically use either dims or upper.
+#' @param dims    dimensions to sample within (works with the KinPairSimulation spatial & dimension information). Either 'num' (square) or 'c(num1, num2)' (rectangle).
 #'
 #' @return  returns an object of class 'KinPairSimulation' containing simulation and filtering details and a tibble (tab) of filtered simulation values
 #' @export
@@ -24,26 +24,30 @@ sample_kindist <- function(kindist, upper = NULL, lower = NULL, spacing = NULL, 
 
       # check if dimensions smaller than original dimensions!
       simdims <- kindist@simdims
-      if (dims > simdims) {
-        cat("Ignoring 'dims' as they are greater than original simulation dimensions\n")
+      if (length(dims) > 2){ #(dims > simdims) {
+        cat("Ignoring 'dims' as vector length is greater than two\n")
+      #  cat("Ignoring 'dims' as they are greater than original simulation dimensions\n")
       }
       else {
         cat(paste0("Setting central sampling area to ", dims, " by ", dims, "\n"))
 
-        # otherwise, identify the sampling rectangle
+        # first, rebase kindist...
+        if (length(dims) == 1){
+          dims <- c(dims, dims)
+        }
 
-        displacement <- (simdims - dims) / 2
+        kindist <- rebase_dims(kindist, dims)
 
-        xmin <- 0 + displacement
-        ymin <- 0 + displacement
-        xmax <- simdims - displacement
-        ymax <- simdims - displacement
+        xdim <- dims[1]
+        ydim <- dims[2]
+        nsims <- nrow(kindist@tab)
+
 
         # now, filter final coordinates that fall out of the new sampling rectangle
 
         kindist@tab <- filter(
-          kindist@tab, .data$x1 > xmin, .data$x1 < xmax, .data$x2 > xmin, .data$x2 < xmax,
-          .data$y1 > ymin, .data$y1 < ymax, .data$y2 > ymin, .data$y2 < ymax
+          kindist@tab, .data$x1 >= 0, .data$x1 <= xdim, .data$x2 >= 0, .data$x2 <= xdim,
+          .data$y1 >= 0, .data$y1 <= ydim, .data$y2 >= 0, .data$y2 <= ydim
         )
       }
     }
@@ -100,3 +104,70 @@ sample_kindist <- function(kindist, upper = NULL, lower = NULL, spacing = NULL, 
 }
 
 # additional comment
+
+#' Change the shape of a rectangle while preserving area
+#'
+#' @param dims  Original rectangle dimensions - either single number (length of side of square) or length 2 numeric vector (lenghts of sides x and y of rectangle)
+#' @param shape Ratio of side lengths x & y in the new rectangle
+#'
+#' @return Returns a numeric vector containing the side lengths c(x, y) of a transformed rectangle with preserved area
+#' @export
+#'
+#' @examples
+#' elongate(10, 100)
+#' elongate(c(5, 125), 4)
+elongate <- function(dims, shape = 1){
+  if (length(dims) > 2){
+    stop("'dims' cannot have length > 2")
+  }
+  else if (length(dims) == 1){
+    area <- dims^2
+  }
+  else if (length(dims) == 2){
+    area <- dims[1] * dims[2]
+  }
+
+  # calculate dimensions
+  xdim <- sqrt(area / shape)
+  ydim <- area / xdim
+
+  return(c(xdim, ydim))
+}
+
+#' Change the dimensions of a KinPairSimulation Object and shift kinpairs so at least one individual is within the area
+#'
+#' @param kindist   KinPairSimulation - KinPairSimulation Class Object
+#' @param dims      New site dimensions - either single number (length of side of square) or length 2 vector (lenghts of sides x and y of rectangle)
+#'
+#' @return returns a rebased object of class 'KinPairSimulation' with adjusted simulation dimensions
+#' @export
+#'
+#' @examples
+#' simobject <- simulate_kindist_simple()
+#'
+#' rebase_dims(simobject, c(1, 100))
+#' rebase_dims(simobject, 15)
+rebase_dims <- function(kindist, dims){
+  if (length(dims) > 2){
+    stop("'dims' cannot have length > 2")
+  }
+  else if (length(dims) ==1){
+    dims <- c(dims, dims)
+  }
+
+  nsims <- nrow(kindist@tab)
+
+  x0 <- runif(nsims, 0, dims[1])
+  y0 <- runif(nsims, 0, dims[2])
+
+  xdiff <- x0 - kindist@tab$x1
+  ydiff <- y0 - kindist@tab$y1
+
+  kindist@tab$x1 <- kindist@tab$x1 + xdiff
+  kindist@tab$x2 <- kindist@tab$x2 + xdiff
+  kindist@tab$y1 <- kindist@tab$y1 + ydiff
+  kindist@tab$y2 <- kindist@tab$y2 + ydiff
+
+  kindist@simdims <- dims
+  return(kindist)
+}
