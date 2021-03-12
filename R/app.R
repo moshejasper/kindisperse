@@ -535,10 +535,31 @@ ui <- fluidPage(
                 min = 1, max = 250, value = 50
               ),
 
+              h5("Site dimensions"),
+
+              column(width = 4,
+
               numericInput(
-                inputId = "sim_simple_dims",
-                label = "Site dimensions (n x n)",
+                inputId = "sim_simple_dimx",
+                label = "(n x n)",
                 min = 25, max = 1000, value = 1000
+              )),
+
+              column(width = 4,
+                     hr(),
+                     checkboxInput(
+                       inputId = "sim_simple_bothdims",
+                       label = h5("link dimensions"),
+                       value = TRUE
+                     )
+              ),
+
+              column(width = 4,
+                     numericInput(
+                       inputId = "sim_simple_dimy",
+                       label = "",
+                       min = 25, max = 1000, value = 1000
+                     )
               ),
 
               selectInput(
@@ -643,10 +664,31 @@ ui <- fluidPage(
                 min = 1, max = 250, value = 50
               ),
 
-              numericInput(
-                inputId = "sim_composite_dims",
-                label = "Site dimensions (n x n)",
-                min = 25, max = 1000, value = 1000
+              h5("Site dimensions"),
+
+              column(width = 4,
+
+                     numericInput(
+                       inputId = "sim_composite_dimx",
+                       label = "(n x n)",
+                       min = 25, max = 1000, value = 1000
+                     )),
+
+              column(width = 4,
+                     hr(),
+                     checkboxInput(
+                       inputId = "sim_composite_bothdims",
+                       label = h5("link dimensions"),
+                       value = TRUE
+                     )
+              ),
+
+              column(width = 4,
+                     numericInput(
+                       inputId = "sim_composite_dimy",
+                       label = "",
+                       min = 25, max = 1000, value = 1000
+                     )
               ),
 
               selectInput(
@@ -818,10 +860,31 @@ ui <- fluidPage(
 
           conditionalPanel(
             condition = "input.samp_checkbox.includes('use_samp_dims')",
-            numericInput(
-              inputId = "samp_dims",
-              label = "choose trap dimensions (n by n)",
-              min = 25, max = 1000, value = 100
+            h5("choose trap dimensions"),
+
+            column(width = 5,
+
+                   numericInput(
+                     inputId = "samp_dimx",
+                     label = "(n x n)",
+                     min = 25, max = 1000, value = 1000
+                   )),
+
+            column(width = 2,
+                   hr(),
+                   checkboxInput(
+                     inputId = "samp_bothdims",
+                     label = h5("link"),
+                     value = TRUE
+                   )
+            ),
+
+            column(width = 5,
+                   numericInput(
+                     inputId = "samp_dimy",
+                     label = "",
+                     min = 25, max = 1000, value = 1000
+                   )
             )
           ),
 
@@ -1302,7 +1365,7 @@ server <- function(input, output, session) {
       out <- str_c(out, "kerneltype:\t\t", ifelse(is.na(staged_object()@kerneltype), "NA", staged_object()@kerneltype), "\n")
       if (! is.na(staged_object()@kernelshape)) out <- str_c(out, "kernelshape:\t\t", staged_object()@kernelshape, "\n")
       out <- str_c(out, "kinship:\t\t", staged_object()@kinship, "\n")
-      out <- str_c(out, "simdims:\t\t", ifelse(is.na(staged_object()@simdims), "NA", staged_object()@simdims), "\n")
+      out <- str_c(out, "simdims:\t\t", ifelse(is.na(staged_object()@simdims[1]), "NA", paste(signif(staged_object()@simdims, 3), collapse = "x")), "\n")
       if (is.na(staged_object()@simtype)) {
         out <- str_c(out, "")
       }
@@ -1335,8 +1398,8 @@ server <- function(input, output, session) {
           if (!is.na(staged_object()@samplenum)) {
             out <- str_c(out, "samplenum:\t\t", staged_object()@samplenum, "\n")
           }
-          if (!is.na(staged_object()@sampledims)) {
-            out <- str_c(out, "sampledims:\t\t", staged_object()@sampledims, "\n")
+          if (!is.na(staged_object()@sampledims[1])) {
+            out <- str_c(out, "sampledims:\t\t", paste(signif(staged_object()@sampledims, 3), collapse = "x"), "\n")
           }
           out <- str_c(out, "\n")
         }
@@ -1427,9 +1490,13 @@ server <- function(input, output, session) {
       return(NULL)
     }
 
+    if (input$sim_simple_bothdims == TRUE & input$sim_simple_dimx != input$sim_simple_dimy){
+      updateNumericInput(session, "sim_simple_dimy", value = input$sim_simple_dimx)
+    }
+
     simulate_kindist_simple(
       nsims = input$sim_simple_nsims, sigma = input$sim_simple_sigma, method = input$sim_simple_method,
-      kinship = input$sim_simple_category, lifestage = input$sim_simple_lifestage, dims = input$sim_simple_dims,
+      kinship = input$sim_simple_category, lifestage = input$sim_simple_lifestage, dims = c(input$sim_simple_dimx, input$sim_simple_dimy),
       shape = input$sim_simple_gshape
     )
   })
@@ -1461,9 +1528,12 @@ server <- function(input, output, session) {
       updateNumericInput(session, "sim_composite_shape", value = 0)
       return(NULL)
     }
+    if (input$sim_composite_bothdims == TRUE & input$sim_composite_dimx != input$sim_composite_dimy){
+      updateNumericInput(session, "sim_composite_dimy", value = input$sim_composite_dimx)
+    }
     simulate_kindist_composite(
       nsims = input$sim_composite_nsims, initsigma = input$sim_composite_initsigma, breedsigma = input$sim_composite_breedsigma,
-      gravsigma = input$sim_composite_gravsigma, ovisigma = input$sim_composite_ovisigma, dims = input$sim_composite_dims,
+      gravsigma = input$sim_composite_gravsigma, ovisigma = input$sim_composite_ovisigma, dims = c(input$sim_composite_dimx, input$sim_composite_dimy),
       method = input$sim_composite_method, kinship = input$sim_composite_category, lifestage = input$sim_composite_lifestage,
       shape = input$sim_composite_shape
     )
@@ -1623,8 +1693,6 @@ server <- function(input, output, session) {
     # input$storeclick
   })
 
-  #### FiRa Compare ####
-
   ##### _ #####
   ############### Sample ################
 
@@ -1650,7 +1718,10 @@ server <- function(input, output, session) {
 
   res_dims <- reactive({
     if ("use_samp_dims" %in% input$samp_checkbox) {
-      temp <- input$samp_dims
+      if (input$samp_bothdims == TRUE & input$samp_dimx != input$samp_dimy){
+        updateNumericInput(session, "samp_dimy", value = input$samp_dimx)
+      }
+      temp <- c(input$samp_dimx, input$samp_dimy)
     }
     else {
       temp <- NULL
