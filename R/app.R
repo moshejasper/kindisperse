@@ -512,13 +512,13 @@ ui <- fluidPage(
                 min = 1, max = 1000000, value = 100000
               ),
 
-              sliderInput(
+              numericInput(
                 inputId = "sim_simple_sigma",
                 label = "Simple dispersal sigma",
                 min = 1, max = 250, value = 50
               ),
 
-              sliderInput(
+              numericInput(
                 inputId = "sim_simple_dims",
                 label = "Site dimensions (n x n)",
                 min = 25, max = 1000, value = 1000
@@ -551,14 +551,14 @@ ui <- fluidPage(
               conditionalPanel(
                 condition = "input.sim_simple_method == 'Gamma'",
 
-                sliderInput(
+                numericInput(
                   inputId = "sim_simple_gshape",
                   label = "Select value of shape parameter",
                   min = 0, max = 2, value = 1, step = 0.01
                 )
               ),
 
-              sliderInput(
+              numericInput(
                 inputId = "sim_simple_binwidth",
                 label = "Binwidth",
                 min = 1, max = 50, value = 10
@@ -1410,6 +1410,10 @@ server <- function(input, output, session) {
         session, "sim_simple_nsims",
         value = 1000000
       )
+      return(NULL)
+    }
+    if (input$sim_simple_gshape < 0){
+      updateNumericInput(session, "sim_simple_gshape", value = 0)
       return(NULL)
     }
 
