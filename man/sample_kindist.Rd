@@ -24,7 +24,7 @@ sample_kindist(
 
 \item{n}{numeric - number of individuals to keep after filtering (if possible)}
 
-\item{dims}{dimensions of square to sample within (works with the KinPairSimulation spatial & dimension information). Typically use either dims or upper.}
+\item{dims}{dimensions to sample within (works with the KinPairSimulation spatial & dimension information). Either 'num' (square) or 'c(num1, num2)' (rectangle).}
 }
 \value{
 returns an object of class 'KinPairSimulation' containing simulation and filtering details and a tibble (tab) of filtered simulation values
