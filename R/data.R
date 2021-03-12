@@ -30,5 +30,5 @@
 #' \item{k_loiselle}{calculated Loiselle's \emph{k} value for kinpair}
 #' }
 #'
-#' @source \url{"https://onlinelibrary.wiley.com/doi/full/10.1111/1755-0998.13043"}
+#' @source \url{https://onlinelibrary.wiley.com/doi/full/10.1111/1755-0998.13043}
 "mentari"
