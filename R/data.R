@@ -8,11 +8,11 @@
 #' buildings (in floors three or four for each), collected over three weeks. Entire
 #' larval bodies were extracted and sequenced using the double-digest restriction-site-
 #' associated DNA sequencing protocol for \emph{Ae. aegypti}
-#' (\url{https://doi.org/10.1186/1471-2164-15-275}. After sequencing & genotyping,
+#' (\doi{10.1186/1471-2164-15-275}. After sequencing & genotyping,
 #' Loiselle's \emph{k} was used as an initial estimate of genetic kinship. The program
-#' ML-Relate (\url{https://doi.org/10.1111/j.1471-8286.2006.01256.x}) was then used to
+#' ML-Relate (\doi{10.1111/j.1471-8286.2006.01256.x}) was then used to
 #' estimate the pedigree kinships for the FS and HS categories. Following simulation
-#' work described in \url{https://doi.org/10.1111/1755-0998.13043} the
+#' work described in \doi{10.1111/1755-0998.13043} the
 #' 1C category was assigned to all remaining unassigned individuals with a Loiselle's
 #' \emph{k} of less than 0.06.
 #'
@@ -30,5 +30,5 @@
 #' \item{k_loiselle}{calculated Loiselle's \emph{k} value for kinpair}
 #' }
 #'
-#' @source \url{https://onlinelibrary.wiley.com/doi/full/10.1111/1755-0998.13043}
+#' @source \doi{10.1111/1755-0998.13043}
 "mentari"
