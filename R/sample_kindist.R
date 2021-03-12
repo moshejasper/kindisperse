@@ -26,15 +26,15 @@ sample_kindist <- function(kindist, upper = NULL, lower = NULL, spacing = NULL, 
       simdims <- kindist@simdims
       if (length(dims) > 2){ #(dims > simdims) {
         cat("Ignoring 'dims' as vector length is greater than two\n")
-      #  cat("Ignoring 'dims' as they are greater than original simulation dimensions\n")
       }
       else {
-        cat(paste0("Setting central sampling area to ", dims, " by ", dims, "\n"))
 
         # first, rebase kindist...
         if (length(dims) == 1){
           dims <- c(dims, dims)
         }
+
+        cat(paste0("Setting central sampling area to ", dims[1], " by ", dims[2], "\n"))
 
         kindist <- rebase_dims(kindist, dims)
 
