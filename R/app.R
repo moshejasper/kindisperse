@@ -1871,13 +1871,6 @@ server <- function(input, output, session) {
     # tibble("a" = 1, "b" = 2, "c" = 3)
   })
 
-  top_page_update <- eventReactive(
-    input$top_data_page,
-    updateActionButton(session,
-                       "top_data_update")
-  )
-
-
   est_std_sum <- eventReactive(
     input$top_data_update,
     {
