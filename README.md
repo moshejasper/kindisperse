@@ -3,7 +3,7 @@
 
 # kindisperse
 
-v0.7.6 <!-- badges: start --> <!-- badges: end -->
+v0.8.0 <!-- badges: start --> <!-- badges: end -->
 
 The goal of kindisperse is to simulate and estimate close-kin dispersal
 kernels.
@@ -153,7 +153,7 @@ Once installed, load the package as follows:
 
 ``` r
 library(kindisperse)
-#> kindisperse 0.7.6
+#> kindisperse 0.7.7
 ```
 
 ## Simulations and Sampling
@@ -242,13 +242,13 @@ simulate_kindist_simple(nsims = 5, sigma = 100, method = "Gaussian", kinship = "
 #> 
 #> tab
 #> # A tibble: 5 x 8
-#>   id1   id2   kinship distance    x1    y1     x2    y2
-#>   <chr> <chr> <chr>      <dbl> <dbl> <dbl>  <dbl> <dbl>
-#> 1 1a    1b    PO         161.  81.2  76.7  -72.7   27.8
-#> 2 2a    2b    PO         163.  71.6  96.0   -3.96 241. 
-#> 3 3a    3b    PO         160.  14.7  12.8  -72.8  147. 
-#> 4 4a    4b    PO         203.  74.7   6.54 270.    58.6
-#> 5 5a    5b    PO          94.6  1.60 22.3   13.5  116. 
+#>   id1   id2   kinship distance    x1    y1    x2     y2
+#>   <chr> <chr> <chr>      <dbl> <dbl> <dbl> <dbl>  <dbl>
+#> 1 1a    1b    PO         167.   97.7 91.5  -17.4 -29.2 
+#> 2 2a    2b    PO         215.   67.6 12.4  283.   -2.97
+#> 3 3a    3b    PO         174.   27.8 75.6  201.   61.8 
+#> 4 4a    4b    PO          60.9  40.0  8.28  97.9  27.4 
+#> 5 5a    5b    PO         187.   98.3 62.4   67.6 247.  
 #> -----------------------------------
 ```
 
@@ -294,13 +294,13 @@ simulate_kindist_composite(nsims = 5, initsigma = 50, breedsigma = 30, gravsigma
 #> 
 #> tab
 #> # A tibble: 5 x 8
-#>   id1   id2   kinship distance    x1    y1    x2     y2
-#>   <chr> <chr> <chr>      <dbl> <dbl> <dbl> <dbl>  <dbl>
-#> 1 1a    1b    H1C         484.  101.  210. -34.3 -255. 
-#> 2 2a    2b    H1C         184. -158.  203.  17.0  146. 
-#> 3 3a    3b    H1C         215. -232.  171. -57.9   45.2
-#> 4 4a    4b    H1C         207. -182.  130.  24.6  118. 
-#> 5 5a    5b    H1C         173. -227.  162. -54.3  149. 
+#>   id1   id2   kinship distance    x1     y1     x2    y2
+#>   <chr> <chr> <chr>      <dbl> <dbl>  <dbl>  <dbl> <dbl>
+#> 1 1a    1b    H1C         131.  73.3  131.   -24.2  43.8
+#> 2 2a    2b    H1C         552. 224.   -56.5 -181.  319. 
+#> 3 3a    3b    H1C         407. 276.   232.  -128.  180. 
+#> 4 4a    4b    H1C         167. 211.    40.7  104.  -86.3
+#> 5 5a    5b    H1C         240. 150.  -151.   -84.0 -98.4
 #> -----------------------------------
 ```
 
@@ -342,18 +342,18 @@ sample_kindist(compsim, upper = 1000, lower = 200, spacing = 50, n = 25)
 #> 
 #> tab
 #> # A tibble: 25 x 8
-#>    id1    id2    kinship distance       x1      y1     x2    y2
-#>    <chr>  <chr>  <chr>      <dbl>    <dbl>   <dbl>  <dbl> <dbl>
-#>  1 27096a 27096b H2C          425 -177.     142.    230.  154. 
-#>  2 93261a 93261b H2C          375   -0.968 -117.   -163.  203. 
-#>  3 80404a 80404b H2C          525 -232.     303.    230.  103. 
-#>  4 21579a 21579b H2C          275   24.7    191.   -243.  314. 
-#>  5 60714a 60714b H2C          325  104.      44.5   363.  208. 
-#>  6 31753a 31753b H2C          275   54.8   -106.     41.7 191. 
-#>  7 77487a 77487b H2C          475  225.    -257.    137.  232. 
-#>  8 91248a 91248b H2C          525  -42.7      2.52  436.  253. 
-#>  9 68064a 68064b H2C          225  333.      99.8   179.  -41.9
-#> 10 79395a 79395b H2C          475  141.     419.    140.  -62.6
+#>    id1    id2    kinship distance     x1      y1     x2     y2
+#>    <chr>  <chr>  <chr>      <dbl>  <dbl>   <dbl>  <dbl>  <dbl>
+#>  1 60421a 60421b H2C          475 -121.   -39.8   370.  -118. 
+#>  2 98769a 98769b H2C          275  371.   -66.7   116.    71.9
+#>  3 84467a 84467b H2C          575 -225.   155.    240.  -166. 
+#>  4 4268a  4268b  H2C          475   53.2  -30.1   -11.0  424. 
+#>  5 91917a 91917b H2C          425  228.  -247.   -109.    16.2
+#>  6 92904a 92904b H2C          925  163.  -499.   -239.   331. 
+#>  7 82235a 82235b H2C          325 -335.  -126.    -33.2  -15.9
+#>  8 4913a  4913b  H2C          525  425.     3.96  -31.8  210. 
+#>  9 22569a 22569b H2C          575  -28.0  -19.5   483.   261. 
+#> 10 24818a 24818b H2C          225   31.6  -49.4   -79.6 -239. 
 #> # ... with 15 more rows
 #> -----------------------------------
 ```
@@ -448,13 +448,13 @@ of three draws from the PO distribution, and thus would take
 ``` r
 paroff <- simulate_kindist_simple(nsims = 1000, sigma = 75, kinship = "PO")
 axials(paroff)
-#> [1] 75.26307
+#> [1] 73.55289
 ```
 
 ``` r
 fullsibs <- simulate_kindist_composite(nsims = 10000, ovisigma = 25, kinship = "FS")
 axials(fullsibs, composite = 2)
-#> [1] 25.11468
+#> [1] 24.94379
 ```
 
 Various auxillary functions exist to further manipulate axial distances
@@ -537,7 +537,7 @@ fullcous <- simulate_kindist_composite(nsims = 75, initsigma = init, breedsigma 
 
 axpermute_standard(fullcous, fullsibs)
 #>      2.5%       50%     97.5% 
-#>  90.95004 102.51661 114.95927
+#>  84.85302  94.70991 104.30832
 ```
 
 As we can see, the C.I. neatly brackets the actual axial value, though
@@ -566,18 +566,18 @@ cousins
 #> 
 #> tab
 #> # A tibble: 150 x 9
-#>    id1   id2   kinship distance      x1     y1     x2     y2 lifestage
-#>    <chr> <chr> <chr>      <dbl>   <dbl>  <dbl>  <dbl>  <dbl> <chr>    
-#>  1 1a    1b    UN         277.   182.    53.9   -83.6 134.   larva    
-#>  2 2a    2b    UN         128.   160.    -7.80   39.3  35.5  larva    
-#>  3 3a    3b    UN         272.   125.   229.     37.3 -27.6  larva    
-#>  4 4a    4b    UN         213.    -1.13 167.   -107.  -18.7  larva    
-#>  5 5a    5b    UN         125.    62.5   66.6   150.  -23.5  larva    
-#>  6 6a    6b    UN         187.    85.4  -32.9    99.0 154.   larva    
-#>  7 7a    7b    UN          56.2  223.   -13.0   216.   42.8  larva    
-#>  8 8a    8b    UN         201.    18.8  132.    170.   -1.35 larva    
-#>  9 9a    9b    UN         390.  -116.   214.    235.   42.8  larva    
-#> 10 10a   10b   UN          77.1  204.    26.0   179.   99.2  larva    
+#>    id1   id2   kinship distance    x1     y1     x2     y2 lifestage
+#>    <chr> <chr> <chr>      <dbl> <dbl>  <dbl>  <dbl>  <dbl> <chr>    
+#>  1 1a    1b    UN         148.  -26.9   70.3  -4.32  216.  larva    
+#>  2 2a    2b    UN         249.  184.   112.  -64.3   110.  larva    
+#>  3 3a    3b    UN         277.  152.   119.  -14.1  -104.  larva    
+#>  4 4a    4b    UN         193.   90.4   73.0 -99.5    40.4 larva    
+#>  5 5a    5b    UN         149.   87.8 -144.  159.    -13.3 larva    
+#>  6 6a    6b    UN         238.  -70.2  -19.4 162.    -72.9 larva    
+#>  7 7a    7b    UN         142.  126.   -50.8 -11.1   -16.2 larva    
+#>  8 8a    8b    UN         149.   45.3   75.9  45.8   -73.4 larva    
+#>  9 9a    9b    UN          56.3 180.   137.  130.    165.  larva    
+#> 10 10a   10b   UN         332.   33.7  238.    8.65  -92.1 larva    
 #> # ... with 140 more rows
 #> -------------------------------
 ```
@@ -592,8 +592,8 @@ missing category data:
 # bcomp allows supply of distribution to composite with bvect (this is done to match 
 # the cousin mixture in phase)
 axpermute_standard(avect = cousins, acat = "1C", amix = TRUE, amixcat = "H1C", bvect = fullsibs, bcomp = TRUE, bcompvect = halfsibs)
-#>      2.5%       50%     97.5% 
-#>  87.38129  98.87126 109.52199
+#>     2.5%      50%    97.5% 
+#> 76.53586 87.78226 99.64765
 ```
 
 This estimate is a lot more convoluted, and not as ‘spot on’- but the

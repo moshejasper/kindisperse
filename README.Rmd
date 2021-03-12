@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 ```
 
 # kindisperse
-v0.7.6
+v0.8.0
 <!-- badges: start -->
 <!-- badges: end -->
 
