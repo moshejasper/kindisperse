@@ -84,95 +84,117 @@ ui <- fluidPage(
 
     tabPanel(
       "Tutorial",
-      h1("Intergenerational Dispersal"),
-      p("Intergenerational dispersal is a key process that connects biological events across the lifespan of an organism with broader demographic and population genetic processes of interest (such as isolation by distance, and ultimately selective processes and speciation). "),
-      p("At its broadest, it refers to the change in the geographical positions of descendent generations when compared to ancestral generations. Its simplest unit is parent-offspring dispersal - the displacement that occurs between a parent and its offspring across a lifespan. "),
-      h2("Introduction"),
-      p("Dispersal is an important process in biology generally, especially in conservation and pest management. It is one of the many reasons we wished to do this research. Few others are as apparent."),
-      p("Below is an example of a simple dispersal process that we have preloaded"),
+      h1("Introduction to kindisperse"),
 
       navbarPage(
         "The Intergenerational Dispersal Kernel",
 
-        ########## Tute Tab 1 ############
+        ########## Introduction ############
 
         tabPanel(
-          "1. The Lifespan",
+          "Introduction to dispersal",
 
-          p("The most basic measurement of intergenerational dispersal is that across one lifespan from parent to offspring, e.g. the geographical location of the birth of the mother compared to that of the birth of her offspring"),
-          p("This parent-offspring distance (PO) is fundamental to Wright's theory of isolation by distance (Wright, 19xx), and can be understood statistically via a dispersal kernel"),
-          p("Such a kernel describes the probability distribution of parents to offspring across two dimensions, and can be modelled with a variety of distributions (Gaussian, Laplace, etc.)"),
-          p("For this example, we will be using a Gaussian distribution"),
-          fluidRow(
-            column(
-              width = 6,
-              plotOutput(
-                outputId = "tutorial_1a"
-              )
-            ),
+          h3("Modelling intergenerational dispersal"),
+          p("Dispersal is an important process in biology generally, especially in conservation and pest management.
+          Intergenerational dispersal is a key process that connects biological events across the lifespan of an organism with broader demographic and population genetic
+        processes of interest (such as isolation by distance, and ultimately selective processes and speciation).
+        At its broadest, it refers to the change in the geographical positions of descendent generations when compared to ancestral generations.
+          The most basic measurement of intergenerational dispersal is that across exactly one lifespan, such as
+            the geographical location of the birth of the mother compared to that of the birth of her offspring. This parent-offspring distance (PO)
+            is fundamental to Wright's theory of isolation by distance (Wright, 1946), and can be understood statistically via a dispersal kernel. Below,
+            we have an example field site where a series of PO kin pairs have been detected (arrows lead from parent to offspring across a lifespan."),
+          plotOutput(
+            outputId = "tutorial_1a",
+            height = 480
+          ),
 
+          p("To begin to understand the picture such a collection tells about dispersal, imagine that every parent started at the exact same site, then dispersed as usual
+            across their lifespan before laying eggs leading to the next generation. All of these dispersal directions and distances can be summarised by a pinwheel diagram (Fig 2)."),
+          plotOutput(
+            outputId = "tutorial_1b",
+            height = 480
+          ),
+          p("As we continue to pile up more and more PO dispersal pairs, the apparently random shape resolves into a 2D scatter distribution - the disersal kernel
+            (in this case, a 2D Gaussian distribution, Fig 3) Such a kernel describes the probability distribution of parents to offspring across two dimensions,
+            and can be modelled with a variety of distributions (Gaussian, Laplace, etc.). In all cases, the parameter sigma models the magnitude of the variance in
+            each of the two dimensions (length and width) that dispersal occurs over"),
+          plotOutput(
+            outputId = "tutorial_2a"
+          ),
+          p("We can summarise the absolute lengths of all of these points with a histogram (Fig 4)."),
+          plotOutput(
+            outputId = "tutorial_2b"
+          ),
+          p(),
+          p("However, we don't have to stop with one generation. Let's extend this simulation to the next (GG) generation"),
+          plotOutput(
+            outputId = "tutorial_3a"
+          ),
+          p("The histogram of the GG distribution is given below. It represents the outcomes of two PO dispersal events, the second dependent on the outcome
+            of the first. This is modelled by two draws from a dispersal kernel with an axial (1D) standard deviation of sigma - in this case, 25m. Note
+            that the distribution is more dispersed than that of the PO (above) with a tail approaching out to 150 meters. This 'addition' of two dispersal events
+            too each other is easy to model statistically. We can also derive a single dispersal event by 'decomposing' the double dispersal event associated with the
+            GG category. This points the way to a whole range of ways of estimating intergenerational dispersal by carefully considering the properties of different classes.
+            (so, we could extend this to the GGG (great grandparent) class, partly by dividing the variance in that case by three."),
+          plotOutput(
+            outputId = "tutorial_3b"
+          ),
 
-            column(
-              width = 6,
-              plotOutput(
-                outputId = "tutorial_1b"
-              )
-            )
-          )
+          h3("Extending the kernel to differing kinship classes"),
+          p("Intergenerational dispersal kernels are constructed by two extensions: (1) the dispersal of one individual is extended to dispersal across multiple
+            individuals within a pedigree via variance addition (described abov). (2) the dispersal of one individual is split into multiple phases across its
+            lifespan by variance subtraction"),
+          p("If we find a pair of full sibling mosquitoes (FS), distances between these will reflect the movement of their mother during oviposition.
+            For a pair of half siblings (FS), this represents the movement of their father between matings (breeding) and the movement of the mother searching
+            for bloodmeals (gravid phase) as well as oviposition. For a pair of full first cousins (1C), this represents an entire lifespan of PO dispersal as well
+            as an additional movement of their mother during oviposition, so that the 1C distribution is found by the variance addition of the FS and PO distributions.
+            Kin categories can be grouped by phase based on these dispersal subcategories, with any kin pair having either PO, FS or HS phases."),
+          p("PO life phases include parent offspring (PO), grandparent-grandchild (GG) and great-grandparent-great-grandchild (GGG)."),
+          p("FS life phases include full siblings (FS), avuncular (AV), first cousins (1C), great-avuncular (GAV), first cousins once removed (1C1), and second cousins (2C)"),
+          p("HS life phases include half siblings (HS), half avuncular (HAV), half first cousins (H1C), half great-avuncular (HGAV), half first cousin once removed (H1C1) and half second cousin (H2C)"),
+          p("Any of these kin phases can be sampled at different parts of the lifespan: as immatures (eggs, larva, pupa) or as ovipositing adults (egg-laying females) - or other points. Such
+            sampling times affect how much dispersal has already occured in a lifespan. Importantly, two categories that are sampled in the same phase have the same relationship as they would have
+            if they were both sampled in a different life phase."),
+          p("So, the final distributions of dispersed kin are dependent on three factors: (1) the kinship phase (FS, HS, PO); (2) the number of pedigree generations; (3)
+             the life stage at which the kin were sampled. But where phase and life stage align, the distributions of two kin categories (e.g. 1C and FS) can be used to find
+            the distribution of the PO lifespan that separates them")
+
         ),
 
-        ############ Tute Tab 2 #############
+        ########## Using the app #############
 
         tabPanel(
-          "2. The Kernel",
-          p("Filler text here"),
-          fluidRow(
-            column(
-              width = 6,
-              plotOutput(
-                outputId = "tutorial_2a"
-              )
-            ),
-            column(
-              width = 6,
-              plotOutput(
-                outputId = "tutorial_2b"
-              )
-            )
-          )
+          "Using the app",
+
+          p("This app has four interwoven functions which combine to enable all package features to be used."),
+          h4("Load"),
+          p("The 'load' tab enables the import of data from the R coding environment (via the 'mounted from R' option), from the filesystem, or from either the 'simulate' or 'sample' tabs, or
+            from the app tempdata (memory). Once loaded in this tab, kinship dispersal objects can then be passed to the tempdata for use elsewhere in the app, or
+            saved to the filesystem or exported to the R environment. It thus functions as the go-between that connects all aspects of the app and computer. Currenly staged data is summarised
+            on the right."),
+          h4("Simulate"),
+          p("The 'simulate' tab enables both simple PO and more complex FS or HS-class simulations to be conducted and summarised under a wide variety of parameters, before being compared or
+            passed elsewhere within the app (via direct access or being passed to the tempdata). Summaries of distributions are shown on the right. This tab lays the foundation for any sampling or
+            estimation simulations elsewhere in the app."),
+          h4("Sample"),
+          p("The 'sample' tab takes data from the 'simulate' tab or tempdata (including from the system via 'Load') and applies a series of filters to the data to investigate the impact of
+            study design on detected distributions of kinpairs, and thus on estimates of intergenerational dispersal. A summary of the distribution used and raw kernel estimate results is shown
+            on the right. Once filtered, these distributions can be passed back to tempdata and compared via 'simulate/compare distributions' or used as a basis of kernel estimates."),
+          h4("Estimate"),
+          p("The 'estimate' tab takes data from any of the other sources and runs the Jasper et al. estimation methods on them. There is a choice of 'simple kernel' which estimates an individual kernel,
+            or the 'standard' tab which takes several kernels (e.g. 1C and FS) to create a direct estimate of the PO intergenerational kernel. This estimator has the ability to accept mixtures between
+            kernels and composite kernel categories (e.g. a mix of 1C and H1C, compensated for by compositing FS and HS distributions). The estimators use bootstraps to construct 95% confidence intervals
+            (shown on the right)"),
+          p("Stored data is summarised on the top right of the app."),
+          p(),
+          p("For further information, consult the kindisperse manual and help files")
         ),
 
-        ############# Tute Tab 3 #############
+
+        ########### Sandbox ###########
 
         tabPanel(
-          "3. Extending to further generations",
-          p("Now look what happens when you add the GG generation..."),
-          fluidRow(
-            column(
-              width = 6,
-              plotOutput(
-                outputId = "tutorial_3a"
-              )
-            ),
-            column(
-              width = 6,
-              plotOutput(
-                outputId = "tutorial_3b"
-              )
-            )
-          )
-        ),
-
-        ############ Tute Tab 4 #############
-
-        tabPanel(
-          "4. Decomposing the kernel"
-        ),
-
-        ########### Tute Tab 5 ###########
-
-        tabPanel(
-          "5. Sandbox",
+          "Sandbox",
 
           sidebarLayout(
             sidebarPanel(
@@ -1014,6 +1036,7 @@ ui <- fluidPage(
             ),
 
             mainPanel(
+              h3("95% C.I."),
               h3(
                 tableOutput(
                   outputId = "est_smp_ci_table"
@@ -1194,6 +1217,7 @@ ui <- fluidPage(
             ),
 
             mainPanel(
+              h3("95% C.I."),
               h3(
                 tableOutput(
                   outputId = "est_std_ci_table"
