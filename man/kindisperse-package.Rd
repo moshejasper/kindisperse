@@ -6,12 +6,21 @@
 \alias{kindisperse-package}
 \title{kindisperse: Simulate and Estimate Close-Kin Dispersal Kernels}
 \description{
-Functions for simulating and estimating kinship-related dispersal.
-    Assume an additive variance model of dispersal in two dimensions, as noted
-    in Wright's work on isolation by distance and neighbournood sizes. Simple 
-    and composite dispersal simulations are supplied, as well as the functions
-    needed to estimate axial/intergenerational dispersal for simulated or 
-    empirical data. For ease of use an integrated Shiny app is also included.
+Functions for simulating and estimating kinship-related dispersal, based
+    on the methods described in Jasper et al. (2019) \doi{10.1111/1755-0998.13043}.
+    Assumes an additive variance model of dispersal in two dimensions, compatible with 
+    Wright's neighbourhood area. Simple and composite dispersal simulations are supplied, 
+    as well as the functions needed to estimate parent-offspring dispersal for simulated or 
+    empirical data, and to undertake sampling design for future field studies of dispersal. 
+    For ease of use an integrated Shiny app is also included.
+}
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/moshejasper/kindisperse}
+  \item \url{https://doi.org/10.1111/1755-0998.13043}
+}
+
 }
 \author{
 \strong{Maintainer}: Moshe-Elijah Jasper \email{moshe.jasper@unimelb.edu.au} (\href{https://orcid.org/0000-0003-4541-3223}{ORCID})
