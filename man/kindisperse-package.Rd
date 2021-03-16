@@ -18,7 +18,6 @@ Functions for simulating and estimating kinship-related dispersal, based
 Useful links:
 \itemize{
   \item \url{https://github.com/moshejasper/kindisperse}
-  \item \url{https://doi.org/10.1111/1755-0998.13043}
 }
 
 }
