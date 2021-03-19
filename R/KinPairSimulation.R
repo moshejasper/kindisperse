@@ -386,7 +386,7 @@ setMethod("sampledims", "KinPairSimulation", function(x) x@sampledims)
 setMethod("upper<-", "KinPairSimulation", function(x, value) {
   if (!is.na(x@upper)) {
     if (x@upper < value) {
-      cat("Redundant. Skipped.\n")
+      warning("Redundant. Skipped.")
       return(x)
     }
   }
@@ -401,7 +401,7 @@ setMethod("upper<-", "KinPairSimulation", function(x, value) {
 setMethod("lower<-", "KinPairSimulation", function(x, value) {
   if (!is.na(x@lower)) {
     if (x@lower < value) {
-      cat("Redundant. Skipped.\n")
+      warning("Redundant. Skipped.")
       return(x)
     }
   }
@@ -415,7 +415,7 @@ setMethod("lower<-", "KinPairSimulation", function(x, value) {
 #' @describeIn KinPairSimulation assign kin spacing (uses sample_kindist())
 setMethod("spacing<-", "KinPairSimulation", function(x, value) {
   if (!is.na(x@spacing)) {
-    cat("Can't apply spacing twice. Skipped")
+    warning("Can't apply spacing twice. Skipped")
     return(x)
   }
   sample_kindist(x, spacing = value)
@@ -429,7 +429,7 @@ setMethod("spacing<-", "KinPairSimulation", function(x, value) {
 setMethod("samplenum<-", "KinPairSimulation", function(x, value) {
   if (!is.na(x@samplenum)) {
     if (x@samplenum < value) {
-      cat("Redundant. Skipped.\n")
+      warning("Redundant. Skipped.")
       return(x)
     }
   }
@@ -444,9 +444,13 @@ setMethod("samplenum<-", "KinPairSimulation", function(x, value) {
 #' @export
 #' @describeIn KinPairSimulation assign and filter by sample dimensions (uses sample_kindist())
 setMethod("sampledims<-", "KinPairSimulation", function(x, value) {
-  if (!is.na(x@sampledims)) {
-    if (x@sampledims < value) {
-      cat("Redundant. Skipped.\n")
+  if (length(value) == 1){
+    value <- c(value, value)
+  }
+  if (!is.na(x@sampledims[1])) {
+    if (length(x@sampledims) == 1) {x@sampledims <- c(x@sampledims, x@sampledims)}
+    if (x@sampledims[1] < value[1] | x@sampledims[2] < value[2]) {
+      warning("Prior sampledim value was smaller. Skipped.")
       return(x)
     }
   }
@@ -611,7 +615,7 @@ setMethod(
       }
       else { # check if just distances included
         if (is.numeric(data)) {
-          cat("Note: numeric vector interpreted as kin distances!\n")
+          message("Note: numeric vector interpreted as kin distances!")
           data <- tibble(id1 = paste0(1:length(data), "a"), id2 = paste0(1:length(data), "b"), kinship = .Object@kinship, distance = data)
           .Object@tab <- data
         }
