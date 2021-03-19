@@ -10,3 +10,4 @@
 ^\.Rhistory$
 ^\.gitignore$
 ^\.github$
+^vignettes/*Rmd$
