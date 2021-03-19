@@ -11,7 +11,7 @@ df_to_kinpair(data, kinship = NULL, lifestage = NULL)
 
 \item{kinship}{character. kin category to assign or extract from data. one of PO, FS, HS, AV, GG, HAV, GGG, 1C, 1C1, 2C, GAV, HGAV, H1C , H1C1 or H2C}
 
-\item{lifestage}{character. lifestage to assign or extract from data. one of 'unknown', 'larva' or 'oviposition'.}
+\item{lifestage}{character. lifestage to assign or extract from data. one of 'unknown', 'immature' or 'ovipositional'.}
 }
 \value{
 returns valid \code{KinPairData} object
@@ -21,7 +21,7 @@ Convert dataframe or tibble to KinPairData class
 }
 \examples{
 mydata <- tibble::tibble(
-  distance = 1:10, lifestage = "larva",
+  distance = 1:10, lifestage = "immature",
   kinship = c("FS", "FS", "FS", "FS", "FS", "FS", "HS", "HS", "HS", "HS")
 )
 df_to_kinpair(mydata, kinship = "FS")

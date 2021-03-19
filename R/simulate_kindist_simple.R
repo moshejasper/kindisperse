@@ -6,7 +6,7 @@
 #' @param dims    (numeric) -   length of sides of (square) simulated site area
 #' @param method  (character) - kernel shape to use: either 'Gaussian', 'Laplace' or 'gamma'
 #' @param kinship (character)- kin category to simulate: one of PO, FS, HS, AV, GG, HAV, GGG, 1C, 1C1, 2C, GAV, HGAV, H1C or H2C
-#' @param lifestage (lifestage) lifestage at sample collection: either 'larva' or 'oviposition'
+#' @param lifestage (lifestage) lifestage at sample collection: either 'immature' or 'ovipositional'
 #' @param shape   (numeric) value of shape parameter to use with 'gamma' method.
 #'
 #' @return      returns an object of class \code{KinPairSimulation} containing simulation details and a \code{tibble} (tab) of simulation values
@@ -14,9 +14,9 @@
 #' @importFrom tibble tibble
 #' @examples
 #' test <- simulate_kindist_simple(nsims = 10, sigma = 50, dims = 1000, method = "Laplace")
-#' simulate_kindist_simple(nsims = 10000, sigma = 75, kinship = "PO", lifestage = "oviposition")
+#' simulate_kindist_simple(nsims = 10000, sigma = 75, kinship = "PO", lifestage = "ovipositional")
 simulate_kindist_simple <- function(nsims = 100, sigma = 125, dims = 100, method = "Gaussian",
-                                    kinship = "PO", lifestage = "larva", shape = 1) {
+                                    kinship = "PO", lifestage = "immature", shape = 1) {
   if (!method %in% c("Gaussian", "Laplace", "gamma")) {
     stop("Invalid Method! - choose from 'Gaussian', 'Laplace' or 'gamma'")
     stop("Invalid Method! - choose from 'Gaussian', 'Exponential', 'gamma', 'Weibull' or 'Laplace'")
@@ -29,8 +29,8 @@ simulate_kindist_simple <- function(nsims = 100, sigma = 125, dims = 100, method
     stop("Invalid Kinship Category - choose from PO, FS, HS, AV, GG, HAV, GGG, 1C, 1C1, 2C, GAV, HGAV, H1C or H2C")
   }
 
-  if (!lifestage %in% (c("oviposition", "larva"))) {
-    stop("Invalid Lifestage - available options are 'oviposition' and 'larva'")
+  if (!lifestage %in% (c("ovipositional", "immature"))) {
+    stop("Invalid Lifestage - available options are 'ovipositional' and 'immature'")
   }
 
   if (method == "Gaussian") {
@@ -185,11 +185,11 @@ simulate_kindist_simple <- function(nsims = 100, sigma = 125, dims = 100, method
 
   # resolve collection point
 
-  if (lifestage == "larva") {
+  if (lifestage == "immature") {
     xy1_final <- xy1_span
     xy2_final <- xy2_span
   }
-  else if (lifestage == "oviposition") {
+  else if (lifestage == "ovipositional") {
     xy1_final <- xy1_span + lspan()
     xy2_final <- xy2_span + lspan()
   }

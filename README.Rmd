@@ -40,7 +40,7 @@ In the case of an insect like the mosquito, the most basic intergenerational ker
 
 There is a rich literature examining the kernels of basic dispersal events, and analysing them in terms of various kernel functions, whether Gaussian, exponential, or others with differing properties and shapes, often reflecting the tendency of dispersal events to be disproportionately clustered around the source and/or be dispersed at great distances from the source (i.e. for the kernel to be fat-tailed). Most of this literature explores dispersal in terms of probability of a dispersed sample being at a certain radius from the dispersed source. In the case of close-kin recaptures of e.g. first cousins, we are instead presented with dispersal events that must be approached in two dimensions with respect to both radius of dispersal and additionally angle of dispersal. A successful estimator of intergenerational dispersal using close-kin recaptures must find strategies to decompose the extraneous spatial and breeding components affecting the kernels, and ultimately re-express dispersal in terms of an axial sigma - that aspect of dispersal which operates within one dimension across a two-dimensional space. This is the sigma component relied upon by [Wright (1946)](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1209315/) for isolation by distance , and which is reflected in estimations of neighbourhood area.
 
-The method we have developed relies upon the fact that different kinship categories reflect different but related underlying intergenerational dispersal composites, and uses the relationships between these kinship distribution kernels to extract information about the core parent-offspring dispersal kernel that produced the derivative kernels. For example, the immature distribution kernel of full siblings differs from the immature distribution of first cousins by a single lifespan: using an additive variance framework, the first cousin variance that is not accounted for by subtracting the full sibling variance constitutes an estimate of the parent-offspring distribution, from which an intergenerational kernel estimate can be derived. This is because both immature full-sibling and immature first cousins are 'phased' with respect to the organisms' life cycle - that is, they are separated by an integer multiple of parent-offspring dispersal events. It is this phasing that enables the extraction of a 'pure' effective dispersal estimate, via the additive property of variance. Other examples of phased relationships include half sibling larvae to half cousin larvae (one cycle), full libling larvae to second cousin larvae (two cycles), or even (for mosquitoes) full sibling larvae to second cousin ovipositing adults (three cycles). 
+The method we have developed relies upon the fact that different kinship categories reflect different but related underlying intergenerational dispersal composites, and uses the relationships between these kinship distribution kernels to extract information about the core parent-offspring dispersal kernel that produced the derivative kernels. For example, the immature distribution kernel of full siblings differs from the immature distribution of first cousins by a single lifespan: using an additive variance framework, the first cousin variance that is not accounted for by subtracting the full sibling variance constitutes an estimate of the parent-offspring distribution, from which an intergenerational kernel estimate can be derived. This is because both immature full-sibling and immature first cousins are 'phased' with respect to the organisms' life cycle - that is, they are separated by an integer multiple of parent-offspring dispersal events. It is this phasing that enables the extraction of a 'pure' effective dispersal estimate, via the additive property of variance. Other examples of phased relationships include half sibling immatures to half cousin immatures (one cycle), full sibling immatures to second cousin immatures (two cycles), or even (for mosquitoes) full sibling immatures to second cousin ovipositing adults (three cycles). 
 
 Further details can be found in [Jasper et al. (2019)](https://doi.org/10.1111/1755-0998.13043) "A genomic approach to inferring kinship reveals limited intergenerational dispersal in the yellow fever mosquito". 
 
@@ -143,7 +143,7 @@ The simple simulation, `simulate_kindist_simple()`, simulates intergenerational 
 Example usage is shown below: 
 
 ``` {r simplesim}
-simulate_kindist_simple(nsims = 5, sigma = 100, method = "Gaussian", kinship = "PO", lifestage = "larva")
+simulate_kindist_simple(nsims = 5, sigma = 100, method = "Gaussian", kinship = "PO", lifestage = "immature")
 ```
 
 The composite simulation, `simulate_kindist_composite()`, defines four smaller dispersal movements which make up the lifestage dispersal kernel. It distinguishes between full and half siblings, cousins, etc. and handles immature kin dyads that are separated by less than a lifespan of dispersal (e.g. immature FS). The four phases are 'initial' (handling any dispersal between hatching and breeding), 'breeding' (movement of the male across the breeding aspect of the cycle), 'gravid' (movement of the female after breeding but before deposition of young), and 'oviposition' (movement made while ovipositing/ bearing young). The addition of the variances of these four kernels together consitutes the lifespan dispersal kernel; the relationships between different categories inform the phase. For example, full-siblings, whether sampled at oviposition or immature states, differ in hatch position based on the ovipositing movements of the mother (including e.g. skip oviposition in the case of some mosquitoes). These categories (and any others containing a full-sib relationship buried in the pedigree) are thus of the 'full-sibling' or 'FS' phase. Half siblings, in mosquitoes (which this package is modelled on) are expected to be due to having the same father & separate mothers: the last contribution of the father's dispersal is at the breeding stage, so the 'HS' phase are differentiated by the breeding, gravid, & oviposition phases, but share in common the initial phase. The parent-offspring 'PO' phase, on the other hand, share all (or none) of the component dispersal distributions. 
@@ -151,7 +151,7 @@ The composite simulation, `simulate_kindist_composite()`, defines four smaller d
 An example composite simulation is demostrated below: 
 
 ``` {r compsim}
-simulate_kindist_composite(nsims = 5, initsigma = 50, breedsigma = 30, gravsigma = 50, ovisigma = 10, method = "Laplace", kinship = "H1C", lifestage = "oviposition")
+simulate_kindist_composite(nsims = 5, initsigma = 50, breedsigma = 30, gravsigma = 50, ovisigma = 10, method = "Laplace", kinship = "H1C", lifestage = "ovipositional")
 ```
 
 ### 4.1.3 Simulating Field Sampling of Kinship Distributions
@@ -175,7 +175,7 @@ Files can be loaded and saved to & from three separate formats: .csv and .tsv (v
 .csv or equivalent files used should have a single column with the header 'distance' that contains the geographical distances between kin pairs, and preferably another column labelled 'kinship' which carries the kinship category in a form recognized by this package (see documentation for further details). Example below: 
 
 ``` {r files}
-kinobject <- simulate_kindist_simple(nsims = 25, kinship = "FS", lifestage = "larva")
+kinobject <- simulate_kindist_simple(nsims = 25, kinship = "FS", lifestage = "immature")
 #kinpair_to_csv(kinobject, "FS_kin.csv") # saves file
 #csv_to_kinpair("FS_kin.csv") # reloads it
 
@@ -188,7 +188,7 @@ Within the package, there are several ways to convert measures of kin dispersal 
 ``` {r to kinpairdata}
 kinvect <- c(25, 23, 43, 26, 14, 38)
 
-vector_to_kinpair(kinvect, kinship = "H1C", lifestage = "larva")
+vector_to_kinpair(kinvect, kinship = "H1C", lifestage = "immature")
 
 ```
 
@@ -211,7 +211,7 @@ fullsibs <- simulate_kindist_composite(nsims = 10000, ovisigma = 25, kinship = "
 axials(fullsibs, composite = 2)
 ```
 
-Various auxillary functions exist to further manipulate axial distances within an additive variance framework, enabling the stepwise combination or averaging or decomposition of axial sigma values representing different distributions. These include `axials_decompose()` (divides into component parts as in the composite option above), `axials_add()` (adds two distributions together, e.g. FS + FS + PO + PO = 1C), `axials_combine()` (mixes two distributions together equally, e.g. 1C & H1C becomes the distribution of an even mix of both), and `axials_subtract()` subtracts a smaller distribution from a greater distribution to find the residual distribution (e.g. GG - PO = PO; FS(larva) - FS(oviposition) = PO). For confidence intervals, there are also the permuting functions `axpermute()` and `axpermute_subtract()`. 
+Various auxillary functions exist to further manipulate axial distances within an additive variance framework, enabling the stepwise combination or averaging or decomposition of axial sigma values representing different distributions. These include `axials_decompose()` (divides into component parts as in the composite option above), `axials_add()` (adds two distributions together, e.g. FS + FS + PO + PO = 1C), `axials_combine()` (mixes two distributions together equally, e.g. 1C & H1C becomes the distribution of an even mix of both), and `axials_subtract()` subtracts a smaller distribution from a greater distribution to find the residual distribution (e.g. GG - PO = PO; FS(immature) - FS(ovipositional) = PO). For confidence intervals, there are also the permuting functions `axpermute()` and `axpermute_subtract()`. 
 
 ```{r axials subtract}
 axials_subtract(24, 19)

@@ -53,7 +53,7 @@ KinPairSimulation(
 
 \item{kinship}{character - one of PO, FS, HS, AV, HAV, GG, 1C, H1C, GAV, HGAV, 1C1, H1C1, GGG, 2C, and H2C.}
 
-\item{lifestage}{character - one of 'unknown', 'larva' or 'oviposition'}
+\item{lifestage}{character - one of 'unknown', 'immature' or 'ovipositional'}
 
 \item{simtype}{character - simulation type}
 
@@ -116,7 +116,7 @@ KinPairSimulation Class
 
 \item{\code{simdims}}{numeric.        - dimensions of sampling area (assumes 1 side of square)}
 
-\item{\code{lifestage}}{character. - lifestage at sampling - either 'larva' or 'oviposition'}
+\item{\code{lifestage}}{character. - lifestage at sampling - either 'immature' or 'ovipositional'}
 
 \item{\code{kernelshape}}{numeric.   - shape parameter if gamma kerneltype}
 

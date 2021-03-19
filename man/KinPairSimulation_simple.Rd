@@ -26,7 +26,8 @@ KinPairSimulation_simple(
 
 \item{simdims}{numeric. Length of side of simulated area square.}
 
-\item{lifestage}{character. Simulated lifestage of sampling. Either "larva" (sampled at hatching) or "oviposition" (sampled as an adult during oviposition - essentially one lifespan later that 'larva')}
+\item{lifestage}{character. Simulated lifestage of sampling. Either "immature" (sampled at hatching) or "ovipositional"
+(sampled as an adult during oviposition - essentially one lifespan later than 'immature')}
 
 \item{kernelshape}{numeric. Value of shape parameter for simulated kernel if kernel requires one (e.g. gamma kernel).}
 
@@ -45,6 +46,6 @@ kindata <- tibble::tibble(
 )
 KinPairSimulation_simple(kindata,
   kinship = "1C", kerneltype = "Gaussian",
-  posigma = 38, lifestage = "larva"
+  posigma = 38, lifestage = "immature"
 )
 }

@@ -3,14 +3,14 @@
 #'
 #' @param data data.frame or tibble of kin distances - can contain $distance (kin distances), $kinship (kin cats) & $lifestage columns
 #' @param kinship character. kin category to assign or extract from data. one of PO, FS, HS, AV, GG, HAV, GGG, 1C, 1C1, 2C, GAV, HGAV, H1C , H1C1 or H2C
-#' @param lifestage character. lifestage to assign or extract from data. one of 'unknown', 'larva' or 'oviposition'.
+#' @param lifestage character. lifestage to assign or extract from data. one of 'unknown', 'immature' or 'ovipositional'.
 #'
 #' @return returns valid \code{KinPairData} object
 #' @export
 #'
 #' @examples
 #' mydata <- tibble::tibble(
-#'   distance = 1:10, lifestage = "larva",
+#'   distance = 1:10, lifestage = "immature",
 #'   kinship = c("FS", "FS", "FS", "FS", "FS", "FS", "HS", "HS", "HS", "HS")
 #' )
 #' df_to_kinpair(mydata, kinship = "FS")
@@ -70,7 +70,7 @@ df_to_kinpair <- function(data, kinship = NULL, lifestage = NULL) {
 #' @export
 #'
 #' @examples
-#' vector_to_kinpair(1:10, "FS", "larva")
+#' vector_to_kinpair(1:10, "FS", "immature")
 vector_to_kinpair <- function(vect, kinship = NULL, lifestage = NULL) {
   vlength <- length(vect)
   if (is.null(kinship) & is.null(lifestage)) {
@@ -117,7 +117,7 @@ check_valid_kinship <- function(vect) {
 #'
 #'
 check_valid_lifestage <- function(vect) {
-  lifevector <- c("unknown", "larva", "oviposition")
+  lifevector <- c("unknown", "immature", "ovipositional")
   for (life in unique(vect)) {
     if (!life %in% lifevector) stop("Invalid lifestage!")
   }

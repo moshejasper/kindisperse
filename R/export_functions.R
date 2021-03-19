@@ -54,7 +54,7 @@ write_kindata <- function(x, file) {
 #'
 #' @param file The file path to read from
 #' @param kinship character. kin category to assign or extract from data. one of PO, FS, HS, AV, GG, HAV, GGG, 1C, 1C1, 2C, GAV, HGAV, H1C , H1C1 or H2C
-#' @param lifestage character. lifestage to assign or extract from data. one of 'unknown', 'larva' or 'oviposition'.
+#' @param lifestage character. lifestage to assign or extract from data. one of 'unknown', 'immature' or 'ovipositional'.
 #' @param ... additional arguments to pass to read_csv
 #'
 #' @return returns an object of class \code{KinPairData}
@@ -69,7 +69,7 @@ csv_to_kinpair <- function(file, kinship = NULL, lifestage = NULL, ...) {
 #'
 #' @param file The file path to read from
 #' @param kinship character. kin category to assign or extract from data. one of PO, FS, HS, AV, GG, HAV, GGG, 1C, 1C1, 2C, GAV, HGAV, H1C , H1C1 or H2C
-#' @param lifestage character. lifestage to assign or extract from data. one of 'unknown', 'larva' or 'oviposition'.
+#' @param lifestage character. lifestage to assign or extract from data. one of 'unknown', 'immature' or 'ovipositional'.
 #' @param ... additional arguments to pass to read_tsv
 #'
 #' @return Returns object of class \code{KinPairData}

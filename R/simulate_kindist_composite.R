@@ -8,7 +8,7 @@
 #' @param dims    (numeric) -   length of sides of (square) simulated site area
 #' @param method  (character) - kernel shape to use: either 'Gaussian', 'Laplace' or 'gamma'
 #' @param kinship (character)- kin category to simulate: one of PO, FS, HS, AV, GG, HAV, GGG, 1C, 1C1, 2C, GAV, HGAV, H1C H1C1 or H2C
-#' @param lifestage (lifestage) lifestage at sample collection: either 'larva' or 'oviposition'
+#' @param lifestage (lifestage) lifestage at sample collection: either 'immature' or 'ovipositional'
 #' @param shape   (numeric) - value of shape parameter to use with 'gamma' method
 #'
 #' @return returns an object of class \code{KinPairSimulation} containing simulation details and a tibble (tab) of simulation values
@@ -18,11 +18,11 @@
 #' simulate_kindist_composite(nsims = 100)
 #' simulate_kindist_composite(
 #'   nsims = 10000, initsigma = 20, breedsigma = 30, gravsigma = 30,
-#'   ovisigma = 12, dims = 500, method = "Laplace", kinship = "1C", lifestage = "larva"
+#'   ovisigma = 12, dims = 500, method = "Laplace", kinship = "1C", lifestage = "immature"
 #' )
 simulate_kindist_composite <- function(nsims = 100, initsigma = 100, breedsigma = 50, gravsigma = 50,
                                        ovisigma = 25, dims = 100, method = "Gaussian", kinship = "FS",
-                                       lifestage = "larva", shape = 1) {
+                                       lifestage = "immature", shape = 1) {
   if (!method %in% c("Gaussian", "Laplace", "gamma")) {
     stop("Invalid Method! - choose from 'Gaussian', 'Laplace' or 'gamma'")
     stop("Invalid Method!")
@@ -35,7 +35,7 @@ simulate_kindist_composite <- function(nsims = 100, initsigma = 100, breedsigma 
     stop("Invalid Kinship Category")
   }
 
-  if (!lifestage %in% (c("oviposition", "larva"))) {
+  if (!lifestage %in% (c("ovipositional", "immature"))) {
     stop("Invalid Lifestage")
   }
 
@@ -183,11 +183,11 @@ simulate_kindist_composite <- function(nsims = 100, initsigma = 100, breedsigma 
 
   # resolve collection point
 
-  if (lifestage == "larva") {
+  if (lifestage == "immature") {
     xy1_final <- xy1_span
     xy2_final <- xy2_span
   }
-  else if (lifestage == "oviposition") {
+  else if (lifestage == "ovipositional") {
     xy1_final <- xy1_span + lspan()
     xy2_final <- xy2_span + lspan()
   }

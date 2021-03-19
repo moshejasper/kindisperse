@@ -396,7 +396,7 @@ ui <- fluidPage(
               selectInput(
                 inputId = "load_lifestage_choice",
                 label = "Choose lifestage category to extract/assign",
-                choices = c("unknown", "larva", "oviposition"),
+                choices = c("unknown", "immature", "ovipositional"),
                 selected = "unknown"
               )
             ),
@@ -597,8 +597,8 @@ ui <- fluidPage(
               radioButtons(
                 inputId = "sim_simple_lifestage",
                 label = "Lifestage at sampling",
-                choices = c("larva", "oviposition"),
-                selected = "larva"
+                choices = c("immature", "ovipositional"),
+                selected = "immature"
               ),
 
               radioButtons(
@@ -726,8 +726,8 @@ ui <- fluidPage(
               radioButtons(
                 inputId = "sim_composite_lifestage",
                 label = "Lifestage at sampling",
-                choices = c("larva", "oviposition"),
-                selected = "larva"
+                choices = c("immature", "ovipositional"),
+                selected = "immature"
               ),
 
               radioButtons(
