@@ -152,7 +152,7 @@ axpermute <- function(vals, nreps = 1000, nsamp = "std", composite = 1, output =
   if (nsamp == "std") {
     sampnum <- length(vals)
     if (sampnum > 1000) {
-      cat("More than 1,000 kinpairs in vector vals: setting permutation sample number to 1,000\n")
+      message("More than 1,000 kinpairs in vector vals: setting permutation sample number to 1,000")
       sampnum <- 1000
     }
   }
@@ -213,11 +213,11 @@ axpermute_subtract <- function(bigvals, smallvals, nreps = 1000, nsamp = "std", 
     anum <- length(bigvals)
     bnum <- length(smallvals)
     if (anum > 1000) {
-      cat("More than 1,000 kinpairs in vector bigvals: setting permutation sample number to 1,000\n")
+      message("More than 1,000 kinpairs in vector bigvals: setting permutation sample number to 1,000")
       anum <- 1000
     }
     if (bnum > 1000) {
-      cat("More than 1,000 kinpairs in vector smallvals: setting permutation sample number to 1,000\n")
+      message("More than 1,000 kinpairs in vector smallvals: setting permutation sample number to 1,000")
       bnum <- 1000
     }
   }

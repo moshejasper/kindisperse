@@ -214,7 +214,7 @@ setMethod(
       }
       else { # check if just distances included
         if (is.numeric(data)) {
-          cat("Note: numeric vector interpreted as kin distances!\n")
+          message("Note: numeric vector interpreted as kin distances")
           data <- tibble(id1 = paste0(1:length(data), "a"), id2 = paste0(1:length(data), "b"), kinship = .Object@kinship, distance = data)
           .Object@tab <- data
         }

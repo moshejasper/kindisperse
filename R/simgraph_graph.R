@@ -34,7 +34,7 @@ simgraph_graph <- function(result, nsims = 10, labls = TRUE, steps = TRUE,
     kinship <- result[1,]$kinship
 
   if (nsims > nrow(result)){
-    cat(paste0("Too few families in datasource; reducing nsims to datasource maximum (", nrow(result), ").\n"))
+    message(paste0("Too few families in datasource; reducing nsims to datasource maximum (", nrow(result), ")."))
     nsims <- nrow(result)
   }
   if (pinwheel == TRUE | scattered == TRUE) {
