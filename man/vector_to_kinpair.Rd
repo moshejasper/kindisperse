@@ -20,5 +20,5 @@ returns valid \code{KinPairData} object.
 Convert vector of kin separation distances to KinPairData class
 }
 \examples{
-vector_to_kinpair(1:10, "FS", "larva")
+vector_to_kinpair(1:10, "FS", "immature")
 }

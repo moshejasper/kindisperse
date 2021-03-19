@@ -4,15 +4,15 @@ methods::setOldClass(c("tbl_df", "tbl", "data.frame"))
 #'
 #' @slot kinship character - one of PO, FS, HS, AV, HAV, GG, 1C, H1C, GAV, HGAV, 1C1, H1C1, GGG, 2C, and H2C.
 #' @slot simtype character.
-#' @slot kerneltype character. - 'Gaussian', 'Laplace' or 'Gamma'
-#' @slot dsigma numeric.       - overall value of dispersal sigma (for simple kernel)
+#' @slot kerneltype character. - 'Gaussian', 'Laplace' or 'gamma'
+#' @slot posigma numeric.       - overall value of dispersal sigma (for simple kernel)
 #' @slot initsigma numeric.    - value of pre-breeding dispersal sigma (for composite kernel)
 #' @slot breedsigma numeric.  - value of breeding dispersal sigma (for composite kernel)
 #' @slot gravsigma numeric.   - value of post-breeding dispersal sigma (for composite kernel)
 #' @slot ovisigma numeric.    - value of oviposition dispersal sigma (for composite kernel)
 #' @slot simdims numeric.        - dimensions of sampling area (assumes 1 side of square)
-#' @slot lifestage character. - lifestage at sampling - either 'larva' or 'oviposition'
-#' @slot kernelshape numeric.   - shape parameter if Gamma kerneltype
+#' @slot lifestage character. - lifestage at sampling - either 'immature' or 'ovipositional'
+#' @slot kernelshape numeric.   - shape parameter if gamma kerneltype
 #' @slot call call.           - call to create initial simulation
 #' @slot tab tbl_df.          - tibble of simulation values
 #' @slot filtertype character. - whether the initial sim has been further filtered
@@ -29,7 +29,7 @@ methods::setOldClass(c("tbl_df", "tbl", "data.frame"))
 KinPairSimulation <- setClass("KinPairSimulation",
   slots = list(
     kinship = "character", simtype = "character", kerneltype = "character",
-    dsigma = "numeric", initsigma = "numeric", breedsigma = "numeric",
+    posigma = "numeric", initsigma = "numeric", breedsigma = "numeric",
     gravsigma = "numeric", ovisigma = "numeric", simdims = "numeric",
     lifestage = "character", kernelshape = "numeric", call = "call", tab = "tbl_df",
     filtertype = "character", upper = "numeric", lower = "numeric",
@@ -87,11 +87,11 @@ setGeneric("kerneltype<-", function(x, value) standardGeneric("kerneltype<-"))
 #' kindisperse - access sigmas of KinPairSimulation objects
 #'
 #' @param x object of class \code{KinPairSimulation}
-#' @return \code{numeric} dsigma value of simple simulation
+#' @return \code{numeric} posigma value of simple simulation
 #' @export
 #'
 #'
-setGeneric("dsigma", function(x) standardGeneric("dsigma"))
+setGeneric("posigma", function(x) standardGeneric("posigma"))
 #' Title
 #'
 #' @param x object of class \code{KinPairSimulation}
@@ -99,8 +99,8 @@ setGeneric("dsigma", function(x) standardGeneric("dsigma"))
 #' @return returns a modified object of the relevant class
 #' @export
 #'
-setGeneric("dsigma<-", function(x, value) standardGeneric("dsigma<-"))
-#' @rdname dsigma
+setGeneric("posigma<-", function(x, value) standardGeneric("posigma<-"))
+#' @rdname posigma
 #'
 #' @param x object of class \code{KinPairSimulation}
 #' @return \code{numeric} initsigma value of composite simulation
@@ -115,7 +115,7 @@ setGeneric("initsigma", function(x) standardGeneric("initsigma"))
 #' @export
 #'
 setGeneric("initsigma<-", function(x, value) standardGeneric("initsigma<-"))
-#' @rdname dsigma
+#' @rdname posigma
 #'
 #' @param x object of class \code{KinPairSimulation}
 #' @return \code{numeric} breedsigma value of composite simulation
@@ -130,7 +130,7 @@ setGeneric("breedsigma", function(x) standardGeneric("breedsigma"))
 #' @export
 #'
 setGeneric("breedsigma<-", function(x, value) standardGeneric("breedsigma<-"))
-#' @rdname dsigma
+#' @rdname posigma
 #'
 #' @param x object of class \code{KinPairSimulation}
 #' @return \code{numeric} gravsigma value of composite simulation
@@ -145,7 +145,7 @@ setGeneric("gravsigma", function(x) standardGeneric("gravsigma"))
 #' @export
 #'
 setGeneric("gravsigma<-", function(x, value) standardGeneric("gravsigma<-"))
-#' @rdname dsigma
+#' @rdname posigma
 #'
 #' @param x object of class \code{KinPairSimulation}
 #' @return \code{numeric} ovisigma value of composite simulation
@@ -304,11 +304,11 @@ setMethod("kerneltype", "KinPairSimulation", function(x) x@kerneltype)
 #'
 #' @param KinPairSimulation
 #'
-#' @return \code{numeric} dsigma value of simple simulation
+#' @return \code{numeric} posigma value of simple simulation
 #'
 #' @export
 #' @describeIn KinPairSimulation access sigma
-setMethod("dsigma", "KinPairSimulation", function(x) x@dsigma)
+setMethod("posigma", "KinPairSimulation", function(x) x@posigma)
 #'
 #'
 #' @param KinPairSimulation
@@ -524,7 +524,7 @@ setMethod(
       cat("")
     }
     else if (object@simtype == "simple") {
-      cat("dsigma:\t\t\t", object@dsigma, "\n")
+      cat("posigma:\t\t", object@posigma, "\n")
     }
     else if (object@simtype == "composite") {
       cat("initsigma\t\t", object@initsigma, "\nbreedsigma\t\t", object@breedsigma, "\ngravsigma\t\t", object@gravsigma, "\novisigma\t\t", object@ovisigma, "\n")
@@ -565,10 +565,10 @@ setMethod(
 #' @param .Object object to be constructed into KinPairSimulation class
 #' @param data tbl_df. tibble  of simulation values
 #' @param kinship character - one of PO, FS, HS, AV, HAV, GG, 1C, H1C, GAV, HGAV, 1C1, H1C1, GGG, 2C, and H2C.
-#' @param lifestage character - one of 'unknown', 'larva' or 'oviposition'
+#' @param lifestage character - one of 'unknown', 'immature' or 'ovipositional'
 #' @param simtype character - simulation type
-#' @param kerneltype character. - 'Gaussian', 'Laplace' or 'Gamma'
-#' @param dsigma numeric - overall value of dispersal sigma (for simple kernel)
+#' @param kerneltype character. - 'Gaussian', 'Laplace' or 'gamma'
+#' @param posigma numeric - overall value of dispersal sigma (for simple kernel)
 #' @param initsigma numeric.    - value of pre-breeding dispersal sigma (for composite kernel)
 #' @param breedsigma numeric.    - value of breeding dispersal sigma (for composite kernel)
 #' @param gravsigma numeric.    - value of post-breeding dispersal sigma (for composite kernel)
@@ -595,7 +595,7 @@ setMethod(
            simtype = NULL,
            kerneltype = NULL,
            kernelshape = NULL,
-           dsigma = NULL,
+           posigma = NULL,
            initsigma = NULL,
            breedsigma = NULL,
            gravsigma = NULL,
@@ -613,7 +613,7 @@ setMethod(
     if (!is.null(simtype)) .Object@simtype <- simtype else .Object@simtype <- NA_character_
     if (!is.null(kerneltype)) .Object@kerneltype <- kerneltype else .Object@kerneltype <- NA_character_
     if (!is.null(kernelshape)) .Object@kernelshape <- kernelshape else .Object@kernelshape <- NA_real_
-    if (!is.null(dsigma)) .Object@dsigma <- dsigma else .Object@dsigma <- NA_real_
+    if (!is.null(posigma)) .Object@posigma <- posigma else .Object@posigma <- NA_real_
     if (!is.null(initsigma)) .Object@initsigma <- initsigma else .Object@initsigma <- NA_real_
     if (!is.null(breedsigma)) .Object@breedsigma <- breedsigma else .Object@breedsigma <- NA_real_
     if (!is.null(gravsigma)) .Object@gravsigma <- gravsigma else .Object@gravsigma <- NA_real_
@@ -677,10 +677,10 @@ setMethod(
 #'
 #' @param data tbl_df. tibble  of simulation values
 #' @param kinship character - one of PO, FS, HS, AV, HAV, GG, 1C, H1C, GAV, HGAV, 1C1, H1C1, GGG, 2C, and H2C.
-#' @param lifestage character - one of 'unknown', 'larva' or 'oviposition'
+#' @param lifestage character - one of 'unknown', 'immature' or 'ovipositional'
 #' @param simtype character - simulation type
-#' @param kerneltype character. - 'Gaussian', 'Laplace' or 'Gamma'
-#' @param dsigma numeric - overall value of dispersal sigma (for simple kernel)
+#' @param kerneltype character. - 'Gaussian', 'Laplace' or 'gamma'
+#' @param posigma numeric - overall value of dispersal sigma (for simple kernel)
 #' @param initsigma numeric.    - value of pre-breeding dispersal sigma (for composite kernel)
 #' @param breedsigma numeric.    - value of breeding dispersal sigma (for composite kernel)
 #' @param gravsigma numeric.    - value of post-breeding dispersal sigma (for composite kernel)
@@ -705,7 +705,7 @@ KinPairSimulation <- function(data = NULL,
                               lifestage = NULL,
                               simtype = NULL,
                               kerneltype = NULL,
-                              dsigma = NULL,
+                              posigma = NULL,
                               initsigma = NULL,
                               breedsigma = NULL,
                               gravsigma = NULL,
@@ -725,7 +725,7 @@ KinPairSimulation <- function(data = NULL,
     lifestage = lifestage,
     simtype = simtype,
     kerneltype = kerneltype,
-    dsigma = dsigma,
+    posigma = posigma,
     initsigma = initsigma,
     breedsigma = breedsigma,
     gravsigma = gravsigma,
@@ -757,10 +757,11 @@ is.KinPairSimulation <- function(x) {
 #'
 #' @param data tibble of pairwise kin classes & distances. Ideally contains fields id1 & id2 (chr) an distance (dbl) optionally includes coords (x1, y1, x2, y2), lifestage (ls1 & ls2), kinship (chr) and sims (dbl)
 #' @param kinship  character. Code for kinship category of simulation. one of PO, FS, HS, AV, GG, HAV, GGG, 1C, 1C1, 2C, GAV, HGAV, H1C or H2C
-#' @param kerneltype  character. Statistical model for simulated dispersal kernel. Currently either "Gaussian", "Laplace" or "Gamma".
-#' @param dsigma numeric. Axial sigma of dispersal kernel (axial standard deviation).
+#' @param kerneltype  character. Statistical model for simulated dispersal kernel. Currently either "Gaussian", "Laplace" or "gamma".
+#' @param posigma numeric. Axial sigma of dispersal kernel (axial standard deviation).
 #' @param simdims  numeric. Length of side of simulated area square.
-#' @param lifestage character. Simulated lifestage of sampling. Either "larva" (sampled at hatching) or "oviposition" (sampled as an adult during oviposition - essentially one lifespan later that 'larva')
+#' @param lifestage character. Simulated lifestage of sampling. Either "immature" (sampled at hatching) or "ovipositional"
+#' (sampled as an adult during oviposition - essentially one lifespan later than 'immature')
 #' @param kernelshape numeric. Value of shape parameter for simulated kernel if kernel requires one (e.g. gamma kernel).
 #' @param call  call object. Use to pass the system call that led to the generation of this class. (via sys.call)
 #'
@@ -774,15 +775,15 @@ is.KinPairSimulation <- function(x) {
 #' )
 #' KinPairSimulation_simple(kindata,
 #'   kinship = "1C", kerneltype = "Gaussian",
-#'   dsigma = 38, lifestage = "larva"
+#'   posigma = 38, lifestage = "immature"
 #' )
-KinPairSimulation_simple <- function(data = NULL, kinship = NULL, kerneltype = NULL, dsigma = NULL,
+KinPairSimulation_simple <- function(data = NULL, kinship = NULL, kerneltype = NULL, posigma = NULL,
                                      simdims = NULL, lifestage = NULL, kernelshape = NULL, call = NULL) {
   if (is.null(call)) {
     call <- sys.call()
   }
   return(KinPairSimulation(data = data, kinship = kinship, simtype = "simple", kerneltype = kerneltype,
-                           dsigma = dsigma, simdims = simdims, lifestage = lifestage, kernelshape = kernelshape, call = call))
+                           posigma = posigma, simdims = simdims, lifestage = lifestage, kernelshape = kernelshape, call = call))
 }
 
 
@@ -790,13 +791,14 @@ KinPairSimulation_simple <- function(data = NULL, kinship = NULL, kerneltype = N
 #'
 #' @param data tibble of pairwise kin classes & distances. Ideally contains fields id1 & id2 (chr) an distance (dbl) optionally includes coords (x1, y1, x2, y2), lifestage (ls1 & ls2), kinship (chr) and sims (dbl)
 #' @param kinship  character. Code for kinship category of simulation. one of PO, FS, HS, AV, GG, HAV, GGG, 1C, 1C1, 2C, GAV, HGAV, H1C or H2C
-#' @param kerneltype  character. Statistical model for simulated dispersal kernel. Currently either "Gaussian", "Laplace" or "Gamma".
+#' @param kerneltype  character. Statistical model for simulated dispersal kernel. Currently either "Gaussian", "Laplace" or "gamma".
 #' @param initsigma  numeric. Axial sigma of prebreeding ('juvenile') dispersal kernel (axial standard deviation).
 #' @param breedsigma  numeric. Axial sigma of breeding dispersal kernel (axial standard deviation).
 #' @param gravsigma numeric. Axial sigma of post-breeding ('gravid') dispersal kernel (axial standard deviation).
 #' @param ovisigma  numeric. Axial sigma of oviposition dispersal kernel (axial standard deviation).
 #' @param simdims  numeric. Length of side of simulated area square.
-#' @param lifestage character. Simulated lifestage of sampling. Either "larva" (sampled at hatching) or "oviposition" (sampled as an adult during oviposition - essentially one lifespan later that 'larva')
+#' @param lifestage character. Simulated lifestage of sampling. Either "immature" (sampled at hatching) or "ovipositional"
+#' (sampled as an adult during oviposition - essentially one lifespan later than 'immature')
 #' @param kernelshape numeric. Value of shape parameter for simulated kernel if kernel requires one (e.g. gamma kernel).
 #' @param call  call object. Use to pass the system call that led to the generation of this class. (via sys.call)
 #'
@@ -810,7 +812,7 @@ KinPairSimulation_simple <- function(data = NULL, kinship = NULL, kerneltype = N
 #' )
 #' KinPairSimulation_composite(kindata,
 #'   kinship = "1C", kerneltype = "Gaussian",
-#'   initsigma = 15, breedsigma = 25, gravsigma = 20, ovisigma = 10, lifestage = "larva"
+#'   initsigma = 15, breedsigma = 25, gravsigma = 20, ovisigma = 10, lifestage = "immature"
 #' )
 KinPairSimulation_composite <- function(data = NULL, kinship = NULL, kerneltype = NULL, initsigma = NULL, breedsigma = NULL,
                                         gravsigma = NULL, ovisigma = NULL, simdims = NULL, lifestage = NULL, kernelshape = NULL, call = NULL) {

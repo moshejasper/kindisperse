@@ -26,9 +26,9 @@ simgraph_graph <- function(result, nsims = 10, labls = TRUE, steps = TRUE,
                            moves = TRUE, shadows = TRUE, kinship = NULL, show_area = TRUE,
                            centred = FALSE, pinwheel = FALSE, scattered = FALSE,
                            lengths = TRUE, lengthlabs = TRUE, histogram = FALSE,
-                           binwidth = dsigma / 5, freqpoly = FALSE) {
+                           binwidth = posigma / 5, freqpoly = FALSE) {
 
-  dsigma <- result[1,]$dsigma
+  posigma <- result[1,]$posigma
   dims <- result[1,]$dims
   if (is.null(kinship))
     kinship <- result[1,]$kinship
@@ -187,7 +187,7 @@ simgraph_graph <- function(result, nsims = 10, labls = TRUE, steps = TRUE,
       ggp <- ggp + geom_freqpoly(colour = "grey10", size = 0.75, binwidth = binwidth)
     }
     ggp <- ggp + theme_bw() + xlab("Separation (metres)") + ylab("Count") +
-      ggtitle("Kin Dispersal Histogram", subtitle = paste0("S=", dsigma, " N=", nsims, " Category: ", kinship))
+      ggtitle("Kin Dispersal Histogram", subtitle = paste0("S=", posigma, " N=", nsims, " Category: ", kinship))
     ggp <- ggp + theme(
       axis.title = element_text(size = 16), plot.title = element_text(hjust = 0.5, size = 20),
       legend.title = element_text(size = 14), legend.text = element_text(size = 12),
@@ -210,7 +210,7 @@ simgraph_graph <- function(result, nsims = 10, labls = TRUE, steps = TRUE,
     }
     ggp <- ggp + coord_fixed() + theme_bw() +
       xlab("Metres (x)") + ylab("Metres (y)") +
-      ggtitle(paste0("Kin Dispersal: sigma ", dsigma, "m (pinwheel)"), subtitle = paste("Kin Category:", kinship))
+      ggtitle(paste0("Kin Dispersal: sigma ", posigma, "m (pinwheel)"), subtitle = paste("Kin Category:", kinship))
 
     ggp <- ggp + theme(
       axis.title = element_text(size = 16), plot.title = element_text(hjust = 0.5, size = 20),
@@ -229,7 +229,7 @@ simgraph_graph <- function(result, nsims = 10, labls = TRUE, steps = TRUE,
 
     ggp <- ggp + coord_fixed() + theme_bw() +
       xlab("Metres (x)") + ylab("Metres (y)") +
-      ggtitle(paste0("Kin Dispersal: sigma ", dsigma, "m (scatter)"), subtitle = paste("Kin Category:", kinship))
+      ggtitle(paste0("Kin Dispersal: sigma ", posigma, "m (scatter)"), subtitle = paste("Kin Category:", kinship))
 
     ggp <- ggp + theme(
       axis.title = element_text(size = 16), plot.title = element_text(hjust = 0.5, size = 20),
@@ -392,7 +392,7 @@ simgraph_graph <- function(result, nsims = 10, labls = TRUE, steps = TRUE,
   # geom_point(mapping = aes(x = f1bx, y = f1by), alpha = 0.7, colour = "blue")+
   # geom_point(mapping = aes(x = f1cx, y = f1cy), alpha = 0.7, colour = "blue")+
   ggp <- ggp + coord_fixed() + theme_bw() +
-    xlab("Metres (x)") + ylab("Metres (y)") + ggtitle(paste0("Kin Dispersal: sigma ", dsigma, "m"), subtitle = paste("Kin Category:", kinship))
+    xlab("Metres (x)") + ylab("Metres (y)") + ggtitle(paste0("Kin Dispersal: sigma ", posigma, "m"), subtitle = paste("Kin Category:", kinship))
   if (steps == TRUE & (labls == TRUE | moves == TRUE)) {
     ggp <- ggp + scale_colour_identity(
       labels = c("F0 -> F1", "F1 -> F2", "F2 -> F3"), breaks = c("black", "green4", "purple"),
@@ -441,17 +441,17 @@ simgraph_indv <- function(result, scalefactor = 4, scaled = T,
                           labls = F, steps = T, moves = T, shadows = F,
                           show_area = T, kinship = "2C",
                           lengths = T, lengthlabs = T) {
-  dsigma <- result[1,]$dsigma
+  posigma <- result[1,]$posigma
   newtitle <- paste0(kinship, " Dispersal")
-  newsubtitle <- paste0("Sigma: ", dsigma, "m")
+  newsubtitle <- paste0("Sigma: ", posigma, "m")
   if (scaled == TRUE) {
     return(simgraph_graph(result,
       nsims = 1, labls = labls, steps = steps, moves = moves, shadows = shadows,
       show_area = show_area, kinship = kinship, lengths = lengths, lengthlabs = lengthlabs, centred = T
     ) +
       coord_fixed(
-        xlim = c(-scalefactor * dsigma, scalefactor * dsigma),
-        ylim = c(-scalefactor * dsigma, scalefactor * dsigma)
+        xlim = c(-scalefactor * posigma, scalefactor * posigma),
+        ylim = c(-scalefactor * posigma, scalefactor * posigma)
       ) + ggtitle(newtitle, newsubtitle))
   }
   return(simgraph_graph(result,
@@ -461,10 +461,10 @@ simgraph_indv <- function(result, scalefactor = 4, scaled = T,
     ggtitle(newtitle, newsubtitle))
 }
 
-simgraph_histogram <- function(result, nsims = 500, kinship = "2C", binwidth = dsigma / 3) {
+simgraph_histogram <- function(result, nsims = 500, kinship = "2C", binwidth = posigma / 3) {
   return(simgraph_graph(result, nsims = nsims, kinship = kinship, histogram = TRUE, binwidth = binwidth))
 }
 
-simgraph_freqpoly <- function(result, nsims = 5000, kinship = "2C", binwidth = dsigma / 3) {
+simgraph_freqpoly <- function(result, nsims = 5000, kinship = "2C", binwidth = posigma / 3) {
   return(simgraph_graph(result, nsims = nsims, kinship = kinship, histogram = TRUE, binwidth = binwidth, freqpoly = TRUE))
 }

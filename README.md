@@ -1,4 +1,4 @@
-KINDISPERSE 0.8.5
+KINDISPERSE 0.9.0
 ================
 
 -   [1. Introduction](#1-introduction)
@@ -27,7 +27,7 @@ pest management operations, and evaluating conservation strategies for
 threatened species.
 
 Assessing the dispersal of small, abundant and short-lived animals such
-as insects as traditionally been more difficult than for animals that
+as insects has traditionally been more difficult than for animals that
 can be easily tagged. Responding to this challenge, researchers have
 developed various methods based around mark-release-recapture that mark
 the organisms with dyes, paint, or chemical tags, before releasing the
@@ -122,10 +122,10 @@ respect to the organisms’ life cycle - that is, they are separated by an
 integer multiple of parent-offspring dispersal events. It is this
 phasing that enables the extraction of a ‘pure’ effective dispersal
 estimate, via the additive property of variance. Other examples of
-phased relationships include half sibling larvae to half cousin larvae
-(one cycle), full libling larvae to second cousin larvae (two cycles),
-or even (for mosquitoes) full sibling larvae to second cousin
-ovipositing adults (three cycles).
+phased relationships include half sibling immatures to half cousin
+immatures (one cycle), full sibling immatures to second cousin immatures
+(two cycles), or even (for mosquitoes) full sibling immatures to second
+cousin ovipositing adults (three cycles).
 
 Further details can be found in [Jasper et
 al. (2019)](https://doi.org/10.1111/1755-0998.13043) “A genomic approach
@@ -167,7 +167,7 @@ Once installed, load the package as follows:
 
 ``` r
 library(kindisperse)
-#> kindisperse 0.8.4
+#> kindisperse 0.9.0
 ```
 
 # 3. The shiny app
@@ -243,7 +243,7 @@ five of these families.
 
 ``` r
 ## run graphical simulation
-graphdata <- simgraph_data(nsims = 1000, dsigma = 25, dims = 250)
+graphdata <- simgraph_data(nsims = 1000, posigma = 25, dims = 250)
 simgraph_graph(graphdata, nsim = 5, kinship = "1C")
 ```
 
@@ -253,7 +253,7 @@ However, the options of both can be tweaked to show other data types,
 e.g. a pinwheel graph focused on 1,000 first cousin dyads.
 
 ``` r
-graphdata <- simgraph_data(nsims = 1000, dsigma = 25, dims = 250)
+graphdata <- simgraph_data(nsims = 1000, posigma = 25, dims = 250)
 simgraph_graph(graphdata, nsims = 1000, pinwheel = T, kinship = "1C")
 ```
 
@@ -262,7 +262,7 @@ simgraph_graph(graphdata, nsims = 1000, pinwheel = T, kinship = "1C")
 or a histogram of first cousin dyads:
 
 ``` r
-graphdata <- simgraph_data(nsims = 1000, dsigma = 25, dims = 250)
+graphdata <- simgraph_data(nsims = 1000, posigma = 25, dims = 250)
 simgraph_graph(graphdata, nsims = 1000, histogram = T, kinship = "1C")
 ```
 
@@ -280,7 +280,7 @@ KinPairSimulation, which supplies a tibble (dataframe) of simulation
 results, as well as metadata capturing the simulation parameters.
 
 Three kernel types are supported for the next two simulations at
-present: `Gaussian`, `Laplace`, and `Gamma`. These are passed to the
+present: `Gaussian`, `Laplace`, and `gamma`. These are passed to the
 functions with the `method` parameter. If using gamma, also supply its
 shape parameter with the argument `shape`. Small values of `shape`
 correspond to an increasingly leptokurtic kernel - i.e. a strong central
@@ -301,25 +301,25 @@ from parents).
 Example usage is shown below:
 
 ``` r
-simulate_kindist_simple(nsims = 5, sigma = 100, method = "Gaussian", kinship = "PO", lifestage = "larva")
+simulate_kindist_simple(nsims = 5, sigma = 100, method = "Gaussian", kinship = "PO", lifestage = "immature")
 #> KINDISPERSE SIMULATION of KIN PAIRS
 #> -----------------------------------
 #> simtype:      simple 
 #> kerneltype:       Gaussian 
 #> kinship:      PO 
 #> simdims:      100 100 
-#> dsigma:           100 
-#> lifestage:        larva 
+#> posigma:      100 
+#> lifestage:        immature 
 #> 
 #> tab
 #> # A tibble: 5 x 8
 #>   id1   id2   kinship distance    x1    y1    x2     y2
 #>   <chr> <chr> <chr>      <dbl> <dbl> <dbl> <dbl>  <dbl>
-#> 1 1a    1b    PO          82.7  6.33  22.4 -71.4   50.7
-#> 2 2a    2b    PO          86.1 26.8   48.9  87.4  -12.3
-#> 3 3a    3b    PO         185.  69.0   16.1 165.  -142. 
-#> 4 4a    4b    PO          66.2  9.41  24.0 -48.6   55.9
-#> 5 5a    5b    PO          55.8 89.4   33.7 143.    50.1
+#> 1 1a    1b    PO         191.   48.0  7.37 -93.9 -121. 
+#> 2 2a    2b    PO          94.1  21.7 16.7   96.4   74.0
+#> 3 3a    3b    PO         173.   21.4 81.5  166.   175. 
+#> 4 4a    4b    PO          84.5  37.3 73.2  -39.0   36.8
+#> 5 5a    5b    PO         157.   69.4 84.3  -49.7  186. 
 #> -----------------------------------
 ```
 
@@ -350,7 +350,7 @@ all (or none) of the component dispersal distributions.
 An example composite simulation is demostrated below:
 
 ``` r
-simulate_kindist_composite(nsims = 5, initsigma = 50, breedsigma = 30, gravsigma = 50, ovisigma = 10, method = "Laplace", kinship = "H1C", lifestage = "oviposition")
+simulate_kindist_composite(nsims = 5, initsigma = 50, breedsigma = 30, gravsigma = 50, ovisigma = 10, method = "Laplace", kinship = "H1C", lifestage = "ovipositional")
 #> KINDISPERSE SIMULATION of KIN PAIRS
 #> -----------------------------------
 #> simtype:      composite 
@@ -361,17 +361,17 @@ simulate_kindist_composite(nsims = 5, initsigma = 50, breedsigma = 30, gravsigma
 #> breedsigma        30 
 #> gravsigma         50 
 #> ovisigma      10 
-#> lifestage:        oviposition 
+#> lifestage:        ovipositional 
 #> 
 #> tab
 #> # A tibble: 5 x 8
-#>   id1   id2   kinship distance    x1     y1     x2    y2
-#>   <chr> <chr> <chr>      <dbl> <dbl>  <dbl>  <dbl> <dbl>
-#> 1 1a    1b    H1C        241.  225.  -68.9   -15.5 -86.6
-#> 2 2a    2b    H1C        269.  -46.9  -3.37   82.4 233. 
-#> 3 3a    3b    H1C        284.  -89.0  50.5   195.   39.1
-#> 4 4a    4b    H1C         53.7  36.3  33.9   -16.6  42.9
-#> 5 5a    5b    H1C        225.  -19.2 -34.0  -203.   95.2
+#>   id1   id2   kinship distance    x1     y1     x2     y2
+#>   <chr> <chr> <chr>      <dbl> <dbl>  <dbl>  <dbl>  <dbl>
+#> 1 1a    1b    H1C         78.1 -47.1   61.5 -53.9   139. 
+#> 2 2a    2b    H1C        260.  197.   216.  -46.5   127. 
+#> 3 3a    3b    H1C        378.  159.   234.   19.9  -117. 
+#> 4 4a    4b    H1C         55.5  70.3 -118.   34.1   -75.7
+#> 5 5a    5b    H1C        193.  149.   248.    8.52  117. 
 #> -----------------------------------
 ```
 
@@ -402,7 +402,7 @@ sample_kindist(compsim, upper = 1000, lower = 200, spacing = 50, n = 25)
 #> breedsigma        50 
 #> gravsigma         50 
 #> ovisigma      25 
-#> lifestage:        larva 
+#> lifestage:        immature 
 #> 
 #> FILTERED
 #> --------
@@ -413,18 +413,18 @@ sample_kindist(compsim, upper = 1000, lower = 200, spacing = 50, n = 25)
 #> 
 #> tab
 #> # A tibble: 25 x 8
-#>    id1    id2    kinship distance      x1     y1     x2     y2
-#>    <chr>  <chr>  <chr>      <dbl>   <dbl>  <dbl>  <dbl>  <dbl>
-#>  1 75834a 75834b H2C          575 -176.    349.   230.   -32.0
-#>  2 41594a 41594b H2C          375  280.     73.9  -91.3   76.5
-#>  3 30879a 30879b H2C          425 -231.    348.    81.2   45.8
-#>  4 13420a 13420b H2C          275  -34.6   190.   255.   247. 
-#>  5 24192a 24192b H2C          625  530.   -213.  -110.  -260. 
-#>  6 75469a 75469b H2C          375    7.19   77.9  342.   287. 
-#>  7 61076a 61076b H2C          325   41.3   -89.6  -83.8  192. 
-#>  8 6758a  6758b  H2C          475 -165.    310.    90.5  -67.5
-#>  9 13874a 13874b H2C          225   98.3   211.   257.    53.8
-#> 10 21676a 21676b H2C          525  101.    103.   336.   597. 
+#>    id1    id2    kinship distance     x1     y1      x2     y2
+#>    <chr>  <chr>  <chr>      <dbl>  <dbl>  <dbl>   <dbl>  <dbl>
+#>  1 93454a 93454b H2C          375   88.1  -86.7   12.3  -475. 
+#>  2 60785a 60785b H2C          575 -197.   326.    76.2  -153. 
+#>  3 40178a 40178b H2C          475  132.   -13.8 -349.    -10.7
+#>  4 99618a 99618b H2C          325 -131.   -20.3  175.    120. 
+#>  5 37378a 37378b H2C          325  -53.3  302.  -147.     13.2
+#>  6 42475a 42475b H2C          525  179.   -54.3 -303.   -280. 
+#>  7 65603a 65603b H2C          325  134.  -327.   -13.8   -46.7
+#>  8 57019a 57019b H2C          525 -228.  -177.     9.41  274. 
+#>  9 17276a 17276b H2C          225  -65.3  207.   101.     88.6
+#> 10 19745a 19745b H2C          225   10.4 -129.   196.   -204. 
 #> # ... with 15 more rows
 #> -----------------------------------
 ```
@@ -448,7 +448,7 @@ the kinship category in a form recognized by this package (see
 documentation for further details). Example below:
 
 ``` r
-kinobject <- simulate_kindist_simple(nsims = 25, kinship = "FS", lifestage = "larva")
+kinobject <- simulate_kindist_simple(nsims = 25, kinship = "FS", lifestage = "immature")
 #kinpair_to_csv(kinobject, "FS_kin.csv") # saves file
 #csv_to_kinpair("FS_kin.csv") # reloads it
 ```
@@ -468,11 +468,11 @@ documentation. Example below:
 ``` r
 kinvect <- c(25, 23, 43, 26, 14, 38)
 
-vector_to_kinpair(kinvect, kinship = "H1C", lifestage = "larva")
+vector_to_kinpair(kinvect, kinship = "H1C", lifestage = "immature")
 #> KINDISPERSE RECORD OF KIN PAIRS
 #> -------------------------------
 #> kinship:      H1C 
-#> lifestage:        larva 
+#> lifestage:        immature 
 #> 
 #> tab
 #> # A tibble: 6 x 4
@@ -519,13 +519,13 @@ of three draws from the PO distribution, and thus would take
 ``` r
 paroff <- simulate_kindist_simple(nsims = 1000, sigma = 75, kinship = "PO")
 axials(paroff)
-#> [1] 74.01038
+#> [1] 76.58162
 ```
 
 ``` r
 fullsibs <- simulate_kindist_composite(nsims = 10000, ovisigma = 25, kinship = "FS")
 axials(fullsibs, composite = 2)
-#> [1] 25.06803
+#> [1] 25.19967
 ```
 
 Various auxillary functions exist to further manipulate axial distances
@@ -538,8 +538,9 @@ into component parts as in the composite option above), `axials_add()`
 H1C becomes the distribution of an even mix of both), and
 `axials_subtract()` subtracts a smaller distribution from a greater
 distribution to find the residual distribution (e.g. GG - PO = PO;
-FS(larva) - FS(oviposition) = PO). For confidence intervals, there are
-also the permuting functions `axpermute()` and `axpermute_subtract()`.
+FS(immature) - FS(ovipositional) = PO). For confidence intervals, there
+are also the permuting functions `axpermute()` and
+`axpermute_subtract()`.
 
 ``` r
 axials_subtract(24, 19)
@@ -608,7 +609,7 @@ fullcous <- simulate_kindist_composite(nsims = 75, initsigma = init, breedsigma 
 
 axpermute_standard(fullcous, fullsibs)
 #>      2.5%      mean     97.5% 
-#>  89.14107 100.74915 113.09999
+#>  81.61241  94.75184 107.61425
 ```
 
 As we can see, the C.I. neatly brackets the actual axial value, though
@@ -633,22 +634,22 @@ cousins
 #> KINDISPERSE RECORD OF KIN PAIRS
 #> -------------------------------
 #> kinship:      UN 
-#> lifestage:        larva 
+#> lifestage:        immature 
 #> 
 #> tab
 #> # A tibble: 150 x 9
-#>    id1   id2   kinship distance    x1     y1     x2     y2 lifestage
-#>    <chr> <chr> <chr>      <dbl> <dbl>  <dbl>  <dbl>  <dbl> <chr>    
-#>  1 1a    1b    UN          129. -20.5  -19.3   91.0  46.0  larva    
-#>  2 2a    2b    UN          259. -44.6 -153.   170.   -9.08 larva    
-#>  3 3a    3b    UN          197. 170.   -92.7  -25.3 -67.5  larva    
-#>  4 4a    4b    UN          189. -31.2  215.    50.6  44.2  larva    
-#>  5 5a    5b    UN          116. 154.    68.7  118.  -41.6  larva    
-#>  6 6a    6b    UN          228. 164.   199.   -54.2 133.   larva    
-#>  7 7a    7b    UN          147. 148.   111.   141.  -35.8  larva    
-#>  8 8a    8b    UN          170. 114.    49.6  196.  199.   larva    
-#>  9 9a    9b    UN          265. -17.2  201.  -166.  -18.2  larva    
-#> 10 10a   10b   UN          219. -39.9   87.4  144.  -31.4  larva    
+#>    id1   id2   kinship distance     x1    y1     x2      y2 lifestage
+#>    <chr> <chr> <chr>      <dbl>  <dbl> <dbl>  <dbl>   <dbl> <chr>    
+#>  1 1a    1b    UN          69.9   73.7 162.    4.34  170.   immature 
+#>  2 2a    2b    UN         162.    19.7 141.   91.0    -4.87 immature 
+#>  3 3a    3b    UN         199.    45.7 -81.9  -3.02  111.   immature 
+#>  4 4a    4b    UN         156.    12.7  25.9 143.    112.   immature 
+#>  5 5a    5b    UN         143.   150.   15.3 111.    153.   immature 
+#>  6 6a    6b    UN         224.   -27.1  14.2 173.    115.   immature 
+#>  7 7a    7b    UN          36.2  -37.5 157.   -6.08  139.   immature 
+#>  8 8a    8b    UN         322.  -109.   72.4 161.    246.   immature 
+#>  9 9a    9b    UN          63.7   53.1  98.3  34.8    37.2  immature 
+#> 10 10a   10b   UN         298.   100.   39.7 -75.1  -201.   immature 
 #> # ... with 140 more rows
 #> -------------------------------
 ```
@@ -664,7 +665,7 @@ missing category data:
 # the cousin mixture in phase)
 axpermute_standard(avect = cousins, acat = "1C", amix = TRUE, amixcat = "H1C", bvect = fullsibs, bcomp = TRUE, bcompvect = halfsibs)
 #>      2.5%      mean     97.5% 
-#>  86.40974  99.47237 112.32257
+#>  86.02991  98.83759 111.15583
 ```
 
 This estimate is a lot more convoluted, and not as ‘spot on’- but the

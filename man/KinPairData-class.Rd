@@ -37,7 +37,7 @@
 
 \item{kinship}{character. Kinship category value for object. - one of PO, FS, HS, AV, HAV, GG, 1C, H1C, GAV, HGAV, 1C1, H1C1, GGG, 2C, and H2C.}
 
-\item{lifestage}{character. Lifestage value for object. - one of 'larva', 'oviposition' or 'unknown'}
+\item{lifestage}{character. Lifestage value for object. - one of 'immature', 'ovipositional' or 'unknown'}
 
 \item{...}{additional argument to pass to downstream functions in future}
 

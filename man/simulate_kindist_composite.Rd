@@ -13,7 +13,7 @@ simulate_kindist_composite(
   dims = 100,
   method = "Gaussian",
   kinship = "FS",
-  lifestage = "larva",
+  lifestage = "immature",
   shape = 1
 )
 }
@@ -30,13 +30,13 @@ simulate_kindist_composite(
 
 \item{dims}{(numeric) -   length of sides of (square) simulated site area}
 
-\item{method}{(character) - kernel shape to use: either 'Gaussian', 'Laplace' or 'Gamma'}
+\item{method}{(character) - kernel shape to use: either 'Gaussian', 'Laplace' or 'gamma'}
 
 \item{kinship}{(character)- kin category to simulate: one of PO, FS, HS, AV, GG, HAV, GGG, 1C, 1C1, 2C, GAV, HGAV, H1C H1C1 or H2C}
 
-\item{lifestage}{(lifestage) lifestage at sample collection: either 'larva' or 'oviposition'}
+\item{lifestage}{(lifestage) lifestage at sample collection: either 'immature' or 'ovipositional'}
 
-\item{shape}{(numeric) - value of shape parameter to use with 'Gamma' method}
+\item{shape}{(numeric) - value of shape parameter to use with 'gamma' method}
 }
 \value{
 returns an object of class \code{KinPairSimulation} containing simulation details and a tibble (tab) of simulation values
@@ -48,6 +48,6 @@ Simulate kin dispersal distance pairs with composite sigmas
 simulate_kindist_composite(nsims = 100)
 simulate_kindist_composite(
   nsims = 10000, initsigma = 20, breedsigma = 30, gravsigma = 30,
-  ovisigma = 12, dims = 500, method = "Laplace", kinship = "1C", lifestage = "larva"
+  ovisigma = 12, dims = 500, method = "Laplace", kinship = "1C", lifestage = "immature"
 )
 }

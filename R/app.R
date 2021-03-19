@@ -201,7 +201,7 @@ ui <- fluidPage(
 
               # Input: Slider for the number of bins
               sliderInput(
-                inputId = "sand_dsigma",
+                inputId = "sand_posigma",
                 label = "Axial dispersal Sigma (m):",
                 min = 5,
                 max = 250,
@@ -396,7 +396,7 @@ ui <- fluidPage(
               selectInput(
                 inputId = "load_lifestage_choice",
                 label = "Choose lifestage category to extract/assign",
-                choices = c("unknown", "larva", "oviposition"),
+                choices = c("unknown", "immature", "ovipositional"),
                 selected = "unknown"
               )
             ),
@@ -597,19 +597,19 @@ ui <- fluidPage(
               radioButtons(
                 inputId = "sim_simple_lifestage",
                 label = "Lifestage at sampling",
-                choices = c("larva", "oviposition"),
-                selected = "larva"
+                choices = c("immature", "ovipositional"),
+                selected = "immature"
               ),
 
               radioButtons(
                 inputId = "sim_simple_method",
                 label = "Dispersal Kernel Type",
-                choices = c("Gaussian", "Laplace", "Gamma"),
+                choices = c("Gaussian", "Laplace", "gamma"),
                 selected = "Gaussian"
               ),
 
               conditionalPanel(
-                condition = "input.sim_simple_method == 'Gamma'",
+                condition = "input.sim_simple_method == 'gamma'",
 
                 numericInput(
                   inputId = "sim_simple_gshape",
@@ -726,19 +726,19 @@ ui <- fluidPage(
               radioButtons(
                 inputId = "sim_composite_lifestage",
                 label = "Lifestage at sampling",
-                choices = c("larva", "oviposition"),
-                selected = "larva"
+                choices = c("immature", "ovipositional"),
+                selected = "immature"
               ),
 
               radioButtons(
                 inputId = "sim_composite_method",
                 label = "Dispersal Kernel Type",
-                choices = c("Gaussian", "Laplace", "Gamma"),
+                choices = c("Gaussian", "Laplace", "gamma"),
                 selected = "Gaussian"
               ),
 
               conditionalPanel(
-                condition = "input.sim_composite_method == 'Gamma'",
+                condition = "input.sim_composite_method == 'gamma'",
                 numericInput(
                   inputId = "sim_composite_shape",
                   label = "Shape of component kernels",
@@ -1260,7 +1260,7 @@ server <- function(input, output, session) {
   # output$dhist <- renderPlot({
   #  hist(rnorm(input$sigma))
   #  })
-  tutorial_data1 <- simgraph_data(nsims = 10000, dsigma = 25, kinship = "PO")
+  tutorial_data1 <- simgraph_data(nsims = 10000, posigma = 25, kinship = "PO")
 
 
   # Simulate Tab
@@ -1316,7 +1316,7 @@ server <- function(input, output, session) {
   ### Tab 5 ###
 
   sandbox_data <- reactive({
-    simgraph_data(nsims = input$sand_nsims, dsigma = input$sand_dsigma, dims = input$sand_dims, kinship = input$sand_category)
+    simgraph_data(nsims = input$sand_nsims, posigma = input$sand_posigma, dims = input$sand_dims, kinship = input$sand_category)
   })
 
   output$sand_dispersalcheck <- renderText({
@@ -1394,7 +1394,7 @@ server <- function(input, output, session) {
         out <- str_c(out, "")
       }
       else if (staged_object()@simtype == "simple") {
-        out <- str_c(out, "dsigma:\t\t\t", ifelse(is.na(staged_object()@dsigma), "NA", staged_object()@dsigma), "\n")
+        out <- str_c(out, "posigma:\t\t", ifelse(is.na(staged_object()@posigma), "NA", staged_object()@posigma), "\n")
       }
       else if (staged_object()@simtype == "composite") {
         out <- str_c(

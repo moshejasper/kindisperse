@@ -8,7 +8,7 @@ KinPairSimulation_simple(
   data = NULL,
   kinship = NULL,
   kerneltype = NULL,
-  dsigma = NULL,
+  posigma = NULL,
   simdims = NULL,
   lifestage = NULL,
   kernelshape = NULL,
@@ -20,13 +20,14 @@ KinPairSimulation_simple(
 
 \item{kinship}{character. Code for kinship category of simulation. one of PO, FS, HS, AV, GG, HAV, GGG, 1C, 1C1, 2C, GAV, HGAV, H1C or H2C}
 
-\item{kerneltype}{character. Statistical model for simulated dispersal kernel. Currently either "Gaussian", "Laplace" or "Gamma".}
+\item{kerneltype}{character. Statistical model for simulated dispersal kernel. Currently either "Gaussian", "Laplace" or "gamma".}
 
-\item{dsigma}{numeric. Axial sigma of dispersal kernel (axial standard deviation).}
+\item{posigma}{numeric. Axial sigma of dispersal kernel (axial standard deviation).}
 
 \item{simdims}{numeric. Length of side of simulated area square.}
 
-\item{lifestage}{character. Simulated lifestage of sampling. Either "larva" (sampled at hatching) or "oviposition" (sampled as an adult during oviposition - essentially one lifespan later that 'larva')}
+\item{lifestage}{character. Simulated lifestage of sampling. Either "immature" (sampled at hatching) or "ovipositional"
+(sampled as an adult during oviposition - essentially one lifespan later than 'immature')}
 
 \item{kernelshape}{numeric. Value of shape parameter for simulated kernel if kernel requires one (e.g. gamma kernel).}
 
@@ -45,6 +46,6 @@ kindata <- tibble::tibble(
 )
 KinPairSimulation_simple(kindata,
   kinship = "1C", kerneltype = "Gaussian",
-  dsigma = 38, lifestage = "larva"
+  posigma = 38, lifestage = "immature"
 )
 }

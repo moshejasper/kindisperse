@@ -19,7 +19,7 @@ simgraph_graph(
   lengths = TRUE,
   lengthlabs = TRUE,
   histogram = FALSE,
-  binwidth = dsigma/5,
+  binwidth = posigma/5,
   freqpoly = FALSE
 )
 }

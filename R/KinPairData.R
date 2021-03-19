@@ -166,7 +166,7 @@ setMethod(
 #' @param .Object the KinPairData object to be constructed
 #' @param data  data about kinship to be used to construct object (tibble, data.frame, or numeric vector of distances)
 #' @param kinship character. Kinship category value for object. - one of PO, FS, HS, AV, HAV, GG, 1C, H1C, GAV, HGAV, 1C1, H1C1, GGG, 2C, and H2C.
-#' @param lifestage character. Lifestage value for object. - one of 'larva', 'oviposition' or 'unknown'
+#' @param lifestage character. Lifestage value for object. - one of 'immature', 'ovipositional' or 'unknown'
 #' @param ... additional argument to pass to downstream functions in future
 #'
 #' @export
@@ -243,7 +243,7 @@ setMethod(
 #'
 #' @param data tlb_df. Tibble of kinpair distances
 #' @param kinship character. - one of PO, FS, HS, AV, HAV, GG, 1C, H1C, GAV, HGAV, 1C1, H1C1, GGG, 2C, H2C & UN.
-#' @param lifestage character. - one of 'unknown', 'larva' or 'oviposition'
+#' @param lifestage character. - one of 'unknown', 'immature' or 'ovipositional'
 #'
 #' @return returns an object of class \code{KinPairData}
 #' @export
@@ -259,8 +259,8 @@ setValidity("KinPairData", function(object) {
   if (!object@kinship %in% c("UN", "PO", "GG", "GGG", "FS", "AV", "GAV", "1C", "1C1", "2C", "HS", "HAV", "HGAV", "H1C", "H1C1", "H2C")) {
     "@kinship must be one of UN PO GG GGG FS AV GAV 1C 1C1 2C HS HAV HGAV H1C H1C1 H2C"
   }
-  else if (!object@lifestage %in% c("unknown", "larva", "oviposition")) {
-    "@lifestage must currently be set to 'unknown', 'larva', or 'oviposition'"
+  else if (!object@lifestage %in% c("unknown", "immature", "ovipositional")) {
+    "@lifestage must currently be set to 'unknown', 'immature', or 'ovipositional'"
   } else {
     TRUE
   }

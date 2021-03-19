@@ -13,7 +13,7 @@ KinPairData(data = NULL, kinship = NULL, lifestage = NULL)
 
 \item{kinship}{character. - one of PO, FS, HS, AV, HAV, GG, 1C, H1C, GAV, HGAV, 1C1, H1C1, GGG, 2C, H2C & UN.}
 
-\item{lifestage}{character. - one of 'unknown', 'larva' or 'oviposition'}
+\item{lifestage}{character. - one of 'unknown', 'immature' or 'ovipositional'}
 }
 \value{
 returns object of class \code{KinPairData}

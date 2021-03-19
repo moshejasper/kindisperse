@@ -10,7 +10,7 @@ KinPairSimulation(
   lifestage = NULL,
   simtype = NULL,
   kerneltype = NULL,
-  dsigma = NULL,
+  posigma = NULL,
   initsigma = NULL,
   breedsigma = NULL,
   gravsigma = NULL,
@@ -32,7 +32,7 @@ KinPairSimulation(
   lifestage = NULL,
   simtype = NULL,
   kerneltype = NULL,
-  dsigma = NULL,
+  posigma = NULL,
   initsigma = NULL,
   breedsigma = NULL,
   gravsigma = NULL,
@@ -53,13 +53,13 @@ KinPairSimulation(
 
 \item{kinship}{character - one of PO, FS, HS, AV, HAV, GG, 1C, H1C, GAV, HGAV, 1C1, H1C1, GGG, 2C, and H2C.}
 
-\item{lifestage}{character - one of 'unknown', 'larva' or 'oviposition'}
+\item{lifestage}{character - one of 'unknown', 'immature' or 'ovipositional'}
 
 \item{simtype}{character - simulation type}
 
-\item{kerneltype}{character. - 'Gaussian', 'Laplace' or 'Gamma'}
+\item{kerneltype}{character. - 'Gaussian', 'Laplace' or 'gamma'}
 
-\item{dsigma}{numeric - overall value of dispersal sigma (for simple kernel)}
+\item{posigma}{numeric - overall value of dispersal sigma (for simple kernel)}
 
 \item{initsigma}{numeric.    - value of pre-breeding dispersal sigma (for composite kernel)}
 
@@ -102,9 +102,9 @@ KinPairSimulation Class
 
 \item{\code{simtype}}{character.}
 
-\item{\code{kerneltype}}{character. - 'Gaussian', 'Laplace' or 'Gamma'}
+\item{\code{kerneltype}}{character. - 'Gaussian', 'Laplace' or 'gamma'}
 
-\item{\code{dsigma}}{numeric.       - overall value of dispersal sigma (for simple kernel)}
+\item{\code{posigma}}{numeric.       - overall value of dispersal sigma (for simple kernel)}
 
 \item{\code{initsigma}}{numeric.    - value of pre-breeding dispersal sigma (for composite kernel)}
 
@@ -116,9 +116,9 @@ KinPairSimulation Class
 
 \item{\code{simdims}}{numeric.        - dimensions of sampling area (assumes 1 side of square)}
 
-\item{\code{lifestage}}{character. - lifestage at sampling - either 'larva' or 'oviposition'}
+\item{\code{lifestage}}{character. - lifestage at sampling - either 'immature' or 'ovipositional'}
 
-\item{\code{kernelshape}}{numeric.   - shape parameter if Gamma kerneltype}
+\item{\code{kernelshape}}{numeric.   - shape parameter if gamma kerneltype}
 
 \item{\code{call}}{call.           - call to create initial simulation}
 

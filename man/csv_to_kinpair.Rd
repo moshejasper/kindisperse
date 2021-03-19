@@ -11,7 +11,7 @@ csv_to_kinpair(file, kinship = NULL, lifestage = NULL, ...)
 
 \item{kinship}{character. kin category to assign or extract from data. one of PO, FS, HS, AV, GG, HAV, GGG, 1C, 1C1, 2C, GAV, HGAV, H1C , H1C1 or H2C}
 
-\item{lifestage}{character. lifestage to assign or extract from data. one of 'unknown', 'larva' or 'oviposition'.}
+\item{lifestage}{character. lifestage to assign or extract from data. one of 'unknown', 'immature' or 'ovipositional'.}
 
 \item{...}{additional arguments to pass to read_csv}
 }
