@@ -1,5 +1,5 @@
 ---
-title: "KINDISPERSE 0.8.4"
+title: "KINDISPERSE 0.8.5"
 output:
   github_document:
     toc: true
