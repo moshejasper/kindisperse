@@ -107,7 +107,7 @@
 
 \item{simtype}{character - simulation type}
 
-\item{kerneltype}{character. - 'Gaussian', 'Laplace' or 'Gamma'}
+\item{kerneltype}{character. - 'Gaussian', 'Laplace' or 'gamma'}
 
 \item{kernelshape}{numeric. - value of kernel shape of simulation (if using kernel with shape parameter e.g. gamma)}
 

@@ -604,12 +604,12 @@ ui <- fluidPage(
               radioButtons(
                 inputId = "sim_simple_method",
                 label = "Dispersal Kernel Type",
-                choices = c("Gaussian", "Laplace", "Gamma"),
+                choices = c("Gaussian", "Laplace", "gamma"),
                 selected = "Gaussian"
               ),
 
               conditionalPanel(
-                condition = "input.sim_simple_method == 'Gamma'",
+                condition = "input.sim_simple_method == 'gamma'",
 
                 numericInput(
                   inputId = "sim_simple_gshape",
@@ -733,12 +733,12 @@ ui <- fluidPage(
               radioButtons(
                 inputId = "sim_composite_method",
                 label = "Dispersal Kernel Type",
-                choices = c("Gaussian", "Laplace", "Gamma"),
+                choices = c("Gaussian", "Laplace", "gamma"),
                 selected = "Gaussian"
               ),
 
               conditionalPanel(
-                condition = "input.sim_composite_method == 'Gamma'",
+                condition = "input.sim_composite_method == 'gamma'",
                 numericInput(
                   inputId = "sim_composite_shape",
                   label = "Shape of component kernels",

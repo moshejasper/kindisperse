@@ -57,7 +57,7 @@ KinPairSimulation(
 
 \item{simtype}{character - simulation type}
 
-\item{kerneltype}{character. - 'Gaussian', 'Laplace' or 'Gamma'}
+\item{kerneltype}{character. - 'Gaussian', 'Laplace' or 'gamma'}
 
 \item{posigma}{numeric - overall value of dispersal sigma (for simple kernel)}
 
@@ -102,7 +102,7 @@ KinPairSimulation Class
 
 \item{\code{simtype}}{character.}
 
-\item{\code{kerneltype}}{character. - 'Gaussian', 'Laplace' or 'Gamma'}
+\item{\code{kerneltype}}{character. - 'Gaussian', 'Laplace' or 'gamma'}
 
 \item{\code{posigma}}{numeric.       - overall value of dispersal sigma (for simple kernel)}
 
@@ -118,7 +118,7 @@ KinPairSimulation Class
 
 \item{\code{lifestage}}{character. - lifestage at sampling - either 'larva' or 'oviposition'}
 
-\item{\code{kernelshape}}{numeric.   - shape parameter if Gamma kerneltype}
+\item{\code{kernelshape}}{numeric.   - shape parameter if gamma kerneltype}
 
 \item{\code{call}}{call.           - call to create initial simulation}
 

@@ -4,7 +4,7 @@ methods::setOldClass(c("tbl_df", "tbl", "data.frame"))
 #'
 #' @slot kinship character - one of PO, FS, HS, AV, HAV, GG, 1C, H1C, GAV, HGAV, 1C1, H1C1, GGG, 2C, and H2C.
 #' @slot simtype character.
-#' @slot kerneltype character. - 'Gaussian', 'Laplace' or 'Gamma'
+#' @slot kerneltype character. - 'Gaussian', 'Laplace' or 'gamma'
 #' @slot posigma numeric.       - overall value of dispersal sigma (for simple kernel)
 #' @slot initsigma numeric.    - value of pre-breeding dispersal sigma (for composite kernel)
 #' @slot breedsigma numeric.  - value of breeding dispersal sigma (for composite kernel)
@@ -12,7 +12,7 @@ methods::setOldClass(c("tbl_df", "tbl", "data.frame"))
 #' @slot ovisigma numeric.    - value of oviposition dispersal sigma (for composite kernel)
 #' @slot simdims numeric.        - dimensions of sampling area (assumes 1 side of square)
 #' @slot lifestage character. - lifestage at sampling - either 'larva' or 'oviposition'
-#' @slot kernelshape numeric.   - shape parameter if Gamma kerneltype
+#' @slot kernelshape numeric.   - shape parameter if gamma kerneltype
 #' @slot call call.           - call to create initial simulation
 #' @slot tab tbl_df.          - tibble of simulation values
 #' @slot filtertype character. - whether the initial sim has been further filtered
@@ -567,7 +567,7 @@ setMethod(
 #' @param kinship character - one of PO, FS, HS, AV, HAV, GG, 1C, H1C, GAV, HGAV, 1C1, H1C1, GGG, 2C, and H2C.
 #' @param lifestage character - one of 'unknown', 'larva' or 'oviposition'
 #' @param simtype character - simulation type
-#' @param kerneltype character. - 'Gaussian', 'Laplace' or 'Gamma'
+#' @param kerneltype character. - 'Gaussian', 'Laplace' or 'gamma'
 #' @param posigma numeric - overall value of dispersal sigma (for simple kernel)
 #' @param initsigma numeric.    - value of pre-breeding dispersal sigma (for composite kernel)
 #' @param breedsigma numeric.    - value of breeding dispersal sigma (for composite kernel)
@@ -679,7 +679,7 @@ setMethod(
 #' @param kinship character - one of PO, FS, HS, AV, HAV, GG, 1C, H1C, GAV, HGAV, 1C1, H1C1, GGG, 2C, and H2C.
 #' @param lifestage character - one of 'unknown', 'larva' or 'oviposition'
 #' @param simtype character - simulation type
-#' @param kerneltype character. - 'Gaussian', 'Laplace' or 'Gamma'
+#' @param kerneltype character. - 'Gaussian', 'Laplace' or 'gamma'
 #' @param posigma numeric - overall value of dispersal sigma (for simple kernel)
 #' @param initsigma numeric.    - value of pre-breeding dispersal sigma (for composite kernel)
 #' @param breedsigma numeric.    - value of breeding dispersal sigma (for composite kernel)
@@ -757,7 +757,7 @@ is.KinPairSimulation <- function(x) {
 #'
 #' @param data tibble of pairwise kin classes & distances. Ideally contains fields id1 & id2 (chr) an distance (dbl) optionally includes coords (x1, y1, x2, y2), lifestage (ls1 & ls2), kinship (chr) and sims (dbl)
 #' @param kinship  character. Code for kinship category of simulation. one of PO, FS, HS, AV, GG, HAV, GGG, 1C, 1C1, 2C, GAV, HGAV, H1C or H2C
-#' @param kerneltype  character. Statistical model for simulated dispersal kernel. Currently either "Gaussian", "Laplace" or "Gamma".
+#' @param kerneltype  character. Statistical model for simulated dispersal kernel. Currently either "Gaussian", "Laplace" or "gamma".
 #' @param posigma numeric. Axial sigma of dispersal kernel (axial standard deviation).
 #' @param simdims  numeric. Length of side of simulated area square.
 #' @param lifestage character. Simulated lifestage of sampling. Either "larva" (sampled at hatching) or "oviposition" (sampled as an adult during oviposition - essentially one lifespan later that 'larva')
@@ -790,7 +790,7 @@ KinPairSimulation_simple <- function(data = NULL, kinship = NULL, kerneltype = N
 #'
 #' @param data tibble of pairwise kin classes & distances. Ideally contains fields id1 & id2 (chr) an distance (dbl) optionally includes coords (x1, y1, x2, y2), lifestage (ls1 & ls2), kinship (chr) and sims (dbl)
 #' @param kinship  character. Code for kinship category of simulation. one of PO, FS, HS, AV, GG, HAV, GGG, 1C, 1C1, 2C, GAV, HGAV, H1C or H2C
-#' @param kerneltype  character. Statistical model for simulated dispersal kernel. Currently either "Gaussian", "Laplace" or "Gamma".
+#' @param kerneltype  character. Statistical model for simulated dispersal kernel. Currently either "Gaussian", "Laplace" or "gamma".
 #' @param initsigma  numeric. Axial sigma of prebreeding ('juvenile') dispersal kernel (axial standard deviation).
 #' @param breedsigma  numeric. Axial sigma of breeding dispersal kernel (axial standard deviation).
 #' @param gravsigma numeric. Axial sigma of post-breeding ('gravid') dispersal kernel (axial standard deviation).

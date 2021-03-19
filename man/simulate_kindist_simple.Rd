@@ -21,13 +21,13 @@ simulate_kindist_simple(
 
 \item{dims}{(numeric) -   length of sides of (square) simulated site area}
 
-\item{method}{(character) - kernel shape to use: either 'Gaussian', 'Laplace' or 'Gamma'}
+\item{method}{(character) - kernel shape to use: either 'Gaussian', 'Laplace' or 'gamma'}
 
 \item{kinship}{(character)- kin category to simulate: one of PO, FS, HS, AV, GG, HAV, GGG, 1C, 1C1, 2C, GAV, HGAV, H1C or H2C}
 
 \item{lifestage}{(lifestage) lifestage at sample collection: either 'larva' or 'oviposition'}
 
-\item{shape}{(numeric) value of shape parameter to use with 'Gamma' method.}
+\item{shape}{(numeric) value of shape parameter to use with 'gamma' method.}
 }
 \value{
 \preformatted{ returns an object of class \code{KinPairSimulation} containing simulation details and a \code{tibble} (tab) of simulation values

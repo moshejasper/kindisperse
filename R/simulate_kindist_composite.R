@@ -6,10 +6,10 @@
 #' @param gravsigma   (numeric) -   size of post-breeding (axial) sigma
 #' @param ovisigma   (numeric) -   size of oviposition (axial) sigma
 #' @param dims    (numeric) -   length of sides of (square) simulated site area
-#' @param method  (character) - kernel shape to use: either 'Gaussian', 'Laplace' or 'Gamma'
+#' @param method  (character) - kernel shape to use: either 'Gaussian', 'Laplace' or 'gamma'
 #' @param kinship (character)- kin category to simulate: one of PO, FS, HS, AV, GG, HAV, GGG, 1C, 1C1, 2C, GAV, HGAV, H1C H1C1 or H2C
 #' @param lifestage (lifestage) lifestage at sample collection: either 'larva' or 'oviposition'
-#' @param shape   (numeric) - value of shape parameter to use with 'Gamma' method
+#' @param shape   (numeric) - value of shape parameter to use with 'gamma' method
 #'
 #' @return returns an object of class \code{KinPairSimulation} containing simulation details and a tibble (tab) of simulation values
 #' @export
@@ -23,8 +23,8 @@
 simulate_kindist_composite <- function(nsims = 100, initsigma = 100, breedsigma = 50, gravsigma = 50,
                                        ovisigma = 25, dims = 100, method = "Gaussian", kinship = "FS",
                                        lifestage = "larva", shape = 1) {
-  if (!method %in% c("Gaussian", "Laplace", "Gamma")) {
-    stop("Invalid Method! - choose from 'Gaussian', 'Laplace' or 'Gamma'")
+  if (!method %in% c("Gaussian", "Laplace", "gamma")) {
+    stop("Invalid Method! - choose from 'Gaussian', 'Laplace' or 'gamma'")
     stop("Invalid Method!")
   }
 
@@ -77,7 +77,7 @@ simulate_kindist_composite <- function(nsims = 100, initsigma = 100, breedsigma 
       return(matrix(c(xf, yf), ncol = 2))
     }
   }
-  else if (method == "Gamma"){
+  else if (method == "gamma"){
     rdistr <- function(sig){
       Sigma <- matrix(c(sig^2, 0, 0, sig^2), ncol = 2)
       mu <- rbind(c(0, 0))
@@ -211,7 +211,7 @@ simulate_kindist_composite <- function(nsims = 100, initsigma = 100, breedsigma 
     kinship = kinship
   )
 
-  if (method == "Gamma") kernelshape <- shape
+  if (method == "gamma") kernelshape <- shape
   else kernelshape <- NULL
 
   return(KinPairSimulation_composite(tab,

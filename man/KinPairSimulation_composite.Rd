@@ -23,7 +23,7 @@ KinPairSimulation_composite(
 
 \item{kinship}{character. Code for kinship category of simulation. one of PO, FS, HS, AV, GG, HAV, GGG, 1C, 1C1, 2C, GAV, HGAV, H1C or H2C}
 
-\item{kerneltype}{character. Statistical model for simulated dispersal kernel. Currently either "Gaussian", "Laplace" or "Gamma".}
+\item{kerneltype}{character. Statistical model for simulated dispersal kernel. Currently either "Gaussian", "Laplace" or "gamma".}
 
 \item{initsigma}{numeric. Axial sigma of prebreeding ('juvenile') dispersal kernel (axial standard deviation).}
 
