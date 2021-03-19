@@ -23,8 +23,12 @@ axpermute_subtract(
 \item{nsamp}{numeric. number of kin pairs to subsample for each permutation. Either "std" or an integer.
 If "std" will be computed as equal to the sample size. (default "std")}
 
-\item{composite}{numeric. Number of 'draws' going into each underlying distribution (default 2). Passed to axials function.
-(this would be ideal for e.g. unaltered FS & 1C distances, but less ideal if differing distributions went into each underlying category (e.g. FS and AV))}
+\item{composite}{numeric. The number of separate 'draws' (dispersal events)
+from the kernel required to produce the final positions of the measured individuals.
+For example, the displacement of a child from parent at the same lifestage would involve 1 draw and thus be composite = 1.
+Two full siblings would be two draws (composite = 2) from the FS kernel. Non-symmetric relationships (e.g. AV, 1C)
+should not be decomposed using this method, nor should any assumptions be made about different kernels
+(e.g. the 1C relationship would appropriately be given the value 2, but not 4)}
 
 \item{output}{character. What kind of output to return.
 Either 'confs' (default -> confidence intervals) or 'vect -> vector of axial distances}

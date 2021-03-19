@@ -12,12 +12,12 @@ axpermute_standard(
   bcat = NULL,
   nreps = 1000,
   nsamp = "std",
-  amix = F,
-  bmix = F,
+  amix = FALSE,
+  bmix = FALSE,
   amixcat = NULL,
   bmixcat = NULL,
-  acomp = F,
-  bcomp = F,
+  acomp = FALSE,
+  bcomp = FALSE,
   acompvect = NULL,
   bcompvect = NULL,
   acompcat = NULL,
@@ -61,7 +61,7 @@ axpermute_standard(
 \item{output}{string denoting what kind of output to return. If 'confs', a vector of 95\% confidence intervals. if 'vect', a vector of all permutated axial value results}
 }
 \value{
-If output = 'confs' returns vector of 95\% confidence intervals (with median).
+If output = 'confs' returns vector of 95\% confidence intervals (with mean).
 If output = 'vect' returns vector of individual axial estimates from each permutation
 }
 \description{
