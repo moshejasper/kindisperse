@@ -3,7 +3,7 @@
 #' @param nsims     Integer. The number of kin dispersal families to simulate.
 #' @param dsigma    Integer. The axial deviation of the (simple) parent-offspring dispersal kernel governing this simulation.
 #' @param dims      Integer. Lays out the length of the sides of a square within which parent individuals are seeded.
-#' @param kinship  Character. Lists the kin category the simulation is reconstructing. One of "PO", "FS", "HS", "AV", "GG", "HAV", "GGG", "1C", "1C1", "2C", "GAV" (no half-categoris included)
+#' @param kinship  Character. Lists the kin category the simulation is reconstructing. One of "PO", "FS", "HS", "AV", "GG", "HAV", "GGG", "1C", "1C1", "2C", "GAV" (no half-categories included)
 #'
 #' @return  Returns a tibble containing the coordinates of the f0 to f2 generations, as well as coordinates and distances relative to the 'focus' kinship categories. (kindist, kinmid, k1 & k2)
 #' @export
