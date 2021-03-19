@@ -1,5 +1,5 @@
 ---
-title: "kindisperse"
+title: "using-kindisperse"
 author: "Moshe-Elijah Jasper"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output: 
@@ -7,7 +7,7 @@ output:
     toc: true
     toc_depth: 2
 vignette: >
-  %\VignetteIndexEntry{kindisperse}
+  %\VignetteIndexEntry{using-kindisperse}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -26,7 +26,7 @@ The goal of kindisperse is to simulate and estimate close-kin dispersal kernels.
 
 Dispersal is a key evolutionary process that connects organisms in space and time. Assessing the dispersal of organisms within an area is an important component of estimating risks from invasive species, planning pest management operations, and evaluating conservation strategies for threatened species. 
 
-Assessing the dispersal of small, abundant and short-lived animals such as insects as traditionally been more difficult than for animals that can be easily tagged. Responding to this challenge, researchers have developed various methods based around mark-release-recapture that mark the organisms with dyes, paint, or chemical tags, before releasing the individuals and in various ways measuring the number of recaptures. 
+Assessing the dispersal of small, abundant and short-lived animals such as insects has traditionally been more difficult than for animals that can be easily tagged. Responding to this challenge, researchers have developed various methods based around mark-release-recapture that mark the organisms with dyes, paint, or chemical tags, before releasing the individuals and in various ways measuring the number of recaptures. 
 
 Such methods suffer the limitations of requiring manipulation of the same individuals in which dispersal is being assessed, are labour-intensive when conducted across a large enough area to be informative, and typically are not estimates of true intergenerational dispersal (which is measured life-stage to life-stage, e.g. from the egg of the parent to the egg of its offspring). Such life-stage to life-stage estimates are important as they are readily interpretable within established intergenerational analytic frameworks such as Wright's neighbourhood size. 
 

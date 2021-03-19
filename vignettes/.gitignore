@@ -1,1 +1,2 @@
-*.R
+^FS_kin\.csv$
+using-kindisperse\.Rmd
