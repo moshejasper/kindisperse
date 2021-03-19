@@ -4,7 +4,7 @@
 \alias{kernelshape,KinPairSimulation-method}
 \alias{simtype,KinPairSimulation-method}
 \alias{kerneltype,KinPairSimulation-method}
-\alias{dsigma,KinPairSimulation-method}
+\alias{posigma,KinPairSimulation-method}
 \alias{initsigma,KinPairSimulation-method}
 \alias{breedsigma,KinPairSimulation-method}
 \alias{gravsigma,KinPairSimulation-method}
@@ -31,7 +31,7 @@
 
 \S4method{kerneltype}{KinPairSimulation}(x)
 
-\S4method{dsigma}{KinPairSimulation}(x)
+\S4method{posigma}{KinPairSimulation}(x)
 
 \S4method{initsigma}{KinPairSimulation}(x)
 
@@ -75,7 +75,7 @@
   simtype = NULL,
   kerneltype = NULL,
   kernelshape = NULL,
-  dsigma = NULL,
+  posigma = NULL,
   initsigma = NULL,
   breedsigma = NULL,
   gravsigma = NULL,
@@ -111,7 +111,7 @@
 
 \item{kernelshape}{numeric. - value of kernel shape of simulation (if using kernel with shape parameter e.g. gamma)}
 
-\item{dsigma}{numeric - overall value of dispersal sigma (for simple kernel)}
+\item{posigma}{numeric - overall value of dispersal sigma (for simple kernel)}
 
 \item{initsigma}{numeric.    - value of pre-breeding dispersal sigma (for composite kernel)}
 
@@ -146,7 +146,7 @@
 
 \code{character} the type of statistical kernel used to run the simulation (Gaussian, Laplace, gamma)
 
-\code{numeric} dsigma value of simple simulation
+\code{numeric} posigma value of simple simulation
 
 \code{numeric} initsigma value of composite simulation
 
@@ -195,7 +195,7 @@ Returns an object of class \code{KinPairSimulation}
 
 \item \code{kerneltype}: access kerneltype
 
-\item \code{dsigma}: access sigma
+\item \code{posigma}: access sigma
 
 \item \code{initsigma}: access initsigma
 

@@ -8,7 +8,7 @@ KinPairSimulation_simple(
   data = NULL,
   kinship = NULL,
   kerneltype = NULL,
-  dsigma = NULL,
+  posigma = NULL,
   simdims = NULL,
   lifestage = NULL,
   kernelshape = NULL,
@@ -22,7 +22,7 @@ KinPairSimulation_simple(
 
 \item{kerneltype}{character. Statistical model for simulated dispersal kernel. Currently either "Gaussian", "Laplace" or "Gamma".}
 
-\item{dsigma}{numeric. Axial sigma of dispersal kernel (axial standard deviation).}
+\item{posigma}{numeric. Axial sigma of dispersal kernel (axial standard deviation).}
 
 \item{simdims}{numeric. Length of side of simulated area square.}
 
@@ -45,6 +45,6 @@ kindata <- tibble::tibble(
 )
 KinPairSimulation_simple(kindata,
   kinship = "1C", kerneltype = "Gaussian",
-  dsigma = 38, lifestage = "larva"
+  posigma = 38, lifestage = "larva"
 )
 }

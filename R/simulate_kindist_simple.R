@@ -217,7 +217,7 @@ simulate_kindist_simple <- function(nsims = 100, sigma = 125, dims = 100, method
 
   return(KinPairSimulation_simple(
     data = tab, kinship = kinship, kerneltype = method,
-    dsigma = sigma, simdims = dims, lifestage = lifestage,
+    posigma = sigma, simdims = dims, lifestage = lifestage,
     kernelshape = kernelshape, call = sys.call()
   ))
 }

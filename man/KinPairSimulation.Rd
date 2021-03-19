@@ -10,7 +10,7 @@ KinPairSimulation(
   lifestage = NULL,
   simtype = NULL,
   kerneltype = NULL,
-  dsigma = NULL,
+  posigma = NULL,
   initsigma = NULL,
   breedsigma = NULL,
   gravsigma = NULL,
@@ -32,7 +32,7 @@ KinPairSimulation(
   lifestage = NULL,
   simtype = NULL,
   kerneltype = NULL,
-  dsigma = NULL,
+  posigma = NULL,
   initsigma = NULL,
   breedsigma = NULL,
   gravsigma = NULL,
@@ -59,7 +59,7 @@ KinPairSimulation(
 
 \item{kerneltype}{character. - 'Gaussian', 'Laplace' or 'Gamma'}
 
-\item{dsigma}{numeric - overall value of dispersal sigma (for simple kernel)}
+\item{posigma}{numeric - overall value of dispersal sigma (for simple kernel)}
 
 \item{initsigma}{numeric.    - value of pre-breeding dispersal sigma (for composite kernel)}
 
@@ -104,7 +104,7 @@ KinPairSimulation Class
 
 \item{\code{kerneltype}}{character. - 'Gaussian', 'Laplace' or 'Gamma'}
 
-\item{\code{dsigma}}{numeric.       - overall value of dispersal sigma (for simple kernel)}
+\item{\code{posigma}}{numeric.       - overall value of dispersal sigma (for simple kernel)}
 
 \item{\code{initsigma}}{numeric.    - value of pre-breeding dispersal sigma (for composite kernel)}
 

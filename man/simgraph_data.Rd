@@ -4,12 +4,12 @@
 \alias{simgraph_data}
 \title{Simple kin dispersal simulation for graphical display. (returns the data side as a tibble).}
 \usage{
-simgraph_data(nsims = 1000, dsigma = 50, dims = 250, kinship = "2C")
+simgraph_data(nsims = 1000, posigma = 50, dims = 250, kinship = "2C")
 }
 \arguments{
 \item{nsims}{Integer. The number of kin dispersal families to simulate.}
 
-\item{dsigma}{Integer. The axial deviation of the (simple) parent-offspring dispersal kernel governing this simulation.}
+\item{posigma}{Integer. The axial deviation of the (simple) parent-offspring dispersal kernel governing this simulation.}
 
 \item{dims}{Integer. Lays out the length of the sides of a square within which parent individuals are seeded.}
 

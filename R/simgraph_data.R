@@ -1,7 +1,7 @@
 #' Simple kin dispersal simulation for graphical display. (returns the data side as a tibble).
 #'
 #' @param nsims     Integer. The number of kin dispersal families to simulate.
-#' @param dsigma    Integer. The axial deviation of the (simple) parent-offspring dispersal kernel governing this simulation.
+#' @param posigma    Integer. The axial deviation of the (simple) parent-offspring dispersal kernel governing this simulation.
 #' @param dims      Integer. Lays out the length of the sides of a square within which parent individuals are seeded.
 #' @param kinship  Character. Lists the kin category the simulation is reconstructing. One of "PO", "FS", "HS", "AV", "GG", "HAV", "GGG", "1C", "1C1", "2C", "GAV" (no half-categories included)
 #'
@@ -10,34 +10,34 @@
 #' @importFrom stats runif rnorm
 #' @examples
 #' simgraph_data(nsims = 100, dims = 1000, kinship = "GAV")
-simgraph_data <- function(nsims = 1000, dsigma = 50, dims = 250, kinship = "2C") {
+simgraph_data <- function(nsims = 1000, posigma = 50, dims = 250, kinship = "2C") {
 
   if (!kinship %in% c("PO", "FS", "HS", "AV", "GG", "HAV", "GGG", "1C", "1C1", "2C", "GAV")) {
     stop("Invalid Kinship Category")
   }
 
   nsims <- nsims
-  dsigma <- dsigma
+  posigma <- posigma
   dims <- dims
 
   f0x <- runif(nsims, 0, dims)
   f0y <- runif(nsims, 0, dims)
 
-  f1ax <- rnorm(nsims, 0, dsigma) + f0x
-  f1ay <- rnorm(nsims, 0, dsigma) + f0y
-  f1bx <- rnorm(nsims, 0, dsigma) + f0x
-  f1by <- rnorm(nsims, 0, dsigma) + f0y
-  f1cx <- rnorm(nsims, 0, dsigma) + f0x
-  f1cy <- rnorm(nsims, 0, dsigma) + f0y
+  f1ax <- rnorm(nsims, 0, posigma) + f0x
+  f1ay <- rnorm(nsims, 0, posigma) + f0y
+  f1bx <- rnorm(nsims, 0, posigma) + f0x
+  f1by <- rnorm(nsims, 0, posigma) + f0y
+  f1cx <- rnorm(nsims, 0, posigma) + f0x
+  f1cy <- rnorm(nsims, 0, posigma) + f0y
 
-  f2ax <- rnorm(nsims, 0, dsigma) + f1ax
-  f2ay <- rnorm(nsims, 0, dsigma) + f1ay
-  f2bx <- rnorm(nsims, 0, dsigma) + f1bx
-  f2by <- rnorm(nsims, 0, dsigma) + f1by
-  f3ax <- rnorm(nsims, 0, dsigma) + f2ax
-  f3ay <- rnorm(nsims, 0, dsigma) + f2ay
-  f3bx <- rnorm(nsims, 0, dsigma) + f2bx
-  f3by <- rnorm(nsims, 0, dsigma) + f2by
+  f2ax <- rnorm(nsims, 0, posigma) + f1ax
+  f2ay <- rnorm(nsims, 0, posigma) + f1ay
+  f2bx <- rnorm(nsims, 0, posigma) + f1bx
+  f2by <- rnorm(nsims, 0, posigma) + f1by
+  f3ax <- rnorm(nsims, 0, posigma) + f2ax
+  f3ay <- rnorm(nsims, 0, posigma) + f2ay
+  f3bx <- rnorm(nsims, 0, posigma) + f2bx
+  f3by <- rnorm(nsims, 0, posigma) + f2by
 
 
   if (kinship == "PO") {
@@ -107,7 +107,7 @@ simgraph_data <- function(nsims = 1000, dsigma = 50, dims = 250, kinship = "2C")
     f3ax = f3ax, f3ay = f3ay, f3bx = f3bx, f3by = f3by,
     kindist = kindist, kinmidx = kinmidx, kinmidy = kinmidy,
     k1x = k1x, k1y = k1y, k2x = k2x, k2y = k2y,
-    dsigma = dsigma, dims = dims, kinship = kinship #stopgap before we roll this out as family simulation functions.
+    posigma = posigma, dims = dims, kinship = kinship #stopgap before we roll this out as family simulation functions.
   )
 
   return(result)
