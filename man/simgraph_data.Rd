@@ -13,7 +13,7 @@ simgraph_data(nsims = 1000, dsigma = 50, dims = 250, kinship = "2C")
 
 \item{dims}{Integer. Lays out the length of the sides of a square within which parent individuals are seeded.}
 
-\item{kinship}{Character. Lists the kin category the simulation is reconstructing. One of "PO", "FS", "HS", "AV", "GG", "HAV", "GGG", "1C", "1C1", "2C", "GAV" (no half-categoris included)}
+\item{kinship}{Character. Lists the kin category the simulation is reconstructing. One of "PO", "FS", "HS", "AV", "GG", "HAV", "GGG", "1C", "1C1", "2C", "GAV" (no half-categories included)}
 }
 \value{
 Returns a tibble containing the coordinates of the f0 to f2 generations, as well as coordinates and distances relative to the 'focus' kinship categories. (kindist, kinmid, k1 & k2)
