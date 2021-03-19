@@ -19,13 +19,13 @@ sample_kindist <- function(kindist, upper = NULL, lower = NULL, spacing = NULL, 
 
   if (!is.null(dims)) {
     if (!is.KinPairSimulation(kindist)) {
-      cat("Ignoring 'dims' as object is not of class KinPairSimulation\n")
+      message("Ignoring 'dims' as object is not of class KinPairSimulation")
     } else {
 
       # check if dimensions smaller than original dimensions!
       simdims <- kindist@simdims
       if (length(dims) > 2){ #(dims > simdims) {
-        cat("Ignoring 'dims' as vector length is greater than two\n")
+        message("Ignoring 'dims' as vector length is greater than two")
       }
       else {
 
@@ -34,7 +34,7 @@ sample_kindist <- function(kindist, upper = NULL, lower = NULL, spacing = NULL, 
           dims <- c(dims, dims)
         }
 
-        cat(paste0("Setting central sampling area to ", dims[1], " by ", dims[2], "\n"))
+        message(paste0("Setting central sampling area to ", dims[1], " by ", dims[2]))
 
         kindist <- rebase_dims(kindist, dims)
 
@@ -54,17 +54,17 @@ sample_kindist <- function(kindist, upper = NULL, lower = NULL, spacing = NULL, 
   }
 
   if (!is.null(upper)) {
-    cat(paste0("Removing distances farther than ", upper, "\n"))
+    message(paste0("Removing distances farther than ", upper))
     kindist@tab <- filter(kindist@tab, .data$distance < upper)
   }
 
   if (!is.null(lower)) {
-    cat(paste0("Removing distances closer than ", lower, "\n"))
+    message(paste0("Removing distances closer than ", lower))
     kindist@tab <- filter(kindist@tab, .data$distance > lower)
   }
 
   if (!is.null(spacing)) {
-    cat(paste0("Setting trap spacing to ", spacing, "\n"))
+    message(paste0("Setting trap spacing to ", spacing))
 
     binshift <- spacing / 2
 
@@ -73,15 +73,14 @@ sample_kindist <- function(kindist, upper = NULL, lower = NULL, spacing = NULL, 
 
   if (!is.null(n)) {
     if (!n < nrow(kindist@tab)) {
-      cat(paste0("Less than n = ", n, " kin pairs remaining (", nrow(kindist@tab), ") - skipping downsampling\n"))
+      message(paste0("Less than n = ", n, " kin pairs remaining (", nrow(kindist@tab), ") - skipping downsampling"))
     }
     else {
-      cat(paste0("Down-sampling to ", n, " kin pairs\n"))
+      message(paste0("Down-sampling to ", n, " kin pairs"))
       kindist@tab <- slice_sample(kindist@tab, n = n)
     }
   }
-  cat(paste0(nrow(kindist@tab), " kin pairs remaining.\n"))
-  cat("\n")
+  message(paste0(nrow(kindist@tab), " kin pairs remaining.\n"))
   if (is.KinPairSimulation(kindist)) {
     kindist@filtertype <- "filtered"
     if (!is.null(upper)) {
@@ -136,10 +135,10 @@ elongate <- function(dims, shape = 1){
 
 #' Change the dimensions of a KinPairSimulation Object and shift kinpairs so at least one individual is within the area
 #'
-#' @param kindist   KinPairSimulation - KinPairSimulation Class Object
+#' @param kindist   \code{KinPairSimulation} - \code{KinPairSimulation} Class Object
 #' @param dims      New site dimensions - either single number (length of side of square) or length 2 vector (lenghts of sides x and y of rectangle)
 #'
-#' @return returns a rebased object of class 'KinPairSimulation' with adjusted simulation dimensions
+#' @return returns a rebased object of class \code{KinPairSimulation} with adjusted simulation dimensions
 #' @export
 #'
 #' @examples

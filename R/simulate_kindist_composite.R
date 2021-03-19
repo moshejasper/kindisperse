@@ -11,7 +11,7 @@
 #' @param lifestage (lifestage) lifestage at sample collection: either 'larva' or 'oviposition'
 #' @param shape   (numeric) - value of shape parameter to use with 'Gamma' method
 #'
-#' @return returns an object of class 'KinPairSimulation' containing simulation details and a tibble (tab) of simulation values
+#' @return returns an object of class \code{KinPairSimulation} containing simulation details and a tibble (tab) of simulation values
 #' @export
 #'
 #' @examples

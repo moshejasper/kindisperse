@@ -9,6 +9,9 @@ simdims(x)
 \arguments{
 \item{x}{object of class \code{KinPairSimulation}}
 }
+\value{
+\code{numeric vector} dimensions of simulated object
+}
 \description{
 Access simulation dimensions of KinPairSimulation object
 }

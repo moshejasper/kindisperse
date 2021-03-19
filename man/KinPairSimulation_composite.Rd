@@ -42,7 +42,7 @@ KinPairSimulation_composite(
 \item{call}{call object. Use to pass the system call that led to the generation of this class. (via sys.call)}
 }
 \value{
-Returns a KinPairSimulation Class object with simtype set to 'composite' and relevant fields included.
+Returns a \code{KinPairSimulation} Class object with simtype set to 'composite' and relevant fields included.
 }
 \description{
 Constructor for KinPairSimulation Class (composite)

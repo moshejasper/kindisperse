@@ -42,7 +42,7 @@ write_kindata <- function(x, file) {
   if (!is.KinPairData(x)) stop("x is not an object of class KinPairData!")
   if (!str_ends(file, ".kindata")) {
     file <- paste0(file, ".kindata")
-    cat(paste0("Adding extension '.kindata': final filename '", file, "'\n"))
+    message(paste0("Adding extension '.kindata': final filename '", file))
   }
   write_rds(x, file)
   invisible(x)

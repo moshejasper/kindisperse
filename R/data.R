@@ -31,4 +31,5 @@
 #' }
 #'
 #' @source \doi{10.1111/1755-0998.13043}
+#' @return returns an object of class \code{tbl_df}
 "mentari"

@@ -9,6 +9,9 @@ kerneltype(x)
 \arguments{
 \item{x}{object of class \code{KinPairSimulation}}
 }
+\value{
+\code{character} the type of statistical kernel used to run the simulation (Gaussian, Laplace, gamma)
+}
 \description{
 kindisperse - access kerneltype of KinPairSimulation object
 }

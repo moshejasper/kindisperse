@@ -140,6 +140,48 @@
 \item{KinPairSimulation}{an object of class KinPairSimulation}
 }
 \value{
+\code{character} the shape parameter used in kernel simulation (if \code{kerneltype} is gamma)
+
+\code{character} the kind of simulation stored in the object (simple or composite)
+
+\code{character} the type of statistical kernel used to run the simulation (Gaussian, Laplace, gamma)
+
+\code{numeric} dsigma value of simple simulation
+
+\code{numeric} initsigma value of composite simulation
+
+\code{numeric} breedsigma value of composite simulation
+
+\code{numeric} gravsigma value of composite simulation
+
+\code{numeric} ovisigma value of composite simulation
+
+\code{numeric vector} simulation dimensions of \code{KinPairSimulation} object
+
+\code{character} filter status of \code{KinPairSimulation} object
+
+\code{numeric} upper value of sampled \code{KinPairSimulation} object
+
+\code{numeric} lower value of sampled \code{KinPairSimulation} object
+
+\code{numeric} trap spacing value of sampled \code{KinPairSimulation} object
+
+\code{numeric} number of kin dyads in \code{KinPairSimulation} object
+
+\code{numeric vector} sampling dimensions of \code{KinPairSimulation} object
+
+returns a modified object of class \code{KinPairSimulation}
+
+returns a modified object of class \code{KinPairSimulation}
+
+returns a modified object of class \code{KinPairSimulation}
+
+returns a modified object of class \code{KinPairSimulation}
+
+returns a modified object of class \code{KinPairSimulation}
+
+No return value, called for side effects
+
 Returns an object of class \code{KinPairSimulation}
 }
 \description{

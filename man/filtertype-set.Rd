@@ -11,6 +11,9 @@ filtertype(x) <- value
 
 \item{value}{new value to assign}
 }
+\value{
+returns a modified object of the relevant class
+}
 \description{
 Title
 }

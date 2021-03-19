@@ -230,11 +230,11 @@ axpermute_standard <- function(avect = NULL, bvect = NULL, acat = NULL, bcat = N
     anum <- length(avect)
     bnum <- length(bvect)
     if (anum > 1000) {
-      cat("More than 1,000 kinpairs in vector avect: setting permutation sample number to 1,000\n")
+      message("More than 1,000 kinpairs in vector avect: setting permutation sample number to 1,000")
       anum <- 1000
     }
     if (bnum > 1000) {
-      cat("More than 1,000 kinpairs in vector bvect: setting permutation sample number to 1,000\n")
+      message("More than 1,000 kinpairs in vector bvect: setting permutation sample number to 1,000")
       bnum <- 1000
     }
   }
@@ -293,7 +293,7 @@ axpermute_standard <- function(avect = NULL, bvect = NULL, acat = NULL, bcat = N
     if (nsamp == "std") {
       acompnum <- length(acompvect)
       if (acompnum > 1000) {
-        cat("More than 1,000 kinpairs in vector acompvect: setting permutation sample number to 1,000\n")
+        message("More than 1,000 kinpairs in vector acompvect: setting permutation sample number to 1,000")
         acompnum <- 1000
       }
     }
@@ -322,7 +322,7 @@ axpermute_standard <- function(avect = NULL, bvect = NULL, acat = NULL, bcat = N
     if (nsamp == "std") {
       bcompnum <- length(bcompvect)
       if (bcompnum > 1000) {
-        cat("More than 1,000 kinpairs in vector bcompvect: setting permutation sample number to 1,000\n")
+        message("More than 1,000 kinpairs in vector bcompvect: setting permutation sample number to 1,000")
         bcompnum <- 1000
       }
     }

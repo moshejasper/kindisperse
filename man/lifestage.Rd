@@ -14,6 +14,11 @@ lifestage(x) <- value
 
 \item{value}{new value to assign}
 }
+\value{
+\code{character} life stage of object
+
+returns modified object with altered lifestage
+}
 \description{
 Access or assign lifestage (generic for KinPairData class)
 }

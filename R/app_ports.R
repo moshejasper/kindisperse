@@ -23,6 +23,7 @@ mount_appdata <- function(x, nm) {
 #'
 #' @param nms A character vector of names of objects to unmount from the appdata environment
 #'
+#' @return No return value, called for side effects
 #' @export
 #'
 #' @examples
@@ -35,6 +36,7 @@ unmount_appdata <- function(nms) {
 
 #' Reset kindisperse appdata
 #'
+#' @return No return value, called for side effects
 #' @export
 #'
 #' @examples
@@ -73,6 +75,7 @@ retrieveall_appdata <- function() {
 
 #' Reset app tempdata (internal mem)
 #'
+#' @return No return value, called for side effects
 #' @export
 #'
 #' @examples
@@ -104,7 +107,7 @@ retrieve_tempdata <- function() {
 #' Show printout of named items stored in appdata.
 #'
 #' @export
-#'
+#' @return No return value, called for side effects
 #' @examples
 #' mount_appdata(KinPairData(), "my_kindata")
 #' mount_appdata(simulate_kindist_simple(nsims = 10), "my_simdata")

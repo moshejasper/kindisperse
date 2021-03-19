@@ -38,6 +38,27 @@ sampledims(x) <- value
 
 \item{value}{new value to assign}
 }
+\value{
+\code{numeric} upper value of sampled object
+
+returns a modified object of the relevant class
+
+\code{numeric} lower value of sampled object
+
+returns a modified object of the relevant class
+
+\code{numeric} trap spacing of sampled object
+
+returns a modified object of the relevant class
+
+\code{numeric} number of kin dyads in sampled object
+
+returns a modified object of the relevant class
+
+\code{numeric vector} dimensions of sampled object
+
+returns a modified object of the relevant class
+}
 \description{
 Access & filter by filter parameters of KinPairSimulation Object
 }

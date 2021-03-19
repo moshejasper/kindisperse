@@ -12,7 +12,7 @@ axials_subtract(abig, asmall)
 \item{asmall}{numeric. The axial dispersal distance of the smaller (subsumed) distribution (e.g. FS).}
 }
 \value{
-Returns an estimate of the axial dispersal distance of those dispersal elements that are unique to the larger dispersal distribution (e.g. PO).
+\code{numeric} Returns an estimate of the axial dispersal distance of those dispersal elements that are unique to the larger dispersal distribution (e.g. PO).
 }
 \description{
 Subtract axial distributions, finding the difference (under an additive variance framework).

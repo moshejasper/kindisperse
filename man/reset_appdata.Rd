@@ -6,6 +6,9 @@
 \usage{
 reset_appdata()
 }
+\value{
+No return value, called for side effects
+}
 \description{
 Reset kindisperse appdata
 }

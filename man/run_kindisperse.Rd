@@ -6,6 +6,9 @@
 \usage{
 run_kindisperse()
 }
+\value{
+returns a shiny app instance of kindisperse
+}
 \description{
 Run kindisperse app
 }

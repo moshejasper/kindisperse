@@ -10,7 +10,7 @@ axials_add(axvals)
 \item{axvals}{numeric. vector of axial distribution values from different kernels that are to be added.}
 }
 \value{
-Returns the axial value that results from adding the input axial values under an additive variance framework.
+\code{numeric} Returns the axial value that results from adding the input axial values under an additive variance framework.
 }
 \description{
 Add axial distributions. Useful to construct an overall distribution that results from multiple 'draws'

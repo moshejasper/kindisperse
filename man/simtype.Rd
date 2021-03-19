@@ -9,6 +9,9 @@ simtype(x)
 \arguments{
 \item{x}{object of class \code{KinPairSimulation}}
 }
+\value{
+\code{character} the kind of simulation stored in the object (simple or composite)
+}
 \description{
 kindisperse - access simtype of KinPairSimulation object
 }

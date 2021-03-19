@@ -10,7 +10,7 @@ axials_combine(axvals)
 \item{axvals}{numeric. vector of axial distribution values from different kernels that are to be combined}
 }
 \value{
-Returns the axial value that results from combining the input axial values under an additive variance framework.
+\code{numeric} Returns the axial value that results from combining the input axial values under an additive variance framework.
 }
 \description{
 combines axial distributions to produce a mixed distribution.

@@ -9,6 +9,9 @@ kernelshape(x)
 \arguments{
 \item{x}{object of class \code{KinPairSimulation}}
 }
+\value{
+\code{character} the shape parameter used in kernel simulation (if \code{kerneltype} is gamma)
+}
 \description{
 kindisperse - access kerneltype of KinPairSimulation object
 }
