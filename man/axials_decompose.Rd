@@ -9,7 +9,12 @@ axials_decompose(ax, n_composites = 2)
 \arguments{
 \item{ax}{numeric. The axial value to be decomposed.}
 
-\item{n_composites}{numeric. The number of (identical) draws from the underlying kernel leading to the composite axial value}
+\item{n_composites}{numeric. The number of separate 'draws' (dispersal events)
+from the kernel required to produce the final positions of the measured individuals.
+For example, the displacement of a child from parent at the same life stage would involve 1 draw and thus be composite = 1.
+Two full siblings would be two draws (composite = 2) from the FS kernel. Non-symmetric relationships (e.g. AV, 1C)
+should not be decomposed using this method, nor should any assumptions be made about different kernels
+(e.g. the 1C relationship would appropriately be given the value 2, but not 4)}
 }
 \value{
 Returns the axial distribution value of the underlying dispersal kernel from which the composite kernel was (or could be) created.

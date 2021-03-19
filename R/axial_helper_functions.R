@@ -4,8 +4,8 @@
 #' @param composite numeric. The number of separate 'draws' (dispersal events)
 #' from the kernel required to produce the final positions of the measured individuals.
 #' For example, the displacement of a child from parent at the same lifestage would involve 1 draw and thus be composite = 1.
-#' Two full siblings would be two draws (composite = 2). Non-symmetric relationships (e.g. AV, 1C)
-#' should not be decomposed using this method, nor should any assumptiosn be made about different kernels
+#' Two full siblings would be two draws (composite = 2) from the FS kernel. Non-symmetric relationships (e.g. AV, 1C)
+#' should not be decomposed using this method, nor should any assumptions be made about different kernels
 #' (e.g. the 1C relationship would appropriately be given the value 2, but not 4)
 #'
 #'
@@ -40,7 +40,12 @@ axials_norm <- function(valvect) { # wrapper for axials, but assumes distributio
 #' @description Decomposes an axial distribution into simple components. Note that this should only be used in the simplest situations.
 #'
 #' @param ax  numeric. The axial value to be decomposed.
-#' @param n_composites  numeric. The number of (identical) draws from the underlying kernel leading to the composite axial value
+#' @param n_composites numeric. The number of separate 'draws' (dispersal events)
+#' from the kernel required to produce the final positions of the measured individuals.
+#' For example, the displacement of a child from parent at the same life stage would involve 1 draw and thus be composite = 1.
+#' Two full siblings would be two draws (composite = 2) from the FS kernel. Non-symmetric relationships (e.g. AV, 1C)
+#' should not be decomposed using this method, nor should any assumptions be made about different kernels
+#' (e.g. the 1C relationship would appropriately be given the value 2, but not 4)
 #'
 #' @return Returns the axial distribution value of the underlying dispersal kernel from which the composite kernel was (or could be) created.
 #' @export
@@ -93,7 +98,7 @@ axials_combine <- function(axvals) { # for when your data is an even mix of two 
 #' parent_offspring_ax <- 25
 #' cousin_ax <- axials_add(c(fullsibs_ax, parent_offspring_ax))
 axials_add <- function(axvals) { # for when there are multiple components summing together... (e.g. PO + PO, etc.)...
-  return(sqrt(sum(axvals)))
+  return(sqrt(sum(axvals^2)))
 }
 
 #' Subtract axial distributions
@@ -125,7 +130,12 @@ axmed <- function(ax) { # returns median distance of this distribution (at least
 #' @param nreps numeric. Number of permutations to run for confidence intervals (default 1000)
 #' @param nsamp numeric. Number of kin pairs to subsample for each permutation.
 #' Either "std" or an integer. If "std" will be computed as equal to the sample size. (default "std")
-#' @param composite numeric. Number of 'draws' going into each underlying distribution (default 2). Passed to axials function.
+#' @param composite numeric. The number of separate 'draws' (dispersal events)
+#' from the kernel required to produce the final positions of the measured individuals.
+#' For example, the displacement of a child from parent at the same lifestage would involve 1 draw and thus be composite = 1.
+#' Two full siblings would be two draws (composite = 2) from the FS kernel. Non-symmetric relationships (e.g. AV, 1C)
+#' should not be decomposed using this method, nor should any assumptions be made about different kernels
+#' (e.g. the 1C relationship would appropriately be given the value 2, but not 4)
 #' @param output character. Denotes what kind of output to return.
 #' If 'confs', a vector of 95% confidence intervals. if 'vect', a vector of all permuted axial value results
 #'
@@ -155,7 +165,9 @@ axpermute <- function(vals, nreps = 1000, nsamp = "std", composite = 1, output =
     container <- add_row(container, ax = newax)
   }
   if (output == "confs") {
-    return(quantile(container$ax, c(0.025, 0.5, 0.975)))
+    meanval <- axials(vals, composite)
+    ci <- quantile(container$ax, c(0.025, 0.975))
+    return(c(ci[1], mean = meanval, ci[2]))
   }
   else if (output == "vect") {
     return(container$ax)
@@ -174,8 +186,12 @@ axpermute <- function(vals, nreps = 1000, nsamp = "std", composite = 1, output =
 #' @param nreps numeric. Number of permutations to perform when generating confidence intervals.
 #' @param nsamp numeric. number of kin pairs to subsample for each permutation. Either "std" or an integer.
 #' If "std" will be computed as equal to the sample size. (default "std")
-#' @param composite numeric. Number of 'draws' going into each underlying distribution (default 2). Passed to axials function.
-#' (this would be ideal for e.g. unaltered FS & 1C distances, but less ideal if differing distributions went into each underlying category (e.g. FS and AV))
+#' @param composite numeric. The number of separate 'draws' (dispersal events)
+#' from the kernel required to produce the final positions of the measured individuals.
+#' For example, the displacement of a child from parent at the same lifestage would involve 1 draw and thus be composite = 1.
+#' Two full siblings would be two draws (composite = 2) from the FS kernel. Non-symmetric relationships (e.g. AV, 1C)
+#' should not be decomposed using this method, nor should any assumptions be made about different kernels
+#' (e.g. the 1C relationship would appropriately be given the value 2, but not 4)
 #' @param output character. What kind of output to return.
 #' Either 'confs' (default -> confidence intervals) or 'vect -> vector of axial distances
 #'
@@ -209,8 +225,8 @@ axpermute_subtract <- function(bigvals, smallvals, nreps = 1000, nsamp = "std", 
     anum <- bnum <- nsamp
   }
   for (val in 1:nreps) {
-    sub1 <- sample(bigvals, anum, replace = T)
-    sub2 <- sample(smallvals, bnum, replace = T)
+    sub1 <- sample(bigvals, anum, replace = TRUE)
+    sub2 <- sample(smallvals, bnum, replace = TRUE)
     bigax <- axials(sub1, composite)
     smallax <- axials(sub2, composite)
     if (bigax < smallax) { # here, -1 substitutes for NaN to allow function to continue... needs to be worked into the piece
@@ -222,7 +238,17 @@ axpermute_subtract <- function(bigvals, smallvals, nreps = 1000, nsamp = "std", 
     container <- add_row(container, ax = newax)
   }
   if (output == "confs") {
-    return(quantile(container$ax, c(0.025, 0.5, 0.975)))
+    bigax <- axials(bigvals)
+    smallax <- axials(smallvals)
+    if (bigax < smallax) {
+      newax <- -1
+    }
+    else {
+      finax <- axials_subtract(bigax, smallax)
+    }
+
+    ci <- quantile(container$ax, c(0.025, 0.975))
+    return(c(ci[1], mean = finax, ci[2]))
   }
   else if (output == "vect") {
     return(container$ax)
@@ -246,7 +272,7 @@ phase_assigner <- function(category) {
 }
 
 span_assigner <- function(category) {
-  if (category %in% c("FS", "HS", "PO", "AV", "HAV", "GG", "GAV", "GHAV", "GGG")) {
+  if (category %in% c("FS", "HS", "PO", "AV", "HAV", "GG", "GAV", "HGAV", "GGG")) {
     span1 <- 0
   }
   if (category %in% c("1C", "H1C", "1C1", "H1C1")) {
@@ -262,7 +288,7 @@ span_assigner <- function(category) {
   if (category %in% c("AV", "HAV", "1C", "H1C", "GG")) {
     span2 <- 1
   }
-  if (category %in% c("GAV", "GHAV", "GGG", "1C1", "H1C1", "2C", "H2C")) {
+  if (category %in% c("GAV", "HGAV", "GGG", "1C1", "H1C1", "2C", "H2C")) {
     span2 <- 2
   }
 
