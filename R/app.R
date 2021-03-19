@@ -2152,7 +2152,7 @@ server <- function(input, output, session) {
 
 #' Run kindisperse app
 #'
-#'
+#' @return returns a shiny app instance of kindisperse
 #' @export
 #'
 run_kindisperse <- function() {

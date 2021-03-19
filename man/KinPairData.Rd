@@ -16,7 +16,7 @@ KinPairData(data = NULL, kinship = NULL, lifestage = NULL)
 \item{lifestage}{character. - one of 'unknown', 'larva' or 'oviposition'}
 }
 \value{
-
+returns object of class \code{KinPairData}
 
 returns an object of class \code{KinPairData}
 }

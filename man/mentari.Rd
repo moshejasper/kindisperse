@@ -25,6 +25,9 @@ A data frame with 98 rows and 10 variables
 \usage{
 mentari
 }
+\value{
+returns an object of class \code{tbl_df}
+}
 \description{
 A data file containing the positions & kinship values of 98 \emph{Ae. aegypti} larval
 kin pairs collected between September 19 & October 10, 2017 in Mentari Court

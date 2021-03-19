@@ -9,6 +9,9 @@ filtertype(x)
 \arguments{
 \item{x}{object of class \code{KinPairSimulation}}
 }
+\value{
+\code{character} filter status of simulation
+}
 \description{
 Access filter type of KinPairSimulation object
 }

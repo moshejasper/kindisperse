@@ -47,7 +47,7 @@ axials_norm <- function(valvect) { # wrapper for axials, but assumes distributio
 #' should not be decomposed using this method, nor should any assumptions be made about different kernels
 #' (e.g. the 1C relationship would appropriately be given the value 2, but not 4)
 #'
-#' @return Returns the axial distribution value of the underlying dispersal kernel from which the composite kernel was (or could be) created.
+#' @return Returns the (numeric) axial distribution value of the underlying dispersal kernel from which the composite kernel was (or could be) created.
 #' @export
 #'
 #' @examples
@@ -69,7 +69,7 @@ axials_decompose <- function(ax, n_composites = 2) { # adjusts for number of (eq
 #'
 #' @param axvals numeric. vector of axial distribution values from different kernels that are to be combined
 #'
-#' @return Returns the axial value that results from combining the input axial values under an additive variance framework.
+#' @return \code{numeric} Returns the axial value that results from combining the input axial values under an additive variance framework.
 #' @export
 #'
 #' @examples
@@ -90,7 +90,7 @@ axials_combine <- function(axvals) { # for when your data is an even mix of two 
 #'
 #' @param axvals numeric. vector of axial distribution values from different kernels that are to be added.
 #'
-#' @return Returns the axial value that results from adding the input axial values under an additive variance framework.
+#' @return \code{numeric} Returns the axial value that results from adding the input axial values under an additive variance framework.
 #' @export
 #'
 #' @examples
@@ -111,7 +111,7 @@ axials_add <- function(axvals) { # for when there are multiple components summin
 #' @param abig  numeric. The axial dispersal distance of the larger (subsuming) distribution (e.g. 1C).
 #' @param asmall numeric. The axial dispersal distance of the smaller (subsumed) distribution (e.g. FS).
 #'
-#' @return Returns an estimate of the axial dispersal distance of those dispersal elements that are unique to the larger dispersal distribution (e.g. PO).
+#' @return \code{numeric} Returns an estimate of the axial dispersal distance of those dispersal elements that are unique to the larger dispersal distribution (e.g. PO).
 #' @export
 #'
 #' @examples
@@ -139,8 +139,8 @@ axmed <- function(ax) { # returns median distance of this distribution (at least
 #' @param output character. Denotes what kind of output to return.
 #' If 'confs', a vector of 95% confidence intervals. if 'vect', a vector of all permuted axial value results
 #'
-#' @return If ouput = 'confs', returns a vector of 95% confidence intervals.
-#' if output = 'vect', returns a vector of all permuted axial value results
+#' @return If ouput = 'confs', returns a \code{numeric vector} of 95% confidence intervals and mean axial value.
+#' if output = 'vect', returns a \code{numeric vector} of all permuted axial value results
 #' @export
 #'
 #' @examples
@@ -195,8 +195,8 @@ axpermute <- function(vals, nreps = 1000, nsamp = "std", composite = 1, output =
 #' @param output character. What kind of output to return.
 #' Either 'confs' (default -> confidence intervals) or 'vect -> vector of axial distances
 #'
-#' @return If output = 'confs' returns vector of 95% confidence intervals (with median).
-#' If output = 'vect' returns vector of individual axial estimates from each permutation
+#' @return If output = 'confs' returns \code{numeric vector} of 95% confidence intervals and mean axial value.
+#' If output = 'vect' returns \code{numeric vector} of individual axial estimates from each permutation
 #' @export
 #'
 #' @examples

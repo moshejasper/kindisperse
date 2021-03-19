@@ -6,6 +6,9 @@
 \usage{
 reset_tempdata()
 }
+\value{
+No return value, called for side effects
+}
 \description{
 Reset app tempdata (internal mem)
 }

@@ -39,7 +39,7 @@ simulate_kindist_composite(
 \item{shape}{(numeric) - value of shape parameter to use with 'Gamma' method}
 }
 \value{
-returns an object of class 'KinPairSimulation' containing simulation details and a tibble (tab) of simulation values
+returns an object of class \code{KinPairSimulation} containing simulation details and a tibble (tab) of simulation values
 }
 \description{
 Simulate kin dispersal distance pairs with composite sigmas

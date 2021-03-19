@@ -6,6 +6,9 @@
 \usage{
 display_appdata()
 }
+\value{
+No return value, called for side effects
+}
 \description{
 Show printout of named items stored in appdata.
 }

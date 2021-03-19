@@ -6,7 +6,7 @@ methods::setOldClass(c("tbl_df", "tbl", "data.frame"))
 #' @slot kinship character.
 #' @slot lifestage character.
 #' @slot tab tbl_df.
-#' @return
+#' @return returns object of class \code{KinPairData}
 #' @export
 #'
 #'
@@ -39,7 +39,7 @@ setGeneric("kinship<-", function(x, value) standardGeneric("kinship<-"))
 #' Access or assign lifestage (generic for KinPairData class)
 #'
 #' @param x object with relevant method
-#'
+#' @return \code{character} life stage of object
 #' @export
 #'
 #'
@@ -49,6 +49,7 @@ setGeneric("lifestage", function(x) standardGeneric("lifestage"))
 #' @param x object with relevant method
 #' @param value new value to assign
 #'
+#' @return returns modified object with altered lifestage
 #' @export
 #'
 #'
@@ -72,6 +73,7 @@ setGeneric("distances", function(x) standardGeneric("distances"))
 #' @param KinPairData object of class \code{KinPairData}
 #' @param x object of class KinPairData
 #'
+#' @return numeric vector of kin separation distances
 #' @export
 #'
 #' @describeIn KinPairData access distances
@@ -81,6 +83,7 @@ setMethod("distances", "KinPairData", function(x) x@tab$distance)
 #'
 #' @param KinPairData object of class \code{KinPairData}
 #'
+#' @return \code{character} kinship of \code{KinPairData} object
 #' @export
 #'
 #' @describeIn KinPairData access kin category
@@ -91,6 +94,8 @@ setMethod("kinship", "KinPairData", function(x) x@kinship)
 #' @param KinPairData object of class \code{KinPairData}
 #' @param x object of class \code{KinPairData}
 #' @param value value to assign to slot
+#'
+#'@return modified object of class \code{KinPairData}
 #'
 #' @export
 #'
@@ -106,6 +111,8 @@ setMethod("kinship<-", "KinPairData", function(x, value) {
 #'
 #' @param KinPairData
 #'
+#' @return \code{character} lifestage of \code{KinPairData} object
+#'
 #' @export
 #'
 #' @describeIn KinPairData access lifestage
@@ -115,6 +122,8 @@ setMethod("lifestage", "KinPairData", function(x) x@lifestage)
 #'
 #'
 #' @param KinPairData
+#'
+#' @return modified object of class \code{KinPairData}
 #'
 #' @export
 #'
@@ -129,6 +138,8 @@ setMethod("lifestage<-", "KinPairData", function(x, value) {
 #'
 #' @param KinPairData object of class KinPairData
 #' @param object an object of class KinpairData
+#'
+#' @return No return value, called for side effects
 #'
 #' @export
 #'

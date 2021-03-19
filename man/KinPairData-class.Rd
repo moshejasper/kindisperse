@@ -44,6 +44,18 @@
 \item{KinPairData}{object of class KinPairData}
 }
 \value{
+numeric vector of kin separation distances
+
+\code{character} kinship of \code{KinPairData} object
+
+modified object of class \code{KinPairData}
+
+\code{character} lifestage of \code{KinPairData} object
+
+modified object of class \code{KinPairData}
+
+No return value, called for side effects
+
 Returns an object of class \code{KinPairData}
 }
 \description{

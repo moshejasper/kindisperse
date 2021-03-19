@@ -135,10 +135,10 @@ elongate <- function(dims, shape = 1){
 
 #' Change the dimensions of a KinPairSimulation Object and shift kinpairs so at least one individual is within the area
 #'
-#' @param kindist   KinPairSimulation - KinPairSimulation Class Object
+#' @param kindist   \code{KinPairSimulation} - \code{KinPairSimulation} Class Object
 #' @param dims      New site dimensions - either single number (length of side of square) or length 2 vector (lenghts of sides x and y of rectangle)
 #'
-#' @return returns a rebased object of class 'KinPairSimulation' with adjusted simulation dimensions
+#' @return returns a rebased object of class \code{KinPairSimulation} with adjusted simulation dimensions
 #' @export
 #'
 #' @examples

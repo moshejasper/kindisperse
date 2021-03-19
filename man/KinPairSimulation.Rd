@@ -88,6 +88,8 @@ KinPairSimulation(
 \item{sampledims}{numeric.       - FILTER: sample dimensions used}
 }
 \value{
+returns object of class \code{KinPairSimulation}
+
 returns an object of class \code{KinPairSimulation}.
 }
 \description{

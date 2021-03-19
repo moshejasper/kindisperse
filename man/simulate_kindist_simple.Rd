@@ -30,7 +30,7 @@ simulate_kindist_simple(
 \item{shape}{(numeric) value of shape parameter to use with 'Gamma' method.}
 }
 \value{
-\preformatted{ returns an object of class 'KinPairSimulation' containing simulation details and a tibble (tab) of simulation values
+\preformatted{ returns an object of class \code{KinPairSimulation} containing simulation details and a \code{tibble} (tab) of simulation values
 }
 }
 \description{

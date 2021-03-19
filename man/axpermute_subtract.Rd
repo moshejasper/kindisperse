@@ -34,8 +34,8 @@ should not be decomposed using this method, nor should any assumptions be made a
 Either 'confs' (default -> confidence intervals) or 'vect -> vector of axial distances}
 }
 \value{
-If output = 'confs' returns vector of 95\% confidence intervals (with median).
-If output = 'vect' returns vector of individual axial estimates from each permutation
+If output = 'confs' returns \code{numeric vector} of 95\% confidence intervals and mean axial value.
+If output = 'vect' returns \code{numeric vector} of individual axial estimates from each permutation
 }
 \description{
 Find the difference between two different empirical axial distributions with confidence intervals.

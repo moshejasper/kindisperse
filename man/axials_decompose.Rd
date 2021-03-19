@@ -17,7 +17,7 @@ should not be decomposed using this method, nor should any assumptions be made a
 (e.g. the 1C relationship would appropriately be given the value 2, but not 4)}
 }
 \value{
-Returns the axial distribution value of the underlying dispersal kernel from which the composite kernel was (or could be) created.
+Returns the (numeric) axial distribution value of the underlying dispersal kernel from which the composite kernel was (or could be) created.
 }
 \description{
 Decomposes an axial distribution into simple components. Note that this should only be used in the simplest situations.

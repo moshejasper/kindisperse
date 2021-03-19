@@ -11,6 +11,9 @@ kerneltype(x) <- value
 
 \item{value}{new value to assign}
 }
+\value{
+returns a modified object of the relevant class with altered kerneltype parameter
+}
 \description{
 Title
 }

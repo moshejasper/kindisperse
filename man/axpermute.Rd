@@ -25,8 +25,8 @@ should not be decomposed using this method, nor should any assumptions be made a
 If 'confs', a vector of 95\% confidence intervals. if 'vect', a vector of all permuted axial value results}
 }
 \value{
-If ouput = 'confs', returns a vector of 95\% confidence intervals.
-if output = 'vect', returns a vector of all permuted axial value results
+If ouput = 'confs', returns a \code{numeric vector} of 95\% confidence intervals and mean axial value.
+if output = 'vect', returns a \code{numeric vector} of all permuted axial value results
 }
 \description{
 Estimate the axial dispersal distance of a kernel with confidence intervals
