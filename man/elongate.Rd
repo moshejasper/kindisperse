@@ -2,20 +2,20 @@
 % Please edit documentation in R/sample_kindist.R
 \name{elongate}
 \alias{elongate}
-\title{Change the shape of a rectangle while preserving area}
+\title{Change the shape (aspect ratio) of a rectangle while preserving area}
 \usage{
-elongate(dims, shape = 1)
+elongate(dims, aspect = 1)
 }
 \arguments{
-\item{dims}{Original rectangle dimensions - either single number (length of side of square) or length 2 numeric vector (lenghts of sides x and y of rectangle)}
+\item{dims}{Original rectangle dimensions - either single number (length of side of square) or length 2 numeric vector (lengths of sides x and y of rectangle)}
 
-\item{shape}{Ratio of side lengths x & y in the new rectangle}
+\item{aspect}{Aspect ratio of side lengths x & y (i.e. x/y) in the new rectangle}
 }
 \value{
 Returns a numeric vector containing the side lengths c(x, y) of a transformed rectangle with preserved area
 }
 \description{
-Change the shape of a rectangle while preserving area
+Change the shape (aspect ratio) of a rectangle while preserving area
 }
 \examples{
 elongate(10, 100)

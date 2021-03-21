@@ -104,10 +104,10 @@ sample_kindist <- function(kindist, upper = NULL, lower = NULL, spacing = NULL, 
 
 # additional comment
 
-#' Change the shape of a rectangle while preserving area
+#' Change the shape (aspect ratio) of a rectangle while preserving area
 #'
-#' @param dims  Original rectangle dimensions - either single number (length of side of square) or length 2 numeric vector (lenghts of sides x and y of rectangle)
-#' @param shape Ratio of side lengths x & y in the new rectangle
+#' @param dims  Original rectangle dimensions - either single number (length of side of square) or length 2 numeric vector (lengths of sides x and y of rectangle)
+#' @param aspect Aspect ratio of side lengths x & y (i.e. x/y) in the new rectangle
 #'
 #' @return Returns a numeric vector containing the side lengths c(x, y) of a transformed rectangle with preserved area
 #' @export
@@ -115,7 +115,7 @@ sample_kindist <- function(kindist, upper = NULL, lower = NULL, spacing = NULL, 
 #' @examples
 #' elongate(10, 100)
 #' elongate(c(5, 125), 4)
-elongate <- function(dims, shape = 1){
+elongate <- function(dims, aspect = 1){
   if (length(dims) > 2){
     stop("'dims' cannot have length > 2")
   }
@@ -127,7 +127,7 @@ elongate <- function(dims, shape = 1){
   }
 
   # calculate dimensions
-  xdim <- sqrt(area / shape)
+  xdim <- sqrt(area * aspect)
   ydim <- area / xdim
 
   return(c(xdim, ydim))
@@ -136,7 +136,7 @@ elongate <- function(dims, shape = 1){
 #' Change the dimensions of a KinPairSimulation Object and shift kinpairs so at least one individual is within the area
 #'
 #' @param kindist   \code{KinPairSimulation} - \code{KinPairSimulation} Class Object
-#' @param dims      New site dimensions - either single number (length of side of square) or length 2 vector (lenghts of sides x and y of rectangle)
+#' @param dims      New site dimensions - either single number (length of side of square) or length 2 vector (lengths of sides x and y of rectangle)
 #'
 #' @return returns a rebased object of class \code{KinPairSimulation} with adjusted simulation dimensions
 #' @export
