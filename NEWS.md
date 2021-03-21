@@ -15,7 +15,7 @@
 * Updated KinPairSimulation '<-sampledim' method
 * Added Table of Contents to README
 
-# Kindisperse 0.8.0
+# kindisperse 0.8.0
 
 * Added Mentari Court field data for example calculations
 * Added 2d rectangular dimensions to simulate & sample functions
