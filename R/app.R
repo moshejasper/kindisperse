@@ -557,31 +557,27 @@ ui <- fluidPage(
                 min = 1, max = 250, value = 50
               ),
 
-              h5("Site dimensions"),
-
-              column(width = 4,
+              strong("Site dimensions (n x n)"),
 
               numericInput(
                 inputId = "sim_simple_dimx",
-                label = "(n x n)",
+                label = "",
                 min = 25, max = 1000, value = 1000
-              )),
-
-              column(width = 4,
-                     hr(),
-                     checkboxInput(
-                       inputId = "sim_simple_bothdims",
-                       label = h5("link dimensions"),
-                       value = TRUE
-                     )
               ),
 
-              column(width = 4,
-                     numericInput(
-                       inputId = "sim_simple_dimy",
-                       label = "",
-                       min = 25, max = 1000, value = 1000
-                     )
+              conditionalPanel(
+                condition = "input.sim_simple_bothdims == false",
+                numericInput(
+                 inputId = "sim_simple_dimy",
+                 label = "",
+                 min = 25, max = 1000, value = 1000
+                )
+              ),
+
+              checkboxInput(
+                inputId = "sim_simple_bothdims",
+                label = h5("square site"),
+                value = TRUE
               ),
 
               selectInput(
@@ -686,31 +682,27 @@ ui <- fluidPage(
                 min = 1, max = 250, value = 50
               ),
 
-              h5("Site dimensions"),
+              strong("Site dimensions (n x n)"),
 
-              column(width = 4,
-
-                     numericInput(
-                       inputId = "sim_composite_dimx",
-                       label = "(n x n)",
-                       min = 25, max = 1000, value = 1000
-                     )),
-
-              column(width = 4,
-                     hr(),
-                     checkboxInput(
-                       inputId = "sim_composite_bothdims",
-                       label = h5("link dimensions"),
-                       value = TRUE
-                     )
+              numericInput(
+                inputId = "sim_composite_dimx",
+                label = "",
+                min = 25, max = 1000, value = 1000
               ),
 
-              column(width = 4,
-                     numericInput(
-                       inputId = "sim_composite_dimy",
-                       label = "",
-                       min = 25, max = 1000, value = 1000
-                     )
+              conditionalPanel(
+                condition = "input.sim_composite_bothdims == false",
+                numericInput(
+                  inputId = "sim_composite_dimy",
+                  label = "",
+                  min = 25, max = 1000, value = 1000
+                )
+              ),
+
+              checkboxInput(
+                inputId = "sim_composite_bothdims",
+                label = h5("square site"),
+                value = TRUE
               ),
 
               selectInput(
@@ -882,33 +874,28 @@ ui <- fluidPage(
 
           conditionalPanel(
             condition = "input.samp_checkbox.includes('use_samp_dims')",
-            h5("choose trap dimensions"),
+            strong("Choose site dimensions (n x n)"),
 
-            column(width = 5,
-
-                   numericInput(
-                     inputId = "samp_dimx",
-                     label = "(n x n)",
-                     min = 25, max = 1000, value = 1000
-                   )),
-
-            column(width = 2,
-                   hr(),
-                   checkboxInput(
-                     inputId = "samp_bothdims",
-                     label = h5("link"),
-                     value = TRUE
-                   )
+            numericInput(
+              inputId = "samp_dimx",
+              label = "",
+              min = 25, max = 1000, value = 1000
             ),
 
-            column(width = 5,
-                   numericInput(
-                     inputId = "samp_dimy",
-                     label = "",
-                     min = 25, max = 1000, value = 1000
-                   )
-            )
-          ),
+            conditionalPanel(
+              condition = "input.samp_bothdims == false",
+              numericInput(
+                inputId = "samp_dimy",
+                label = "",
+                min = 25, max = 1000, value = 1000
+              )
+            ),
+
+            checkboxInput(
+              inputId = "samp_bothdims",
+              label = h5("square site"),
+              value = TRUE
+            )),
 
           conditionalPanel(
             condition = "input.samp_checkbox.includes('use_samp_spacing')",
@@ -1912,7 +1899,7 @@ server <- function(input, output, session) {
 
   output$est_smp_ci_table <- renderTable({
     # est_smp_ci()
-    tibble("Lower" = est_smp_ci()[1], "Median" = est_smp_ci()[2], "Upper" = est_smp_ci()[3])
+    tibble("Lower" = est_smp_ci()[1], "Mean" = est_smp_ci()[2], "Upper" = est_smp_ci()[3])
     # tibble("a" = 1, "b" = 2, "c" = 3)
   })
 
@@ -1962,7 +1949,7 @@ server <- function(input, output, session) {
 
   output$est_std_ci_table <- renderTable({
     # est_smp_ci()
-    tibble("Lower" = est_std_ci()[1], "Median" = est_std_ci()[2], "Upper" = est_std_ci()[3])
+    tibble("Lower" = est_std_ci()[1], "Mean" = est_std_ci()[2], "Upper" = est_std_ci()[3])
     # tibble("a" = 1, "b" = 2, "c" = 3)
   })
 
