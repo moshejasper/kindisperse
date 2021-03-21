@@ -1,13 +1,13 @@
 Package: kindisperse
 Title: Simulate and Estimate Close-Kin Dispersal Kernels
-Version: 0.9.0
+Version: 0.9.1
 Authors@R: 
     person(given = "Moshe-Elijah",
            family = "Jasper",
            role = c("aut", "cre"),
            email = "moshe.jasper@unimelb.edu.au",
            comment = c(ORCID = "0000-0003-4541-3223"))
-Description: Functions for simulating and estimating kinship-related dispersal, based
+Description: Functions for simulating and estimating kinship-related dispersal. Based
     on the methods described in M. Jasper, T.L. Schmidt., N.W. Ahmad, S.P. Sinkins & A.A. 
     Hoffmann (2019) <doi:10.1111/1755-0998.13043> "A genomic approach to inferring kinship 
     reveals limited intergenerational dispersal in the yellow fever mosquito".
