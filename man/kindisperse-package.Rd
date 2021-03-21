@@ -6,7 +6,7 @@
 \alias{kindisperse-package}
 \title{kindisperse: Simulate and Estimate Close-Kin Dispersal Kernels}
 \description{
-Functions for simulating and estimating kinship-related dispersal, based
+Functions for simulating and estimating kinship-related dispersal. Based
     on the methods described in M. Jasper, T.L. Schmidt., N.W. Ahmad, S.P. Sinkins & A.A. 
     Hoffmann (2019) <doi:10.1111/1755-0998.13043> "A genomic approach to inferring kinship 
     reveals limited intergenerational dispersal in the yellow fever mosquito".

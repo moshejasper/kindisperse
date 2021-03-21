@@ -19,7 +19,7 @@
 #' @importFrom shiny column conditionalPanel fluidPage fluidRow mainPanel navbarPage sidebarLayout sidebarPanel tabPanel titlePanel shinyApp downloadButton
 #' @importFrom shiny actionButton checkboxGroupInput checkboxInput fileInput numericInput radioButtons selectInput sliderInput downloadHandler
 #' @importFrom shiny eventReactive observeEvent reactive updateNumericInput updateSelectInput
-#' @importFrom shiny h1 h2 h3 h4 h5 h6 hr icon p
+#' @importFrom shiny h1 h2 h3 h4 h5 h6 hr icon p strong
 #' @importFrom shiny plotOutput renderPlot renderTable renderText tableOutput textOutput renderPrint textInput
 #' @importFrom shinythemes shinytheme
 #' @importFrom stats quantile rexp rnorm runif rweibull rgamma
