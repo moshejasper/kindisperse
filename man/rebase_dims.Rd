@@ -9,7 +9,7 @@ rebase_dims(kindist, dims)
 \arguments{
 \item{kindist}{\code{KinPairSimulation} - \code{KinPairSimulation} Class Object}
 
-\item{dims}{New site dimensions - either single number (length of side of square) or length 2 vector (lenghts of sides x and y of rectangle)}
+\item{dims}{New site dimensions - either single number (length of side of square) or length 2 vector (lengths of sides x and y of rectangle)}
 }
 \value{
 returns a rebased object of class \code{KinPairSimulation} with adjusted simulation dimensions
