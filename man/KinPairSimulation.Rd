@@ -57,7 +57,7 @@ KinPairSimulation(
 
 \item{simtype}{character - simulation type}
 
-\item{kerneltype}{character. - 'Gaussian', 'Laplace' or 'gamma'}
+\item{kerneltype}{character. - 'Gaussian', 'Laplace' or 'vgamma' (variance-gamma)}
 
 \item{posigma}{numeric - overall value of dispersal sigma (for simple kernel)}
 
@@ -71,7 +71,7 @@ KinPairSimulation(
 
 \item{simdims}{numeric. - dimensions of sampling area (assumes one side of square)}
 
-\item{kernelshape}{numeric. - value of kernel shape of simulation (if using kernel with shape parameter e.g. gamma)}
+\item{kernelshape}{numeric. - value of kernel shape of simulation (if using kernel with shape parameter e.g. vgamma)}
 
 \item{call}{call. Call to create object}
 
@@ -102,7 +102,7 @@ KinPairSimulation Class
 
 \item{\code{simtype}}{character.}
 
-\item{\code{kerneltype}}{character. - 'Gaussian', 'Laplace' or 'gamma'}
+\item{\code{kerneltype}}{character. - 'Gaussian', 'Laplace' or 'vgamma' (variance-gamma)}
 
 \item{\code{posigma}}{numeric.       - overall value of dispersal sigma (for simple kernel)}
 
@@ -118,7 +118,7 @@ KinPairSimulation Class
 
 \item{\code{lifestage}}{character. - lifestage at sampling - either 'immature' or 'ovipositional'}
 
-\item{\code{kernelshape}}{numeric.   - shape parameter if gamma kerneltype}
+\item{\code{kernelshape}}{numeric.   - shape parameter if vgamma kerneltype}
 
 \item{\code{call}}{call.           - call to create initial simulation}
 

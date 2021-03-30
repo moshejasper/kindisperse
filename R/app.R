@@ -600,17 +600,18 @@ ui <- fluidPage(
               radioButtons(
                 inputId = "sim_simple_method",
                 label = "Dispersal Kernel Type",
-                choices = c("Gaussian", "Laplace", "gamma"),
+                choiceNames = c("Gaussian", "Laplace", "variance-gamma"),
+                choiceValues = c("Gaussian", "Laplace", "vgamma"),
                 selected = "Gaussian"
               ),
 
               conditionalPanel(
-                condition = "input.sim_simple_method == 'gamma'",
+                condition = "input.sim_simple_method == 'vgamma'",
 
                 numericInput(
-                  inputId = "sim_simple_gshape",
+                  inputId = "sim_simple_shape",
                   label = "Select value of shape parameter",
-                  min = 0, max = 2, value = 1, step = 0.01
+                  min = 0, max = 2, value = 0.5, step = 0.01
                 )
               ),
 
@@ -725,16 +726,17 @@ ui <- fluidPage(
               radioButtons(
                 inputId = "sim_composite_method",
                 label = "Dispersal Kernel Type",
-                choices = c("Gaussian", "Laplace", "gamma"),
+                choiceNames = c("Gaussian", "Laplace", "variance-gamma"),
+                choiceValues = c("Gaussian", "Laplace", "vgamma"),
                 selected = "Gaussian"
               ),
 
               conditionalPanel(
-                condition = "input.sim_composite_method == 'gamma'",
+                condition = "input.sim_composite_method == 'vgamma'",
                 numericInput(
                   inputId = "sim_composite_shape",
                   label = "Shape of component kernels",
-                  min = 0, max = 100, value = 1
+                  min = 0, max = 100, value = 0.5
                 )
               ),
 
@@ -1496,8 +1498,8 @@ server <- function(input, output, session) {
       )
       return(NULL)
     }
-    if (input$sim_simple_gshape < 0){
-      updateNumericInput(session, "sim_simple_gshape", value = 0)
+    if (input$sim_simple_shape < 0){
+      updateNumericInput(session, "sim_simple_shape", value = 0)
       return(NULL)
     }
 
@@ -1508,7 +1510,7 @@ server <- function(input, output, session) {
     simulate_kindist_simple(
       nsims = input$sim_simple_nsims, sigma = input$sim_simple_sigma, method = input$sim_simple_method,
       kinship = input$sim_simple_category, lifestage = input$sim_simple_lifestage, dims = c(input$sim_simple_dimx, input$sim_simple_dimy),
-      shape = input$sim_simple_gshape
+      shape = input$sim_simple_shape
     )
   })
 

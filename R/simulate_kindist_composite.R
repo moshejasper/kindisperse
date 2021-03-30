@@ -6,10 +6,10 @@
 #' @param gravsigma   (numeric) -   size of post-breeding (axial) sigma
 #' @param ovisigma   (numeric) -   size of oviposition (axial) sigma
 #' @param dims    (numeric) -   length of sides of (square) simulated site area
-#' @param method  (character) - kernel shape to use: either 'Gaussian', 'Laplace' or 'gamma'
+#' @param method  (character) - kernel shape to use: either 'Gaussian', 'Laplace' or 'vgamma' (variance-gamma)
 #' @param kinship (character)- kin category to simulate: one of PO, FS, HS, AV, GG, HAV, GGG, 1C, 1C1, 2C, GAV, HGAV, H1C H1C1 or H2C
 #' @param lifestage (lifestage) lifestage at sample collection: either 'immature' or 'ovipositional'
-#' @param shape   (numeric) - value of shape parameter to use with 'gamma' method
+#' @param shape   (numeric) - value of shape parameter to use with 'vgamma' method. Default 0.5
 #'
 #' @return returns an object of class \code{KinPairSimulation} containing simulation details and a tibble (tab) of simulation values
 #' @export
@@ -22,10 +22,9 @@
 #' )
 simulate_kindist_composite <- function(nsims = 100, initsigma = 100, breedsigma = 50, gravsigma = 50,
                                        ovisigma = 25, dims = 100, method = "Gaussian", kinship = "FS",
-                                       lifestage = "immature", shape = 1) {
-  if (!method %in% c("Gaussian", "Laplace", "gamma")) {
-    stop("Invalid Method! - choose from 'Gaussian', 'Laplace' or 'gamma'")
-    stop("Invalid Method!")
+                                       lifestage = "immature", shape = 0.5) {
+  if (!method %in% c("Gaussian", "Laplace", "vgamma")) {
+    stop("Invalid Method! - choose from 'Gaussian', 'Laplace' or 'vgamma'")
   }
 
   if (!kinship %in% c(
@@ -39,36 +38,12 @@ simulate_kindist_composite <- function(nsims = 100, initsigma = 100, breedsigma 
     stop("Invalid Lifestage")
   }
 
-  if (method == "Gaussian") {
+  if (method == "Gaussian") { # bivariate symmetric Gaussian distribution
     rdistr <- function(sig) {
       return(matrix(c(rnorm(nsims, 0, sig), rnorm(nsims, 0, sig)), ncol = 2))
     }
   }
-  else if (method == "Exponential") {
-    rdistr <- function(sig) {
-      sig2 <- sig / sqrt(2)
-      xi <- rexp(nsims, 1 / sig2)
-      yi <- rexp(nsims, 1 / sig2)
-      dst <- sqrt(xi^2 + yi^2)
-      angle <- runif(nsims, 0, 2 * pi)
-      xf <- dst * cos(angle)
-      yf <- dst * sin(angle)
-      return(matrix(c(xf, yf), ncol = 2))
-    }
-  }
-  else if (method == "Weibull") {
-    rdistr <- function(sig) {
-      sig2 <- sig / sqrt(2)
-      xi <- rweibull(nsims, shape, scale = sig2)
-      yi <- rweibull(nsims, shape, scale = sig2)
-      dst <- sqrt(xi^2 + yi^2)
-      angle <- runif(nsims, 0, 2 * pi)
-      xf <- dst * cos(angle)
-      yf <- dst * sin(angle)
-      return(matrix(c(xf, yf), ncol = 2))
-    }
-  }
-  else if (method == "Laplace") { # bivariate symmetric laplacian
+  else if (method == "Laplace") { # bivariate symmetric Laplace distribution
     rdistr <- function(sig) {
       sigdiag <- matrix(c(sig^2, 0, 0, sig^2), ncol = 2)
       xyi <- LaplacesDemon::rmvl(nsims, c(0, 0), sigdiag)
@@ -77,7 +52,7 @@ simulate_kindist_composite <- function(nsims = 100, initsigma = 100, breedsigma 
       return(matrix(c(xf, yf), ncol = 2))
     }
   }
-  else if (method == "gamma"){
+  else if (method == "vgamma"){ # bivariate symmetric variance-gamma distribution
     rdistr <- function(sig){
       Sigma <- matrix(c(sig^2, 0, 0, sig^2), ncol = 2)
       mu <- rbind(c(0, 0))
@@ -211,7 +186,7 @@ simulate_kindist_composite <- function(nsims = 100, initsigma = 100, breedsigma 
     kinship = kinship
   )
 
-  if (method == "gamma") kernelshape <- shape
+  if (method == "vgamma") kernelshape <- shape
   else kernelshape <- NULL
 
   return(KinPairSimulation_composite(tab,
