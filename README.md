@@ -1,4 +1,4 @@
-KINDISPERSE 0.9.1
+KINDISPERSE 0.9.2
 ================
 
 -   [1. Introduction](#1-introduction)
@@ -280,12 +280,12 @@ KinPairSimulation, which supplies a tibble (dataframe) of simulation
 results, as well as metadata capturing the simulation parameters.
 
 Three kernel types are supported for the next two simulations at
-present: `Gaussian`, `Laplace`, and `gamma`. These are passed to the
-functions with the `method` parameter. If using gamma, also supply its
-shape parameter with the argument `shape`. Small values of `shape`
-correspond to an increasingly leptokurtic kernel - i.e. a strong central
-clustering with an increased number of very widely spaced individuals
-(long tails).
+present: `Gaussian`, `Laplace`, and `vgamma` (variance-gamma). These are
+passed to the functions with the `method` parameter. If using vgamma,
+also supply its shape parameter with the argument `shape`. Small values
+of `shape` correspond to an increasingly leptokurtic kernel - i.e. a
+strong central clustering with an increased number of very widely spaced
+individuals (long tails).
 
 The simple simulation, `simulate_kindist_simple()`, simulates
 intergenerational dispersal for each kin category based on a simple
@@ -313,13 +313,13 @@ simulate_kindist_simple(nsims = 5, sigma = 100, method = "Gaussian", kinship = "
 #> 
 #> tab
 #> # A tibble: 5 x 8
-#>   id1   id2   kinship distance    x1    y1    x2    y2
-#>   <chr> <chr> <chr>      <dbl> <dbl> <dbl> <dbl> <dbl>
-#> 1 1a    1b    PO         161.   74.2  32.9 -26.7 -92.2
-#> 2 2a    2b    PO          98.3  76.0  86.3 166.   46.2
-#> 3 3a    3b    PO          81.1  94.9  14.9 109.  -64.9
-#> 4 4a    4b    PO          64.4  72.8  72.6 128.  105. 
-#> 5 5a    5b    PO         165.   42.8  76.5 -56.3 -55.8
+#>   id1   id2   kinship distance     x1    y1    x2    y2
+#>   <chr> <chr> <chr>      <dbl>  <dbl> <dbl> <dbl> <dbl>
+#> 1 1a    1b    PO          95.1 12.9    50.4  94.6  99.1
+#> 2 2a    2b    PO          70.4 44.2    18.6 -23.7  37.0
+#> 3 3a    3b    PO         163.   0.975  92.6 -75.1 -52.1
+#> 4 4a    4b    PO         124.  66.0    23.9  82.6 147. 
+#> 5 5a    5b    PO          29.3 97.3    41.4  74.7  22.9
 #> -----------------------------------
 ```
 
@@ -365,13 +365,13 @@ simulate_kindist_composite(nsims = 5, initsigma = 50, breedsigma = 30, gravsigma
 #> 
 #> tab
 #> # A tibble: 5 x 8
-#>   id1   id2   kinship distance     x1    y1     x2         y2
-#>   <chr> <chr> <chr>      <dbl>  <dbl> <dbl>  <dbl>      <dbl>
-#> 1 1a    1b    H1C         261.  -9.17 169.  -230.    30.9    
-#> 2 2a    2b    H1C         306. -22.0  122.   282.    96.9    
-#> 3 3a    3b    H1C         471. 357.   -88.3  -94.4   46.5    
-#> 4 4a    4b    H1C         421. 365.    14.6  -55.6   -0.00907
-#> 5 5a    5b    H1C         186. -96.5   45.8  -18.7 -123.     
+#>   id1   id2   kinship distance    x1     y1      x2     y2
+#>   <chr> <chr> <chr>      <dbl> <dbl>  <dbl>   <dbl>  <dbl>
+#> 1 1a    1b    H1C        290.   90.8  -16.9    6.18  261. 
+#> 2 2a    2b    H1C        319.  165.    85.8 -145.    159. 
+#> 3 3a    3b    H1C        286.  198.   322.    20.9    97.8
+#> 4 4a    4b    H1C        224.  127.    56.0   37.8  -150. 
+#> 5 5a    5b    H1C         63.0  82.2 -170.   118.   -119. 
 #> -----------------------------------
 ```
 
@@ -413,18 +413,18 @@ sample_kindist(compsim, upper = 1000, lower = 200, spacing = 50, n = 25)
 #> 
 #> tab
 #> # A tibble: 25 x 8
-#>    id1    id2    kinship distance     x1     y1      x2      y2
-#>    <chr>  <chr>  <chr>      <dbl>  <dbl>  <dbl>   <dbl>   <dbl>
-#>  1 14647a 14647b H2C          325  185.   309.   -69.5    83.8 
-#>  2 33500a 33500b H2C          275  199.  -164.   -88.5  -184.  
-#>  3 2494a  2494b  H2C          575  378.  -341.  -126.    -53.2 
-#>  4 57692a 57692b H2C          225  198.   -21.1   -8.89   59.2 
-#>  5 61721a 61721b H2C          375  332.    39.6  -65.6    15.6 
-#>  6 71947a 71947b H2C          275   43.9  109.   -17.3  -137.  
-#>  7 4757a  4757b  H2C          375  -65.4  118.   262.   -105.  
-#>  8 39252a 39252b H2C          425 -268.   284.   -38.1   -78.0 
-#>  9 2043a  2043b  H2C          275   81.1 -113.  -163.      4.37
-#> 10 71354a 71354b H2C          225   54.3  -16.4  270.   -115.  
+#>    id1    id2    kinship distance     x1     y1     x2     y2
+#>    <chr>  <chr>  <chr>      <dbl>  <dbl>  <dbl>  <dbl>  <dbl>
+#>  1 6221a  6221b  H2C          375 -145.   -19.8  190.  -139. 
+#>  2 93665a 93665b H2C          675 -270.    21.5  278.  -340. 
+#>  3 93871a 93871b H2C          375 -202.    76.6   69.2 -199. 
+#>  4 47182a 47182b H2C          275 -157.   132.  -217.   402. 
+#>  5 69897a 69897b H2C          375   26.0   64.8 -229.   326. 
+#>  6 18354a 18354b H2C          425  -91.0 -247.   -60.9  179. 
+#>  7 92188a 92188b H2C          625 -205.  -186.  -289.   435. 
+#>  8 63921a 63921b H2C          525 -106.   399.  -347.   -83.5
+#>  9 72309a 72309b H2C          225   88.8  -35.7  173.   148. 
+#> 10 34747a 34747b H2C          275   48.6  259.   240.    87.6
 #> # ... with 15 more rows
 #> -----------------------------------
 ```
@@ -519,13 +519,13 @@ of three draws from the PO distribution, and thus would take
 ``` r
 paroff <- simulate_kindist_simple(nsims = 1000, sigma = 75, kinship = "PO")
 axials(paroff)
-#> [1] 77.32184
+#> [1] 73.51258
 ```
 
 ``` r
 fullsibs <- simulate_kindist_composite(nsims = 10000, ovisigma = 25, kinship = "FS")
 axials(fullsibs, composite = 2)
-#> [1] 24.98738
+#> [1] 25.00852
 ```
 
 Various auxillary functions exist to further manipulate axial distances
@@ -609,7 +609,7 @@ fullcous <- simulate_kindist_composite(nsims = 75, initsigma = init, breedsigma 
 
 axpermute_standard(fullcous, fullsibs)
 #>      2.5%      mean     97.5% 
-#>  89.13507 101.10718 115.15420
+#>  84.69283  94.14651 102.98370
 ```
 
 As we can see, the C.I. neatly brackets the actual axial value, though
@@ -638,18 +638,18 @@ cousins
 #> 
 #> tab
 #> # A tibble: 150 x 9
-#>    id1   id2   kinship distance       x1     y1    x2    y2 lifestage
-#>    <chr> <chr> <chr>      <dbl>    <dbl>  <dbl> <dbl> <dbl> <chr>    
-#>  1 1a    1b    UN         145.    21.5    211.   83.1  80.0 immature 
-#>  2 2a    2b    UN          43.5    0.167   17.5  29.5 -14.7 immature 
-#>  3 3a    3b    UN         162.  -133.      97.6  10.4  21.2 immature 
-#>  4 4a    4b    UN          88.0  129.     137.   85.6  60.2 immature 
-#>  5 5a    5b    UN         183.   -28.2   -151.  107.  -28.7 immature 
-#>  6 6a    6b    UN          40.1  -90.4     78.6 -51.2  87.2 immature 
-#>  7 7a    7b    UN         138.   165.     110.   42.7 174.  immature 
-#>  8 8a    8b    UN         245.  -183.      97.4  34.6 -15.8 immature 
-#>  9 9a    9b    UN          58.3   11.0     32.2  46.5  78.5 immature 
-#> 10 10a   10b   UN         186.   -55.4     78.0 122.   22.7 immature 
+#>    id1   id2   kinship distance    x1     y1      x2      y2 lifestage
+#>    <chr> <chr> <chr>      <dbl> <dbl>  <dbl>   <dbl>   <dbl> <chr>    
+#>  1 1a    1b    UN          263.  10.0  204.     2.39  -58.2  immature 
+#>  2 2a    2b    UN          299.  91.1  -40.7 -195.   -128.   immature 
+#>  3 3a    3b    UN          259. -21.8  -82.0  224.      1.16 immature 
+#>  4 4a    4b    UN          287. 116.   180.  -158.     93.9  immature 
+#>  5 5a    5b    UN          110. -24.2  169.   -23.7    59.2  immature 
+#>  6 6a    6b    UN          169.  78.1  196.    33.4    32.6  immature 
+#>  7 7a    7b    UN          117. -48.9   30.9    9.15  133.   immature 
+#>  8 8a    8b    UN          113. -30.5   41.3   70.8    -8.24 immature 
+#>  9 9a    9b    UN          149. -13.3   95.8  117.    169.   immature 
+#> 10 10a   10b   UN          228.  42.5 -146.   -71.3    52.2  immature 
 #> # ... with 140 more rows
 #> -------------------------------
 ```
@@ -665,7 +665,7 @@ missing category data:
 # the cousin mixture in phase)
 axpermute_standard(avect = cousins, acat = "1C", amix = TRUE, amixcat = "H1C", bvect = fullsibs, bcomp = TRUE, bcompvect = halfsibs)
 #>      2.5%      mean     97.5% 
-#>  87.77774  99.30503 110.02799
+#>  80.97902  91.38951 101.24130
 ```
 
 This estimate is a lot more convoluted, and not as ‘spot on’- but the

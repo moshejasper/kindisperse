@@ -107,9 +107,9 @@
 
 \item{simtype}{character - simulation type}
 
-\item{kerneltype}{character. - 'Gaussian', 'Laplace' or 'gamma'}
+\item{kerneltype}{character. - 'Gaussian', 'Laplace' or 'vgamma' (variance-gamma)}
 
-\item{kernelshape}{numeric. - value of kernel shape of simulation (if using kernel with shape parameter e.g. gamma)}
+\item{kernelshape}{numeric. - value of kernel shape of simulation (if using kernel with shape parameter e.g. vgamma)}
 
 \item{posigma}{numeric - overall value of dispersal sigma (for simple kernel)}
 
@@ -140,11 +140,11 @@
 \item{KinPairSimulation}{an object of class KinPairSimulation}
 }
 \value{
-\code{character} the shape parameter used in kernel simulation (if \code{kerneltype} is gamma)
+\code{character} the shape parameter used in kernel simulation (if \code{kerneltype} is vgamma)
 
 \code{character} the kind of simulation stored in the object (simple or composite)
 
-\code{character} the type of statistical kernel used to run the simulation (Gaussian, Laplace, gamma)
+\code{character} the type of statistical kernel used to run the simulation (Gaussian, Laplace, vgamma)
 
 \code{numeric} posigma value of simple simulation
 

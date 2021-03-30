@@ -10,7 +10,7 @@ kernelshape(x)
 \item{x}{object of class \code{KinPairSimulation}}
 }
 \value{
-\code{character} the shape parameter used in kernel simulation (if \code{kerneltype} is gamma)
+\code{character} the shape parameter used in kernel simulation (if \code{kerneltype} is vgamma)
 }
 \description{
 kindisperse - access kerneltype of KinPairSimulation object

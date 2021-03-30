@@ -1,4 +1,10 @@
 # kindisperse 0.9.1
+Changed all occurrences of the 'gamma' kernelshape/method parameter value to 'vgamma' to make it clear we are using a variance-gamma distribution, not a gamma distribution. 
+(effects simulation functions)
+Removed unused dispersal kernels (simulation functions)
+Changed simulation shape parameter default from 1 to 0.5. 
+
+# kindisperse 0.9.1
 
 * Added a `NEWS.md` file to track changes to the package.
 * Fixed several display and layout issues in Shiny app
