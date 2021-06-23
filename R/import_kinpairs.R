@@ -4,6 +4,7 @@
 #' @param data data.frame or tibble of kin distances - can contain $distance (kin distances), $kinship (kin cats) & $lifestage columns
 #' @param kinship character. kin category to assign or extract from data. one of PO, FS, HS, AV, GG, HAV, GGG, 1C, 1C1, 2C, GAV, HGAV, H1C , H1C1 or H2C
 #' @param lifestage character. lifestage to assign or extract from data. one of 'unknown', 'immature' or 'ovipositional'.
+#' @param lifecheck logical. If TRUE (default) tests if lifestage is valid, if FALSE, ignores this test. Set to FALSE when using custom lifestages.
 #'
 #' @return returns valid \code{KinPairData} object
 #' @export
@@ -14,7 +15,7 @@
 #'   kinship = c("FS", "FS", "FS", "FS", "FS", "FS", "HS", "HS", "HS", "HS")
 #' )
 #' df_to_kinpair(mydata, kinship = "FS")
-df_to_kinpair <- function(data, kinship = NULL, lifestage = NULL) {
+df_to_kinpair <- function(data, kinship = NULL, lifestage = NULL, lifecheck = TRUE) {
   tib <- as_tibble(data)
   if (is.null(kinship)) {
     if ("kinship" %in% colnames(tib)) {
@@ -46,14 +47,14 @@ df_to_kinpair <- function(data, kinship = NULL, lifestage = NULL) {
       } else {
         lifestage <- stages
       }
-      check_valid_lifestage(tib$lifestage)
+      if (lifecheck) check_valid_lifestage(tib$lifestage)
     }
   }
   else {
-    check_valid_lifestage(lifestage)
+    if (lifecheck) check_valid_lifestage(lifestage)
     lf <- lifestage
     if ("lifestage" %in% colnames(tib)) {
-      check_valid_lifestage(tib$lifestage)
+      if (lifecheck) check_valid_lifestage(tib$lifestage)
       tib <- filter(tib, .data$lifestage == lf)
     }
   }
