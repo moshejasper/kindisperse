@@ -15,8 +15,10 @@ KinPairSimulation(
   breedsigma = NULL,
   gravsigma = NULL,
   ovisigma = NULL,
+  customsigma = NULL,
   simdims = NULL,
   kernelshape = NULL,
+  cycle = NULL,
   call = NULL,
   filtertype = NULL,
   upper = NULL,
@@ -37,8 +39,10 @@ KinPairSimulation(
   breedsigma = NULL,
   gravsigma = NULL,
   ovisigma = NULL,
+  customsigma = NULL,
   simdims = NULL,
   kernelshape = NULL,
+  cycle = NULL,
   call = NULL,
   filtertype = NULL,
   upper = NULL,
@@ -69,9 +73,13 @@ KinPairSimulation(
 
 \item{ovisigma}{numeric.    - value of oviposition dispersal sigma (for composite kernel)}
 
+\item{customsigma}{numeric. - vector of named custom dispersal sigmas (for custom kernel)}
+
 \item{simdims}{numeric. - dimensions of sampling area (assumes one side of square)}
 
 \item{kernelshape}{numeric. - value of kernel shape of simulation (if using kernel with shape parameter e.g. vgamma)}
+
+\item{cycle}{integer - number of breeding cycles sampled individual has survived (for custom kernel)}
 
 \item{call}{call. Call to create object}
 
@@ -100,7 +108,7 @@ KinPairSimulation Class
 \describe{
 \item{\code{kinship}}{character - one of PO, FS, HS, AV, HAV, GG, 1C, H1C, GAV, HGAV, 1C1, H1C1, GGG, 2C, and H2C.}
 
-\item{\code{simtype}}{character.}
+\item{\code{simtype}}{character. - one of 'simple', 'composite' or 'custom'}
 
 \item{\code{kerneltype}}{character. - 'Gaussian', 'Laplace' or 'vgamma' (variance-gamma)}
 
@@ -114,9 +122,13 @@ KinPairSimulation Class
 
 \item{\code{ovisigma}}{numeric.    - value of oviposition dispersal sigma (for composite kernel)}
 
+\item{\code{customsigma}}{numeric  - vector of named custom dispersal sigmas (for custom kernel)}
+
 \item{\code{simdims}}{numeric.        - dimensions of sampling area (assumes 1 side of square)}
 
 \item{\code{lifestage}}{character. - lifestage at sampling - either 'immature' or 'ovipositional'}
+
+\item{\code{cycle}}{integer - number of breeding cycles sampled individuals have survived (for custom kernel)}
 
 \item{\code{kernelshape}}{numeric.   - shape parameter if vgamma kerneltype}
 

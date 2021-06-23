@@ -4,7 +4,7 @@
 \alias{df_to_kinpair}
 \title{Convert dataframe or tibble to KinPairData class}
 \usage{
-df_to_kinpair(data, kinship = NULL, lifestage = NULL)
+df_to_kinpair(data, kinship = NULL, lifestage = NULL, lifecheck = TRUE)
 }
 \arguments{
 \item{data}{data.frame or tibble of kin distances - can contain $distance (kin distances), $kinship (kin cats) & $lifestage columns}
@@ -12,6 +12,8 @@ df_to_kinpair(data, kinship = NULL, lifestage = NULL)
 \item{kinship}{character. kin category to assign or extract from data. one of PO, FS, HS, AV, GG, HAV, GGG, 1C, 1C1, 2C, GAV, HGAV, H1C , H1C1 or H2C}
 
 \item{lifestage}{character. lifestage to assign or extract from data. one of 'unknown', 'immature' or 'ovipositional'.}
+
+\item{lifecheck}{logical. If TRUE (default) tests if lifestage is valid, if FALSE, ignores this test. Set to FALSE when using custom lifestages.}
 }
 \value{
 returns valid \code{KinPairData} object

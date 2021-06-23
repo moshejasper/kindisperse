@@ -3,15 +3,20 @@ methods::setOldClass(c("tbl_df", "tbl", "data.frame"))
 #' Formal class "KinPairData"
 #'
 #' @description The class \code{KinPairData} is a formal (S4) class for storing kinship and lifespan dispersal information concerning kin pairs.
-#' @slot kinship character.
-#' @slot lifestage character.
-#' @slot tab tbl_df.
+#' @slot kinship character - one of PO, FS, HS, AV, HAV, GG, 1C, H1C, GAV, HGAV, 1C1, H1C1, GGG, 2C, and H2C.
+#' @slot lifestage character - lifestage at sampling - either 'immature', 'ovipositional' or a stage
+#' corresponding to a \code{DispersalModel} custom stage
+#' @slot cycle non-negative integer or vector of two such integers - Represents
+#' the number of complete breeding cycles each  individual has undergone before the sampling point, where the time between
+#' birth and first reproduction is coded as '0', that between first and second reproduction '1', etc. (default 0). If the first individual
+#' was sampled as a juvenile & the second as an adult of equivalent stage, the vector c(0, 1) would be used. In most situations, the default will be appropriate
+#' @slot tab tbl_df. - tibble of dispersal values
 #' @return returns object of class \code{KinPairData}
 #' @export
 #'
 #'
 KinPairData <- setClass("KinPairData",
-  slots = list(kinship = "character", lifestage = "character", tab = "tbl_df")
+  slots = list(kinship = "character", lifestage = "character", cycle = "numeric", tab = "tbl_df")
 )
 
 
@@ -136,6 +141,15 @@ setMethod("lifestage<-", "KinPairData", function(x, value) {
 
 #'
 #'
+#' @param KinPairData
+#'
+#' @return \code{numeric} number of complete breeding cycles sampled individuals have progressed through
+#' @export
+#' @describeIn KinPairData access breeding cycle
+setMethod("breeding_cycle", "KinPairData", function(x) x@cycle)
+
+#'
+#'
 #' @param KinPairData object of class KinPairData
 #' @param object an object of class KinpairData
 #'
@@ -151,8 +165,9 @@ setMethod(
     cat("KINDISPERSE RECORD OF KIN PAIRS\n")
     cat("-------------------------------\n")
     cat("kinship:\t\t", object@kinship, "\n")
-    cat("lifestage:\t\t", object@lifestage, "\n\n")
-    cat("tab\n")
+    cat("lifestage:\t\t", object@lifestage, "\n")
+    cat("cycle:\t\t\t", object@cycle, "\n")
+    cat("\ntab\n")
     print(object@tab)
     cat("-------------------------------")
   }
@@ -167,6 +182,10 @@ setMethod(
 #' @param data  data about kinship to be used to construct object (tibble, data.frame, or numeric vector of distances)
 #' @param kinship character. Kinship category value for object. - one of PO, FS, HS, AV, HAV, GG, 1C, H1C, GAV, HGAV, 1C1, H1C1, GGG, 2C, and H2C.
 #' @param lifestage character. Lifestage value for object. - one of 'immature', 'ovipositional' or 'unknown'
+#' @param cycle non-negative integer or vector of two such integers - Represents
+#' the number of complete breeding cycles each simulated individual has undergone before the sampling point, where the time between
+#' birth and first reproduction is coded as '0', that between first and second reproduction '1', etc. (default 0). If the first individual
+#' was sampled as a juvenile & the second as an adult of equivalent stage, the vector c(0, 1) would be used. In most situations, defualt will be appropriate
 #' @param ... additional argument to pass to downstream functions in future
 #'
 #' @export
@@ -180,6 +199,7 @@ setMethod(
            data = NULL,
            kinship = NULL,
            lifestage = NULL,
+           cycle = NULL,
            ...) {
     if (!is.null(kinship)) {
       .Object@kinship <- kinship
@@ -193,6 +213,7 @@ setMethod(
     else {
       .Object@lifestage <- "unknown"
     }
+    if (!is.null(cycle)) .Object@cycle <- cycle else .Object@cycle <- 0
     if (!is.null(data)) {
       if (is.data.frame(data) & !is_tibble(data)) {
         data <- as_tibble(data)
@@ -243,14 +264,20 @@ setMethod(
 #'
 #' @param data tlb_df. Tibble of kinpair distances
 #' @param kinship character. - one of PO, FS, HS, AV, HAV, GG, 1C, H1C, GAV, HGAV, 1C1, H1C1, GGG, 2C, H2C & UN.
-#' @param lifestage character. - one of 'unknown', 'immature' or 'ovipositional'
+#' @param lifestage character. - one of 'unknown', 'immature' or 'ovipositional', or alternatively a custom
+#' stage that corresponds to a dispersal stage contained in a \code{DispersalModel} object.
+#' @param cycle non-negative integer of length one or two (here, 1 is equivalent to c(1, 1)). Represents
+#' the number of complete breeding cycles each individual has undergone before the sampling point, where the time between
+#' birth and first reproduction is coded as '0', that between first and second reproduction '1', etc. (default 0). If the first individual
+#' was sampled as a juvenile & the second as an adult of equivalent stage, the vector c(0, 1) would be used.
+#' In most situations, the default will be appropriate
 #'
 #' @return returns an object of class \code{KinPairData}
 #' @export
 #'
 #' @examples
 #' KinPairData()
-KinPairData <- function(data = NULL, kinship = NULL, lifestage = NULL) {
+KinPairData <- function(data = NULL, kinship = NULL, lifestage = NULL, cycle = NULL) {
   new("KinPairData", data = data, kinship = kinship, lifestage = lifestage)
 }
 
@@ -259,9 +286,10 @@ setValidity("KinPairData", function(object) {
   if (!object@kinship %in% c("UN", "PO", "GG", "GGG", "FS", "AV", "GAV", "1C", "1C1", "2C", "HS", "HAV", "HGAV", "H1C", "H1C1", "H2C")) {
     "@kinship must be one of UN PO GG GGG FS AV GAV 1C 1C1 2C HS HAV HGAV H1C H1C1 H2C"
   }
-  else if (!object@lifestage %in% c("unknown", "immature", "ovipositional")) {
-    "@lifestage must currently be set to 'unknown', 'immature', or 'ovipositional'"
-  } else {
+  #else if (!object@lifestage %in% c("unknown", "immature", "ovipositional")) {
+  #  "@lifestage must currently be set to 'unknown', 'immature', or 'ovipositional'"
+  #}
+  else {
     TRUE
   }
 })

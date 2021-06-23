@@ -6,6 +6,7 @@
 \alias{kinship<-,KinPairData-method}
 \alias{lifestage,KinPairData-method}
 \alias{lifestage<-,KinPairData-method}
+\alias{breeding_cycle,KinPairData-method}
 \alias{show,KinPairData-method}
 \alias{initialize,KinPairData-method}
 \title{Constructor method for \code{KinPairData} objects.}
@@ -20,9 +21,18 @@
 
 \S4method{lifestage}{KinPairData}(x) <- value
 
+\S4method{breeding_cycle}{KinPairData}(x)
+
 \S4method{show}{KinPairData}(object)
 
-\S4method{initialize}{KinPairData}(.Object, data = NULL, kinship = NULL, lifestage = NULL, ...)
+\S4method{initialize}{KinPairData}(
+  .Object,
+  data = NULL,
+  kinship = NULL,
+  lifestage = NULL,
+  cycle = NULL,
+  ...
+)
 }
 \arguments{
 \item{x}{object of class \code{KinPairData}}
@@ -39,6 +49,11 @@
 
 \item{lifestage}{character. Lifestage value for object. - one of 'immature', 'ovipositional' or 'unknown'}
 
+\item{cycle}{non-negative integer or vector of two such integers - Represents
+the number of complete breeding cycles each simulated individual has undergone before the sampling point, where the time between
+birth and first reproduction is coded as '0', that between first and second reproduction '1', etc. (default 0). If the first individual
+was sampled as a juvenile & the second as an adult of equivalent stage, the vector c(0, 1) would be used. In most situations, defualt will be appropriate}
+
 \item{...}{additional argument to pass to downstream functions in future}
 
 \item{KinPairData}{object of class KinPairData}
@@ -53,6 +68,8 @@ modified object of class \code{KinPairData}
 \code{character} lifestage of \code{KinPairData} object
 
 modified object of class \code{KinPairData}
+
+\code{numeric} number of complete breeding cycles sampled individuals have progressed through
 
 No return value, called for side effects
 
@@ -72,6 +89,8 @@ Constructor method for \code{KinPairData} objects.
 \item \code{lifestage}: access lifestage
 
 \item \code{lifestage<-}: assign lifestage
+
+\item \code{breeding_cycle}: access breeding cycle
 
 \item \code{show}: standard print method
 
