@@ -295,6 +295,18 @@ span_assigner <- function(category) {
   return(span1 + span2)
 }
 
+cycle_to_span <- function(cycle){
+
+  if (length(cycle) > 2){
+    stop("'cycle' vector can have no more than two elements")
+  }
+  if (length(cycle) == 1){
+    cycle <- c(cycle, cycle)
+  }
+  if (! isTRUE(all.equal(cycle, as.integer(cycle))) | any(cycle < 0)) stop("'cycle' vector is not of nonnegative integers!")
+  return(sum(cycle))
+}
+
 # axkconf <- function(axvals, nreps = 1000){
 #  container <- tibble(kurt = 0.0, .rows = 0)
 ##  sampnum <- length(axvals)

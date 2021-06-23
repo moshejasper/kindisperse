@@ -80,6 +80,8 @@
   breedsigma = NULL,
   gravsigma = NULL,
   ovisigma = NULL,
+  customsigma = NULL,
+  cycle = NULL,
   simdims = NULL,
   call = NULL,
   filtertype = NULL,
@@ -120,6 +122,10 @@
 \item{gravsigma}{numeric.    - value of post-breeding dispersal sigma (for composite kernel)}
 
 \item{ovisigma}{numeric.    - value of oviposition dispersal sigma (for composite kernel)}
+
+\item{customsigma}{numeric.  - vector of named custom dispersal sigmas (for custom kernel)}
+
+\item{cycle}{integer - number of breeding cycles sampled individual has survived (for custom kernel)}
 
 \item{simdims}{numeric. - dimensions of sampling area (assumes one side of square)}
 

@@ -8,8 +8,8 @@
 #' @param dims    (numeric) -   length of sides of (square) simulated site area
 #' @param method  (character) - kernel shape to use: either 'Gaussian', 'Laplace' or 'vgamma' (variance-gamma)
 #' @param kinship (character)- kin category to simulate: one of PO, FS, HS, AV, GG, HAV, GGG, 1C, 1C1, 2C, GAV, HGAV, H1C H1C1 or H2C
-#' @param lifestage (lifestage) lifestage at sample collection: either 'immature' or 'ovipositional'
-#' @param shape   (numeric) - value of shape parameter to use with 'vgamma' method. Default 0.5
+#' @param lifestage (character) lifestage at sample collection: either 'immature' or 'ovipositional'
+#' @param shape   (numeric) - value of shape parameter to use with 'vgamma' method. Default 0.5. Must be > 0. Increment towards zero for increasingly heavy-tailed (leptokurtic) dispersal
 #'
 #' @return returns an object of class \code{KinPairSimulation} containing simulation details and a tibble (tab) of simulation values
 #' @export

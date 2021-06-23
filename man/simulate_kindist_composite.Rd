@@ -34,9 +34,9 @@ simulate_kindist_composite(
 
 \item{kinship}{(character)- kin category to simulate: one of PO, FS, HS, AV, GG, HAV, GGG, 1C, 1C1, 2C, GAV, HGAV, H1C H1C1 or H2C}
 
-\item{lifestage}{(lifestage) lifestage at sample collection: either 'immature' or 'ovipositional'}
+\item{lifestage}{(character) lifestage at sample collection: either 'immature' or 'ovipositional'}
 
-\item{shape}{(numeric) - value of shape parameter to use with 'vgamma' method. Default 0.5}
+\item{shape}{(numeric) - value of shape parameter to use with 'vgamma' method. Default 0.5. Must be > 0. Increment towards zero for increasingly heavy-tailed (leptokurtic) dispersal}
 }
 \value{
 returns an object of class \code{KinPairSimulation} containing simulation details and a tibble (tab) of simulation values

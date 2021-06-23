@@ -14,6 +14,12 @@
 #' @param bcompvect vector bcomp of kin dispersal distances for compositing with vector b OR object of class KinPairData. Must be set if bcomp == TRUE.
 #' @param acompcat  kinship category of kin dispersal vector acompvect. Must be set if acomp == TRUE.  Must be one of "PO", "FS", "HS", "AV", "GG", "HAV", "GGG", "1C", "1C1", "2C", "GAV", "HGAV", "H1C", "H1C1", "H2C"
 #' @param bcompcat  kinship category of kin dispersal vector bcompvect. Must be set if bcomp == TRUE. Must be one of "PO", "FS", "HS", "AV", "GG", "HAV", "GGG", "1C", "1C1", "2C", "GAV", "HGAV", "H1C", "H1C1", "H2C"
+#' @param acycle    breeding cycle number of kin dispersal vector avect. Must be a nonnegative integer. (0, 1, 2, ...). Represents the number of complete breeding cycles the sampled individual has undergone before the checkpoint, where the time between birth and first reproduction is coded as '0', that between first and second reproduction '1', etc. (default 0). Only use in spp. where there is likely to be a reasonable equivalence between breeding stages across a lifespan.
+#' @param bcycle    breeding cycle number of kin dispersal vector bvect. Must be a nonnegative integer. (0, 1, 2, ...). Represents the number of complete breeding cycles the sampled individual has undergone before the checkpoint, where the time between birth and first reproduction is coded as '0', that between first and second reproduction '1', etc. (default 0). Only use in spp. where there is likely to be a reasonable equivalence between breeding stages across a lifespan
+#' @param amixcycle breeding cycle number of kin dispersal vector amixvect. Must be a nonnegative integer. (0, 1, 2, ...). Represents the number of complete breeding cycles the sampled individual has undergone before the checkpoint, where the time between birth and first reproduction is coded as '0', that between first and second reproduction '1', etc. (default 0). Only use in spp. where there is likely to be a reasonable equivalence between breeding stages across a lifespan
+#' @param bmixcycle breeding cycle number of kin dispersal vector bmixvect. Must be a nonnegative integer. (0, 1, 2, ...). Represents the number of complete breeding cycles the sampled individual has undergone before the checkpoint, where the time between birth and first reproduction is coded as '0', that between first and second reproduction '1', etc. (default 0). Only use in spp. where there is likely to be a reasonable equivalence between breeding stages across a lifespan.
+#' @param acompcycle  breeding cycle number of kin dispersal vector acompvect. Must be a nonnegative integer. (0, 1, 2, ...). Represents the number of complete breeding cycles the sampled individual has undergone before the checkpoint, where the time between birth and first reproduction is coded as '0', that between first and second reproduction '1', etc. (default 0). Only use in spp. where there is likely to be a reasonable equivalence between breeding stages across a lifespan.
+#' @param bcompcycle  breeding cycle number of kin dispersal vector bcompvect. Must be a nonnegative integer. (0, 1, 2, ...). Represents the number of complete breeding cycles the sampled individual has undergone before the checkpoint, where the time between birth and first reproduction is coded as '0', that between first and second reproduction '1', etc. (default 0). Only use in spp. where there is likely to be a reasonable equivalence between breeding stages across a lifespan.
 #'
 #' @return Returns a numeric estimate of PO (intergenerational) dispersal kernel axial distribution.
 #' @export
@@ -24,21 +30,26 @@
 #' axials_standard(cous, fullsibs, acat = "1C", bcat = "FS")
 axials_standard <- function(avect, bvect, acat = NULL, bcat = NULL,
                             amix = FALSE, bmix = FALSE, amixcat = NULL, bmixcat = NULL, acomp = FALSE, bcomp = FALSE,
-                            acompvect = NULL, bcompvect = NULL, acompcat = NULL, bcompcat = NULL) {
+                            acompvect = NULL, bcompvect = NULL, acompcat = NULL, bcompcat = NULL, acycle = NULL,
+                            bcycle = NULL, amixcycle = NULL, bmixcycle = NULL, acompcycle = NULL, bcompcycle = NULL) {
   if (is.KinPairData(avect)) {
     if (is.null(acat)) acat <- kinship(avect)
+    if (is.null(acycle)) acycle <- breeding_cycle(avect)
     avect <- distances(avect)
   }
   if (is.KinPairData(bvect)) {
     if (is.null(bcat)) bcat <- kinship(bvect)
+    if (is.null(bcycle)) bcycle <- breeding_cycle(bvect)
     bvect <- distances(bvect)
   }
   if (is.KinPairData(acompvect)) {
     if (is.null(acompcat)) acompcat <- kinship(acompvect)
+    if (is.null(acompcycle)) acompcycle <- breeding_cycle(acompvect)
     acompvect <- distances(acompvect)
   }
   if (is.KinPairData(bcompvect)) {
     if (is.null(bcompcat)) bcompcat <- kinship(bcompvect)
+    if (is.null(bcompcycle)) bcompcycle <- breeding_cycle(bcompvect)
     bcompvect <- distances(bcompvect)
   }
   # Run tests - these check basic pairings between categories
@@ -54,14 +65,16 @@ axials_standard <- function(avect, bvect, acat = NULL, bcat = NULL,
   if (is.null(bcat)) {
     stop("Please supply kin category b!")
   }
+  if (is.null(acycle)) acycle <- 0
+  if (is.null(bcycle)) bcycle <- 0
 
   aphase <- phase_assigner(acat)
   bphase <- phase_assigner(bcat)
   aphasetest <- aphase
   bphasetest <- bphase
 
-  aspan <- span_assigner(acat)
-  bspan <- span_assigner(bcat)
+  aspan <- span_assigner(acat) + cycle_to_span(acycle)
+  bspan <- span_assigner(bcat) + cycle_to_span(bcycle)
   aspantest <- aspan
   bspantest <- bspan
   a_ax <- axials(avect)
@@ -71,6 +84,7 @@ axials_standard <- function(avect, bvect, acat = NULL, bcat = NULL,
     if (is.null(amixcat)) {
       stop("please supply mixture kin category for a!")
     }
+    if (is.null(amixcycle)) amixcycle <- 0
     if (bcomp == FALSE & bmix == FALSE) {
       stop("Mixed category a must be paired with a mixed category or composite b!")
     }
@@ -79,13 +93,14 @@ axials_standard <- function(avect, bvect, acat = NULL, bcat = NULL,
     }
     amixphase <- phase_assigner(amixcat)
     aphasetest <- c(aphasetest, amixphase)
-    amixspan <- span_assigner(amixcat)
+    amixspan <- span_assigner(amixcat) + cycle_to_span(amixcycle)
     aspantest <- mean(c(aspantest, amixspan))
   }
   if (bmix == TRUE) {
     if (is.null(bmixcat)) {
       stop("please supply mixture kin category for b!")
     }
+    if (is.null(bmixcycle)) bmixcycle <- 0
     if (acomp == FALSE & amix == FALSE) {
       stop("Mixed category b must be paired with a mixed category or composite a!")
     }
@@ -94,7 +109,7 @@ axials_standard <- function(avect, bvect, acat = NULL, bcat = NULL,
     }
     bmixphase <- phase_assigner(bmixcat)
     bphasetest <- c(bphasetest, bmixphase)
-    bmixspan <- span_assigner(bmixcat)
+    bmixspan <- span_assigner(bmixcat) + cycle_to_span(bmixcycle)
     bspantest <- mean(c(bspantest, bmixspan))
   }
 
@@ -102,6 +117,7 @@ axials_standard <- function(avect, bvect, acat = NULL, bcat = NULL,
     if (is.null(acompvect)) {
       stop("please supply composite vector for a!")
     }
+    if (is.null(acompcycle)) acompcycle <- 0
     if (bcomp == FALSE & bmix == FALSE) {
       stop("Composite estimate a must be paired with a mixed category or composite b!")
     }
@@ -113,7 +129,7 @@ axials_standard <- function(avect, bvect, acat = NULL, bcat = NULL,
     }
     acompphase <- phase_assigner(acompcat)
     aphasetest <- c(aphasetest, acompphase)
-    acompspan <- span_assigner(acompcat)
+    acompspan <- span_assigner(acompcat) + cycle_to_span(acompcycle)
     aspantest <- mean(c(aspantest, acompspan))
     acomp_ax <- axials(acompvect)
     a_ax <- axials_combine(c(a_ax, acomp_ax))
@@ -123,6 +139,7 @@ axials_standard <- function(avect, bvect, acat = NULL, bcat = NULL,
     if (is.null(bcompvect)) {
       stop("please supply composite vector for b!")
     }
+    if (is.null(bcompcycle)) bcompcycle <- 0
     if (acomp == FALSE & amix == FALSE) {
       stop("Composite estimate b must be paired with a mixed category or composite a!")
     }
@@ -134,7 +151,7 @@ axials_standard <- function(avect, bvect, acat = NULL, bcat = NULL,
     }
     bcompphase <- phase_assigner(bcompcat)
     bphasetest <- c(bphasetest, bcompphase)
-    bcompspan <- span_assigner(bcompcat)
+    bcompspan <- span_assigner(bcompcat) + cycle_to_span(bcompcycle)
     bspantest <- mean(c(bspantest, bcompspan))
     bcomp_ax <- axials(bcompvect)
     b_ax <- axials_combine(c(b_ax, bcomp_ax))
@@ -172,6 +189,12 @@ axials_standard <- function(avect, bvect, acat = NULL, bcat = NULL,
 #' @param bcompvect vector bcomp of kin dispersal distances for compositing with vector b OR object of class KinPairData. Must be set if bcomp == TRUE.
 #' @param acompcat  kinship category of kin dispersal vector acompvect. Must be set if acomp == TRUE.  Must be one of "PO", "FS", "HS", "AV", "GG", "HAV", "GGG", "1C", "1C1", "2C", "GAV", "HGAV", "H1C", "H1C1", "H2C"
 #' @param bcompcat  kinship category of kin dispersal vector bcompvect. Must be set if bcomp == TRUE. Must be one of "PO", "FS", "HS", "AV", "GG", "HAV", "GGG", "1C", "1C1", "2C", "GAV", "HGAV", "H1C", "H1C1", "H2C"
+#' @param acycle    breeding cycle number of kin dispersal vector avect. Must be a nonnegative integer. (0, 1, 2, ...). Represents the number of complete breeding cycles the sampled individual has undergone before the checkpoint, where the time between birth and first reproduction is coded as '0', that between first and second reproduction '1', etc. (default 0). Only use in spp. where there is likely to be a reasonable equivalence between breeding stages across a lifespan.
+#' @param bcycle    breeding cycle number of kin dispersal vector bvect. Must be a nonnegative integer. (0, 1, 2, ...). Represents the number of complete breeding cycles the sampled individual has undergone before the checkpoint, where the time between birth and first reproduction is coded as '0', that between first and second reproduction '1', etc. (default 0). Only use in spp. where there is likely to be a reasonable equivalence between breeding stages across a lifespan.
+#' @param amixcycle breeding cycle number of kin dispersal vector amixvect. Must be a nonnegative integer. (0, 1, 2, ...). Represents the number of complete breeding cycles the sampled individual has undergone before the checkpoint, where the time between birth and first reproduction is coded as '0', that between first and second reproduction '1', etc. (default 0). Only use in spp. where there is likely to be a reasonable equivalence between breeding stages across a lifespan.
+#' @param bmixcycle breeding cycle number of kin dispersal vector bmixvect. Must be a nonnegative integer. (0, 1, 2, ...). Represents the number of complete breeding cycles the sampled individual has undergone before the checkpoint, where the time between birth and first reproduction is coded as '0', that between first and second reproduction '1', etc. (default 0). Only use in spp. where there is likely to be a reasonable equivalence between breeding stages across a lifespan.
+#' @param acompcycle  breeding cycle number of kin dispersal vector acompvect. Must be a nonnegative integer. (0, 1, 2, ...). Represents the number of complete breeding cycles the sampled individual has undergone before the checkpoint, where the time between birth and first reproduction is coded as '0', that between first and second reproduction '1', etc. (default 0). Only use in spp. where there is likely to be a reasonable equivalence between breeding stages across a lifespan.
+#' @param bcompcycle  breeding cycle number of kin dispersal vector bcompvect. Must be a nonnegative integer. (0, 1, 2, ...). Represents the number of complete breeding cycles the sampled individual has undergone before the checkpoint, where the time between birth and first reproduction is coded as '0', that between first and second reproduction '1', etc. (default 0). Only use in spp. where there is likely to be a reasonable equivalence between breeding stages across a lifespan.
 #' @param output    string denoting what kind of output to return. If 'confs', a vector of 95% confidence intervals. if 'vect', a vector of all permutated axial value results
 #'
 #' @return If output = 'confs' returns vector of 95% confidence intervals (with mean).
@@ -184,21 +207,27 @@ axials_standard <- function(avect, bvect, acat = NULL, bcat = NULL,
 #' axpermute_standard(cous, fullsibs, acat = "1C", bcat = "FS")
 axpermute_standard <- function(avect = NULL, bvect = NULL, acat = NULL, bcat = NULL, nreps = 1000, nsamp = "std",
                                amix = FALSE, bmix = FALSE, amixcat = NULL, bmixcat = NULL, acomp = FALSE, bcomp = FALSE,
-                               acompvect = NULL, bcompvect = NULL, acompcat = NULL, bcompcat = NULL, output = "confs") {
+                               acompvect = NULL, bcompvect = NULL, acompcat = NULL, bcompcat = NULL, acycle = NULL,
+                               bcycle = NULL, amixcycle = NULL, bmixcycle = NULL, acompcycle = NULL, bcompcycle = NULL,
+                               output = "confs") {
   if (is.KinPairData(avect)) {
     if (is.null(acat)) acat <- kinship(avect)
+    if (is.null(acycle)) acycle <- breeding_cycle(avect)
     avect <- distances(avect)
   }
   if (is.KinPairData(bvect)) {
     if (is.null(bcat)) bcat <- kinship(bvect)
+    if (is.null(bcycle)) bcycle <- breeding_cycle(bvect)
     bvect <- distances(bvect)
   }
   if (is.KinPairData(acompvect)) {
     if (is.null(acompcat)) acompcat <- kinship(acompvect)
+    if (is.null(acompcycle)) acompcycle <- breeding_cycle(acompvect)
     acompvect <- distances(acompvect)
   }
   if (is.KinPairData(bcompvect)) {
     if (is.null(bcompcat)) bcompcat <- kinship(bcompvect)
+    if (is.null(bcompcycle)) bcompcycle <- breeding_cycle(bcompvect)
     bcompvect <- distances(bcompvect)
   }
 
@@ -215,14 +244,16 @@ axpermute_standard <- function(avect = NULL, bvect = NULL, acat = NULL, bcat = N
   if (is.null(bcat)) {
     stop("Please supply kin category b!")
   }
+  if (is.null(acycle)) acycle <- 0
+  if (is.null(bcycle)) bcycle <- 0
 
   aphase <- phase_assigner(acat)
   bphase <- phase_assigner(bcat)
   aphasetest <- aphase
   bphasetest <- bphase
 
-  aspan <- span_assigner(acat)
-  bspan <- span_assigner(bcat)
+  aspan <- span_assigner(acat) + cycle_to_span(acycle)
+  bspan <- span_assigner(bcat) + cycle_to_span(bcycle)
   aspantest <- aspan
   bspantest <- bspan
 
@@ -246,6 +277,7 @@ axpermute_standard <- function(avect = NULL, bvect = NULL, acat = NULL, bcat = N
     if (is.null(amixcat)) {
       stop("please supply mixture kin category for a!")
     }
+    if (is.null(amixcycle)) amixcycle <- 0
     if (bcomp == FALSE & bmix == FALSE) {
       stop("Mixed category a must be paired with a mixed category or composite b!")
     }
@@ -254,13 +286,14 @@ axpermute_standard <- function(avect = NULL, bvect = NULL, acat = NULL, bcat = N
     }
     amixphase <- phase_assigner(amixcat)
     aphasetest <- c(aphasetest, amixphase)
-    amixspan <- span_assigner(amixcat)
+    amixspan <- span_assigner(amixcat) + cycle_to_span(amixcycle)
     aspantest <- mean(c(aspantest, amixspan))
   }
   if (bmix == TRUE) {
     if (is.null(bmixcat)) {
       stop("please supply mixture kin category for b!")
     }
+    if (is.null(bmixcycle)) bmixcycle <- 0
     if (acomp == FALSE & amix == FALSE) {
       stop("Mixed category b must be paired with a mixed category or composite a!")
     }
@@ -269,7 +302,7 @@ axpermute_standard <- function(avect = NULL, bvect = NULL, acat = NULL, bcat = N
     }
     bmixphase <- phase_assigner(bmixcat)
     bphasetest <- c(bphasetest, bmixphase)
-    bmixspan <- span_assigner(bmixcat)
+    bmixspan <- span_assigner(bmixcat) + cycle_to_span(bmixcycle)
     bspantest <- mean(c(bspantest, bmixspan))
   }
 
@@ -277,6 +310,7 @@ axpermute_standard <- function(avect = NULL, bvect = NULL, acat = NULL, bcat = N
     if (is.null(acompvect)) {
       stop("please supply composite vector for a!")
     }
+    if (is.null(acompcycle)) acompcycle <- 0
     if (bcomp == FALSE & bmix == FALSE) {
       stop("Composite estimate a must be paired with a mixed category or composite b!")
     }
@@ -288,7 +322,7 @@ axpermute_standard <- function(avect = NULL, bvect = NULL, acat = NULL, bcat = N
     }
     acompphase <- phase_assigner(acompcat)
     aphasetest <- c(aphasetest, acompphase)
-    acompspan <- span_assigner(acompcat)
+    acompspan <- span_assigner(acompcat) + cycle_to_span(acompcycle)
     aspantest <- mean(c(aspantest, acompspan))
     if (nsamp == "std") {
       acompnum <- length(acompvect)
@@ -306,6 +340,7 @@ axpermute_standard <- function(avect = NULL, bvect = NULL, acat = NULL, bcat = N
     if (is.null(bcompvect)) {
       stop("please supply composite vector for b!")
     }
+    if (is.null(bcompcycle)) bcompcycle <- 0
     if (acomp == FALSE & amix == FALSE) {
       stop("Composite estimate b must be paired with a mixed category or composite a!")
     }
@@ -317,7 +352,7 @@ axpermute_standard <- function(avect = NULL, bvect = NULL, acat = NULL, bcat = N
     }
     bcompphase <- phase_assigner(bcompcat)
     bphasetest <- c(bphasetest, bcompphase)
-    bcompspan <- span_assigner(bcompcat)
+    bcompspan <- span_assigner(bcompcat) + cycle_to_span(bcompcycle)
     bspantest <- mean(c(bspantest, bcompspan))
     if (nsamp == "std") {
       bcompnum <- length(bcompvect)

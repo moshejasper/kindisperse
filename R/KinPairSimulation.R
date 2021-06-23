@@ -3,15 +3,17 @@ methods::setOldClass(c("tbl_df", "tbl", "data.frame"))
 #' KinPairSimulation Class
 #'
 #' @slot kinship character - one of PO, FS, HS, AV, HAV, GG, 1C, H1C, GAV, HGAV, 1C1, H1C1, GGG, 2C, and H2C.
-#' @slot simtype character.
+#' @slot simtype character. - one of 'simple', 'composite' or 'custom'
 #' @slot kerneltype character. - 'Gaussian', 'Laplace' or 'vgamma' (variance-gamma)
 #' @slot posigma numeric.       - overall value of dispersal sigma (for simple kernel)
 #' @slot initsigma numeric.    - value of pre-breeding dispersal sigma (for composite kernel)
 #' @slot breedsigma numeric.  - value of breeding dispersal sigma (for composite kernel)
 #' @slot gravsigma numeric.   - value of post-breeding dispersal sigma (for composite kernel)
 #' @slot ovisigma numeric.    - value of oviposition dispersal sigma (for composite kernel)
+#' @slot customsigma numeric  - vector of named custom dispersal sigmas (for custom kernel)
 #' @slot simdims numeric.        - dimensions of sampling area (assumes 1 side of square)
 #' @slot lifestage character. - lifestage at sampling - either 'immature' or 'ovipositional'
+#' @slot cycle integer - number of breeding cycles sampled individuals have survived (for custom kernel)
 #' @slot kernelshape numeric.   - shape parameter if vgamma kerneltype
 #' @slot call call.           - call to create initial simulation
 #' @slot tab tbl_df.          - tibble of simulation values
@@ -30,8 +32,8 @@ KinPairSimulation <- setClass("KinPairSimulation",
   slots = list(
     kinship = "character", simtype = "character", kerneltype = "character",
     posigma = "numeric", initsigma = "numeric", breedsigma = "numeric",
-    gravsigma = "numeric", ovisigma = "numeric", simdims = "numeric",
-    lifestage = "character", kernelshape = "numeric", call = "call", tab = "tbl_df",
+    gravsigma = "numeric", ovisigma = "numeric", customsigma = "numeric", simdims = "numeric",
+    lifestage = "character", cycle = "numeric", kernelshape = "numeric", call = "call", tab = "tbl_df",
     filtertype = "character", upper = "numeric", lower = "numeric",
     spacing = "numeric", samplenum = "numeric", sampledims = "numeric"
   ),
@@ -199,7 +201,7 @@ setGeneric("filtertype<-", function(x, value) standardGeneric("filtertype<-"))
 setGeneric("upper", function(x) standardGeneric("upper"))
 #' @rdname upper
 #'
-#' @param x object of class \code{KinPairSimulation}d
+#' @param x object of class \code{KinPairSimulation}
 #' @param value new value to assign
 #' @return  returns a modified object of the relevant class
 #' @export
@@ -273,7 +275,7 @@ setGeneric("sampledims<-", function(x, value) standardGeneric("sampledims<-"))
 
 #'
 #'
-#' @param KinPairSimulation
+#' @param KinPairSimulation object of class KinPairSimulation
 #'
 #' @return \code{character} the shape parameter used in kernel simulation (if \code{kerneltype} is vgamma)
 #'
@@ -293,7 +295,7 @@ setMethod("kernelshape", "KinPairSimulation", function(x) x@kernelshape)
 setMethod("simtype", "KinPairSimulation", function(x) x@simtype)
 #'
 #'
-#' @param KinPairSimulation
+#' @param KinPairSimulation object of class KinPairSimulation
 #'
 #' @return \code{character} the type of statistical kernel used to run the simulation (Gaussian, Laplace, vgamma)
 #'
@@ -302,7 +304,7 @@ setMethod("simtype", "KinPairSimulation", function(x) x@simtype)
 setMethod("kerneltype", "KinPairSimulation", function(x) x@kerneltype)
 #'
 #'
-#' @param KinPairSimulation
+#' @param KinPairSimulation object of class KinPairSimulation
 #'
 #' @return \code{numeric} posigma value of simple simulation
 #'
@@ -311,7 +313,7 @@ setMethod("kerneltype", "KinPairSimulation", function(x) x@kerneltype)
 setMethod("posigma", "KinPairSimulation", function(x) x@posigma)
 #'
 #'
-#' @param KinPairSimulation
+#' @param KinPairSimulation object of class KinPairSimulation
 #'
 #' @return \code{numeric} initsigma value of composite simulation
 #'
@@ -320,7 +322,7 @@ setMethod("posigma", "KinPairSimulation", function(x) x@posigma)
 setMethod("initsigma", "KinPairSimulation", function(x) x@initsigma)
 #'
 #'
-#' @param KinPairSimulation
+#' @param KinPairSimulation object of class KinPairSimulation
 #'
 #' @return \code{numeric} breedsigma value of composite simulation
 #'
@@ -329,7 +331,7 @@ setMethod("initsigma", "KinPairSimulation", function(x) x@initsigma)
 setMethod("breedsigma", "KinPairSimulation", function(x) x@breedsigma)
 #'
 #'
-#' @param KinPairSimulation
+#' @param KinPairSimulation object of class KinPairSimulation
 #'
 #' @return \code{numeric} gravsigma value of composite simulation
 #'
@@ -338,7 +340,7 @@ setMethod("breedsigma", "KinPairSimulation", function(x) x@breedsigma)
 setMethod("gravsigma", "KinPairSimulation", function(x) x@gravsigma)
 #'
 #'
-#' @param KinPairSimulation
+#' @param KinPairSimulation object of class KinPairSimulation
 #'
 #' @return \code{numeric} ovisigma value of composite simulation
 #'
@@ -347,7 +349,7 @@ setMethod("gravsigma", "KinPairSimulation", function(x) x@gravsigma)
 setMethod("ovisigma", "KinPairSimulation", function(x) x@ovisigma)
 #'
 #'
-#' @param KinPairSimulation
+#' @param KinPairSimulation object of class KinPairSimulation
 #'
 #' @return \code{numeric vector} simulation dimensions of \code{KinPairSimulation} object
 #'
@@ -356,16 +358,18 @@ setMethod("ovisigma", "KinPairSimulation", function(x) x@ovisigma)
 setMethod("simdims", "KinPairSimulation", function(x) x@simdims)
 #'
 #'
-#' @param KinPairSimulation
+#' @param KinPairSimulation object of class KinPairSimulation
 #'
 #' @return \code{character} filter status of \code{KinPairSimulation} object
 #'
 #' @export
 #' @describeIn KinPairSimulation access filtertype
 setMethod("filtertype", "KinPairSimulation", function(x) x@filtertype)
+
+
 #'
 #'
-#' @param KinPairSimulation
+#' @param KinPairSimulation object of class KinPairSimulation
 #'
 #' @return \code{numeric} upper value of sampled \code{KinPairSimulation} object
 #'
@@ -374,7 +378,7 @@ setMethod("filtertype", "KinPairSimulation", function(x) x@filtertype)
 setMethod("upper", "KinPairSimulation", function(x) x@upper)
 #'
 #'
-#' @param KinPairSimulation
+#' @param KinPairSimulation object of class KinPairSimulation
 #'
 #' @return \code{numeric} lower value of sampled \code{KinPairSimulation} object
 #'
@@ -383,7 +387,7 @@ setMethod("upper", "KinPairSimulation", function(x) x@upper)
 setMethod("lower", "KinPairSimulation", function(x) x@lower)
 #' )
 #'
-#' @param KinPairSimulation
+#' @param KinPairSimulation object of class KinPairSimulation
 #'
 #' @return \code{numeric} trap spacing value of sampled \code{KinPairSimulation} object
 #'
@@ -392,7 +396,7 @@ setMethod("lower", "KinPairSimulation", function(x) x@lower)
 setMethod("spacing", "KinPairSimulation", function(x) x@spacing)
 #'
 #'
-#' @param KinPairSimulation
+#' @param KinPairSimulation object of class KinPairSimulation
 #'
 #' @return \code{numeric} number of kin dyads in \code{KinPairSimulation} object
 #'
@@ -401,7 +405,7 @@ setMethod("spacing", "KinPairSimulation", function(x) x@spacing)
 setMethod("samplenum", "KinPairSimulation", function(x) x@samplenum)
 #'
 #'
-#' @param KinPairSimulation
+#' @param KinPairSimulation object of class KinPairSimulation
 #'
 #' @return \code{numeric vector} sampling dimensions of \code{KinPairSimulation} object
 #'
@@ -411,7 +415,7 @@ setMethod("sampledims", "KinPairSimulation", function(x) x@sampledims)
 
 #'
 #'
-#' @param KinPairSimulation
+#' @param KinPairSimulation object of class KinPairSimulation
 #'
 #' @return returns a modified object of class \code{KinPairSimulation}
 #'
@@ -428,7 +432,7 @@ setMethod("upper<-", "KinPairSimulation", function(x, value) {
 })
 #'
 #'
-#' @param KinPairSimulation
+#' @param KinPairSimulation object of class KinPairSimulation
 #'
 #' @return returns a modified object of class \code{KinPairSimulation}
 #'
@@ -445,7 +449,7 @@ setMethod("lower<-", "KinPairSimulation", function(x, value) {
 })
 #'
 #'
-#' @param KinPairSimulation
+#' @param KinPairSimulation object of class KinPairSimulation
 #'
 #' @return returns a modified object of class \code{KinPairSimulation}
 #'
@@ -529,6 +533,12 @@ setMethod(
     else if (object@simtype == "composite") {
       cat("initsigma\t\t", object@initsigma, "\nbreedsigma\t\t", object@breedsigma, "\ngravsigma\t\t", object@gravsigma, "\novisigma\t\t", object@ovisigma, "\n")
     }
+    else if (object@simtype == "custom") {
+      for (sig in 1:length(object@customsigma)){
+        cat(names(object@customsigma)[sig], "\t\t\t", object@customsigma[sig], "\n")
+      }
+      cat("cycle:\t\t\t", object@cycle, "\n")
+    }
     cat("lifestage:\t\t", object@lifestage, "\n\n")
     if (!is.na(object@filtertype)) {
       if (object@filtertype == "filtered") {
@@ -573,7 +583,9 @@ setMethod(
 #' @param breedsigma numeric.    - value of breeding dispersal sigma (for composite kernel)
 #' @param gravsigma numeric.    - value of post-breeding dispersal sigma (for composite kernel)
 #' @param ovisigma numeric.    - value of oviposition dispersal sigma (for composite kernel)
+#' @param customsigma numeric.  - vector of named custom dispersal sigmas (for custom kernel)
 #' @param simdims numeric. - dimensions of sampling area (assumes one side of square)
+#' @param cycle integer - number of breeding cycles sampled individual has survived (for custom kernel)
 #' @param kernelshape numeric. - value of kernel shape of simulation (if using kernel with shape parameter e.g. vgamma)
 #' @param call call. Call to create object
 #' @param filtertype character. whether the initial sim has been further filtered
@@ -600,6 +612,8 @@ setMethod(
            breedsigma = NULL,
            gravsigma = NULL,
            ovisigma = NULL,
+           customsigma = NULL,
+           cycle = NULL,
            simdims = NULL,
            call = NULL,
            filtertype = NULL,
@@ -618,6 +632,8 @@ setMethod(
     if (!is.null(breedsigma)) .Object@breedsigma <- breedsigma else .Object@breedsigma <- NA_real_
     if (!is.null(gravsigma)) .Object@gravsigma <- gravsigma else .Object@gravsigma <- NA_real_
     if (!is.null(ovisigma)) .Object@ovisigma <- ovisigma else .Object@ovisigma <- NA_real_
+    if (!is.null(customsigma)) .Object@customsigma <- customsigma else .Object@customsigma <- NA_real_
+    if (!is.null(cycle)) .Object@cycle <- cycle else .Object@cycle <- NA_real_
     if (!is.null(simdims)) .Object@simdims <- simdims else .Object@simdims <- NA_real_
     if (!is.null(call)) .Object@call <- call else .Object@call <- sys.call()
     if (!is.null(filtertype)) .Object@filtertype <- filtertype else .Object@filtertype <- NA_character_
@@ -685,8 +701,10 @@ setMethod(
 #' @param breedsigma numeric.    - value of breeding dispersal sigma (for composite kernel)
 #' @param gravsigma numeric.    - value of post-breeding dispersal sigma (for composite kernel)
 #' @param ovisigma numeric.    - value of oviposition dispersal sigma (for composite kernel)
+#' @param customsigma numeric. - vector of named custom dispersal sigmas (for custom kernel)
 #' @param simdims numeric. - dimensions of sampling area (assumes one side of square)
 #' @param kernelshape numeric. - value of kernel shape of simulation (if using kernel with shape parameter e.g. vgamma)
+#' @param cycle integer - number of breeding cycles sampled individual has survived (for custom kernel)
 #' @param call call. Call to create object
 #' @param filtertype character. whether the initial sim has been further filtered
 #' @param upper numeric.       - FILTER: upper threshold used
@@ -710,8 +728,10 @@ KinPairSimulation <- function(data = NULL,
                               breedsigma = NULL,
                               gravsigma = NULL,
                               ovisigma = NULL,
+                              customsigma = NULL,
                               simdims = NULL,
                               kernelshape = NULL,
+                              cycle = NULL,
                               call = NULL,
                               filtertype = NULL,
                               upper = NULL,
@@ -730,8 +750,10 @@ KinPairSimulation <- function(data = NULL,
     breedsigma = breedsigma,
     gravsigma = gravsigma,
     ovisigma = ovisigma,
+    customsigma = customsigma,
     simdims = simdims,
     kernelshape = kernelshape,
+    cycle = cycle,
     call = call,
     filtertype = filtertype,
     upper = upper,
@@ -783,7 +805,7 @@ KinPairSimulation_simple <- function(data = NULL, kinship = NULL, kerneltype = N
     call <- sys.call()
   }
   return(KinPairSimulation(data = data, kinship = kinship, simtype = "simple", kerneltype = kerneltype,
-                           posigma = posigma, simdims = simdims, lifestage = lifestage, kernelshape = kernelshape, call = call))
+                           posigma = posigma, simdims = simdims, lifestage = lifestage, kernelshape = kernelshape, cycle = 0, call = call))
 }
 
 
@@ -821,6 +843,45 @@ KinPairSimulation_composite <- function(data = NULL, kinship = NULL, kerneltype 
   }
   return(KinPairSimulation(
     data = data, kinship = kinship, simtype = "composite", kerneltype = kerneltype, initsigma = initsigma, breedsigma = breedsigma,
-    gravsigma = gravsigma, ovisigma = ovisigma, simdims = simdims, lifestage = lifestage, kernelshape = kernelshape, call = call
+    gravsigma = gravsigma, ovisigma = ovisigma, simdims = simdims, lifestage = lifestage, kernelshape = kernelshape, cycle = 0, call = call
   ))
+}
+
+
+#' Constructor for KinPairSimulation Class (custom)
+#'
+#' @param data tibble of pairwise kin classes & distances. Ideally contains fields id1 & id2 (chr) an distance (dbl) optionally includes coords (x1, y1, x2, y2), lifestage (ls1 & ls2), kinship (chr) and sims (dbl)
+#' @param kinship  character. Code for kinship category of simulation. one of PO, FS, HS, AV, GG, HAV, GGG, 1C, 1C1, 2C, GAV, HGAV, H1C or H2C
+#' @param kerneltype  character. Statistical model for simulated dispersal kernel. Currently either "Gaussian", "Laplace" or "vgamma" (variance-gamma).
+#' @param customsigma numeric. Named vector of custom breeding cycle stages and their corresponding axial dispersal values
+#' @param simdims  numeric. Length of side of simulated area square.
+#' @param lifestage character. Simulated lifestage of sampling. Here, must correspond to a custom lifestage derived from 'customsigma'
+#' @param kernelshape numeric. Value of shape parameter for simulated kernel if kernel requires one (e.g. vgamma kernel).
+#' @param cycle non-negative integer. Breeding cycle numbers of dispersed kin to be modeled.  Represents
+#' the number of complete breeding cycles each simulated individual has undergone before the sampling point, where the time between
+#' birth and first reproduction is coded as '0', that between first and second reproduction '1', etc. (default 0)
+#' @param call  call object. Use to pass the system call that led to the generation of this class. (via sys.call)
+#'
+#' @return Returns a \code{KinPairSimulation} Class object with simtype set to 'custom' and relevant fields included.
+#' @export
+#'
+#' @examples
+#' kindata <- tibble::tibble(
+#'   id1 = c("a", "b", "c"), id2 = c("x", "y", "z"),
+#'   distance = c(50, 45, 65), kinship = c("1C", "1C", "1C")
+#' )
+#' KinPairSimulation_custom(kindata,
+#'   kinship = "1C", kerneltype = "Gaussian",
+#'   customsigma = c(initsigma = 15, breedsigma = 25, gravsigma = 20, ovisigma = 10),
+#'   lifestage = "ovisigma", cycle = 0
+#' )
+KinPairSimulation_custom <- function(data = NULL, kinship = NULL, kerneltype = NULL, customsigma = NULL,
+                                     simdims = NULL, lifestage = NULL, kernelshape = NULL, cycle = NULL,
+                                     call = NULL) {
+  if (is.null(call)) {
+    call <- sys.call()
+  }
+  return(KinPairSimulation(data = data, kinship = kinship, simtype = "custom", kerneltype = kerneltype,
+                           customsigma = customsigma, simdims = simdims, lifestage = lifestage,
+                           kernelshape = kernelshape, cycle = cycle, call = call))
 }
