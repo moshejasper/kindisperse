@@ -27,7 +27,7 @@ simulate_kindist_simple(
 
 \item{lifestage}{(lifestage) lifestage at sample collection: either 'immature' or 'ovipositional'}
 
-\item{shape}{(numeric) value of shape parameter to use with 'vgamma' method. Default 0.5}
+\item{shape}{(numeric) - value of shape parameter to use with 'vgamma' method. Default 0.5. Must be > 0. Increment towards zero for increasingly heavy-tailed (leptokurtic) dispersal}
 }
 \value{
 \preformatted{ returns an object of class \code{KinPairSimulation} containing simulation details and a \code{tibble} (tab) of simulation values
