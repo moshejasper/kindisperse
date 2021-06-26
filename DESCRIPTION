@@ -48,3 +48,22 @@ Imports:
 VignetteBuilder: knitr
 Depends: 
     R (>= 2.10)
+Collate: 
+    'DispersalModel.R'
+    'KinPairData.R'
+    'KinPairSimulation.R'
+    'app.R'
+    'app_ports.R'
+    'axial_helper_functions.R'
+    'axials_standard.R'
+    'data.R'
+    'dispersal_model.R'
+    'export_functions.R'
+    'import_kinpairs.R'
+    'kindisperse-package.R'
+    'sample_kindist.R'
+    'simgraph_data.R'
+    'simgraph_graph.R'
+    'simulate_kindist_composite.R'
+    'simulate_kindist_custom.R'
+    'simulate_kindist_simple.R'
