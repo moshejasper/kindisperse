@@ -2,16 +2,43 @@
 % Please edit documentation in R/KinPairSimulation.R
 \name{kerneltype}
 \alias{kerneltype}
-\title{kindisperse - access kerneltype of KinPairSimulation object}
+\alias{kerneltype<-}
+\alias{kerneltype,KinPairSimulation-method}
+\title{Access or assign kerneltype of \code{\link{KinPairSimulation}} object}
 \usage{
 kerneltype(x)
+
+kerneltype(x) <- value
+
+\S4method{kerneltype}{KinPairSimulation}(x)
 }
 \arguments{
 \item{x}{object of class \code{KinPairSimulation}}
+
+\item{value}{new value to assign}
+
+\item{KinPairSimulation}{object of class KinPairSimulation}
 }
 \value{
 \code{character} the type of statistical kernel used to run the simulation (Gaussian, Laplace, vgamma)
+
+returns a modified object of the relevant class with altered kerneltype parameter
+
+\code{character} the type of statistical kernel used to run the simulation (Gaussian, Laplace, vgamma)
 }
 \description{
-kindisperse - access kerneltype of KinPairSimulation object
+Access or assign kerneltype of \code{\link{KinPairSimulation}} object
 }
+\section{Methods (by class)}{
+\itemize{
+\item \code{KinPairSimulation}: 
+}}
+
+\seealso{
+Other kpsmethods: 
+\code{\link{access_sigmas}},
+\code{\link{filter_methods}},
+\code{\link{kernelshape}()},
+\code{\link{simtype}()}
+}
+\concept{kpsmethods}

@@ -4,28 +4,10 @@
 \name{DispersalModel-class}
 \alias{DispersalModel-class}
 \alias{DispersalModel}
-\alias{dispersal_vector,DispersalModel-method}
-\alias{stages,DispersalModel-method}
-\alias{fs,DispersalModel-method}
-\alias{hs,DispersalModel-method}
-\alias{sampling_stage,DispersalModel-method}
-\alias{breeding_cycle,DispersalModel-method}
 \alias{show,DispersalModel-method}
 \alias{initialize,DispersalModel-method}
 \title{DispersalModel Class}
 \usage{
-\S4method{dispersal_vector}{DispersalModel}(x)
-
-\S4method{stages}{DispersalModel}(x)
-
-\S4method{fs}{DispersalModel}(x)
-
-\S4method{hs}{DispersalModel}(x)
-
-\S4method{sampling_stage}{DispersalModel}(x)
-
-\S4method{breeding_cycle}{DispersalModel}(x)
-
 \S4method{show}{DispersalModel}(object)
 
 \S4method{initialize}{DispersalModel}(
@@ -39,8 +21,6 @@
 )
 }
 \arguments{
-\item{x}{object of class \code{DispersalModel}}
-
 \item{object}{object of class \code{DispersalModel}}
 
 \item{.Object}{object to be constructed into DispersalModel class}
@@ -64,41 +44,54 @@ birth and first reproduction is coded as '0', that between first and second repr
 \value{
 returns object of class \code{DispersalModel}
 
-\code{numeric vector} named vector of custom lifestages & associated dispersal sigmas.
-
-\code{character} ordered vector of custom lifestages contained in the object
-
-\code{character} FS phase split
-
-\code{character} HS phase split
-
-\code{character} sampling stage
-
-\code{non-negative integer(s)} Breeding cycle numbers of modelled dispersed kin. Represents the number of complete
-breeding cycles each indivdiual has undergone before the sampling point, wher ethe time between birth and first
-reproduction is coded as \code{0}, that between first and second reproduction \code{1}, etc.
-
 No return value. Called for side effects
 
 returns an object of class \code{DispersalModel}
 }
 \description{
-DispersalModel Class
+The class \code{DispersalModel} is an S4 Class supplying organism-specific information about dispersal stages (with axial
+sigmas), FS & HS branch points, and the dispersal stage at which sampling occurs.It is used with the
+\code{\link{simulate_kindist_custom}} function to enable the simulation of uniquely defined breeding & dispersal cycles.
+}
+\details{
+The original simulation functions in this package (\code{simulate_kindist_simple()} & \code{simulate_kindist_composite}) were
+designed for an organism with a specific (& relatively simple) breeding & dispersal cycle. 'simple' corresponded to a single
+dispersal event across a lifespan, equivalency of all dispersal phases (FS, HS, PO) and no lifetime overlaps. 'composite'
+corresponded to many insect dispersal situations, where breeding & oviposition are the key 'phase-defining' events (i.e.,
+they lead to the initial gamete dispersal of half siblings & full siblings from each other), where field sampling typically
+occurs via ovitraps
+
+More general dispersal scenarios (e.g in mammals) require the ability to uniquely specify a variety of distinct breeding
+ecologies & sampling schemes: the \code{DispersalModel} class paired with the \code{\link{simulate_kindist_custom}}
+function achieves this by defining a breeding cycle with an arbitrary number of dispersal phases (the \code{dispersal_vector}
+slot, accessed by the \code{\link{dispersal_vector}} method).
+
+The breeding structure of a species may also impact at which stage
+FS and HS phase branches occur. In \emph{Ae. aegypti}, males mate with multiple females in a (single) breeding season, and a female
+typically carried the egg of only one male. In this context the FS (full-sibling) phase would be set to correspond to the female's
+oviposition dispersal, while the HS (half-sibling) phase would be set to correspond to the male's breeding dispersal (as its gametes
+will then be dispersed by multiple females across their gravid & ovipositional phases). However, in e.g. some species of the marsupial
+\emph{Antechinus}, the FS branch point would be more appropriately associated with juveniles at the time that they leave the mother's
+pouch. The \code{\link{fs}} and \code{\link{hs}} slots & accessor functions enable the assignment of these phase branches to any
+defined life phase. Similarly, the \code{\link{sampling_stage}} slot & method allow the sampling point to be set to correspond to any
+phase of the defined breeding cycle.
+
+The final parameter stored in this object is the breeding cycle number \code{cycle}, accessed by the \code{\link{breeding_cycle}} method.
+This parameter enables the treatment of species that undergo multiple breeding cycles in one lifetime. This is defined as a length two
+vector describing the number of breeding cycles undergone by the final descendant of branch 1 and branch 2 of the dispersal pedigree before
+their sampling. (where branch one is the 'senior' and branch two the 'junior' member of the pedigree) (so uncle is branch one, nephew branch
+two, grandmother branch one, granddaughter branch two, etc.). For each member of the resulting kin pair, the cycle number represents the
+number of complete breeding cycles each individual has undergone before the sampling point, where the time between birth and first
+reproduction is coded as '0', that between first and second reproduction '1', etc. This enables an application of the simulation
+functions defined here to deal with populations with some amount of overlap between generations.
+
+Note that this 'breeding cycle' approach is only applicable in situations where there is an approximate equivalence between the dispersal which
+occurs in the first 'juvenile' breeding cycle and that which occurs between later breeding cycles. This parameter is implemented here, but it
+will often be more productive to implement it instead as a parameter of the \code{\link{simulate_kindist_custom}} function (the cycle parameter
+there if set overrides whatever was defined within this object)
 }
 \section{Methods (by generic)}{
 \itemize{
-\item \code{dispersal_vector}: access dispersal vector
-
-\item \code{stages}: access breeding cycle stages
-
-\item \code{fs}: access FS phase split
-
-\item \code{hs}: access HS phase split
-
-\item \code{sampling_stage}: access sampling stage
-
-\item \code{breeding_cycle}: access breeding cycle at sampling
-
 \item \code{show}: print method
 
 \item \code{initialize}: initialization method
@@ -109,7 +102,7 @@ DispersalModel Class
 \describe{
 \item{\code{dispersal_vector}}{numeric. Named vector of custom breeding cycle stages and their corresponding axial dispersal values}
 
-\item{\code{stages}}{character.  Ordered vector of all dispersal stages across the breeding cycle of the modelled species}
+\item{\code{stages}}{character.  Ordered vector of all dispersal stages across the breeding cycle of the modeled species}
 
 \item{\code{fs}}{character.  breeding cycle stage at which first substantial FS-phased dispersal occurs}
 
@@ -118,7 +111,13 @@ DispersalModel Class
 \item{\code{sampling_stage}}{character. stage in the breeding cycle at which samples are to be collected for kin identification.}
 
 \item{\code{cycle}}{non-negative integer. Breeding cycle numbers of dispersed kin to be modeled.  Represents
-the number of complete breeding cycles each simulated individual has undergone before the sampling point, where the time between
+the number of complete breeding cycles each individual has undergone before the sampling point, where the time between
 birth and first reproduction is coded as '0', that between first and second reproduction '1', etc. (default 0)}
 }}
 
+\seealso{
+Other kdclasses: 
+\code{\link{KinPairData-class}},
+\code{\link{KinPairSimulation-class}}
+}
+\concept{kdclasses}

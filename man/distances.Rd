@@ -2,16 +2,32 @@
 % Please edit documentation in R/KinPairData.R
 \name{distances}
 \alias{distances}
-\title{Access distances (generic for KinPairData class)}
+\alias{distances,KinPairData-method}
+\title{Access or assign \code{distances} category of \code{\link{KinPairData}} class objects}
 \usage{
 distances(x)
+
+\S4method{distances}{KinPairData}(x)
 }
 \arguments{
-\item{x}{Object of Class KinPairData}
+\item{x}{object of class KinPairData}
+
+\item{KinPairData}{object of class \code{KinPairData}}
 }
 \value{
 Returns a numeric vector of kin separation distances
 }
 \description{
-Access distances (generic for KinPairData class)
+Access or assign \code{distances} category of \code{\link{KinPairData}} class objects
 }
+\section{Methods (by class)}{
+\itemize{
+\item \code{KinPairData}: 
+}}
+
+\seealso{
+Other kpdmethods: 
+\code{\link{kinship}()},
+\code{\link{lifestage}()}
+}
+\concept{kpdmethods}

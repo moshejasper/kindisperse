@@ -38,13 +38,25 @@ If output = 'confs' returns \code{numeric vector} of 95\% confidence intervals a
 If output = 'vect' returns \code{numeric vector} of individual axial estimates from each permutation
 }
 \description{
-Find the difference between two different empirical axial distributions with confidence intervals.
+Finds the difference between two different empirical axial distributions with confidence intervals.
 This is most useful when one distribution subsumes another and includes a unique dispersal event that needs to be extracted.
 For example, the FS category is subsumed by the 1C category, which can be written 'FS + PO'.
-In this circumstance, subtracting FS from 1C will yield an estimate of the PO kernel (the basic intergenerational dispersal kernel)
+In this circumstance, subtracting FS from 1C will yield an estimate of the PO kernel (the basic intergenerational dispersal kernel).
+Confidence intervals are assigned via bootstrapping, or optionally the
+vector of all bootstrapped results can be outputted by setting \code{output} to \code{'vect'}, enabling its passing to other
+functions or external statistical analysis.
 }
 \examples{
 firstcous <- rexp(100, 1 / 80)
 fullsibs <- rexp(100, 1 / 50)
 axpermute_subtract(firstcous, fullsibs)
 }
+\seealso{
+Other axial_helpers: 
+\code{\link{axials_add}()},
+\code{\link{axials_decompose}()},
+\code{\link{axials_subtract}()},
+\code{\link{axials}()},
+\code{\link{axpermute}()}
+}
+\concept{axial_helpers}

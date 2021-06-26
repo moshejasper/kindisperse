@@ -13,5 +13,13 @@ kinpair_to_tibble(x)
 tibble (class \code{tbl_df})
 }
 \description{
-Extract KinPairData class object to tibble
+Extract \code{KinPairData} class object to tibble. Strips out most class metadata leaving a
+dataframe of disersal simulation data with a column added covering lifestage at sampling.
 }
+\seealso{
+Other export_functions: 
+\code{\link{kinpair_to_csv}()},
+\code{\link{kinpair_to_tsv}()},
+\code{\link{write_kindata}()}
+}
+\concept{export_functions}

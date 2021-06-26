@@ -19,6 +19,7 @@
 #'
 #' @return      Returns a ggplot object for graphing.
 #' @export
+#' @family simgraph
 #' @examples
 #' simdata <- simgraph_data()
 #' simgraph_graph(simdata)

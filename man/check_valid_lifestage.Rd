@@ -2,7 +2,7 @@
 % Please edit documentation in R/import_kinpairs.R
 \name{check_valid_lifestage}
 \alias{check_valid_lifestage}
-\title{Check if vector of lifestages contains all valid entries}
+\title{Check valid lifestage}
 \usage{
 check_valid_lifestage(vect)
 }
@@ -13,5 +13,5 @@ check_valid_lifestage(vect)
 TRUE if valid. Error otherwise
 }
 \description{
-Check if vector of lifestages contains all valid entries
+Checks if vector of lifestages contains all valid entries
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/import_kinpairs.R
 \name{vector_to_kinpair}
 \alias{vector_to_kinpair}
-\title{Convert vector of kin separation distances to KinPairData class}
+\title{Convert vector of kin separation distances to \code{\link{KinPairData}} class}
 \usage{
 vector_to_kinpair(vect, kinship = NULL, lifestage = NULL)
 }
@@ -17,8 +17,18 @@ vector_to_kinpair(vect, kinship = NULL, lifestage = NULL)
 returns valid \code{KinPairData} object.
 }
 \description{
-Convert vector of kin separation distances to KinPairData class
+Function takes at minimum a (numeric) vector of distances between related kinpairs, and
+returns a \code{KinPairData} object. Optional parameters can assign kinship and lifestage values to the
+returned object.
 }
 \examples{
 vector_to_kinpair(1:10, "FS", "immature")
 }
+\seealso{
+Other import_functions: 
+\code{\link{csv_to_kinpair}()},
+\code{\link{df_to_kinpair}()},
+\code{\link{read_kindata}()},
+\code{\link{tsv_to_kinpair}()}
+}
+\concept{import_functions}

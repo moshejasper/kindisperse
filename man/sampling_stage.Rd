@@ -2,16 +2,26 @@
 % Please edit documentation in R/DispersalModel.R
 \name{sampling_stage}
 \alias{sampling_stage}
-\title{kindisperse - access sampling stage of DispersalModel object.}
+\alias{sampling_stage,DispersalModel-method}
+\title{Access sampling stage of \code{\link{DispersalModel}} object.}
 \usage{
 sampling_stage(x)
+
+\S4method{sampling_stage}{DispersalModel}(x)
 }
 \arguments{
 \item{x}{object of class \code{DispersalModel}}
+
+\item{DispersalModel}{object of class \code{DispersalModel}}
 }
 \value{
 \code{character} sampling stage
 }
 \description{
-kindisperse - access sampling stage of DispersalModel object.
+Access sampling stage of \code{\link{DispersalModel}} object.
 }
+\section{Methods (by class)}{
+\itemize{
+\item \code{DispersalModel}: 
+}}
+

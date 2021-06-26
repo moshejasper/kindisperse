@@ -2,8 +2,7 @@
 % Please edit documentation in R/axials_standard.R
 \name{axpermute_standard}
 \alias{axpermute_standard}
-\title{Takes (at least) two vectors of kinship dispersal distances from defined kinship categories, and returns a resulting calculation of the parent-offspring (intergenerational) kinship dispersal kernel with bootstrap-based confidence intervals.
-Further tests}
+\title{Calculate the intergenerational (PO) dispersal kernel from the distributions of close kin (bootstrapped)}
 \usage{
 axpermute_standard(
   avect = NULL,
@@ -83,11 +82,52 @@ If output = 'confs' returns vector of 95\% confidence intervals (with mean).
 If output = 'vect' returns vector of individual axial estimates from each permutation
 }
 \description{
-Takes (at least) two vectors of kinship dispersal distances from defined kinship categories, and returns a resulting calculation of the parent-offspring (intergenerational) kinship dispersal kernel with bootstrap-based confidence intervals.
-Further tests
+This function takes (at least) two vectors of kinship dispersal distances from defined kinship categories, and returns a resulting calculation of the parent-offspring
+(intergenerational) kinship dispersal kernel with bootstrapped confidence intervals. Dispersal distances can be inputted as numeric vectors, or alternatively as objects of
+classes \code{\link{KinPairData}} or \code{\link{KinPairSimulation}}.
+}
+\details{
+This (with its paired function \code{\link{axials_standard}}) are the core functions implemented in the \code{kindisperse} package. They enable the decomposition of the
+pedigree & dispersal information contained in the sampled distributions of close kin dyads (full siblings, first cousins, etc.) & its leveraging within an additive dispersal
+framework to estimate the key intergenerational (parent-offspring) dispersal parameter of a population. Four key ideas underpin the approach in this function: (a) tracing
+dispersal pedigrees to determine the number of complete intergenerational (breeding-cycle-spanning) dispersal events separating the sampled close-kin dyads; (b) using kin categories
+that share the same overarching kinship 'phase' to control for residual 'phased' (non-intergenerational) disperal events that occur at the pedigree branch point (e.g. ovipositional
+dispersal for full sibling mosquitoes), and (c) using synced or equivalent sampling points to eliminate non-intergenerational dispersal at the branch-tips of the pedigrees, then
+finally (d) decomposing the 'pure' pedigree-associated (intergenerational) dispersal into an estimae of the single-generation intergenerational dispersal parameter.
+
+At its most basic, this function requires information about two dispersal vectors, a & b - both of a phased kinship category, & \code{vector a} having a more dispersed pedigree
+than \code{vector b}. In addition to this initial pair of dispersed kin categories, either one or another matched pair of kin categories can be added:
+\enumerate{
+\item A mixture category. This redefines the vector it is paired with (either a or b) so that rather than being considered as a 'pure' pedigree variant, it is considered as mixed with a
+different kin category, often of a differing pedigree phase. If used, the other initial vector must also be paired with a related mixture category or composite vector.
+\item A composite dispersal vector. This is defined exactly as the initial dispersal vectors. After calculation, the axial value found is composited with that of the matched initial vector, and
+its kinship category redefined as a mixture category as above. If used, the other initial vector must also be paired with a related mixture category or composite vector. These can be paired so
+that a mixture category (e.g. first & half-first cousins where these could not be separated with available genetic data) can be counterbalanced with the composition of full sibling & half-sibling
+dyads, which (assuming equal mixture) approximately controls for the phasing of the mixed kin categories, enabling an estimate of intergenerational dispersal without exact knowledge of the
+composition of the cousins distribution.
+}
+
+Each vector or \code{KinPairData} / \code{KinPairSimulation} object is paired with several other parameters: (1) a logical (e.g. \code{amix} delineating whether the category is being
+used in the calculation, (2) a category parameter (.e.g \code{acat}) defining what kin relationship is being measured, (3) an optional breeding cycle number (e.g. \code{acycle})
+showing the number of breeding cycles each member of the kin pair has passed through before being sampled (the cycle vector \code{c(1, 0)} corresponds to an adult & a juvenile
+being sampled at the same point in the breeding cycle; \code{c(1, 1)} represents two adults (i.e. after their first breeding), etc.) . If a \code{\link{KinPairData}} or
+\code{\link{KinPairSimulation}} object is inputted, all paired parameters that are not explicitly set will default to those contained in the objects (using KinPair objects
+is the ideal way to deploy this function).
+
+Confidence intervals are assigned via bootstrapping, or optionally the
+vector of all bootstrapped results can be outputted by setting \code{output} to \code{'vect'}, enabling its passing to other
+functions or external statistical analysis.
+
+For further information on this function, package & the dispersal estimation method it represents, see the paper by Jasper et al. - "A genomic approach to inferring kinship reveals
+limited intergenerational dispersal in the yellow fever mosquito", \doi{10.1111/1755-0998.13043}.
 }
 \examples{
 cous <- rexp(100, 1 / 100)
 fullsibs <- rexp(50, 1 / 50)
 axpermute_standard(cous, fullsibs, acat = "1C", bcat = "FS")
 }
+\seealso{
+Other axstandard: 
+\code{\link{axials_standard}()}
+}
+\concept{axstandard}

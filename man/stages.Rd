@@ -2,16 +2,26 @@
 % Please edit documentation in R/DispersalModel.R
 \name{stages}
 \alias{stages}
-\title{kindisperse - access breeding cycle stages of DispersalModel object.}
+\alias{stages,DispersalModel-method}
+\title{Access breeding cycle stages of \code{\link{DispersalModel}} object.}
 \usage{
 stages(x)
+
+\S4method{stages}{DispersalModel}(x)
 }
 \arguments{
 \item{x}{object of class \code{DispersalModel}}
+
+\item{DispersalModel}{object of class \code{DispersalModel}}
 }
 \value{
 \code{character} ordered vector of custom lifestages contained in the object
 }
 \description{
-kindisperse - access breeding cycle stages of DispersalModel object.
+Access breeding cycle stages of \code{\link{DispersalModel}} object.
 }
+\section{Methods (by class)}{
+\itemize{
+\item \code{DispersalModel}: 
+}}
+

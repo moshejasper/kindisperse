@@ -1,5 +1,61 @@
 #' Simulate kin dispersal distance pairs with composite sigmas
 #'
+#' Simulates intergenerational dispersal made up of composite dispersal stages in a species with a defined breeding and dispersal
+#' structure similar to that of \emph{Ae. aegypti} - i.e. with initial, breeding, gravid & ovipositional dispersal phases,
+#' approximately non-overlapping life cycles, and defined sampling points.
+#'
+#' This function is one of a family of functions that implement the core intergenerational dispersal simulations
+#' contained in the \code{kindisperse} package. Each of these functions proceeds by the following steps:
+#' \enumerate{
+#' \item identify the pedigree
+#' relationship, dispersal phase (FS, HS & PO) and sampling stage that must be generated;
+#' \item randomly assign a coordinate position
+#' to the 'root' individual within the pedigree (i.e. last common ancestor of the dyad, inclusive);
+#' \item 'disperse' both pathways from
+#' this root position via the appropriately defined phase dispersal (additively via random draws from the underlying statistical
+#' model, defined by an axial standard deviation - sigma);
+#' \item further disperse both phased descendant branches according to the
+#' number of realised breeding dispersal cycles contained in the defining pedigree (additively via random draws from the chosen
+#' underlying statistical model);
+#' \item add displacement caused by dispersal before the sampling point in a similar manner to above,
+#' defining the final positions of the sampled dispersed kin dyads;
+#' \item calculating geographical distances between the
+#' resulting dyads.
+#' }
+#'
+#' These simulation functions operate under an additive variance framework: all individual dispersal events are modeled as random
+#' draws from a bivariate probability distribution defined by an axial standard deviation \code{sigma} and (sometimes) a shape
+#' parameter. At present, three such distributions are included as options accessible with the \code{method} parameter: the
+#' bivariate normal distribution '\code{Gaussian}', the bivariate Laplace distribution '\code{Laplace}', and the bivariate
+#' variance-gamma distribution '\code{vgamma}'. The \code{Gaussian} (normal) distribution enables easy compatibility with the
+#' framework under which much population genetic & dispersal theory (isolation by distance, neighbourhoods, etc.) have been
+#' developed. The \code{Laplace} distribution is a multivariate adaptation of the (positive) exponential distribution, and
+#' represents a more 'fat-tailed' (leptokurtic) disperal situation than Gaussian. The \code{vgamma} distribution is a mixture
+#' distribution formed by mixing the gamma distribution with the bivariate normal distribution. The flexibility of this
+#' distribution's \code{shape} parameter enables us to model arbitrarily leptokurtic dispesal kernels, providing a helpful way
+#' to examine the impacts of (e.g.) long distance dispersal on the overall disperal distribution and sampling decisions. A
+#' \code{vgamma} distribution with shape parameter equal to 1 reduces to the bivariate Laplace distribution. As shape approaches
+#' infinity, the \code{vgamma} distribution approaches the bivariate normal distribution. As shape approaches zero, the distribution
+#' becomes increasingly leptokurtic.
+#'
+#' The \code{simulate_kindist_composite()} function is designed to enable modeling of the composite dispersal events that occur
+#' \strong{within} the breeding cycle of an organism, and enables the separate treatment of the \code{PO, FS}, and \code{HS}
+#' phases (where, for example, the final distributions of full and half siblings are different in contexts where males mate
+#' with multiple females but females primarily carry the offspring of one male). This function has been designed primarily in the
+#' context of modelling dispersal in the mosquito \emph{Ae. aegypti}; parameter names and the structure of kinship phases
+#' reflect a single-generational breeding organism with an initial dispersal phase, a mating phase (where HS individuals branch),
+#' a gravid phase, and an oviposition phase (where FS individuals branch). The sampling options ('immature' & 'ovipositional')
+#' also reflect common mosquito trapping methods (i.e. ovitraps & gravitraps) which both target individuals dispersing in the
+#' defined oviposition phase. This function should be easily adaptable to a vast number of other animals, especially insects, where
+#' breeding occurs in one generation and parameters such as this hold. For slightly more complex scenarios (multiple breeding cycles,
+#' differing sample points, more or less dispersal components making up a lifespan, different FS/HS branchpoints, etc.), the
+#' enhanced capabilities of the \code{\link{simulate_kindist_custom}} function may be required.
+#'
+#'
+#' Following simulation, the results are returned as an object of the specially defined package class \code{\link{KinPairSimulation}},
+#' which stores the simulation results along with information about all simulation parameters, and can be further passed to
+#' sample filtering & dispersal estimation functions.
+#'
 #' @param nsims   (integer) -   number of pairs to simulate
 #' @param initsigma   (numeric) -   size of pre-breeding (axial) sigma
 #' @param breedsigma   (numeric) -   size of breeding (axial) sigma
@@ -13,6 +69,7 @@
 #'
 #' @return returns an object of class \code{KinPairSimulation} containing simulation details and a tibble (tab) of simulation values
 #' @export
+#' @family simulate_kindist
 #'
 #' @examples
 #' simulate_kindist_composite(nsims = 100)

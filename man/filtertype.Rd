@@ -2,16 +2,35 @@
 % Please edit documentation in R/KinPairSimulation.R
 \name{filtertype}
 \alias{filtertype}
-\title{Access filter type of KinPairSimulation object}
+\alias{filtertype<-}
+\alias{filtertype,KinPairSimulation-method}
+\title{Access filtertype of \code{\link{KinPairSimulation}} object}
 \usage{
 filtertype(x)
+
+filtertype(x) <- value
+
+\S4method{filtertype}{KinPairSimulation}(x)
 }
 \arguments{
 \item{x}{object of class \code{KinPairSimulation}}
+
+\item{value}{new value to assign}
+
+\item{KinPairSimulation}{object of class KinPairSimulation}
 }
 \value{
 \code{character} filter status of simulation
+
+returns a modified object of the relevant class
+
+\code{character} filter status of \code{KinPairSimulation} object
 }
 \description{
-Access filter type of KinPairSimulation object
+Access filtertype of \code{\link{KinPairSimulation}} object
 }
+\section{Methods (by class)}{
+\itemize{
+\item \code{KinPairSimulation}: 
+}}
+

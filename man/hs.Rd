@@ -2,16 +2,26 @@
 % Please edit documentation in R/DispersalModel.R
 \name{hs}
 \alias{hs}
-\title{kindisperse - access HS phase split point of DispersalModel object.}
+\alias{hs,DispersalModel-method}
+\title{Access HS phase split point of \code{\link{DispersalModel}} object.}
 \usage{
 hs(x)
+
+\S4method{hs}{DispersalModel}(x)
 }
 \arguments{
 \item{x}{object of class \code{DispersalModel}}
+
+\item{DispersalModel}{object of class \code{DispersalModel}}
 }
 \value{
 \code{character} HS phase split
 }
 \description{
-kindisperse - access HS phase split point of DispersalModel object.
+Access HS phase split point of \code{\link{DispersalModel}} object.
 }
+\section{Methods (by class)}{
+\itemize{
+\item \code{DispersalModel}: 
+}}
+

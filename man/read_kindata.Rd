@@ -2,16 +2,28 @@
 % Please edit documentation in R/export_functions.R
 \name{read_kindata}
 \alias{read_kindata}
-\title{Reads .kindata filetype back to KinPairData or KinPairSimulation object.}
+\title{Reads \code{.kindata} filetype back to \code{KinPairData} or \code{KinPairSimulation} object.}
 \usage{
 read_kindata(file)
 }
 \arguments{
-\item{file}{Character giving path reference to file with extension .kinpair}
+\item{file}{Character giving path reference to file with extension \code{.kinpair}}
 }
 \value{
 Returns either \code{KinPairData} or \code{KinPairSimulation} object.
 }
 \description{
-Reads .kindata filetype back to KinPairData or KinPairSimulation object.
+This function is part of suite of functions handling file import/export for kinship dispersal objects.
+
+The custom \code{.kindata} format enables complete preservation of \code{KinPairData} & \code{KinPairSimulation} formats
+without any loss of class attributes or metadata - ideal for saving and retrieving simulation data that is intended for further in-package
+processing with kindisperse. This function loads a previously stored object into its original class format.
 }
+\seealso{
+Other import_functions: 
+\code{\link{csv_to_kinpair}()},
+\code{\link{df_to_kinpair}()},
+\code{\link{tsv_to_kinpair}()},
+\code{\link{vector_to_kinpair}()}
+}
+\concept{import_functions}

@@ -23,3 +23,12 @@ In this circumstance, subtracting FS from 1C will yield an estimate of the PO ke
 \examples{
 axials_subtract(100, 70)
 }
+\seealso{
+Other axial_helpers: 
+\code{\link{axials_add}()},
+\code{\link{axials_decompose}()},
+\code{\link{axials}()},
+\code{\link{axpermute_subtract}()},
+\code{\link{axpermute}()}
+}
+\concept{axial_helpers}

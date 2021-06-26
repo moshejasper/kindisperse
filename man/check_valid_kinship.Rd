@@ -2,7 +2,7 @@
 % Please edit documentation in R/import_kinpairs.R
 \name{check_valid_kinship}
 \alias{check_valid_kinship}
-\title{Check if vector of kinship categories contains all valid entries}
+\title{Check valid kinship}
 \usage{
 check_valid_kinship(vect)
 }
@@ -13,5 +13,5 @@ check_valid_kinship(vect)
 TRUE if valid. Error otherwise.
 }
 \description{
-Check if vector of kinship categories contains all valid entries
+Checks if vector of kinship categories contains all valid entries
 }
