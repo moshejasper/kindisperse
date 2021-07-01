@@ -66,12 +66,15 @@
 #' sample filtering & dispersal estimation functions.
 #'
 #' @param nsims    (integer) -   number of pairs to simulate
-#' @param model   (object of class \code{DispersalModel}) - species-specific model of dispersal containing lifestage & phase parameters
+#' @param model   (object of class \code{DispersalModel}) - species-specific model of dispersal containing lifestage,  phase  & sampling parameters
 #' @param dims     (numeric) -   length of sides of (square) simulated site area
 #' @param method   (character) - kernel shape to use: either 'Gaussian', 'Laplace' or 'vgamma' (variance-gamma)
 #' @param kinship  (character)- kin category to simulate: one of PO, FS, HS, AV, GG, HAV, GGG, 1C, 1C1, 2C, GAV, HGAV, H1C H1C1 or H2C
-#' @param lifestage (character) lifestage at sample collection - must match a lifestage supplied in the 'model' parameter
-#' @param cycle (numeric) - breeding cycle number(s) of dispersed kin to be modelled. Must be a nonnegative integer. (0, 1, 2, ...) or vector of two nonnegative integers. Represents the number of complete breeding cycles each simulated individual has undergone before the sampling point, where the time between birth and first reproduction is coded as '0', that between first and second reproduction '1', etc. (default 0). Only use in spp. where there is likely to be a reasonable equivalence between breeding stages across a lifespan.
+#' @param cycle (numeric) - breeding cycle number(s) of dispersed kin to be modeled. Must be a integer equal to or greater than -1, (-1, 0, 1, 2, ...)
+#' or vector of two such integers. Represents the number of complete breeding cycles each simulated individual has undergone before the sampling point,
+#' where the time between birth and first reproduction is coded as '0', that between first and second reproduction '1', etc. (default 0).
+#' If \code{cycle} is specially set to '-1' this constitutes the sampling of an individual before it has differentiated (via dispersal) from the parent.
+#' Only use in spp. where there is likely to be a reasonable equivalence between breeding stages across a lifespan.
 #' @param shape    (numeric) - value of shape parameter to use with 'vgamma' method. Default 0.5. Must be > 0. Increment towards zero for increasingly heavy-tailed (leptokurtic) dispersal
 #'
 #' @return returns an object of class \code{KinPairSimulation} containing simulation details and a tibble (tab) of simulation values
@@ -79,16 +82,29 @@
 #' @family simulate_kindist
 #'
 #' @examples
-#' custom_dispersal_model <- dispersal_model(a = 10, b = 25, .FS = "b", .HS = "a")
-#' simulate_kindist_custom(nsims = 100, model = custom_dispersal_model, cycle = c(0, 1),
-#' kinship = "FS", lifestage = "b")
+#' custom_dispersal_model <- dispersal_model(a = 10, b = 25, .FS = "b",
+#' .HS = "a", .sampling_stage = "b")
+#' simulate_kindist_custom(nsims = 100, model = custom_dispersal_model,
+#' cycle = c(0, 1), kinship = "FS")
 simulate_kindist_custom <- function(nsims = 100, model = dispersal_model(init = 100, breed = 50, grav = 50,
                                                                          ovi = 25, .FS = "ovi", .HS = "breed"),
                                     dims = 100, method = "Gaussian", kinship = "FS",
-                                       lifestage = sampling_stage(model), cycle = 0, shape = 0.5) {
+                                       cycle = 0, shape = 0.5) {
   if (!method %in% c("Gaussian", "Laplace", "vgamma")) {
     stop("Invalid Method! - choose from 'Gaussian', 'Laplace' or 'vgamma'")
   }
+  sampling_stage <- sampling_stage(model)
+  breeding_stage <- breeding_stage(model)
+  visible_stage <- visible_stage(model)
+
+  if (length(cycle) > 2){
+    stop("'cycle' vector can have no more than two elements")
+  }
+  if (length(cycle) == 1){
+    if (cycle == 0) cycle <- breeding_cycle(model)
+    else cycle <- c(cycle, cycle)
+  }
+
 
   if (!kinship %in% c(
     "PO", "FS", "HS", "AV", "GG", "HAV", "GGG", "1C", "1C1", "2C", "GAV",
@@ -97,8 +113,8 @@ simulate_kindist_custom <- function(nsims = 100, model = dispersal_model(init = 
     stop("Invalid Kinship Category")
   }
 
-  if (!lifestage %in% model@stages & ! lifestage == 0) {
-    stop("Invalid Lifestage")
+  if (!sampling_stage %in% model@stages & ! sampling_stage == 0) {
+    stop("Invalid Sampling Stage!")
   }
 
   if (method == "Gaussian") { # bivariate symmetric Gaussian distribution
@@ -132,7 +148,7 @@ simulate_kindist_custom <- function(nsims = 100, model = dispersal_model(init = 
   }
 
   lspan <- function(spans = 1) {
-    if (spans == 0) {
+    if (spans == 0 | spans == -1) {
       return(0)
     }
     if (spans == 1) {
@@ -187,7 +203,7 @@ simulate_kindist_custom <- function(nsims = 100, model = dispersal_model(init = 
 
   # test span1
 
-  if (kinship %in% c("FS", "HS", "PO", "AV", "HAV", "GG", "GAV", "GHAV", "GGG")) {
+  if (kinship %in% c("FS", "HS", "PO", "AV", "HAV", "GG", "GAV", "HGAV", "GGG")) {
     span1 <- 0
   }
   if (kinship %in% c("1C", "H1C", "1C1", "H1C1")) {
@@ -203,7 +219,7 @@ simulate_kindist_custom <- function(nsims = 100, model = dispersal_model(init = 
   if (kinship %in% c("AV", "HAV", "1C", "H1C", "PO")) {
     span2 <- 1
   }
-  if (kinship %in% c("GAV", "GHAV", "GG", "1C1", "H1C1", "2C", "H2C")) {
+  if (kinship %in% c("GAV", "HGAV", "GG", "1C1", "H1C1", "2C", "H2C")) {
     span2 <- 2
   } # an issue with PO... probably gonna have to make a special relation class...
   if (kinship %in% c("GGG")) {
@@ -211,14 +227,123 @@ simulate_kindist_custom <- function(nsims = 100, model = dispersal_model(init = 
   }
 
   # resolve phased dispersal
-  if (! fs(model) == 0){
-  fs_phase <- dispersal_vector(model)[match(fs(model), stages(model)):length(dispersal_vector(model))]
+  if (! fs(model) == 0){ # redundant now
+    if (! cycle[1] == -1 | ! span1 == 0){ # i.e. zero to positive cycle & not sampling in first span
+      if (visible_stage(model) %in% get_stages_predispersal(model, phase = "FS")){ # is sampling taking place (visibly) before first dispersal?
+        if (sampling_stage(model) %in% get_stages_sample2phase(model, phase = "FS")){
+          fs_phase1 <- 0
+        }
+        else fs_phase1 <- stagediff(dispersal_vector(model), fs(model), sampling_stage(model))
+      }
+      else {
+        fs_phase1 <- c(stagediff(dispersal_vector(model), fs(model), visible_stage(model), inclusive = FALSE),
+                      stagediff(dispersal_vector(model), visible_stage(model), sampling_stage(model), inclusive = TRUE))
+      }
+    }
+    else {
+      if (sampling_stage(model) %in% get_stages_nonvisible(model)) {
+        if (sampling_stage(model) %in% get_stages_predispersal(model, phase = "FS")) {
+          fs_phase1 <- 0
+        }
+        else {
+          fs_phase1 <- stagediff(dispersal_vector(model), fs(model), sampling_stage(model))
+        }
+      }
+      else {
+        stop(paste0("'cycle' parameter cannot be set to '-1' if 'sampling_stage' does not lie in the nonvisible window ('",
+                    breeding_stage(model), " to before '", visible_stage(model), "')"))
+      }
+    }
+
+    if (! cycle[2] == -1 | ! span2 == 0){
+      if (visible_stage(model) %in% get_stages_predispersal(model, phase = "FS")){
+        if (sampling_stage(model) %in% get_stages_sample2phase(model, phase = "FS")){
+          fs_phase2 <- 0
+        }
+        else fs_phase2 <- stagediff(dispersal_vector(model), fs(model), sampling_stage(model))
+      }
+      else {
+        fs_phase2 <- c(stagediff(dispersal_vector(model), fs(model), visible_stage(model), inclusive = FALSE),
+                      stagediff(dispersal_vector(model), visible_stage(model), sampling_stage(model), inclusive = TRUE))
+      }
+    }
+    else {
+      if (sampling_stage(model) %in% get_stages_nonvisible(model)) {
+        if (sampling_stage(model) %in% get_stages_predispersal(model, phase = "FS")) {
+          fs_phase2 <- 0
+        }
+        else {
+          fs_phase2 <- stagediff(dispersal_vector(model), fs(model), sampling_stage(model))
+        }
+      }
+      else {
+        stop(paste0("'cycle' parameter cannot be set to '-1' if 'sampling_stage' does not lie in the nonvisible window ('",
+                    breeding_stage(model), " to before '", visible_stage(model), "')"))
+      }
+    }
+
+  #fs_phase <- dispersal_vector(model)[match(fs(model), stages(model)):length(dispersal_vector(model))]
   }
-  else fs_phase <- fs(model)
-  if (! hs(model) == 0){
-  hs_phase <- dispersal_vector(model)[match(hs(model), stages(model)):length(dispersal_vector(model))]
+  else { fs_phase1 <- fs(model); fs_phase2 <- fs(model)}
+  if (! hs(model) == 0 | ! span1 == 0){
+
+    if (! cycle[1] == -1){
+      if (visible_stage(model) %in% get_stages_predispersal(model, phase = "HS")){
+        if (sampling_stage(model) %in% get_stages_sample2phase(model, phase = "HS")){
+          hs_phase1 <- 0
+        }
+        else hs_phase1 <- stagediff(dispersal_vector(model), hs(model), sampling_stage(model))
+      }
+      else {
+        hs_phase1 <- c(stagediff(dispersal_vector(model), hs(model), visible_stage(model), inclusive = FALSE),
+                       stagediff(dispersal_vector(model), visible_stage(model), sampling_stage(model), inclusive = TRUE))
+      }
+    }
+    else {
+      if (sampling_stage(model) %in% get_stages_nonvisible(model)) {
+        if (sampling_stage(model) %in% get_stages_predispersal(model, phase = "HS")) {
+          hs_phase1 <- 0
+        }
+        else {
+          hs_phase1 <- stagediff(dispersal_vector(model), hs(model), sampling_stage(model))
+        }
+      }
+      else {
+        stop(paste0("'cycle' parameter cannot be set to '-1' if 'sampling_stage' does not lie in the nonvisible window ('",
+                    breeding_stage(model), " to before '", visible_stage(model), "')"))
+      }
+    }
+
+    if (! cycle[2] == -1 | ! span2 == 0){
+      if (visible_stage(model) %in% get_stages_predispersal(model, phase = "HS")){
+        if (sampling_stage(model) %in% get_stages_sample2phase(model, phase = "HS")){
+          hs_phase2 <- 0
+        }
+        else hs_phase2 <- stagediff(dispersal_vector(model), hs(model), sampling_stage(model))
+      }
+      else {
+        hs_phase2 <- c(stagediff(dispersal_vector(model), hs(model), visible_stage(model), inclusive = FALSE),
+                       stagediff(dispersal_vector(model), visible_stage(model), sampling_stage(model), inclusive = TRUE))
+      }
+    }
+    else {
+      if (sampling_stage(model) %in% get_stages_nonvisible(model)) {
+        if (sampling_stage(model) %in% get_stages_predispersal(model, phase = "HS")) {
+          hs_phase2 <- 0
+        }
+        else {
+          hs_phase2 <- stagediff(dispersal_vector(model), hs(model), sampling_stage(model))
+        }
+      }
+      else {
+        stop(paste0("'cycle' parameter cannot be set to '-1' if 'sampling_stage' does not lie in the nonvisible window ('",
+                    breeding_stage(model), " to before '", visible_stage(model), "')"))
+      }
+    }
+
+  #hs_phase <- dispersal_vector(model)[match(hs(model), stages(model)):length(dispersal_vector(model))]
   }
-  else hs_phase <- hs(model)
+  else {hs_phase1 <- hs(model); hs_phase2 <- hs(model)}
 
   if (phase == "PO") {
     xy1_phased <- xy0
@@ -227,36 +352,54 @@ simulate_kindist_custom <- function(nsims = 100, model = dispersal_model(init = 
   if (phase == "FS") {
     xy1_phased <- xy0
     xy2_phased <- xy0
-    if (! any(fs_phase == 0)){
-    for (p in fs_phase){
+    if (! any(fs_phase1 == 0)){
+    for (p in fs_phase1){
       xy1_phased <- xy1_phased + rdistr(p)
-      xy2_phased <- xy2_phased + rdistr(p)
     }
+    }
+    if (! any(fs_phase2 == 0)){
+      for (p in fs_phase2){
+        xy2_phased <- xy2_phased + rdistr(p)
+      }
     }
   }
   if (phase == "HS") {
     xy1_phased <- xy0
     xy2_phased <- xy0
-    if (! any(hs_phase == 0)){
-    for (p in hs_phase){
+    if (! any(hs_phase1 == 0)){
+    for (p in hs_phase1){
       xy1_phased <- xy1_phased + rdistr(p)
-      xy2_phased <- xy2_phased + rdistr(p)
     }
+    }
+    if (! any(hs_phase2 == 0)){
+      for (p in hs_phase2){
+        xy2_phased <- xy2_phased + rdistr(p)
+      }
     }
   }
-  # resolve lifespan dispersal
 
+  # modify span for PO categories (a patch for negative cycles)
+
+  if  (phase == "PO"){
+    if (cycle[1] == -1) span2 <- span2 + 1 # if parent is sampled early, increase number of separating lifespans
+    if (cycle[2] == -1) span2 <- span2 - 1 # if offspring is sampled early, decrease number of separating lifespans
+    # (if both sampled early, they cancel)
+  }
+
+  # resolve lifespan dispersal
+  if (span1 > 0 & cycle[1] == -1) span1 <- span1 - 1 # these commands adjust for early sampling in later lifestages (much simpler!)
+  if (span2 > 0 & cycle[2] == -1) span2 <- span2 - 1
   xy1_span <- xy1_phased + lspan(span1)
   xy2_span <- xy2_phased + lspan(span2)
 
   # resolve collection point
 
-  if (lifestage == 0 | lifestage == sampling_stage(model)) {
+  if (sampling_stage == 0 | sampling_stage == sampling_stage(model)) {
     xy1_final <- xy1_span
     xy2_final <- xy2_span
   }
   else {
-    sample_span <- dispersal_vector(model)[1:match(lifestage, stages(model))]
+    sample_span <- dispersal_vector(model)[1:match(sampling_stage, stages(model))]
     xy1_final <- xy1_span
     xy2_final <- xy2_span
     for (p in sample_span){
@@ -265,14 +408,8 @@ simulate_kindist_custom <- function(nsims = 100, model = dispersal_model(init = 
     }
   }
 
-  if (length(cycle) > 2){
-    stop("'cycle' vector can have no more than two elements")
-  }
-  if (length(cycle) == 1){
-    cycle <- c(cycle, cycle)
-  }
-
   if (!cycle_to_span(cycle) == 0){
+
     xy1_final <- xy1_final + lspan(cycle[1])
     xy2_final <- xy2_final + lspan(cycle[2])
   }
@@ -285,8 +422,8 @@ simulate_kindist_custom <- function(nsims = 100, model = dispersal_model(init = 
   y1 <- xy1_final[, 2]
   x2 <- xy2_final[, 1]
   y2 <- xy2_final[, 2]
-  ls1 <- lifestage
-  ls2 <- lifestage
+  ls1 <- sampling_stage
+  ls2 <- sampling_stage
   distance <- sqrt((x1 - x2)^2 + (y1 - y2)^2)
 
   tab <- tibble(
@@ -299,10 +436,10 @@ simulate_kindist_custom <- function(nsims = 100, model = dispersal_model(init = 
   if (method == "vgamma") kernelshape <- shape
   else kernelshape <- NULL
 
-  #return(df_to_kinpair(tab, kinship = kinship, lifestage = as.character(lifestage), lifecheck = FALSE))
+  #return(df_to_kinpair(tab, kinship = kinship, sampling_stage = as.character(sampling_stage), lifecheck = FALSE))
   return(KinPairSimulation_custom(tab,
                                      kinship = kinship, kerneltype = method, customsigma = dispersal_vector(model),
-                                     simdims = dims, lifestage = lifestage, kernelshape = kernelshape, cycle = cycle,
-                                     call = sys.call()
+                                     simdims = dims, lifestage = sampling_stage, kernelshape = kernelshape, cycle = cycle,
+                                     call = sys.call(), model = model
   ))
 }

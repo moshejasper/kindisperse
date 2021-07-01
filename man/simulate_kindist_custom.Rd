@@ -11,7 +11,6 @@ simulate_kindist_custom(
   dims = 100,
   method = "Gaussian",
   kinship = "FS",
-  lifestage = sampling_stage(model),
   cycle = 0,
   shape = 0.5
 )
@@ -19,7 +18,7 @@ simulate_kindist_custom(
 \arguments{
 \item{nsims}{(integer) -   number of pairs to simulate}
 
-\item{model}{(object of class \code{DispersalModel}) - species-specific model of dispersal containing lifestage & phase parameters}
+\item{model}{(object of class \code{DispersalModel}) - species-specific model of dispersal containing lifestage,  phase  & sampling parameters}
 
 \item{dims}{(numeric) -   length of sides of (square) simulated site area}
 
@@ -27,9 +26,11 @@ simulate_kindist_custom(
 
 \item{kinship}{(character)- kin category to simulate: one of PO, FS, HS, AV, GG, HAV, GGG, 1C, 1C1, 2C, GAV, HGAV, H1C H1C1 or H2C}
 
-\item{lifestage}{(character) lifestage at sample collection - must match a lifestage supplied in the 'model' parameter}
-
-\item{cycle}{(numeric) - breeding cycle number(s) of dispersed kin to be modelled. Must be a nonnegative integer. (0, 1, 2, ...) or vector of two nonnegative integers. Represents the number of complete breeding cycles each simulated individual has undergone before the sampling point, where the time between birth and first reproduction is coded as '0', that between first and second reproduction '1', etc. (default 0). Only use in spp. where there is likely to be a reasonable equivalence between breeding stages across a lifespan.}
+\item{cycle}{(numeric) - breeding cycle number(s) of dispersed kin to be modeled. Must be a integer equal to or greater than -1, (-1, 0, 1, 2, ...)
+or vector of two such integers. Represents the number of complete breeding cycles each simulated individual has undergone before the sampling point,
+where the time between birth and first reproduction is coded as '0', that between first and second reproduction '1', etc. (default 0).
+If \code{cycle} is specially set to '-1' this constitutes the sampling of an individual before it has differentiated (via dispersal) from the parent.
+Only use in spp. where there is likely to be a reasonable equivalence between breeding stages across a lifespan.}
 
 \item{shape}{(numeric) - value of shape parameter to use with 'vgamma' method. Default 0.5. Must be > 0. Increment towards zero for increasingly heavy-tailed (leptokurtic) dispersal}
 }
@@ -103,9 +104,10 @@ which stores the simulation results along with information about all simulation 
 sample filtering & dispersal estimation functions.
 }
 \examples{
-custom_dispersal_model <- dispersal_model(a = 10, b = 25, .FS = "b", .HS = "a")
-simulate_kindist_custom(nsims = 100, model = custom_dispersal_model, cycle = c(0, 1),
-kinship = "FS", lifestage = "b")
+custom_dispersal_model <- dispersal_model(a = 10, b = 25, .FS = "b",
+.HS = "a", .sampling_stage = "b")
+simulate_kindist_custom(nsims = 100, model = custom_dispersal_model,
+cycle = c(0, 1), kinship = "FS")
 }
 \seealso{
 Other simulate_kindist: 
