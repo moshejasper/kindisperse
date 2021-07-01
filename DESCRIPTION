@@ -1,6 +1,6 @@
 Package: kindisperse
 Title: Simulate and Estimate Close-Kin Dispersal Kernels
-Version: 0.10.0
+Version: 0.10.1
 Authors@R: 
     person(given = "Moshe-Elijah",
            family = "Jasper",
@@ -51,13 +51,13 @@ Depends:
 Collate: 
     'DispersalModel.R'
     'KinPairData.R'
+    'dispersal_model.R'
     'KinPairSimulation.R'
     'app.R'
     'app_ports.R'
     'axial_helper_functions.R'
     'axials_standard.R'
     'data.R'
-    'dispersal_model.R'
     'export_functions.R'
     'import_kinpairs.R'
     'kindisperse-package.R'
