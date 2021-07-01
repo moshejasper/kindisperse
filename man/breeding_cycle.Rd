@@ -20,7 +20,7 @@ breeding_cycle(x)
 \item{KinPairData}{object of class \code{KinPairData}}
 }
 \value{
-\code{non-negative integer(s)} Breeding cycle numbers of modelled dispersed kin. Represents the number of complete
+\code{integer(s) >= -1} Breeding cycle numbers of modeled dispersed kin. Represents the number of complete
 breeding cycles each indivdiual has undergone before the sampling point, where the time between birth and first
 reproduction is coded as \code{0}, that between first and second reproduction \code{1}, etc.
 }

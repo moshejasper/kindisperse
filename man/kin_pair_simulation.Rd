@@ -25,7 +25,8 @@ kin_pair_simulation(
   lower = NULL,
   spacing = NULL,
   samplenum = NULL,
-  sampledims = NULL
+  sampledims = NULL,
+  model = NULL
 )
 }
 \arguments{
@@ -70,6 +71,8 @@ kin_pair_simulation(
 \item{samplenum}{numeric.       - FILTER: sample number used}
 
 \item{sampledims}{numeric.       - FILTER: sample dimensions used}
+
+\item{model}{list - model information if custom simulation used to generate object}
 }
 \value{
 returns an object of class \code{KinPairSimulation}.
