@@ -317,7 +317,7 @@ span_assigner <- function(category) {
   return(span1 + span2)
 }
 
-cycle_to_span <- function(cycle){
+cycle_to_span <- function(cycle){ # for sims
 
   if (length(cycle) > 2){
     stop("'cycle' vector can have no more than two elements")
@@ -325,8 +325,98 @@ cycle_to_span <- function(cycle){
   if (length(cycle) == 1){
     cycle <- c(cycle, cycle)
   }
-  if (! isTRUE(all.equal(cycle, as.integer(cycle))) | any(cycle < 0)) stop("'cycle' vector is not of nonnegative integers!")
+  if (! isTRUE(all.equal(cycle, as.integer(cycle))) | any(cycle < -1)) stop("'cycle' vector is not of integers >= -1!")
+  cycle[cycle < 0] <- 0
   return(sum(cycle))
+}
+
+cycle_to_span2 <- function(cycle) { # for axials_standard
+
+  if (length(cycle) > 2){
+    stop("'cycle' vector can have no more than two elements")
+  }
+  if (length(cycle) == 1){
+    cycle <- c(cycle, cycle)
+  }
+  if (! isTRUE(all.equal(cycle, as.integer(cycle))) | any(cycle < -1)) stop("'cycle' vector is not of integers >= -1!")
+
+  # resolve negative cycles...
+  if (sum(cycle) < 0) return(sum(cycle))
+  else return(sum(abs(cycle)))
+  }
+
+span_assigner_cycat <- function(category, cycle) {
+  if (category %in% c("FS", "HS", "PO", "AV", "HAV", "GG", "GAV", "HGAV", "GGG")) {
+    span1 <- 0
+  }
+  if (category %in% c("1C", "H1C", "1C1", "H1C1")) {
+    span1 <- 1
+  }
+  if (category %in% c("2C", "H2C")) {
+    span1 <- 2
+  }
+
+  if (category %in% c("FS", "HS", "PO")) {
+    span2 <- 0
+  }
+  if (category %in% c("AV", "HAV", "1C", "H1C", "GG")) {
+    span2 <- 1
+  }
+  if (category %in% c("GAV", "HGAV", "GGG", "1C1", "H1C1", "2C", "H2C")) {
+    span2 <- 2
+  }
+
+  if (length(cycle) > 2){
+    stop("'cycle' vector can have no more than two elements")
+  }
+  if (length(cycle) == 1){
+    cycle <- c(cycle, cycle)
+  }
+  if (! isTRUE(all.equal(cycle, as.integer(cycle))) | any(cycle < -1)) stop("'cycle' vector is not of integers >= -1!")
+
+  span1 <- span1 + cycle[1]
+  span2 <- span2 + cycle[2]
+  #cat(paste0("Cat: ", category, ". Spans: ", span1, " ", span2, "\n"))
+  if (span1 < 0 & span2 < 0) return(-2)
+  if (span1 * span2 < 0 | span1 + span2 < 0) return(abs(span1) + abs(span2))
+  else return(span1 + span2)
+}
+
+phaser_cycat <- function(category, cycle) {
+  if (category %in% c("FS", "HS", "PO", "AV", "HAV", "GG", "GAV", "HGAV", "GGG")) {
+    span1 <- 0
+  }
+  if (category %in% c("1C", "H1C", "1C1", "H1C1")) {
+    span1 <- 1
+  }
+  if (category %in% c("2C", "H2C")) {
+    span1 <- 2
+  }
+
+  if (category %in% c("FS", "HS", "PO")) {
+    span2 <- 0
+  }
+  if (category %in% c("AV", "HAV", "1C", "H1C", "GG")) {
+    span2 <- 1
+  }
+  if (category %in% c("GAV", "HGAV", "GGG", "1C1", "H1C1", "2C", "H2C")) {
+    span2 <- 2
+  }
+
+  if (length(cycle) > 2){
+    stop("'cycle' vector can have no more than two elements")
+  }
+  if (length(cycle) == 1){
+    cycle <- c(cycle, cycle)
+  }
+  if (! isTRUE(all.equal(cycle, as.integer(cycle))) | any(cycle < -1)) stop("'cycle' vector is not of integers >= -1!")
+
+  span1 <- span1 + cycle[1]
+  span2 <- span2 + cycle[2]
+  return(sum(c(span1, span2) == -1))
+  #cat(paste0("Cat: ", category, ". Spans: ", span1, " ", span2, "\n"))
+  if (span1 * span2 < 0) return(abs(span1) + abs(span2))
+  else return(span1 + span2)
 }
 
 # axkconf <- function(axvals, nreps = 1000){
