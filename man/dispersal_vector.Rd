@@ -2,16 +2,26 @@
 % Please edit documentation in R/DispersalModel.R
 \name{dispersal_vector}
 \alias{dispersal_vector}
-\title{kindisperse - access dispersal vector of DispersalModel object.}
+\alias{dispersal_vector,DispersalModel-method}
+\title{Access dispersal vector of \code{\link{DispersalModel}} object.}
 \usage{
 dispersal_vector(x)
+
+\S4method{dispersal_vector}{DispersalModel}(x)
 }
 \arguments{
 \item{x}{object of class \code{DispersalModel}}
+
+\item{DispersalModel}{object of class \code{DispersalModel}}
 }
 \value{
 \code{numeric vector} named vector of custom lifestages & associated dispersal sigmas.
 }
 \description{
-kindisperse - access dispersal vector of DispersalModel object.
+Access dispersal vector of \code{\link{DispersalModel}} object.
 }
+\section{Methods (by class)}{
+\itemize{
+\item \code{DispersalModel}: 
+}}
+

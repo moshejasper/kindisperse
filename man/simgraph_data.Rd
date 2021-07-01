@@ -24,3 +24,8 @@ Simple kin dispersal simulation for graphical display. (returns the data side as
 \examples{
 simgraph_data(nsims = 100, dims = 1000, kinship = "GAV")
 }
+\seealso{
+Other simgraph: 
+\code{\link{simgraph_graph}()}
+}
+\concept{simgraph}

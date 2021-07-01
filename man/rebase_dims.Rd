@@ -12,7 +12,7 @@ rebase_dims(kindist, dims)
 \item{dims}{New site dimensions - either single number (length of side of square) or length 2 vector (lengths of sides x and y of rectangle)}
 }
 \value{
-returns a rebased object of class \code{KinPairSimulation} with adjusted simulation dimensions
+returns a rebased object of class \code{\link{KinPairSimulation}} with adjusted simulation dimensions
 }
 \description{
 Change the dimensions of a KinPairSimulation Object and shift kinpairs so at least one individual is within the area

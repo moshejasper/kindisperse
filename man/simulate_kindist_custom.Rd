@@ -11,7 +11,6 @@ simulate_kindist_custom(
   dims = 100,
   method = "Gaussian",
   kinship = "FS",
-  lifestage = sampling_stage(model),
   cycle = 0,
   shape = 0.5
 )
@@ -19,7 +18,7 @@ simulate_kindist_custom(
 \arguments{
 \item{nsims}{(integer) -   number of pairs to simulate}
 
-\item{model}{(object of class \code{DispersalModel}) - species-specific model of dispersal containing lifestage & phase parameters}
+\item{model}{(object of class \code{DispersalModel}) - species-specific model of dispersal containing lifestage,  phase  & sampling parameters}
 
 \item{dims}{(numeric) -   length of sides of (square) simulated site area}
 
@@ -27,9 +26,11 @@ simulate_kindist_custom(
 
 \item{kinship}{(character)- kin category to simulate: one of PO, FS, HS, AV, GG, HAV, GGG, 1C, 1C1, 2C, GAV, HGAV, H1C H1C1 or H2C}
 
-\item{lifestage}{(character) lifestage at sample collection - must match a lifestage supplied in the 'model' parameter}
-
-\item{cycle}{(numeric) - breeding cycle number(s) of dispersed kin to be modelled. Must be a nonnegative integer. (0, 1, 2, ...) or vector of two nonnegative integers. Represents the number of complete breeding cycles each simulated individual has undergone before the sampling point, where the time between birth and first reproduction is coded as '0', that between first and second reproduction '1', etc. (default 0). Only use in spp. where there is likely to be a reasonable equivalence between breeding stages across a lifespan.}
+\item{cycle}{(numeric) - breeding cycle number(s) of dispersed kin to be modeled. Must be a integer equal to or greater than -1, (-1, 0, 1, 2, ...)
+or vector of two such integers. Represents the number of complete breeding cycles each simulated individual has undergone before the sampling point,
+where the time between birth and first reproduction is coded as '0', that between first and second reproduction '1', etc. (default 0).
+If \code{cycle} is specially set to '-1' this constitutes the sampling of an individual before it has differentiated (via dispersal) from the parent.
+Only use in spp. where there is likely to be a reasonable equivalence between breeding stages across a lifespan.}
 
 \item{shape}{(numeric) - value of shape parameter to use with 'vgamma' method. Default 0.5. Must be > 0. Increment towards zero for increasingly heavy-tailed (leptokurtic) dispersal}
 }
@@ -37,10 +38,80 @@ simulate_kindist_custom(
 returns an object of class \code{KinPairSimulation} containing simulation details and a tibble (tab) of simulation values
 }
 \description{
-Simulate kin dispersal distance pairs with custom species dispersal models.
+Simulates intergenerational dispersal in a species defined by multiple dispersal components across the breeding cycle, with
+dispersal, breeding & sampling & basic generational structure custom-defined by a \code{\link{DispersalModel}} object.
+}
+\details{
+This function is one of a family of functions that implement the core intergenerational dispersal simulations
+contained in the \code{kindisperse} package. Each of these functions proceeds by the following steps:
+\enumerate{
+\item identify the pedigree
+relationship, dispersal phase (FS, HS & PO) and sampling stage that must be generated;
+\item randomly assign a coordinate position
+to the 'root' individual within the pedigree (i.e. last common ancestor of the dyad, inclusive);
+\item 'disperse' both pathways from
+this root position via the appropriately defined phase dispersal (additively via random draws from the underlying statistical
+model, defined by an axial standard deviation - sigma);
+\item further disperse both phased descendant branches according to the
+number of realised breeding dispersal cycles contained in the defining pedigree (additively via random draws from the chosen
+underlying statistical model);
+\item add displacement caused by dispersal before the sampling point in a similar manner to above,
+defining the final positions of the sampled dispersed kin dyads;
+\item calculating geographical distances between the
+resulting dyads.
+}
+
+These simulation functions operate under an additive variance framework: all individual dispersal events are modeled as random
+draws from a bivariate probability distribution defined by an axial standard deviation \code{sigma} and (sometimes) a shape
+parameter. At present, three such distributions are included as options accessible with the \code{method} parameter: the
+bivariate normal distribution '\code{Gaussian}', the bivariate Laplace distribution '\code{Laplace}', and the bivariate
+variance-gamma distribution '\code{vgamma}'. The \code{Gaussian} (normal) distribution enables easy compatibility with the
+framework under which much population genetic & dispersal theory (isolation by distance, neighbourhoods, etc.) have been
+developed. The \code{Laplace} distribution is a multivariate adaptation of the (positive) exponential distribution, and
+represents a more 'fat-tailed' (leptokurtic) disperal situation than Gaussian. The \code{vgamma} distribution is a mixture
+distribution formed by mixing the gamma distribution with the bivariate normal distribution. The flexibility of this
+distribution's \code{shape} parameter enables us to model arbitrarily leptokurtic dispesal kernels, providing a helpful way
+to examine the impacts of (e.g.) long distance dispersal on the overall disperal distribution and sampling decisions. A
+\code{vgamma} distribution with shape parameter equal to 1 reduces to the bivariate Laplace distribution. As shape approaches
+infinity, the \code{vgamma} distribution approaches the bivariate normal distribution. As shape approaches zero, the distribution
+becomes increasingly leptokurtic.
+
+The \code{simulate_kindist_custom()} function is designed to enable modeling of the composite dispersal events that occur
+\strong{within} the breeding cycle of an organism, and enables the separate treatment of the \code{PO, FS}, and \code{HS}
+phases in situations where the breeding and dispersal cycle of an organism is (somewhat more complex that that
+encountered in organisms such as mosquitoes (i.e. single-generational breeding organisms with defined sampling
+points). This function relies on a custom dispersal model of class \code{\link{DispersalModel}} defined via parameter
+\code{model} to supply organism-specific information about dispersal stages (with axial sigmas), FS & HS branch points, and
+the dispersal stage at which sampling occurs. Via this model object (or overridden by the \code{cycle} parameter) you can
+also define the number of breeding cycles each final individual within the close-kin dyad has passed through before sampling.
+This is defined as a length one or two non-negative integer (where a length-one integer of value a is converted to a length
+two integer of value c(a, a)), where the first integer defines the number of life cycles passed through by the 'senior'
+pedigree member of the dyad, and the second the number passed through by the 'junior' member (so the GG phase has a grandparent
+as senior, the grandchild as junior, etc. (in practice this distinction is unimportant for dyads). A cycle number of 0
+references an individual that hasn't lived through an entire breeding cycle (sampling phase to sampling phase) before being
+sampled. A value of 1 references an individual that has lived through one such cycle (e.g. a female entering her second breeding
+season, an ovipositing mosquito (where the oviposition dispersal stage overlaps with the larval dispersal stage)). A value of
+2 references two such cycles, etc. As all cycles are considered equivalent in the current formulation of this model (whether
+an individual enters the cycle as a juvenile or as an adult) care must be taken in applying this system to species where the
+dispersal behaviour of a second cycle individual (i.e. adult) is likely to be substantially different to that of a first cycle
+individual (often an immature individual).
+
+This function can only handle one kinship pairing & dispersal mode in the one simulation: where multiple dispersal pathways lead
+to the same kinship outcome, each pathway should be simulated separately, and the resulting distributions combined subsequently.
+
+Following simulation, the results are returned as an object of the specially defined package class \code{\link{KinPairSimulation}},
+which stores the simulation results along with information about all simulation parameters, and can be further passed to
+sample filtering & dispersal estimation functions.
 }
 \examples{
-custom_dispersal_model <- dispersal_model(a = 10, b = 25, .FS = "b", .HS = "a")
-simulate_kindist_custom(nsims = 100, model = custom_dispersal_model, cycle = c(0, 1),
-kinship = "FS", lifestage = "b")
+custom_dispersal_model <- dispersal_model(a = 10, b = 25, .FS = "b",
+.HS = "a", .sampling_stage = "b")
+simulate_kindist_custom(nsims = 100, model = custom_dispersal_model,
+cycle = c(0, 1), kinship = "FS")
 }
+\seealso{
+Other simulate_kindist: 
+\code{\link{simulate_kindist_composite}()},
+\code{\link{simulate_kindist_simple}()}
+}
+\concept{simulate_kindist}

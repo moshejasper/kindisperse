@@ -16,16 +16,16 @@
 # run early setup functions
 # set environment for data storage
 app_env <- env(
-  d1 = KinPairSimulation(),
-  d2 = KinPairSimulation(),
-  d3 = KinPairSimulation(),
-  d4 = KinPairSimulation(),
-  d5 = KinPairSimulation(),
-  d6 = KinPairSimulation(),
-  d7 = KinPairSimulation(),
-  d8 = KinPairSimulation(),
-  d9 = KinPairSimulation(),
-  d10 = KinPairSimulation(),
+  d1 = kin_pair_simulation(),
+  d2 = kin_pair_simulation(),
+  d3 = kin_pair_simulation(),
+  d4 = kin_pair_simulation(),
+  d5 = kin_pair_simulation(),
+  d6 = kin_pair_simulation(),
+  d7 = kin_pair_simulation(),
+  d8 = kin_pair_simulation(),
+  d9 = kin_pair_simulation(),
+  d10 = kin_pair_simulation(),
 )
 
 
@@ -1356,7 +1356,7 @@ server <- function(input, output, session) {
         return(retrieve_appdata(input$load_retrieve_choice_mounted))
       }
       else {
-        return(KinPairSimulation())
+        return(kin_pair_simulation())
       }
     }
     else if (input$load_source == "simple") {

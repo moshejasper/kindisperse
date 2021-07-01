@@ -2,7 +2,7 @@
 % Please edit documentation in R/app_ports.R
 \name{unmount_appdata}
 \alias{unmount_appdata}
-\title{Unmount a KinPairData Object (clear slot from appdata environment)}
+\title{Unmount a \code{KinPairData} Object (clear slot from appdata environment)}
 \usage{
 unmount_appdata(nms)
 }
@@ -13,10 +13,27 @@ unmount_appdata(nms)
 No return value, called for side effects
 }
 \description{
-Unmount a KinPairData Object (clear slot from appdata environment)
+This function is part of a suite of functions handling the interface between the kindisperse app & R
+package. Due to how shiny's interactive programming works, ordinary objects are not visible to the reactive functions
+embedded in the app. The solution implemented here is to construct a custom environment, \code{env_appdata}, that is
+accessible within the app and outside of it.
+
+When called, this function clears any objects with names found in the vector \code{nms} from the app interface
+environment, keeping it from becoming over-cluttered & taking up space.
 }
 \examples{
-mount_appdata(KinPairData(), "mydata")
+mount_appdata(kin_pair_data(), "mydata")
 
 unmount_appdata("mydata")
 }
+\seealso{
+Other app_ports: 
+\code{\link{display_appdata}()},
+\code{\link{mount_appdata}()},
+\code{\link{reset_appdata}()},
+\code{\link{reset_tempdata}()},
+\code{\link{retrieve_appdata}()},
+\code{\link{retrieve_tempdata}()},
+\code{\link{retrieveall_appdata}()}
+}
+\concept{app_ports}

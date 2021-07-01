@@ -2,16 +2,35 @@
 % Please edit documentation in R/KinPairSimulation.R
 \name{simdims}
 \alias{simdims}
-\title{Access simulation dimensions of KinPairSimulation object}
+\alias{simdims<-}
+\alias{simdims,KinPairSimulation-method}
+\title{Access simulation dimensions of \code{\link{KinPairSimulation}} object}
 \usage{
 simdims(x)
+
+simdims(x) <- value
+
+\S4method{simdims}{KinPairSimulation}(x)
 }
 \arguments{
 \item{x}{object of class \code{KinPairSimulation}}
+
+\item{value}{new value to assign}
+
+\item{KinPairSimulation}{object of class KinPairSimulation}
 }
 \value{
 \code{numeric vector} dimensions of simulated object
+
+returns a modified object of the relevant class
+
+\code{numeric vector} simulation dimensions of \code{KinPairSimulation} object
 }
 \description{
-Access simulation dimensions of KinPairSimulation object
+Access simulation dimensions of \code{\link{KinPairSimulation}} object
 }
+\section{Methods (by class)}{
+\itemize{
+\item \code{KinPairSimulation}: 
+}}
+

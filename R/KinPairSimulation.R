@@ -2,6 +2,27 @@ methods::setOldClass(c("tbl_df", "tbl", "data.frame"))
 
 #' KinPairSimulation Class
 #'
+#' The class \code{KinPairSimulation} is a formal (S4) class for storing kinship and dispersal
+#' distribution information derived from simulations in the \code{kindisperse} package.
+#' It is derived from the \code{\link{KinPairData}} class.
+#' The \code{KinPairSimulation} class is used to store information about the spatial distribution of kin dyads for use
+#' in calculating axial sigmas of intergenerational dispersal as initially implemented in Jasper et al. 2019
+#' (\doi{https://doi.org/10.1111/1755-0998.13043}).
+#'
+#' This class is essentially wrapped around the \code{tbl_df} class but with (a) expectations around certain columns
+#' that must be present (\code{id1, id2, kinship}, & \code{distance} - three 'character' & one 'numeric' column), as
+#' well as (b) additional attributes (\code{kinship}, \code{lifestage}, & \code{cycle}) characterizing the close-kin
+#' dyads being stored.These attributes, as well as the embedded vector of distances, can be accessed with the methods
+#' \code{\link{kinship}}, \code{\link{lifestage}}, \code{\link{breeding_cycle}} and \code{\link{distances}}.
+#' In addition to the above attributes (derived from the \code{KinPairData} class), this class contains attributes
+#' capturing the simulation type & parameters used to generate the final distribution of kin dyads.
+#'
+#' Objects from this class are returned from the \code{\link{simulate_kindist_composite}},
+#' \code{\link{simulate_kindist_simple}} and \code{\link{simulate_kindist_custom}} functions
+#' (& related), and are directly constructed with the namesake \code{KinPairSimulation()} function.
+#' They can be passed to the \code{\link{sample_kindist}} function for filtering and subsampling, and to
+#' axial functions (including \code{\link{axials_standard}} and \code{\link{axpermute_standard}}) for estimation of
+#' axial dispersal.
 #' @slot kinship character - one of PO, FS, HS, AV, HAV, GG, 1C, H1C, GAV, HGAV, 1C1, H1C1, GGG, 2C, and H2C.
 #' @slot simtype character. - one of 'simple', 'composite' or 'custom'
 #' @slot kerneltype character. - 'Gaussian', 'Laplace' or 'vgamma' (variance-gamma)
@@ -23,10 +44,13 @@ methods::setOldClass(c("tbl_df", "tbl", "data.frame"))
 #' @slot spacing numeric.     - FILTER: spacing used
 #' @slot samplenum numeric.   - FILTER: sample number used
 #' @slot sampledims numeric.  - FILTER: dimensions used
+#' @slot model \code{DispersalModel} - model of dispersal used to create object (with custom type)
 #'
 #' @return returns object of class \code{KinPairSimulation}
 #'
 #' @export
+#' @family kdclasses
+#' @include DispersalModel.R dispersal_model.R
 #'
 KinPairSimulation <- setClass("KinPairSimulation",
   slots = list(
@@ -35,7 +59,7 @@ KinPairSimulation <- setClass("KinPairSimulation",
     gravsigma = "numeric", ovisigma = "numeric", customsigma = "numeric", simdims = "numeric",
     lifestage = "character", cycle = "numeric", kernelshape = "numeric", call = "call", tab = "tbl_df",
     filtertype = "character", upper = "numeric", lower = "numeric",
-    spacing = "numeric", samplenum = "numeric", sampledims = "numeric"
+    spacing = "numeric", samplenum = "numeric", sampledims = "numeric", model = "DispersalModel"
   ),
   contains = "KinPairData"
 )
@@ -48,22 +72,24 @@ KinPairSimulation <- setClass("KinPairSimulation",
 
 
 
-#' kindisperse - access kerneltype of KinPairSimulation object
+#' Access kernel type of \code{\link{KinPairSimulation}} object
 #'
 #' @param x object of class \code{KinPairSimulation}
 #' @return \code{character} the shape parameter used in kernel simulation (if \code{kerneltype} is vgamma)
 #' @export
+#' @family kpsmethods
 #'
 setGeneric("kernelshape", function(x) standardGeneric("kernelshape"))
 
-#' kindisperse - access simtype of KinPairSimulation object
+#' Access or assign simulation type of \code{\link{KinPairSimulation}} object
 #'
 #' @param x object of class \code{KinPairSimulation}
 #' @return \code{character} the kind of simulation stored in the object (simple or composite)
 #' @export
+#' @family kpsmethods
 #'
 setGeneric("simtype", function(x) standardGeneric("simtype"))
-#' Title
+#' @rdname simtype
 #'
 #' @param x object of class \code{KinPairSimulation}
 #' @param value new value to assign
@@ -71,14 +97,15 @@ setGeneric("simtype", function(x) standardGeneric("simtype"))
 #' @export
 #'
 setGeneric("simtype<-", function(x, value) standardGeneric("simtype<-"))
-#' kindisperse - access kerneltype of KinPairSimulation object
+#' Access or assign kerneltype of \code{\link{KinPairSimulation}} object
 #'
 #' @param x object of class \code{KinPairSimulation}
 #' @return \code{character} the type of statistical kernel used to run the simulation (Gaussian, Laplace, vgamma)
 #' @export
+#' @family kpsmethods
 #'
 setGeneric("kerneltype", function(x) standardGeneric("kerneltype"))
-#' Title
+#' @rdname kerneltype
 #'
 #' @param x object of class \code{KinPairSimulation}
 #' @param value new value to assign
@@ -86,90 +113,89 @@ setGeneric("kerneltype", function(x) standardGeneric("kerneltype"))
 #' @export
 #'
 setGeneric("kerneltype<-", function(x, value) standardGeneric("kerneltype<-"))
-#' kindisperse - access sigmas of KinPairSimulation objects
+#' Access or assign dispersal sigmas of \code{\link{KinPairSimulation}} objects
 #'
+#' These generics & methods work with \code{KinPairSimulation} objects to access & modify information about the dispersal
+#' sigma parameters that define the stored simulation. The \code{posigma()} method accesses the single dispersal parameter
+#' stored in a simulation with \code{simtype == "simple"}. The remaining parameters access the dispersal parameters stored
+#' in a simulation with \code{simtype == "composite"}. The dispersal kernel sigma parameters of \code{simtype == "custom"}
+#' simulations are not yet implemented here. Assignment operations currently only exist as generics (they are not yet applied
+#' to the \code{KinPairSimulation} class).
+#' @name access_sigmas
+#' @aliases posigma
 #' @param x object of class \code{KinPairSimulation}
-#' @return \code{numeric} posigma value of simple simulation
+#' @return \code{numeric} value of specified sigma parameter or modified \code{KinPairSimulation} object
 #' @export
+#' @family kpsmethods
 #'
 #'
 setGeneric("posigma", function(x) standardGeneric("posigma"))
-#' Title
-#'
+#' @rdname access_sigmas
 #' @param x object of class \code{KinPairSimulation}
 #' @param value new value to assign
-#' @return returns a modified object of the relevant class
 #' @export
 #'
 setGeneric("posigma<-", function(x, value) standardGeneric("posigma<-"))
-#' @rdname posigma
+#' @rdname access_sigmas
 #'
 #' @param x object of class \code{KinPairSimulation}
-#' @return \code{numeric} initsigma value of composite simulation
 #' @export
 #'
 setGeneric("initsigma", function(x) standardGeneric("initsigma"))
-#' Title
+#' @rdname access_sigmas
 #'
 #' @param x object of class \code{KinPairSimulation}
 #' @param value new value to assign
-#' @return  returns a modified object of the relevant class
 #' @export
 #'
 setGeneric("initsigma<-", function(x, value) standardGeneric("initsigma<-"))
-#' @rdname posigma
+#' @rdname access_sigmas
 #'
 #' @param x object of class \code{KinPairSimulation}
-#' @return \code{numeric} breedsigma value of composite simulation
 #' @export
 #'
 setGeneric("breedsigma", function(x) standardGeneric("breedsigma"))
-#' Title
+#' @rdname access_sigmas
 #'
 #' @param x object with relevant method
 #' @param value new value to assign
-#' @return  returns a modified object of the relevant class
 #' @export
 #'
 setGeneric("breedsigma<-", function(x, value) standardGeneric("breedsigma<-"))
-#' @rdname posigma
+#' @rdname access_sigmas
 #'
 #' @param x object of class \code{KinPairSimulation}
-#' @return \code{numeric} gravsigma value of composite simulation
 #' @export
 #'
 setGeneric("gravsigma", function(x) standardGeneric("gravsigma"))
-#' Title
+#' @rdname access_sigmas
 #'
 #' @param x object of class \code{KinPairSimulation}
 #' @param value new value to assign
-#' @return  returns a modified object of the relevant class
 #' @export
 #'
 setGeneric("gravsigma<-", function(x, value) standardGeneric("gravsigma<-"))
-#' @rdname posigma
+#' @rdname access_sigmas
 #'
 #' @param x object of class \code{KinPairSimulation}
-#' @return \code{numeric} ovisigma value of composite simulation
 #' @export
 #'
 setGeneric("ovisigma", function(x) standardGeneric("ovisigma"))
-#' Title
+#' @rdname access_sigmas
 #'
 #' @param x object of class \code{KinPairSimulation}
 #' @param value new value to assign
-#' @return  returns a modified object of the relevant class
 #' @export
 #'
 setGeneric("ovisigma<-", function(x, value) standardGeneric("ovisigma<-"))
-#' Access simulation dimensions of KinPairSimulation object
+#' Access simulation dimensions of \code{\link{KinPairSimulation}} object
 #'
 #' @param x object of class \code{KinPairSimulation}
 #' @return \code{numeric vector} dimensions of simulated object
 #' @export
 #'
 setGeneric("simdims", function(x) standardGeneric("simdims"))
-#' Title
+#' @rdname simdims
 #'
 #' @param x object of class \code{KinPairSimulation}
 #' @param value new value to assign
@@ -177,14 +203,14 @@ setGeneric("simdims", function(x) standardGeneric("simdims"))
 #' @export
 #'
 setGeneric("simdims<-", function(x, value) standardGeneric("simdims<-"))
-#' Access filter type of KinPairSimulation object
+#' Access filtertype of \code{\link{KinPairSimulation}} object
 #'
 #' @param x object of class \code{KinPairSimulation}
 #' @return \code{character} filter status of simulation
 #' @export
 #'
 setGeneric("filtertype", function(x) standardGeneric("filtertype"))
-#' Title
+#' @rdname filtertype
 #'
 #' @param x object of class \code{KinPairSimulation}
 #' @param value new value to assign
@@ -192,79 +218,93 @@ setGeneric("filtertype", function(x) standardGeneric("filtertype"))
 #' @export
 #'
 setGeneric("filtertype<-", function(x, value) standardGeneric("filtertype<-"))
-#' Access & filter by filter parameters of KinPairSimulation Object
+
+
+#' Access dispersal model of \code{\link{KinPairSimulation}} object
 #'
 #' @param x object of class \code{KinPairSimulation}
-#' @return \code{numeric} upper value of sampled object
+#'
+#' @return returns an object of class \code{\link{DispersalModel}}
 #' @export
 #'
+setGeneric("get_dispersal_model", function(x) standardGeneric("get_dispersal_model"))
+
+###############################################
+#' @name filter_methods
+#' @aliases upper
+#' @title Access or modify the \code{filter} parameters of \code{\link{KinPairSimulation}} objects
+#'
+#' @description These generics & methods work as an interface between \code{KinPairSimulation} objects and the
+#' \code{\link{sample_kindist}} function. They either retrieve the value of pre-existing filter steps that have
+#' been applied to the object (e.g. \code{upper(x)}) or assign such a filtering parameter to the \code{KinPairSimulation}
+#' object (e.g. \code{sampledims(x) <- value}). In this case, the method passes the \code{KinPairSimulation} object to the
+#' \code{sample_kindist()} function for subsampling or filtering, then updates the sampling parameter before returning the
+#' modified object. Note that while the \code{sample_kindist} function can take \code{\link{KinPairData}} objects, the methods
+#' described here are only applicable to objects of class \code{KinPairSimulation}.
+#'
+#' @param x object of class \code{KinPairSimulation}
+#' @return either the accessed \code{numeric} filter parameter or a filtered \code{\link{KinPairSimulation}} object
+#' @export
+#' @family kpsmethods
+#'
 setGeneric("upper", function(x) standardGeneric("upper"))
-#' @rdname upper
+#' @rdname filter_methods
 #'
 #' @param x object of class \code{KinPairSimulation}
 #' @param value new value to assign
-#' @return  returns a modified object of the relevant class
 #' @export
 #'
 setGeneric("upper<-", function(x, value) standardGeneric("upper<-"))
-#' @rdname upper
+#' @rdname filter_methods
 #'
 #' @param x object of class \code{KinPairSimulation}
-#' @return \code{numeric} lower value of sampled object
 #' @export
 #'
 setGeneric("lower", function(x) standardGeneric("lower"))
-#' @rdname upper
+#' @rdname filter_methods
 #'
 #' @param x object of class \code{KinPairSimulation}
 #' @param value new value to assign
-#' @return  returns a modified object of the relevant class
 #'
 #' @export
 #'
 setGeneric("lower<-", function(x, value) standardGeneric("lower<-"))
-#' @rdname upper
+#' @rdname filter_methods
 #'
 #' @param x object of class \code{KinPairSimulation}
-#' @return \code{numeric} trap spacing of sampled object
 #' @export
 #'
 setGeneric("spacing", function(x) standardGeneric("spacing"))
-#' @rdname upper
+#' @rdname filter_methods
 #'
 #' @param x object of class \code{KinPairSimulation}
 #' @param value new value to assign
-#' @return  returns a modified object of the relevant class
 #' @export
 #'
 setGeneric("spacing<-", function(x, value) standardGeneric("spacing<-"))
-#' @rdname upper
+#' @rdname filter_methods
 #'
 #' @param x object of class \code{KinPairSimulation}
-#' @return \code{numeric} number of kin dyads in sampled object
 #' @export
 #'
 setGeneric("samplenum", function(x) standardGeneric("samplenum"))
-#' @rdname upper
+#' @rdname filter_methods
 #'
 #' @param x object of class \code{KinPairSimulation}
 #' @param value new value to assign
-#' @return  returns a modified object of the relevant class
 #' @export
 #'
 setGeneric("samplenum<-", function(x, value) standardGeneric("samplenum<-"))
-#' @rdname upper
+#' @rdname filter_methods
 #'
 #' @param x object of class \code{KinPairSimulation}
-#' @return \code{numeric vector} dimensions of sampled object
 #' @export
 #'
 setGeneric("sampledims", function(x) standardGeneric("sampledims"))
-#' @rdname upper
+#' @rdname filter_methods
 #'
 #' @param x object of class \code{KinPairSimulation}
 #' @param value new value to assign
-#' @return  returns a modified object of the relevant class
 #' @export
 #'
 setGeneric("sampledims<-", function(x, value) standardGeneric("sampledims<-"))
@@ -273,7 +313,7 @@ setGeneric("sampledims<-", function(x, value) standardGeneric("sampledims<-"))
 ####################### Methods ####################################
 
 
-#'
+#' @describeIn kernelshape
 #'
 #' @param KinPairSimulation object of class KinPairSimulation
 #'
@@ -281,146 +321,137 @@ setGeneric("sampledims<-", function(x, value) standardGeneric("sampledims<-"))
 #'
 #' @export
 #'
-#' @describeIn KinPairSimulation access kernelshape
 setMethod("kernelshape", "KinPairSimulation", function(x) x@kernelshape)
 
-#'
+#' @describeIn simtype
 #'
 #' @param KinPairSimulation object of class KinPairSimulation
 #'
 #' @return \code{character} the kind of simulation stored in the object (simple or composite)
 #'
 #' @export
-#' @describeIn KinPairSimulation access simulation type
 setMethod("simtype", "KinPairSimulation", function(x) x@simtype)
-#'
+
+#' @describeIn kerneltype
 #'
 #' @param KinPairSimulation object of class KinPairSimulation
 #'
 #' @return \code{character} the type of statistical kernel used to run the simulation (Gaussian, Laplace, vgamma)
 #'
 #' @export
-#' @describeIn KinPairSimulation access kerneltype
 setMethod("kerneltype", "KinPairSimulation", function(x) x@kerneltype)
-#'
+
+#' @describeIn access_sigmas
 #'
 #' @param KinPairSimulation object of class KinPairSimulation
 #'
-#' @return \code{numeric} posigma value of simple simulation
-#'
 #' @export
-#' @describeIn KinPairSimulation access sigma
 setMethod("posigma", "KinPairSimulation", function(x) x@posigma)
-#'
+
+#' @describeIn access_sigmas
 #'
 #' @param KinPairSimulation object of class KinPairSimulation
 #'
-#' @return \code{numeric} initsigma value of composite simulation
-#'
 #' @export
-#' @describeIn KinPairSimulation access initsigma
 setMethod("initsigma", "KinPairSimulation", function(x) x@initsigma)
-#'
+
+#' @describeIn access_sigmas
 #'
 #' @param KinPairSimulation object of class KinPairSimulation
 #'
-#' @return \code{numeric} breedsigma value of composite simulation
-#'
 #' @export
-#' @describeIn KinPairSimulation access breedsigma
 setMethod("breedsigma", "KinPairSimulation", function(x) x@breedsigma)
-#'
+
+#' @describeIn access_sigmas
 #'
 #' @param KinPairSimulation object of class KinPairSimulation
 #'
-#' @return \code{numeric} gravsigma value of composite simulation
-#'
 #' @export
-#' @describeIn KinPairSimulation access gravsigma
 setMethod("gravsigma", "KinPairSimulation", function(x) x@gravsigma)
-#'
+
+#' @describeIn access_sigmas
 #'
 #' @param KinPairSimulation object of class KinPairSimulation
 #'
-#' @return \code{numeric} ovisigma value of composite simulation
-#'
 #' @export
-#' @describeIn KinPairSimulation access ovisigma
 setMethod("ovisigma", "KinPairSimulation", function(x) x@ovisigma)
-#'
+
+#' @describeIn simdims
+
 #'
 #' @param KinPairSimulation object of class KinPairSimulation
 #'
 #' @return \code{numeric vector} simulation dimensions of \code{KinPairSimulation} object
 #'
 #' @export
-#' @describeIn KinPairSimulation access simdims
 setMethod("simdims", "KinPairSimulation", function(x) x@simdims)
-#'
+
+#' @describeIn filtertype
 #'
 #' @param KinPairSimulation object of class KinPairSimulation
 #'
 #' @return \code{character} filter status of \code{KinPairSimulation} object
 #'
 #' @export
-#' @describeIn KinPairSimulation access filtertype
 setMethod("filtertype", "KinPairSimulation", function(x) x@filtertype)
 
+#' @describeIn get_dispersal_model
+#'
+#' @param KinPairSimulation object of class \code{KinPairSimulation}
+#'
+#' @export
+#'
+setMethod("get_dispersal_model", "KinPairSimulation", function(x) x@model)
 
-#'
+
+
+
+#' @describeIn filter_methods
 #'
 #' @param KinPairSimulation object of class KinPairSimulation
 #'
-#' @return \code{numeric} upper value of sampled \code{KinPairSimulation} object
 #'
 #' @export
-#' @describeIn KinPairSimulation access upper filter distance
 setMethod("upper", "KinPairSimulation", function(x) x@upper)
-#'
+
+#' @describeIn filter_methods
 #'
 #' @param KinPairSimulation object of class KinPairSimulation
 #'
-#' @return \code{numeric} lower value of sampled \code{KinPairSimulation} object
 #'
 #' @export
-#' @describeIn KinPairSimulation access lower filter distance
 setMethod("lower", "KinPairSimulation", function(x) x@lower)
-#' )
+
+#' @describeIn filter_methods
 #'
 #' @param KinPairSimulation object of class KinPairSimulation
 #'
-#' @return \code{numeric} trap spacing value of sampled \code{KinPairSimulation} object
 #'
 #' @export
-#' @describeIn KinPairSimulation access spacing
 setMethod("spacing", "KinPairSimulation", function(x) x@spacing)
-#'
+
+#' @describeIn filter_methods
 #'
 #' @param KinPairSimulation object of class KinPairSimulation
 #'
-#' @return \code{numeric} number of kin dyads in \code{KinPairSimulation} object
 #'
 #' @export
-#' @describeIn KinPairSimulation access sampled samplenum
 setMethod("samplenum", "KinPairSimulation", function(x) x@samplenum)
-#'
+
+#' @describeIn filter_methods
 #'
 #' @param KinPairSimulation object of class KinPairSimulation
 #'
-#' @return \code{numeric vector} sampling dimensions of \code{KinPairSimulation} object
 #'
 #' @export
-#' @describeIn KinPairSimulation access sampled dimensions
 setMethod("sampledims", "KinPairSimulation", function(x) x@sampledims)
 
-#'
+#' @describeIn filter_methods
 #'
 #' @param KinPairSimulation object of class KinPairSimulation
 #'
-#' @return returns a modified object of class \code{KinPairSimulation}
 #'
 #' @export
-#' @describeIn KinPairSimulation assign and filter by upper distance (uses sample_kindist())
 setMethod("upper<-", "KinPairSimulation", function(x, value) {
   if (!is.na(x@upper)) {
     if (x@upper < value) {
@@ -430,14 +461,13 @@ setMethod("upper<-", "KinPairSimulation", function(x, value) {
   }
   sample_kindist(x, upper = value)
 })
-#'
+
+#' @describeIn filter_methods
 #'
 #' @param KinPairSimulation object of class KinPairSimulation
 #'
-#' @return returns a modified object of class \code{KinPairSimulation}
 #'
 #' @export
-#' @describeIn KinPairSimulation assign and filter by lower distance (uses sample_kindist())
 setMethod("lower<-", "KinPairSimulation", function(x, value) {
   if (!is.na(x@lower)) {
     if (x@lower < value) {
@@ -447,14 +477,13 @@ setMethod("lower<-", "KinPairSimulation", function(x, value) {
   }
   sample_kindist(x, lower = value)
 })
-#'
+
+#' @describeIn filter_methods
 #'
 #' @param KinPairSimulation object of class KinPairSimulation
 #'
-#' @return returns a modified object of class \code{KinPairSimulation}
 #'
 #' @export
-#' @describeIn KinPairSimulation assign kin spacing (uses sample_kindist())
 setMethod("spacing<-", "KinPairSimulation", function(x, value) {
   if (!is.na(x@spacing)) {
     warning("Can't apply spacing twice. Skipped")
@@ -462,14 +491,13 @@ setMethod("spacing<-", "KinPairSimulation", function(x, value) {
   }
   sample_kindist(x, spacing = value)
 })
-#'
+
+#' @describeIn filter_methods
 #'
 #' @param KinPairSimulation
 #'
-#' @return returns a modified object of class \code{KinPairSimulation}
 #'
 #' @export
-#' @describeIn KinPairSimulation assign and downsample to samplenum (uses sample_kindist())
 setMethod("samplenum<-", "KinPairSimulation", function(x, value) {
   if (!is.na(x@samplenum)) {
     if (x@samplenum < value) {
@@ -479,16 +507,15 @@ setMethod("samplenum<-", "KinPairSimulation", function(x, value) {
   }
   sample_kindist(x, n = value)
 })
-#'
+
+#' @describeIn filter_methods
 #'
 #' @param KinPairSimulation object of class KinPairSimulation
 #' @param x object of class KinPairSimulation
 #' @param value value for parameter to be adjusted to
 #'
-#' @return returns a modified object of class \code{KinPairSimulation}
 #'
 #' @export
-#' @describeIn KinPairSimulation assign and filter by sample dimensions (uses sample_kindist())
 setMethod("sampledims<-", "KinPairSimulation", function(x, value) {
   if (length(value) == 1){
     value <- c(value, value)
@@ -503,7 +530,7 @@ setMethod("sampledims<-", "KinPairSimulation", function(x, value) {
   sample_kindist(x, dims = value)
 })
 
-#'
+#' @describeIn KinPairSimulation print method
 #'
 #' @param KinPairSimulation object of class KinPairSimulation
 #' @param object object of class KinPairSimulation
@@ -511,7 +538,6 @@ setMethod("sampledims<-", "KinPairSimulation", function(x, value) {
 #' @return No return value, called for side effects
 #'
 #' @export
-#' @describeIn KinPairSimulation print method
 setMethod(
   "show",
   "KinPairSimulation",
@@ -569,7 +595,7 @@ setMethod(
 )
 
 
-#'
+#' @describeIn KinPairSimulation initialisation method
 #'
 #' @param KinPairSimulation an object of class KinPairSimulation
 #' @param .Object object to be constructed into KinPairSimulation class
@@ -594,10 +620,10 @@ setMethod(
 #' @param spacing numeric.       - FILTER: spacing used
 #' @param samplenum numeric.       - FILTER: sample number used
 #' @param sampledims numeric.       - FILTER: sample dimensions used
+#' @param model list - model information if custom simulation used to generate object
 #'
 #' @return Returns an object of class \code{KinPairSimulation}
 #' @export
-#' @describeIn KinPairSimulation initialisation method
 setMethod(
   "initialize", "KinPairSimulation",
   function(.Object,
@@ -621,7 +647,8 @@ setMethod(
            lower = NULL,
            spacing = NULL,
            samplenum = NULL,
-           sampledims = NULL) {
+           sampledims = NULL,
+           model = NULL) {
     if (!is.null(kinship)) .Object@kinship <- kinship else .Object@kinship <- "UN"
     if (!is.null(lifestage)) .Object@lifestage <- lifestage else .Object@lifestage <- "unknown"
     if (!is.null(simtype)) .Object@simtype <- simtype else .Object@simtype <- NA_character_
@@ -642,6 +669,7 @@ setMethod(
     if (!is.null(spacing)) .Object@spacing <- spacing else .Object@spacing <- NA_real_
     if (!is.null(samplenum)) .Object@samplenum <- samplenum else .Object@samplenum <- NA_real_
     if (!is.null(sampledims)) .Object@sampledims <- sampledims else .Object@sampledims <- NA_real_
+    if (! is.null(model)) .Object@model <- model else .Object@model <- dispersal_model()
 
     if (!is.null(data)) {
       if (is.data.frame(data) & !is_tibble(data)) {
@@ -689,7 +717,7 @@ setMethod(
   }
 )
 
-#'
+#' KinPairSimulation
 #'
 #' @param data tbl_df. tibble  of simulation values
 #' @param kinship character - one of PO, FS, HS, AV, HAV, GG, 1C, H1C, GAV, HGAV, 1C1, H1C1, GGG, 2C, and H2C.
@@ -712,13 +740,14 @@ setMethod(
 #' @param spacing numeric.       - FILTER: spacing used
 #' @param samplenum numeric.       - FILTER: sample number used
 #' @param sampledims numeric.       - FILTER: sample dimensions used
+#' @param model list - model information if custom simulation used to generate object
 #'
 #' @return returns an object of class \code{KinPairSimulation}.
 #' @export
 #'
 #' @examples
-#' KinPairSimulation()
-KinPairSimulation <- function(data = NULL,
+#' kin_pair_simulation()
+kin_pair_simulation <- function(data = NULL,
                               kinship = NULL,
                               lifestage = NULL,
                               simtype = NULL,
@@ -738,7 +767,8 @@ KinPairSimulation <- function(data = NULL,
                               lower = NULL,
                               spacing = NULL,
                               samplenum = NULL,
-                              sampledims = NULL) {
+                              sampledims = NULL,
+                              model = NULL) {
   new("KinPairSimulation",
     data = data,
     kinship = kinship,
@@ -760,7 +790,8 @@ KinPairSimulation <- function(data = NULL,
     lower = lower,
     spacing = spacing,
     samplenum = samplenum,
-    sampledims = sampledims
+    sampledims = sampledims,
+    model = model
   )
 }
 
@@ -786,6 +817,7 @@ is.KinPairSimulation <- function(x) {
 #' (sampled as an adult during oviposition - essentially one lifespan later than 'immature')
 #' @param kernelshape numeric. Value of shape parameter for simulated kernel if kernel requires one (e.g. vgamma kernel).
 #' @param call  call object. Use to pass the system call that led to the generation of this class. (via sys.call)
+#' @param model DispersalModel - model information passed from simulation function
 #'
 #' @return Returns a \code{KinPairSimulation} Class object with simtype set to 'simple' and relevant fields included.
 #' @export
@@ -800,12 +832,13 @@ is.KinPairSimulation <- function(x) {
 #'   posigma = 38, lifestage = "immature"
 #' )
 KinPairSimulation_simple <- function(data = NULL, kinship = NULL, kerneltype = NULL, posigma = NULL,
-                                     simdims = NULL, lifestage = NULL, kernelshape = NULL, call = NULL) {
+                                     simdims = NULL, lifestage = NULL, kernelshape = NULL, call = NULL, model = NULL) {
   if (is.null(call)) {
     call <- sys.call()
   }
-  return(KinPairSimulation(data = data, kinship = kinship, simtype = "simple", kerneltype = kerneltype,
-                           posigma = posigma, simdims = simdims, lifestage = lifestage, kernelshape = kernelshape, cycle = 0, call = call))
+  return(kin_pair_simulation(data = data, kinship = kinship, simtype = "simple", kerneltype = kerneltype,
+                           posigma = posigma, simdims = simdims, lifestage = lifestage, kernelshape = kernelshape, cycle = 0, call = call,
+                           model = model))
 }
 
 
@@ -823,6 +856,7 @@ KinPairSimulation_simple <- function(data = NULL, kinship = NULL, kerneltype = N
 #' (sampled as an adult during oviposition - essentially one lifespan later than 'immature')
 #' @param kernelshape numeric. Value of shape parameter for simulated kernel if kernel requires one (e.g. vgamma kernel).
 #' @param call  call object. Use to pass the system call that led to the generation of this class. (via sys.call)
+#' @param model DispersalModel - model information passed from simulation function
 #'
 #' @return Returns a \code{KinPairSimulation} Class object with simtype set to 'composite' and relevant fields included.
 #' @export
@@ -837,13 +871,15 @@ KinPairSimulation_simple <- function(data = NULL, kinship = NULL, kerneltype = N
 #'   initsigma = 15, breedsigma = 25, gravsigma = 20, ovisigma = 10, lifestage = "immature"
 #' )
 KinPairSimulation_composite <- function(data = NULL, kinship = NULL, kerneltype = NULL, initsigma = NULL, breedsigma = NULL,
-                                        gravsigma = NULL, ovisigma = NULL, simdims = NULL, lifestage = NULL, kernelshape = NULL, call = NULL) {
+                                        gravsigma = NULL, ovisigma = NULL, simdims = NULL, lifestage = NULL, kernelshape = NULL, call = NULL,
+                                        model = NULL) {
   if (is.null(call)) {
     call <- sys.call()
   }
-  return(KinPairSimulation(
+  return(kin_pair_simulation(
     data = data, kinship = kinship, simtype = "composite", kerneltype = kerneltype, initsigma = initsigma, breedsigma = breedsigma,
-    gravsigma = gravsigma, ovisigma = ovisigma, simdims = simdims, lifestage = lifestage, kernelshape = kernelshape, cycle = 0, call = call
+    gravsigma = gravsigma, ovisigma = ovisigma, simdims = simdims, lifestage = lifestage, kernelshape = kernelshape, cycle = 0, call = call,
+    model = model
   ))
 }
 
@@ -861,6 +897,7 @@ KinPairSimulation_composite <- function(data = NULL, kinship = NULL, kerneltype 
 #' the number of complete breeding cycles each simulated individual has undergone before the sampling point, where the time between
 #' birth and first reproduction is coded as '0', that between first and second reproduction '1', etc. (default 0)
 #' @param call  call object. Use to pass the system call that led to the generation of this class. (via sys.call)
+#' @param model DispersalModel - model information passed from simulation function
 #'
 #' @return Returns a \code{KinPairSimulation} Class object with simtype set to 'custom' and relevant fields included.
 #' @export
@@ -877,11 +914,11 @@ KinPairSimulation_composite <- function(data = NULL, kinship = NULL, kerneltype 
 #' )
 KinPairSimulation_custom <- function(data = NULL, kinship = NULL, kerneltype = NULL, customsigma = NULL,
                                      simdims = NULL, lifestage = NULL, kernelshape = NULL, cycle = NULL,
-                                     call = NULL) {
+                                     call = NULL, model = NULL) {
   if (is.null(call)) {
     call <- sys.call()
   }
-  return(KinPairSimulation(data = data, kinship = kinship, simtype = "custom", kerneltype = kerneltype,
+  return(kin_pair_simulation(data = data, kinship = kinship, simtype = "custom", kerneltype = kerneltype,
                            customsigma = customsigma, simdims = simdims, lifestage = lifestage,
-                           kernelshape = kernelshape, cycle = cycle, call = call))
+                           kernelshape = kernelshape, cycle = cycle, call = call, model = model))
 }

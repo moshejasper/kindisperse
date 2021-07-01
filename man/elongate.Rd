@@ -15,7 +15,11 @@ elongate(dims, aspect = 1)
 Returns a numeric vector containing the side lengths c(x, y) of a transformed rectangle with preserved area
 }
 \description{
-Change the shape (aspect ratio) of a rectangle while preserving area
+This function is used to manipulate the dimensions parameter in other package functions, which control site dimentions.
+These geometries can be entered innto functions in a few ways: (a) a single numeric value, which will be interpreted as the length of the side of a square;
+(b) a numeric vector of length two, which will be interpreted as the length & width of the sample site; (c) either of the above passed
+to this function, which takes the rectangular site dimensions and alters their \code{aspect ratio} (ratio of
+length to width) while preserving the underlying area the study site covers.
 }
 \examples{
 elongate(10, 100)

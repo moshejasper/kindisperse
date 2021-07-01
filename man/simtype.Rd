@@ -2,16 +2,43 @@
 % Please edit documentation in R/KinPairSimulation.R
 \name{simtype}
 \alias{simtype}
-\title{kindisperse - access simtype of KinPairSimulation object}
+\alias{simtype<-}
+\alias{simtype,KinPairSimulation-method}
+\title{Access or assign simulation type of \code{\link{KinPairSimulation}} object}
 \usage{
 simtype(x)
+
+simtype(x) <- value
+
+\S4method{simtype}{KinPairSimulation}(x)
 }
 \arguments{
 \item{x}{object of class \code{KinPairSimulation}}
+
+\item{value}{new value to assign}
+
+\item{KinPairSimulation}{object of class KinPairSimulation}
 }
 \value{
 \code{character} the kind of simulation stored in the object (simple or composite)
+
+returns a modified object of relevant class
+
+\code{character} the kind of simulation stored in the object (simple or composite)
 }
 \description{
-kindisperse - access simtype of KinPairSimulation object
+Access or assign simulation type of \code{\link{KinPairSimulation}} object
 }
+\section{Methods (by class)}{
+\itemize{
+\item \code{KinPairSimulation}: 
+}}
+
+\seealso{
+Other kpsmethods: 
+\code{\link{access_sigmas}},
+\code{\link{filter_methods}},
+\code{\link{kernelshape}()},
+\code{\link{kerneltype}()}
+}
+\concept{kpsmethods}

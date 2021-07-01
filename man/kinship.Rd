@@ -3,22 +3,41 @@
 \name{kinship}
 \alias{kinship}
 \alias{kinship<-}
-\title{Access or assign kin category (generic for KinPairData class)}
+\alias{kinship,KinPairData-method}
+\alias{kinship<-,KinPairData-method}
+\title{Access or assign \code{kinship} category of \code{\link{KinPairData}} class objects}
 \usage{
 kinship(x)
 
 kinship(x) <- value
+
+\S4method{kinship}{KinPairData}(x)
+
+\S4method{kinship}{KinPairData}(x) <- value
 }
 \arguments{
-\item{x}{object with relevant method}
+\item{x}{object of class \code{KinPairData}}
 
-\item{value}{new value to assign}
+\item{value}{value to assign to slot}
+
+\item{KinPairData}{object of class \code{KinPairData}}
 }
 \value{
-\code{character}. Kinship category of object
-
-returns modified object
+returns \code{character} kinship category of object or \code{KinPairData} object with modified kinship category
 }
 \description{
-Access or assign kin category (generic for KinPairData class)
+Access or assign \code{kinship} category of \code{\link{KinPairData}} class objects
 }
+\section{Methods (by class)}{
+\itemize{
+\item \code{KinPairData}: 
+
+\item \code{KinPairData}: 
+}}
+
+\seealso{
+Other kpdmethods: 
+\code{\link{distances}()},
+\code{\link{lifestage}()}
+}
+\concept{kpdmethods}

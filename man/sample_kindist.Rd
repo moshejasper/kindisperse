@@ -2,7 +2,7 @@
 % Please edit documentation in R/sample_kindist.R
 \name{sample_kindist}
 \alias{sample_kindist}
-\title{Subsample and filter a KinPairSimulation Object}
+\title{Subsample and filter a \code{\link{KinPairSimulation}} or \code{\link{KinPairData}} Object}
 \usage{
 sample_kindist(
   kindist,
@@ -14,23 +14,79 @@ sample_kindist(
 )
 }
 \arguments{
-\item{kindist}{KinPairSimulation - KinPairSimulation Class Object}
+\item{kindist}{\code{KinPairSimulation} Class Object}
 
-\item{upper}{numeric - upper cutoff for kin pair distances}
+\item{upper}{\code{numeric} - upper cutoff for kin pair distances}
 
-\item{lower}{numeric - lower cutoff for kin pair distances}
+\item{lower}{\code{numeric} - lower cutoff for kin pair distances}
 
-\item{spacing}{numeric - spacing between traps (assume 1D layout)}
+\item{spacing}{\code{numeric} - spacing between traps (location-independent)}
 
-\item{n}{numeric - number of individuals to keep after filtering (if possible)}
+\item{n}{\code{numeric} - number of individuals to keep after filtering (if possible)}
 
-\item{dims}{dimensions to sample within (works with the KinPairSimulation spatial & dimension information). Either 'num' (square) or 'c(num1, num2)' (rectangle).}
+\item{dims}{dimensions to sample within (works with the \code{KinPairSimulation} spatial & dimension information).
+Either \code{num} (defining a square) or \code{c(num1, num2)} (defining a rectangle).}
 }
 \value{
-returns an object of class 'KinPairSimulation' containing simulation and filtering details and a tibble (tab) of filtered simulation values
+returns an object of class \code{KinPairData} or \code{KinPairSimulation} containing simulation and filtering
+details and a filtered dataset of dispersed individuals.
 }
 \description{
-This function takes a pre-existing KinPairSimulation Object with distance and coordinate data and filters it to simulate various in-field sampling schemes.
+This function takes a pre-existing \code{\link{KinPairSimulation}} or \code{\link{KinPairData}} Object with distance and coordinate data and filters
+it to simulate various in-field sampling schemes.
+}
+\details{
+This function enables the testing of the impact of some basic sampling constraints that might be encountered in study design or
+implementation on the effectiveness of the \code{kindisperse} estimation of intergenerational dispersal. It is typically paired with
+a simulation function such as \code{\link{simulate_kindist_composite}} to generate a 'pure' dataset, then an estimation function
+such as \code{\link{axpermute}} to examine the impact of filter settings on the 'detected' value of dispersal sigma. The filter
+parameters \code{upper}, \code{lower}, & \code{spacing} all work on the vector of (direction-independent) distances, & the parameter
+\code{n} enables the random subsampling of n kin dyads. The parameter \code{dims} requires 2D location information for each individual,
+meaning it can ordinarily only be used with the \code{KinPairSimulation} object (not \code{KinPairData}). All filter parameters are
+stackable.
+
+The \code{upper} parameter implements a cutoff for the \strong{maximum} distance allowable in the dataset. If set to e.g. 100m, all kin dyads
+separated by a distance greater than 100m will be excluded from the filtered dataset. Note that this is a geometry-independent metric;
+it is naive to the edge effects of an actual sample site. The \code{lower} parameter implements a cutoff for the \strong{minimum}
+distance allowable in the dataset.It operates in the same manner as the previous parameter (in this case, removing results smaller
+than a distance threshold)
+
+The \code{spacing} parameter as currently implemented takes all distances & alters them to lie at the midpoint of a bin with width set
+by this parameter. So if \code{spacing} is set to 10 meters, all kin pairs with distances between 0 and 10m will have their distances
+rest to 5m, all between 10 & 20 will be set to 15 m, etc. (quantizing the data). Note that once again this is a geometry-independent
+action: These binwiths & 'trap spacing' are not spatially related to each other like they would be in a sample site, and there is no
+simulated dropout of kinpairs too far from a trap. There is also no geometry-dependent profiling of possible frequency of recaptures
+across each distance category (will be implemented in a future version). (this parameter leaves 2D spatial information intact)
+
+The \code{dims} parameter defines the dimensions of a rectangle within which \strong{both} individuals of a kin dyad will need to lie
+to be included in the filtered dataset. This measure (which excludes e.g. long-distance dispersal into & out of the study site) is
+\emph{geometry-dependent}, unlike the \code{upper} parameter. This enables the testing of (rectangular) site geometries potentially
+corresponding to an actual site (two-dimensional estimates of dispersal such as \code{kindisperse} become unreliable as edge effects
+significantly reduce the size of either one or both dimensions with respect to the real underlying dispersal sigma). These site
+geometries can be entered in a few ways: (a) a single numeric value, which will be interpreted as the length of the side of a square;
+(b) a numeric vector of length two, which will be interpreted as the length & width of the sample site; (c) either of the above passed
+to the \code{\link{elongate}} function, which takes the rectangular site dimensions and alters their \code{aspect ratio} (ratio of
+length to width) while preserving the underlying area the study site covers. The implementation of this filtering step permutes the
+absolute positions of all dyads so that at least one member of the dyad is in the inial site rectangle, while preserving their relative
+positions (and angles) with respect to each other. This means that following this step, the xy coordinate positions of each
+individual will not match those contained in the previous round. It also means that the repeated calling of this function will
+result in a steady reduction in retained kin dyads due to edge effects.
+
+The \code{n} parameter randomly samples n pairs from the dataset. It is implemented after all other filtering has taken place, so
+will only sample surviving individuals A typical strategy for the use of this functions in simulations would be to simulate an
+extremely large (e.g. one million pairs) dataset, then pass it repeatedly to this filter function, with a final sub-sampling step of
+1,000 included. This enables comparisons across sampling conditions (in most cases) regardless of the amount of data filtered prior to
+this step.
+
+As this function returns a \code{KinPairData} or \code{KinPairSimulation} object, the returned object can be passed back for filtering
+an arbitrary number of times, or alternatively passed to an estimation strategy.
+
+This function can be used to test for bias in the results of a close-kin dispersal study that has been conducted. After the field
+sampling, kin identification, & sigma calculation steps, use the estimated sigmas as inputs into simulation functions that are
+then filtered for size & geometry of the actual study site (via the \code{dims} method). Then pass this filtered dataset back to the
+sigma-determining functions. If filtering has resulted in a substantial drop in sigma, the estimate of sigma from the study site has
+likely been biased by the site geometry (note that the impact of this is dependent on the shape of the dispersal kernel - the more
+leptokurtic (dominated by long-distance dispersal), the more severe bias will be for a particular sigma and site geometry.
 }
 \examples{
 simobject <- simulate_kindist_simple(nsims = 100000, sigma = 100, kinship = "PO")

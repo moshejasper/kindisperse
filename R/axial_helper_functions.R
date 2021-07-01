@@ -1,6 +1,10 @@
 #' Estimate the axial dispersal distance of a kernel
 #'
-#' @param valvect A numeric vector of distances between close kin OR an object of class KinPairData
+#' This function performs a basic estimation of axial dispersal for a numeric vector of distances between close kin dyads. The axial
+#' dispersal distance returned is interpretable as the standard deviation of one dimension of a symmetric bivariate random distribution
+#' centred on zero.
+#'
+#' @param valvect A numeric vector of distances between close kin OR an object of class \code{\link{KinPairData}}
 #' @param composite numeric. The number of separate 'draws' (dispersal events)
 #' from the kernel required to produce the final positions of the measured individuals.
 #' For example, the displacement of a child from parent at the same lifestage would involve 1 draw and thus be composite = 1.
@@ -11,7 +15,7 @@
 #'
 #' @return Returns the value of the estimated axial dispersal distance of the kernel producing the dispersal distances measured. (numeric)
 #' @export
-#'
+#' @family axial_helpers
 #' @examples
 #' po_dists <- c(5, 6, 7.5)
 #' axials(po_dists) # one 'draw' (dispersal event) goes into the parent offspring category
@@ -38,6 +42,10 @@ axials_norm <- function(valvect) { # wrapper for axials, but assumes distributio
 #' Decompose an axial distribution into simple components
 #'
 #' @description Decomposes an axial distribution into simple components. Note that this should only be used in the simplest situations.
+#' It assumes all composite dispersal events are of identical magnitude and have happened equivalently to both branches of a 'symmetric'
+#' pedigree leading to the final kin dyad. (it can be used to derive e.g.full-sibling dispersal parameters from the distribution of
+#' full-siblings, or equivalent for first cousins, but \strong{not} to divide the 'avuncular' kernel into its
+#' component parts (uncle/aunt & niece/nephew have different dispersal paths from their common ancestor)).
 #'
 #' @param ax  numeric. The axial value to be decomposed.
 #' @param n_composites numeric. The number of separate 'draws' (dispersal events)
@@ -49,6 +57,7 @@ axials_norm <- function(valvect) { # wrapper for axials, but assumes distributio
 #'
 #' @return Returns the (numeric) axial distribution value of the underlying dispersal kernel from which the composite kernel was (or could be) created.
 #' @export
+#' @family axial_helpers
 #'
 #' @examples
 #' fs_vect <- c(10, 11, 12)
@@ -92,6 +101,7 @@ axials_combine <- function(axvals) { # for when your data is an even mix of two 
 #'
 #' @return \code{numeric} Returns the axial value that results from adding the input axial values under an additive variance framework.
 #' @export
+#' @family axial_helpers
 #'
 #' @examples
 #' fullsibs_ax <- 5
@@ -113,6 +123,7 @@ axials_add <- function(axvals) { # for when there are multiple components summin
 #'
 #' @return \code{numeric} Returns an estimate of the axial dispersal distance of those dispersal elements that are unique to the larger dispersal distribution (e.g. PO).
 #' @export
+#' @family axial_helpers
 #'
 #' @examples
 #' axials_subtract(100, 70)
@@ -125,6 +136,12 @@ axmed <- function(ax) { # returns median distance of this distribution (at least
 
 
 #' Estimate the axial dispersal distance of a kernel with confidence intervals
+#'
+#' This function performs an estimation of axial dispersal for a numeric vector of distances between close kin dyads with confidence
+#' intervals. The axial dispersal distance returned is interpretable as the standard deviation of one dimension of a
+#' symmetric bivariate random distribution centred on zero. Confidence intervals are assigned via bootstrapping, or optionally the
+#' vector of all bootstrapped results can be outputted by setting \code{output} to \code{'vect'}, enabling its passing to other
+#' functions or external statistical analysis.
 #'
 #' @param vals numeric. Vector of distances between close kin OR object of class KinPairData.
 #' @param nreps numeric. Number of permutations to run for confidence intervals (default 1000)
@@ -142,6 +159,7 @@ axmed <- function(ax) { # returns median distance of this distribution (at least
 #' @return If ouput = 'confs', returns a \code{numeric vector} of 95% confidence intervals and mean axial value.
 #' if output = 'vect', returns a \code{numeric vector} of all permuted axial value results
 #' @export
+#' @family axial_helpers
 #'
 #' @examples
 #' po_dists <- rexp(100, 1 / 50)
@@ -176,10 +194,13 @@ axpermute <- function(vals, nreps = 1000, nsamp = "std", composite = 1, output =
 
 #' Subtract axial distributions with confidence intervals
 #'
-#' @description Find the difference between two different empirical axial distributions with confidence intervals.
+#' Finds the difference between two different empirical axial distributions with confidence intervals.
 #' This is most useful when one distribution subsumes another and includes a unique dispersal event that needs to be extracted.
 #' For example, the FS category is subsumed by the 1C category, which can be written 'FS + PO'.
-#' In this circumstance, subtracting FS from 1C will yield an estimate of the PO kernel (the basic intergenerational dispersal kernel)
+#' In this circumstance, subtracting FS from 1C will yield an estimate of the PO kernel (the basic intergenerational dispersal kernel).
+#' Confidence intervals are assigned via bootstrapping, or optionally the
+#' vector of all bootstrapped results can be outputted by setting \code{output} to \code{'vect'}, enabling its passing to other
+#' functions or external statistical analysis.
 #'
 #' @param bigvals numeric. Vector of distance distributions of the larger (subsuming) distribution (e.g. 1C)  OR object of class KinPairData.
 #' @param smallvals numeric. Vector of distance distributions of the smaller (subsumed) distribution (e.g. FS)  OR object of class KinPairData.
@@ -198,6 +219,7 @@ axpermute <- function(vals, nreps = 1000, nsamp = "std", composite = 1, output =
 #' @return If output = 'confs' returns \code{numeric vector} of 95% confidence intervals and mean axial value.
 #' If output = 'vect' returns \code{numeric vector} of individual axial estimates from each permutation
 #' @export
+#' @family axial_helpers
 #'
 #' @examples
 #' firstcous <- rexp(100, 1 / 80)
@@ -295,7 +317,7 @@ span_assigner <- function(category) {
   return(span1 + span2)
 }
 
-cycle_to_span <- function(cycle){
+cycle_to_span <- function(cycle){ # for sims
 
   if (length(cycle) > 2){
     stop("'cycle' vector can have no more than two elements")
@@ -303,8 +325,98 @@ cycle_to_span <- function(cycle){
   if (length(cycle) == 1){
     cycle <- c(cycle, cycle)
   }
-  if (! isTRUE(all.equal(cycle, as.integer(cycle))) | any(cycle < 0)) stop("'cycle' vector is not of nonnegative integers!")
+  if (! isTRUE(all.equal(cycle, as.integer(cycle))) | any(cycle < -1)) stop("'cycle' vector is not of integers >= -1!")
+  cycle[cycle < 0] <- 0
   return(sum(cycle))
+}
+
+cycle_to_span2 <- function(cycle) { # for axials_standard
+
+  if (length(cycle) > 2){
+    stop("'cycle' vector can have no more than two elements")
+  }
+  if (length(cycle) == 1){
+    cycle <- c(cycle, cycle)
+  }
+  if (! isTRUE(all.equal(cycle, as.integer(cycle))) | any(cycle < -1)) stop("'cycle' vector is not of integers >= -1!")
+
+  # resolve negative cycles...
+  if (sum(cycle) < 0) return(sum(cycle))
+  else return(sum(abs(cycle)))
+  }
+
+span_assigner_cycat <- function(category, cycle) {
+  if (category %in% c("FS", "HS", "PO", "AV", "HAV", "GG", "GAV", "HGAV", "GGG")) {
+    span1 <- 0
+  }
+  if (category %in% c("1C", "H1C", "1C1", "H1C1")) {
+    span1 <- 1
+  }
+  if (category %in% c("2C", "H2C")) {
+    span1 <- 2
+  }
+
+  if (category %in% c("FS", "HS", "PO")) {
+    span2 <- 0
+  }
+  if (category %in% c("AV", "HAV", "1C", "H1C", "GG")) {
+    span2 <- 1
+  }
+  if (category %in% c("GAV", "HGAV", "GGG", "1C1", "H1C1", "2C", "H2C")) {
+    span2 <- 2
+  }
+
+  if (length(cycle) > 2){
+    stop("'cycle' vector can have no more than two elements")
+  }
+  if (length(cycle) == 1){
+    cycle <- c(cycle, cycle)
+  }
+  if (! isTRUE(all.equal(cycle, as.integer(cycle))) | any(cycle < -1)) stop("'cycle' vector is not of integers >= -1!")
+
+  span1 <- span1 + cycle[1]
+  span2 <- span2 + cycle[2]
+  #cat(paste0("Cat: ", category, ". Spans: ", span1, " ", span2, "\n"))
+  if (span1 < 0 & span2 < 0) return(-2)
+  if (span1 * span2 < 0 | span1 + span2 < 0) return(abs(span1) + abs(span2))
+  else return(span1 + span2)
+}
+
+phaser_cycat <- function(category, cycle) {
+  if (category %in% c("FS", "HS", "PO", "AV", "HAV", "GG", "GAV", "HGAV", "GGG")) {
+    span1 <- 0
+  }
+  if (category %in% c("1C", "H1C", "1C1", "H1C1")) {
+    span1 <- 1
+  }
+  if (category %in% c("2C", "H2C")) {
+    span1 <- 2
+  }
+
+  if (category %in% c("FS", "HS", "PO")) {
+    span2 <- 0
+  }
+  if (category %in% c("AV", "HAV", "1C", "H1C", "GG")) {
+    span2 <- 1
+  }
+  if (category %in% c("GAV", "HGAV", "GGG", "1C1", "H1C1", "2C", "H2C")) {
+    span2 <- 2
+  }
+
+  if (length(cycle) > 2){
+    stop("'cycle' vector can have no more than two elements")
+  }
+  if (length(cycle) == 1){
+    cycle <- c(cycle, cycle)
+  }
+  if (! isTRUE(all.equal(cycle, as.integer(cycle))) | any(cycle < -1)) stop("'cycle' vector is not of integers >= -1!")
+
+  span1 <- span1 + cycle[1]
+  span2 <- span2 + cycle[2]
+  return(sum(c(span1, span2) == -1))
+  #cat(paste0("Cat: ", category, ". Spans: ", span1, " ", span2, "\n"))
+  if (span1 * span2 < 0) return(abs(span1) + abs(span2))
+  else return(span1 + span2)
 }
 
 # axkconf <- function(axvals, nreps = 1000){

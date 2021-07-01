@@ -10,8 +10,28 @@ retrieve_tempdata()
 A list of all KinPairData objects in kindisperse app's tempdata
 }
 \description{
-Retrieve all tempdata (internal mem) from app (as list)
+This function is part of a suite of functions handling the interface between the kindisperse app & R
+package. Due to how shiny's interactive programming works, ordinary objects are not visible to the reactive functions
+embedded in the app. The solution implemented here is to construct a custom environment, \code{env_appdata}, that is
+accessible within the app and outside of it.
+
+This function accesses the app internal environment and retrieves a named list of all objects (typically of classes
+\code{KinPairData} or \code{KinPairSimulation} contained within it, making them accessible outside of the app). This
+is used to quickly retrieve all objects stored in the app's internal memory. Ordinarily, these would be passed to the
+interface environment, but this function is useful if the app crashed and important results were only present in the
+app's internal environment.
 }
 \examples{
 retrieve_tempdata()
 }
+\seealso{
+Other app_ports: 
+\code{\link{display_appdata}()},
+\code{\link{mount_appdata}()},
+\code{\link{reset_appdata}()},
+\code{\link{reset_tempdata}()},
+\code{\link{retrieve_appdata}()},
+\code{\link{retrieveall_appdata}()},
+\code{\link{unmount_appdata}()}
+}
+\concept{app_ports}

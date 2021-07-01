@@ -10,11 +10,27 @@ display_appdata()
 No return value, called for side effects
 }
 \description{
-Show printout of named items stored in appdata.
+This function is part of a suite of functions handling the interface between the kindisperse app & R
+package. Due to how shiny's interactive programming works, ordinary objects are not visible to the reactive functions
+embedded in the app. The solution implemented here is to construct a custom environment, \code{env_appdata}, that is
+accessible within the app and outside of it.
+
+This function prints a summary of all objects currently stored within the app interface environment, by name and class
 }
 \examples{
-mount_appdata(KinPairData(), "my_kindata")
+mount_appdata(kin_pair_data(), "my_kindata")
 mount_appdata(simulate_kindist_simple(nsims = 10), "my_simdata")
 
 display_appdata()
 }
+\seealso{
+Other app_ports: 
+\code{\link{mount_appdata}()},
+\code{\link{reset_appdata}()},
+\code{\link{reset_tempdata}()},
+\code{\link{retrieve_appdata}()},
+\code{\link{retrieve_tempdata}()},
+\code{\link{retrieveall_appdata}()},
+\code{\link{unmount_appdata}()}
+}
+\concept{app_ports}

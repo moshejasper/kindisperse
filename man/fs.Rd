@@ -2,16 +2,26 @@
 % Please edit documentation in R/DispersalModel.R
 \name{fs}
 \alias{fs}
-\title{kindisperse - access FS phase split point of DispersalModel object.}
+\alias{fs,DispersalModel-method}
+\title{Access FS phase split point of \code{\link{DispersalModel}} object.}
 \usage{
 fs(x)
+
+\S4method{fs}{DispersalModel}(x)
 }
 \arguments{
 \item{x}{object of class \code{DispersalModel}}
+
+\item{DispersalModel}{object of class \code{DispersalModel}}
 }
 \value{
 \code{character} FS phase split
 }
 \description{
-kindisperse - access FS phase split point of DispersalModel object.
+Access FS phase split point of \code{\link{DispersalModel}} object.
 }
+\section{Methods (by class)}{
+\itemize{
+\item \code{DispersalModel}: 
+}}
+

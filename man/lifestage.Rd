@@ -3,22 +3,41 @@
 \name{lifestage}
 \alias{lifestage}
 \alias{lifestage<-}
-\title{Access or assign lifestage (generic for KinPairData class)}
+\alias{lifestage,KinPairData-method}
+\alias{lifestage<-,KinPairData-method}
+\title{Access or assign \code{lifestage} category of \code{\link{KinPairData}} class objects}
 \usage{
 lifestage(x)
 
 lifestage(x) <- value
+
+\S4method{lifestage}{KinPairData}(x)
+
+\S4method{lifestage}{KinPairData}(x) <- value
 }
 \arguments{
 \item{x}{object with relevant method}
 
 \item{value}{new value to assign}
+
+\item{KinPairData}{object of class \code{KinPairData}}
 }
 \value{
-\code{character} life stage of object
-
-returns modified object with altered lifestage
+returns \code{character} lifestage of object or \code{KinPairData} object with modified lifestage
 }
 \description{
-Access or assign lifestage (generic for KinPairData class)
+Access or assign \code{lifestage} category of \code{\link{KinPairData}} class objects
 }
+\section{Methods (by class)}{
+\itemize{
+\item \code{KinPairData}: 
+
+\item \code{KinPairData}: 
+}}
+
+\seealso{
+Other kpdmethods: 
+\code{\link{distances}()},
+\code{\link{kinship}()}
+}
+\concept{kpdmethods}

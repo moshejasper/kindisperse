@@ -2,7 +2,7 @@
 % Please edit documentation in R/app_ports.R
 \name{retrieveall_appdata}
 \alias{retrieveall_appdata}
-\title{Retrieve all KinPairData objects from appdata (as list)}
+\title{Retrieve all \code{KinPairData} objects from appdata (as list)}
 \usage{
 retrieveall_appdata()
 }
@@ -10,10 +10,29 @@ retrieveall_appdata()
 Returns a list of objects stored in the appdata environment
 }
 \description{
-Retrieve all KinPairData objects from appdata (as list)
+This function is part of a suite of functions handling the interface between the kindisperse app & R
+package. Due to how shiny's interactive programming works, ordinary objects are not visible to the reactive functions
+embedded in the app. The solution implemented here is to construct a custom environment, \code{env_appdata}, that is
+accessible within the app and outside of it.
+
+This function accesses the app interface environment and retrieves a named list of all objects (typically of classes
+\code{KinPairData} or \code{KinPairSimulation} contained within it, making them accessible outside of the app). This
+is used to quickly pass all simulation objects that were saved to this interface environment while using the app to
+the regular R environment (after closing the app).
 }
 \examples{
-mount_appdata(KinPairData(), "k1")
-mount_appdata(KinPairSimulation(), "s1")
+mount_appdata(kin_pair_data(), "k1")
+mount_appdata(kin_pair_simulation(), "s1")
 retrieveall_appdata()
 }
+\seealso{
+Other app_ports: 
+\code{\link{display_appdata}()},
+\code{\link{mount_appdata}()},
+\code{\link{reset_appdata}()},
+\code{\link{reset_tempdata}()},
+\code{\link{retrieve_appdata}()},
+\code{\link{retrieve_tempdata}()},
+\code{\link{unmount_appdata}()}
+}
+\concept{app_ports}

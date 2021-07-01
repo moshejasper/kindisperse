@@ -2,7 +2,7 @@
 % Please edit documentation in R/app_ports.R
 \name{mount_appdata}
 \alias{mount_appdata}
-\title{Mount KinPairData Objects for use in kindisperse app}
+\title{Mount \code{KinPairData} Objects for use in kindisperse app}
 \usage{
 mount_appdata(x, nm)
 }
@@ -15,8 +15,27 @@ mount_appdata(x, nm)
 invisibly returns x.
 }
 \description{
-Mount KinPairData Objects for use in kindisperse app
+This function is part of a suite of functions handling the interface between the kindisperse app & R
+package. Due to how shiny's interactive programming works, ordinary objects are not visible to the reactive functions
+embedded in the app. The solution implemented here is to construct a custom environment, \code{env_appdata}, that is
+accessible within the app and outside of it.
+
+This function takes an object of class \code{KinPairData} or \code{KinPairSimulation}, assigns it an identifying name,
+and adds it to the app interface environment, making it accessible within the app. Once added, this object will be
+accessible under its name from the \code{Load} menue of the app. (The app interface uses the same function
+internally, enabling objects to be passed to the interface from the app also).
 }
 \examples{
-mount_appdata(KinPairData(), "mydata")
+mount_appdata(kin_pair_data(), "mydata")
 }
+\seealso{
+Other app_ports: 
+\code{\link{display_appdata}()},
+\code{\link{reset_appdata}()},
+\code{\link{reset_tempdata}()},
+\code{\link{retrieve_appdata}()},
+\code{\link{retrieve_tempdata}()},
+\code{\link{retrieveall_appdata}()},
+\code{\link{unmount_appdata}()}
+}
+\concept{app_ports}

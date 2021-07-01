@@ -7,6 +7,7 @@
 #'
 #' @return  Returns a tibble containing the coordinates of the f0 to f2 generations, as well as coordinates and distances relative to the 'focus' kinship categories. (kindist, kinmid, k1 & k2)
 #' @export
+#' @family simgraph
 #' @importFrom stats runif rnorm
 #' @examples
 #' simgraph_data(nsims = 100, dims = 1000, kinship = "GAV")

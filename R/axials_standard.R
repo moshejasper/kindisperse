@@ -1,7 +1,41 @@
-#' Takes (at least) two vectors of kinship dispersal distances from defined kinship categories, and returns a resulting calculation of the parent-offspring (intergenerational) kinship dispersal kernel
-#' Further tests
-#' @param avect     vector a of kin dispersal distances for the less closely related kinship category OR object of class KinPairData.
-#' @param bvect     vector b of kin dispersal distances for the more closely related kinship category OR object of class KinPairData.
+#' Calculate the intergenerational (PO) dispersal kernel from the distributions of close kin
+#'
+#' This function takes (at least) two vectors of kinship dispersal distances from defined kinship categories, and returns a resulting calculation of the parent-offspring
+#' (intergenerational) kinship dispersal kernel. Dispersal distances can be inputted as numeric vectors, or alternatively as objects of classes \code{\link{KinPairData}}
+#' or \code{\link{KinPairSimulation}}.
+#'
+#' This (with its paired function \code{\link{axpermute_standard}}) are the core functions implemented in the \code{kindisperse} package. They enable the decomposition of the
+#' pedigree & dispersal information contained in the sampled distributions of close kin dyads (full siblings, first cousins, etc.) & its leveraging within an additive dispersal
+#' framework to estimate the key intergenerational (parent-offspring) dispersal parameter of a population. Four key ideas underpin the approach in this function: (a) tracing
+#' dispersal pedigrees to determine the number of complete intergenerational (breeding-cycle-spanning) dispersal events separating the sampled close-kin dyads; (b) using kin categories
+#' that share the same overarching kinship 'phase' to control for residual 'phased' (non-intergenerational) disperal events that occur at the pedigree branch point (e.g. ovipositional
+#' dispersal for full sibling mosquitoes), and (c) using synced or equivalent sampling points to eliminate non-intergenerational dispersal at the branch-tips of the pedigrees, then
+#' finally (d) decomposing the 'pure' pedigree-associated (intergenerational) dispersal into an estimae of the single-generation intergenerational dispersal parameter.
+#'
+#' At its most basic, this function requires information about two dispersal vectors, a & b - both of a phased kinship category, & \code{vector a} having a more dispersed pedigree
+#' than \code{vector b}. In addition to this initial pair of dispersed kin categories, either one or another matched pair of kin categories can be added:
+#'
+#' 1. A mixture category. This redefines the vector it is paired with (either a or b) so that rather than being considered as a 'pure' pedigree variant, it is considered as mixed with a
+#' different kin category, often of a differing pedigree phase. If used, the other initial vector must also be paired with a related mixture category or composite vector.
+#'
+#' 2. A composite dispersal vector. This is defined exactly as the initial dispersal vectors. After calculation, the axial value found is composited with that of the matched initial vector, and
+#' its kinship category redefined as a mixture category as above. If used, the other initial vector must also be paired with a related mixture category or composite vector. These can be paired so
+#' that a mixture category (e.g. first & half-first cousins where these could not be separated with available genetic data) can be counterbalanced with the composition of full sibling & half-sibling
+#' dyads, which (assuming equal mixture) approximately controls for the phasing of the mixed kin categories, enabling an estimate of intergenerational dispersal without exact knowledge of the
+#' composition of the cousins distribution.
+#'
+#' Each vector or \code{KinPairData} / \code{KinPairSimulation} object is paired with several other parameters: (1) a logical (e.g. \code{amix} delineating whether the category is being
+#' used in the calculation, (2) a category parameter (.e.g \code{acat}) defining what kin relationship is being measured, (3) an optional breeding cycle number (e.g. \code{acycle})
+#' showing the number of breeding cycles each member of the kin pair has passed through before being sampled (the cycle vector \code{c(1, 0)} corresponds to an adult & a juvenile
+#' being sampled at the same point in the breeding cycle; \code{c(1, 1)} represents two adults (i.e. after their first breeding), etc.) . If a \code{\link{KinPairData}} or
+#' \code{\link{KinPairSimulation}} object is inputted, all paired parameters that are not explicitly set will default to those contained in the objects (using KinPair objects
+#' is the ideal way to deploy this function).
+#'
+#' For further information on this function, package & the dispersal estimation method it represents, see the paper by Jasper et al. - "A genomic approach to inferring kinship reveals
+#' limited intergenerational dispersal in the yellow fever mosquito", \doi{10.1111/1755-0998.13043}.
+#'
+#' @param avect     vector a of kin dispersal distances for the less closely related kinship category OR object of class \code{KinPairData}.
+#' @param bvect     vector b of kin dispersal distances for the more closely related kinship category OR object of class \code{KinPairData}.
 #' @param acat      kinship category of kin dispersal vector avect. Must be one of "PO", "FS", "HS", "AV", "GG", "HAV", "GGG", "1C", "1C1", "2C", "GAV", "HGAV", "H1C", "H1C1", "H2C"
 #' @param bcat      kinship category of kin dispersal vector bvect. Must be one of "PO", "FS", "HS", "AV", "GG", "HAV", "GGG", "1C", "1C1", "2C", "GAV", "HGAV", "H1C", "H1C1", "H2C"
 #' @param amix      logical describing whether vector a is a mixture of two kinship categories. Used with amixcat. Default FALSE.
@@ -20,9 +54,11 @@
 #' @param bmixcycle breeding cycle number of kin dispersal vector bmixvect. Must be a nonnegative integer. (0, 1, 2, ...). Represents the number of complete breeding cycles the sampled individual has undergone before the checkpoint, where the time between birth and first reproduction is coded as '0', that between first and second reproduction '1', etc. (default 0). Only use in spp. where there is likely to be a reasonable equivalence between breeding stages across a lifespan.
 #' @param acompcycle  breeding cycle number of kin dispersal vector acompvect. Must be a nonnegative integer. (0, 1, 2, ...). Represents the number of complete breeding cycles the sampled individual has undergone before the checkpoint, where the time between birth and first reproduction is coded as '0', that between first and second reproduction '1', etc. (default 0). Only use in spp. where there is likely to be a reasonable equivalence between breeding stages across a lifespan.
 #' @param bcompcycle  breeding cycle number of kin dispersal vector bcompvect. Must be a nonnegative integer. (0, 1, 2, ...). Represents the number of complete breeding cycles the sampled individual has undergone before the checkpoint, where the time between birth and first reproduction is coded as '0', that between first and second reproduction '1', etc. (default 0). Only use in spp. where there is likely to be a reasonable equivalence between breeding stages across a lifespan.
+#' @param override whether or not to override the default -1 cycle compatibility check (default FALSE) override in situations where you are confident e.g. a c(-1, -1) cycle FS or HS category is truly zeroed (& thus separated from later stages by a complete lifespan)
 #'
 #' @return Returns a numeric estimate of PO (intergenerational) dispersal kernel axial distribution.
 #' @export
+#' @family axstandard
 #'
 #' @examples
 #' cous <- rexp(100, 1 / 100)
@@ -31,7 +67,8 @@
 axials_standard <- function(avect, bvect, acat = NULL, bcat = NULL,
                             amix = FALSE, bmix = FALSE, amixcat = NULL, bmixcat = NULL, acomp = FALSE, bcomp = FALSE,
                             acompvect = NULL, bcompvect = NULL, acompcat = NULL, bcompcat = NULL, acycle = NULL,
-                            bcycle = NULL, amixcycle = NULL, bmixcycle = NULL, acompcycle = NULL, bcompcycle = NULL) {
+                            bcycle = NULL, amixcycle = NULL, bmixcycle = NULL, acompcycle = NULL, bcompcycle = NULL,
+                            override = FALSE) {
   if (is.KinPairData(avect)) {
     if (is.null(acat)) acat <- kinship(avect)
     if (is.null(acycle)) acycle <- breeding_cycle(avect)
@@ -73,8 +110,24 @@ axials_standard <- function(avect, bvect, acat = NULL, bcat = NULL,
   aphasetest <- aphase
   bphasetest <- bphase
 
-  aspan <- span_assigner(acat) + cycle_to_span(acycle)
-  bspan <- span_assigner(bcat) + cycle_to_span(bcycle)
+  aphase2 <- phaser_cycat(acat, acycle)
+  bphase2 <- phaser_cycat(bcat, bcycle)
+  if (! aphase2 == bphase2 & override == FALSE) {
+    stop("A and B vectors must have compatible cycle & kinship parameters!")
+  }
+  if (! aphase2 == bphase2 & bphase2 != 2){
+    warning("cycle compatibility check override applied yet vector B is not rooted at pedigree position c(-1, -1)!")
+  }
+  ### Eventually extend this section by (optionally) incorporating a formal dispersal model, to enable comparisons of e.g. pre-dispersed 1C & FS categories...
+    #if (! bphase2 == 2){
+    #  stop("A and B vectors must have compatible cycle & kinship parameters!") # eventually extend this to the alts
+    #}
+    #else {
+      # identify if bphase2 is true zero...
+
+    #}
+  aspan <- span_assigner_cycat(acat, acycle)
+  bspan <- span_assigner_cycat(bcat, bcycle)
   aspantest <- aspan
   bspantest <- bspan
   a_ax <- axials(avect)
@@ -93,7 +146,7 @@ axials_standard <- function(avect, bvect, acat = NULL, bcat = NULL,
     }
     amixphase <- phase_assigner(amixcat)
     aphasetest <- c(aphasetest, amixphase)
-    amixspan <- span_assigner(amixcat) + cycle_to_span(amixcycle)
+    amixspan <- span_assigner_cycat(amixcat, amixcycle)
     aspantest <- mean(c(aspantest, amixspan))
   }
   if (bmix == TRUE) {
@@ -109,7 +162,7 @@ axials_standard <- function(avect, bvect, acat = NULL, bcat = NULL,
     }
     bmixphase <- phase_assigner(bmixcat)
     bphasetest <- c(bphasetest, bmixphase)
-    bmixspan <- span_assigner(bmixcat) + cycle_to_span(bmixcycle)
+    bmixspan <- span_assigner_cycat(bmixcat, bmixcycle)
     bspantest <- mean(c(bspantest, bmixspan))
   }
 
@@ -129,7 +182,7 @@ axials_standard <- function(avect, bvect, acat = NULL, bcat = NULL,
     }
     acompphase <- phase_assigner(acompcat)
     aphasetest <- c(aphasetest, acompphase)
-    acompspan <- span_assigner(acompcat) + cycle_to_span(acompcycle)
+    acompspan <- span_assigner_cycat(acompcat, acompcycle)
     aspantest <- mean(c(aspantest, acompspan))
     acomp_ax <- axials(acompvect)
     a_ax <- axials_combine(c(a_ax, acomp_ax))
@@ -151,7 +204,7 @@ axials_standard <- function(avect, bvect, acat = NULL, bcat = NULL,
     }
     bcompphase <- phase_assigner(bcompcat)
     bphasetest <- c(bphasetest, bcompphase)
-    bcompspan <- span_assigner(bcompcat) + cycle_to_span(bcompcycle)
+    bcompspan <- span_assigner_cycat(bcompcat, bcompcycle)
     bspantest <- mean(c(bspantest, bcompspan))
     bcomp_ax <- axials(bcompvect)
     b_ax <- axials_combine(c(b_ax, bcomp_ax))
@@ -171,8 +224,45 @@ axials_standard <- function(avect, bvect, acat = NULL, bcat = NULL,
 }
 
 
-#' Takes (at least) two vectors of kinship dispersal distances from defined kinship categories, and returns a resulting calculation of the parent-offspring (intergenerational) kinship dispersal kernel with bootstrap-based confidence intervals.
-#' Further tests
+#' Calculate the intergenerational (PO) dispersal kernel from the distributions of close kin (bootstrapped)
+#'
+#' This function takes (at least) two vectors of kinship dispersal distances from defined kinship categories, and returns a resulting calculation of the parent-offspring
+#' (intergenerational) kinship dispersal kernel with bootstrapped confidence intervals. Dispersal distances can be inputted as numeric vectors, or alternatively as objects of
+#' classes \code{\link{KinPairData}} or \code{\link{KinPairSimulation}}.
+#'
+#' This (with its paired function \code{\link{axials_standard}}) are the core functions implemented in the \code{kindisperse} package. They enable the decomposition of the
+#' pedigree & dispersal information contained in the sampled distributions of close kin dyads (full siblings, first cousins, etc.) & its leveraging within an additive dispersal
+#' framework to estimate the key intergenerational (parent-offspring) dispersal parameter of a population. Four key ideas underpin the approach in this function: (a) tracing
+#' dispersal pedigrees to determine the number of complete intergenerational (breeding-cycle-spanning) dispersal events separating the sampled close-kin dyads; (b) using kin categories
+#' that share the same overarching kinship 'phase' to control for residual 'phased' (non-intergenerational) disperal events that occur at the pedigree branch point (e.g. ovipositional
+#' dispersal for full sibling mosquitoes), and (c) using synced or equivalent sampling points to eliminate non-intergenerational dispersal at the branch-tips of the pedigrees, then
+#' finally (d) decomposing the 'pure' pedigree-associated (intergenerational) dispersal into an estimae of the single-generation intergenerational dispersal parameter.
+#'
+#' At its most basic, this function requires information about two dispersal vectors, a & b - both of a phased kinship category, & \code{vector a} having a more dispersed pedigree
+#' than \code{vector b}. In addition to this initial pair of dispersed kin categories, either one or another matched pair of kin categories can be added:
+#'
+#' 1. A mixture category. This redefines the vector it is paired with (either a or b) so that rather than being considered as a 'pure' pedigree variant, it is considered as mixed with a
+#' different kin category, often of a differing pedigree phase. If used, the other initial vector must also be paired with a related mixture category or composite vector.
+#'
+#' 2. A composite dispersal vector. This is defined exactly as the initial dispersal vectors. After calculation, the axial value found is composited with that of the matched initial vector, and
+#' its kinship category redefined as a mixture category as above. If used, the other initial vector must also be paired with a related mixture category or composite vector. These can be paired so
+#' that a mixture category (e.g. first & half-first cousins where these could not be separated with available genetic data) can be counterbalanced with the composition of full sibling & half-sibling
+#' dyads, which (assuming equal mixture) approximately controls for the phasing of the mixed kin categories, enabling an estimate of intergenerational dispersal without exact knowledge of the
+#' composition of the cousins distribution.
+#'
+#' Each vector or \code{KinPairData} / \code{KinPairSimulation} object is paired with several other parameters: (1) a logical (e.g. \code{amix} delineating whether the category is being
+#' used in the calculation, (2) a category parameter (.e.g \code{acat}) defining what kin relationship is being measured, (3) an optional breeding cycle number (e.g. \code{acycle})
+#' showing the number of breeding cycles each member of the kin pair has passed through before being sampled (the cycle vector \code{c(1, 0)} corresponds to an adult & a juvenile
+#' being sampled at the same point in the breeding cycle; \code{c(1, 1)} represents two adults (i.e. after their first breeding), etc.) . If a \code{\link{KinPairData}} or
+#' \code{\link{KinPairSimulation}} object is inputted, all paired parameters that are not explicitly set will default to those contained in the objects (using KinPair objects
+#' is the ideal way to deploy this function).
+#'
+#' Confidence intervals are assigned via bootstrapping, or optionally the
+#' vector of all bootstrapped results can be outputted by setting \code{output} to \code{'vect'}, enabling its passing to other
+#' functions or external statistical analysis.
+#'
+#' For further information on this function, package & the dispersal estimation method it represents, see the paper by Jasper et al. - "A genomic approach to inferring kinship reveals
+#' limited intergenerational dispersal in the yellow fever mosquito", \doi{10.1111/1755-0998.13043}.
 #' @param avect     vector a of kin dispersal distances for the less closely related kinship category OR object of class KinPairData.
 #' @param bvect     vector b of kin dispersal distances for the more closely related kinship category OR object of class KinPairData.
 #' @param acat      kinship category of kin dispersal vector avect. Must be one of "PO", "FS", "HS", "AV", "GG", "HAV", "GGG", "1C", "1C1", "2C", "GAV", "HGAV", "H1C", "H1C1", "H2C"
@@ -196,10 +286,12 @@ axials_standard <- function(avect, bvect, acat = NULL, bcat = NULL,
 #' @param acompcycle  breeding cycle number of kin dispersal vector acompvect. Must be a nonnegative integer. (0, 1, 2, ...). Represents the number of complete breeding cycles the sampled individual has undergone before the checkpoint, where the time between birth and first reproduction is coded as '0', that between first and second reproduction '1', etc. (default 0). Only use in spp. where there is likely to be a reasonable equivalence between breeding stages across a lifespan.
 #' @param bcompcycle  breeding cycle number of kin dispersal vector bcompvect. Must be a nonnegative integer. (0, 1, 2, ...). Represents the number of complete breeding cycles the sampled individual has undergone before the checkpoint, where the time between birth and first reproduction is coded as '0', that between first and second reproduction '1', etc. (default 0). Only use in spp. where there is likely to be a reasonable equivalence between breeding stages across a lifespan.
 #' @param output    string denoting what kind of output to return. If 'confs', a vector of 95% confidence intervals. if 'vect', a vector of all permutated axial value results
+#' @param override whether or not to override the default -1 cycle compatibility check (default FALSE) override in situations where you are confident e.g. a c(-1, -1) cycle FS or HS category is truly zeroed (& thus separated from later stages by a complete lifespan)
 #'
 #' @return If output = 'confs' returns vector of 95% confidence intervals (with mean).
 #' If output = 'vect' returns vector of individual axial estimates from each permutation
 #' @export
+#' @family axstandard
 #'
 #' @examples
 #' cous <- rexp(100, 1 / 100)
@@ -209,7 +301,7 @@ axpermute_standard <- function(avect = NULL, bvect = NULL, acat = NULL, bcat = N
                                amix = FALSE, bmix = FALSE, amixcat = NULL, bmixcat = NULL, acomp = FALSE, bcomp = FALSE,
                                acompvect = NULL, bcompvect = NULL, acompcat = NULL, bcompcat = NULL, acycle = NULL,
                                bcycle = NULL, amixcycle = NULL, bmixcycle = NULL, acompcycle = NULL, bcompcycle = NULL,
-                               output = "confs") {
+                               output = "confs", override = FALSE) {
   if (is.KinPairData(avect)) {
     if (is.null(acat)) acat <- kinship(avect)
     if (is.null(acycle)) acycle <- breeding_cycle(avect)
@@ -252,8 +344,24 @@ axpermute_standard <- function(avect = NULL, bvect = NULL, acat = NULL, bcat = N
   aphasetest <- aphase
   bphasetest <- bphase
 
-  aspan <- span_assigner(acat) + cycle_to_span(acycle)
-  bspan <- span_assigner(bcat) + cycle_to_span(bcycle)
+  aphase2 <- phaser_cycat(acat, acycle)
+  bphase2 <- phaser_cycat(bcat, bcycle)
+  if (! aphase2 == bphase2 & override == FALSE) {
+    stop("A and B vectors must have compatible cycle & kinship parameters!")
+  }
+  if (! aphase2 == bphase2 & bphase2 != 2){
+    warning("cycle compatibility check override applied yet vector B is not rooted at pedigree position c(-1, -1)!")
+  }
+  ### Eventually extend this section by (optionally) incorporating a formal dispersal model, to enable comparisons of e.g. pre-dispersed 1C & FS categories...
+  #if (! bphase2 == 2){
+  #  stop("A and B vectors must have compatible cycle & kinship parameters!") # eventually extend this to the alts
+  #}
+  #else {
+  # identify if bphase2 is true zero...
+
+  #}
+  aspan <- span_assigner_cycat(acat, acycle)
+  bspan <- span_assigner_cycat(bcat, bcycle)
   aspantest <- aspan
   bspantest <- bspan
 
@@ -286,7 +394,7 @@ axpermute_standard <- function(avect = NULL, bvect = NULL, acat = NULL, bcat = N
     }
     amixphase <- phase_assigner(amixcat)
     aphasetest <- c(aphasetest, amixphase)
-    amixspan <- span_assigner(amixcat) + cycle_to_span(amixcycle)
+    amixspan <- span_assigner_cycat(amixcat, amixcycle)
     aspantest <- mean(c(aspantest, amixspan))
   }
   if (bmix == TRUE) {
@@ -302,7 +410,7 @@ axpermute_standard <- function(avect = NULL, bvect = NULL, acat = NULL, bcat = N
     }
     bmixphase <- phase_assigner(bmixcat)
     bphasetest <- c(bphasetest, bmixphase)
-    bmixspan <- span_assigner(bmixcat) + cycle_to_span(bmixcycle)
+    bmixspan <- span_assigner_cycat(bmixcat, bmixcycle)
     bspantest <- mean(c(bspantest, bmixspan))
   }
 
@@ -322,7 +430,7 @@ axpermute_standard <- function(avect = NULL, bvect = NULL, acat = NULL, bcat = N
     }
     acompphase <- phase_assigner(acompcat)
     aphasetest <- c(aphasetest, acompphase)
-    acompspan <- span_assigner(acompcat) + cycle_to_span(acompcycle)
+    acompspan <- span_assigner_cycat(acompcat, acompcycle)
     aspantest <- mean(c(aspantest, acompspan))
     if (nsamp == "std") {
       acompnum <- length(acompvect)
@@ -352,7 +460,7 @@ axpermute_standard <- function(avect = NULL, bvect = NULL, acat = NULL, bcat = N
     }
     bcompphase <- phase_assigner(bcompcat)
     bphasetest <- c(bphasetest, bcompphase)
-    bcompspan <- span_assigner(bcompcat) + cycle_to_span(bcompcycle)
+    bcompspan <- span_assigner_cycat(bcompcat, bcompcycle)
     bspantest <- mean(c(bspantest, bcompspan))
     if (nsamp == "std") {
       bcompnum <- length(bcompvect)

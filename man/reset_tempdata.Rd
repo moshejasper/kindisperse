@@ -10,8 +10,25 @@ reset_tempdata()
 No return value, called for side effects
 }
 \description{
-Reset app tempdata (internal mem)
+This function is part of a suite of functions handling the interface between the kindisperse app & R
+package. Due to how shiny's interactive programming works, ordinary objects are not visible to the reactive functions
+embedded in the app. The solution implemented here is to construct a custom environment, \code{env_appdata}, that is
+accessible within the app and outside of it.
+
+This function resets the internal \code{tempdata} environment used by the kindisperse app, keeping it from becoming
+over-cluttered & freeing up space.
 }
 \examples{
 reset_tempdata()
 }
+\seealso{
+Other app_ports: 
+\code{\link{display_appdata}()},
+\code{\link{mount_appdata}()},
+\code{\link{reset_appdata}()},
+\code{\link{retrieve_appdata}()},
+\code{\link{retrieve_tempdata}()},
+\code{\link{retrieveall_appdata}()},
+\code{\link{unmount_appdata}()}
+}
+\concept{app_ports}

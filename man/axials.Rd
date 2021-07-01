@@ -7,7 +7,7 @@
 axials(valvect, composite = 1)
 }
 \arguments{
-\item{valvect}{A numeric vector of distances between close kin OR an object of class KinPairData}
+\item{valvect}{A numeric vector of distances between close kin OR an object of class \code{\link{KinPairData}}}
 
 \item{composite}{numeric. The number of separate 'draws' (dispersal events)
 from the kernel required to produce the final positions of the measured individuals.
@@ -20,7 +20,9 @@ should not be decomposed using this method, nor should any assumptions be made a
 Returns the value of the estimated axial dispersal distance of the kernel producing the dispersal distances measured. (numeric)
 }
 \description{
-Estimate the axial dispersal distance of a kernel
+This function performs a basic estimation of axial dispersal for a numeric vector of distances between close kin dyads. The axial
+dispersal distance returned is interpretable as the standard deviation of one dimension of a symmetric bivariate random distribution
+centred on zero.
 }
 \examples{
 po_dists <- c(5, 6, 7.5)
@@ -31,3 +33,12 @@ fs_dists <- c(2, 3, 3)
 axials(fs_dists, composite = 2) # two 'draws' (symmetric dispersal events)
 # go into the full sibling category so composite is set to 2
 }
+\seealso{
+Other axial_helpers: 
+\code{\link{axials_add}()},
+\code{\link{axials_decompose}()},
+\code{\link{axials_subtract}()},
+\code{\link{axpermute_subtract}()},
+\code{\link{axpermute}()}
+}
+\concept{axial_helpers}

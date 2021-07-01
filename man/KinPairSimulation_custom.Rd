@@ -13,7 +13,8 @@ KinPairSimulation_custom(
   lifestage = NULL,
   kernelshape = NULL,
   cycle = NULL,
-  call = NULL
+  call = NULL,
+  model = NULL
 )
 }
 \arguments{
@@ -36,6 +37,8 @@ the number of complete breeding cycles each simulated individual has undergone b
 birth and first reproduction is coded as '0', that between first and second reproduction '1', etc. (default 0)}
 
 \item{call}{call object. Use to pass the system call that led to the generation of this class. (via sys.call)}
+
+\item{model}{DispersalModel - model information passed from simulation function}
 }
 \value{
 Returns a \code{KinPairSimulation} Class object with simtype set to 'custom' and relevant fields included.

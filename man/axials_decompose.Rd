@@ -21,6 +21,10 @@ Returns the (numeric) axial distribution value of the underlying dispersal kerne
 }
 \description{
 Decomposes an axial distribution into simple components. Note that this should only be used in the simplest situations.
+It assumes all composite dispersal events are of identical magnitude and have happened equivalently to both branches of a 'symmetric'
+pedigree leading to the final kin dyad. (it can be used to derive e.g.full-sibling dispersal parameters from the distribution of
+full-siblings, or equivalent for first cousins, but \strong{not} to divide the 'avuncular' kernel into its
+component parts (uncle/aunt & niece/nephew have different dispersal paths from their common ancestor)).
 }
 \examples{
 fs_vect <- c(10, 11, 12)
@@ -28,3 +32,12 @@ fs_axial_raw <- axials(fs_vect, composite = 1) # composite hasn't corrected for 
 # inherent to this kin category!
 fs_axial_final <- axials_decompose(fs_axial_raw, n_composites = 2)
 }
+\seealso{
+Other axial_helpers: 
+\code{\link{axials_add}()},
+\code{\link{axials_subtract}()},
+\code{\link{axials}()},
+\code{\link{axpermute_subtract}()},
+\code{\link{axpermute}()}
+}
+\concept{axial_helpers}

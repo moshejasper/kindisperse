@@ -29,9 +29,22 @@ If ouput = 'confs', returns a \code{numeric vector} of 95\% confidence intervals
 if output = 'vect', returns a \code{numeric vector} of all permuted axial value results
 }
 \description{
-Estimate the axial dispersal distance of a kernel with confidence intervals
+This function performs an estimation of axial dispersal for a numeric vector of distances between close kin dyads with confidence
+intervals. The axial dispersal distance returned is interpretable as the standard deviation of one dimension of a
+symmetric bivariate random distribution centred on zero. Confidence intervals are assigned via bootstrapping, or optionally the
+vector of all bootstrapped results can be outputted by setting \code{output} to \code{'vect'}, enabling its passing to other
+functions or external statistical analysis.
 }
 \examples{
 po_dists <- rexp(100, 1 / 50)
 axpermute(po_dists, composite = 1)
 }
+\seealso{
+Other axial_helpers: 
+\code{\link{axials_add}()},
+\code{\link{axials_decompose}()},
+\code{\link{axials_subtract}()},
+\code{\link{axials}()},
+\code{\link{axpermute_subtract}()}
+}
+\concept{axial_helpers}

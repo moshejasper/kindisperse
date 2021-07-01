@@ -10,8 +10,25 @@ reset_appdata()
 No return value, called for side effects
 }
 \description{
-Reset kindisperse appdata
+This function is part of a suite of functions handling the interface between the kindisperse app & R
+package. Due to how shiny's interactive programming works, ordinary objects are not visible to the reactive functions
+embedded in the app. The solution implemented here is to construct a custom environment, \code{env_appdata}, that is
+accessible within the app and outside of it.
+
+When called, this function clears all attached objects from the app interface environment, keeping it from becoming
+over-clutttered & taking up space.
 }
 \examples{
 reset_appdata()
 }
+\seealso{
+Other app_ports: 
+\code{\link{display_appdata}()},
+\code{\link{mount_appdata}()},
+\code{\link{reset_tempdata}()},
+\code{\link{retrieve_appdata}()},
+\code{\link{retrieve_tempdata}()},
+\code{\link{retrieveall_appdata}()},
+\code{\link{unmount_appdata}()}
+}
+\concept{app_ports}

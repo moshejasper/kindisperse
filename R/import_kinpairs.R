@@ -1,6 +1,11 @@
 
-#' Convert dataframe or tibble to KinPairData class
+#' Convert dataframe or tibble to \code{\link{KinPairData}} class
 #'
+#' @description This function at minimum requires the dataframe to contain a column titled 'distance' containing distances
+#' between kin pairs. It can optionally contain a column of kinship values 'kinship' as well as a column of lifestage values 'lifestage'.
+#' If the file contains more than one value in the kinship or lifestage columns (e.g. bot 'FS' and 'HS') - the corresponding function
+#' parameter must be set to pick a corresponding subset of dispersed pairs. where parameters are set in the absence of file columns,
+#' these values are assigned to the returned \code{KinPairData} object.
 #' @param data data.frame or tibble of kin distances - can contain $distance (kin distances), $kinship (kin cats) & $lifestage columns
 #' @param kinship character. kin category to assign or extract from data. one of PO, FS, HS, AV, GG, HAV, GGG, 1C, 1C1, 2C, GAV, HGAV, H1C , H1C1 or H2C
 #' @param lifestage character. lifestage to assign or extract from data. one of 'unknown', 'immature' or 'ovipositional'.
@@ -8,6 +13,7 @@
 #'
 #' @return returns valid \code{KinPairData} object
 #' @export
+#' @family import_functions
 #'
 #' @examples
 #' mydata <- tibble::tibble(
@@ -58,17 +64,21 @@ df_to_kinpair <- function(data, kinship = NULL, lifestage = NULL, lifecheck = TR
       tib <- filter(tib, .data$lifestage == lf)
     }
   }
-  return(KinPairData(data = tib, kinship = kinship, lifestage = lifestage))
+  return(kin_pair_data(data = tib, kinship = kinship, lifestage = lifestage))
 }
 
-#' Convert vector of kin separation distances to KinPairData class
+#' Convert vector of kin separation distances to \code{\link{KinPairData}} class
 #'
+#' @description Function takes at minimum a (numeric) vector of distances between related kinpairs, and
+#' returns a \code{KinPairData} object. Optional parameters can assign kinship and lifestage values to the
+#' returned object.
 #' @param vect vector of kinpair distances
 #' @param kinship character or character vector containing kinship categories of kinpairs
 #' @param lifestage character or character vector containing lifestages of kinpairs
 #'
 #' @return returns valid \code{KinPairData} object.
 #' @export
+#' @family import_functions
 #'
 #' @examples
 #' vector_to_kinpair(1:10, "FS", "immature")
@@ -96,8 +106,9 @@ vector_to_kinpair <- function(vect, kinship = NULL, lifestage = NULL) {
 }
 
 
-#' Check if vector of kinship categories contains all valid entries
+#' Check valid kinship
 #'
+#' @description Checks if vector of kinship categories contains all valid entries
 #' @param vect vector of kinship categories
 #'
 #' @return TRUE if valid. Error otherwise.
@@ -110,8 +121,9 @@ check_valid_kinship <- function(vect) {
   TRUE
 }
 
-#' Check if vector of lifestages contains all valid entries
+#' Check valid lifestage
 #'
+#' @description Checks if vector of lifestages contains all valid entries
 #' @param vect vector of lifestages
 #'
 #' @return TRUE if valid. Error otherwise
@@ -127,10 +139,13 @@ check_valid_lifestage <- function(vect) {
 
 #' Extract KinPairData class object to tibble
 #'
+#' @description Extract \code{KinPairData} class object to tibble. Strips out most class metadata leaving a
+#' dataframe of disersal simulation data with a column added covering lifestage at sampling.
 #' @param x object of class \code{KinPairData}
 #'
 #' @return tibble (class \code{tbl_df})
 #' @export
+#' @family export_functions
 #'
 kinpair_to_tibble <- function(x) {
   x_out <- x@tab

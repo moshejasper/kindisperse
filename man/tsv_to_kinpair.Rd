@@ -2,7 +2,7 @@
 % Please edit documentation in R/export_functions.R
 \name{tsv_to_kinpair}
 \alias{tsv_to_kinpair}
-\title{Reads .tsv and converts to KinPairData object}
+\title{Reads \code{.tsv} and converts to \code{KinPairData} object}
 \usage{
 tsv_to_kinpair(file, kinship = NULL, lifestage = NULL, ...)
 }
@@ -13,11 +13,25 @@ tsv_to_kinpair(file, kinship = NULL, lifestage = NULL, ...)
 
 \item{lifestage}{character. lifestage to assign or extract from data. one of 'unknown', 'immature' or 'ovipositional'.}
 
-\item{...}{additional arguments to pass to read_tsv}
+\item{...}{additional arguments to pass to \code{read_tsv}}
 }
 \value{
 Returns object of class \code{KinPairData}
 }
 \description{
-Reads .tsv and converts to KinPairData object
+This function is part of suite of functions handling file import/export for kinship dispersal objects.
+
+\code{.csv} & \code{.tsv} reading functions at minimum require the .delim file to contain a column titled 'distance' containing distances
+between kin pairs. It can optionally contain a column of kinship values 'kinship' as well as a column of lifestage values 'lifestage'.
+If the file contains more than one value in the kinship or lifestage columns (e.g. bot 'FS' and 'HS') - the corresponding function
+parameter must be set to pick a corresponding subset of dispersed pairs. where parameters are set in the absence of file columns,
+these values are assigned to the returned \code{KinPairData} object.
 }
+\seealso{
+Other import_functions: 
+\code{\link{csv_to_kinpair}()},
+\code{\link{df_to_kinpair}()},
+\code{\link{read_kindata}()},
+\code{\link{vector_to_kinpair}()}
+}
+\concept{import_functions}

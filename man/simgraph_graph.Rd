@@ -67,3 +67,8 @@ Simple kin dispersal simulation for graphical display. (graphs the pre-existing 
 simdata <- simgraph_data()
 simgraph_graph(simdata)
 }
+\seealso{
+Other simgraph: 
+\code{\link{simgraph_data}()}
+}
+\concept{simgraph}

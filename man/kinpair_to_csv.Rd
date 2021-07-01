@@ -2,20 +2,29 @@
 % Please edit documentation in R/export_functions.R
 \name{kinpair_to_csv}
 \alias{kinpair_to_csv}
-\title{Write KinPairData object in .csv format (strips extra data)}
+\title{Write \code{KinPairData} object to \code{.csv} format}
 \usage{
 kinpair_to_csv(x, file, ...)
 }
 \arguments{
-\item{x}{Oject of class KinPairData or KinPairSimulation}
+\item{x}{Object of class \code{KinPairData} or \code{KinPairSimulation}}
 
 \item{file}{The file path to write to}
 
-\item{...}{Additional arguments to pass to write_csv}
+\item{...}{Additional arguments to pass to \code{write_csv}}
 }
 \value{
 Invisibly returns the initial object
 }
 \description{
-Write KinPairData object in .csv format (strips extra data)
+This function is part of suite of functions handling file import/export for kinship dispersal objects. Writing
+to .csv or .tsv formats strips most \code{KinPairData} & \code{KinPairSimulation} class metadata and leaves a delimited file
+containing ids, kinship category, geographical distance, & x & y coordinates for each simulated pair. (removes class attributes)
 }
+\seealso{
+Other export_functions: 
+\code{\link{kinpair_to_tibble}()},
+\code{\link{kinpair_to_tsv}()},
+\code{\link{write_kindata}()}
+}
+\concept{export_functions}

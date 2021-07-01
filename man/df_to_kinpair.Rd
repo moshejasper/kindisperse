@@ -2,7 +2,7 @@
 % Please edit documentation in R/import_kinpairs.R
 \name{df_to_kinpair}
 \alias{df_to_kinpair}
-\title{Convert dataframe or tibble to KinPairData class}
+\title{Convert dataframe or tibble to \code{\link{KinPairData}} class}
 \usage{
 df_to_kinpair(data, kinship = NULL, lifestage = NULL, lifecheck = TRUE)
 }
@@ -19,7 +19,11 @@ df_to_kinpair(data, kinship = NULL, lifestage = NULL, lifecheck = TRUE)
 returns valid \code{KinPairData} object
 }
 \description{
-Convert dataframe or tibble to KinPairData class
+This function at minimum requires the dataframe to contain a column titled 'distance' containing distances
+between kin pairs. It can optionally contain a column of kinship values 'kinship' as well as a column of lifestage values 'lifestage'.
+If the file contains more than one value in the kinship or lifestage columns (e.g. bot 'FS' and 'HS') - the corresponding function
+parameter must be set to pick a corresponding subset of dispersed pairs. where parameters are set in the absence of file columns,
+these values are assigned to the returned \code{KinPairData} object.
 }
 \examples{
 mydata <- tibble::tibble(
@@ -28,3 +32,11 @@ mydata <- tibble::tibble(
 )
 df_to_kinpair(mydata, kinship = "FS")
 }
+\seealso{
+Other import_functions: 
+\code{\link{csv_to_kinpair}()},
+\code{\link{read_kindata}()},
+\code{\link{tsv_to_kinpair}()},
+\code{\link{vector_to_kinpair}()}
+}
+\concept{import_functions}

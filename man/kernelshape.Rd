@@ -2,16 +2,36 @@
 % Please edit documentation in R/KinPairSimulation.R
 \name{kernelshape}
 \alias{kernelshape}
-\title{kindisperse - access kerneltype of KinPairSimulation object}
+\alias{kernelshape,KinPairSimulation-method}
+\title{Access kernel type of \code{\link{KinPairSimulation}} object}
 \usage{
 kernelshape(x)
+
+\S4method{kernelshape}{KinPairSimulation}(x)
 }
 \arguments{
 \item{x}{object of class \code{KinPairSimulation}}
+
+\item{KinPairSimulation}{object of class KinPairSimulation}
 }
 \value{
 \code{character} the shape parameter used in kernel simulation (if \code{kerneltype} is vgamma)
+
+\code{character} the shape parameter used in kernel simulation (if \code{kerneltype} is vgamma)
 }
 \description{
-kindisperse - access kerneltype of KinPairSimulation object
+Access kernel type of \code{\link{KinPairSimulation}} object
 }
+\section{Methods (by class)}{
+\itemize{
+\item \code{KinPairSimulation}: 
+}}
+
+\seealso{
+Other kpsmethods: 
+\code{\link{access_sigmas}},
+\code{\link{filter_methods}},
+\code{\link{kerneltype}()},
+\code{\link{simtype}()}
+}
+\concept{kpsmethods}
