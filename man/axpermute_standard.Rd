@@ -27,7 +27,8 @@ axpermute_standard(
   bmixcycle = NULL,
   acompcycle = NULL,
   bcompcycle = NULL,
-  output = "confs"
+  output = "confs",
+  override = FALSE
 )
 }
 \arguments{
@@ -76,6 +77,8 @@ axpermute_standard(
 \item{bcompcycle}{breeding cycle number of kin dispersal vector bcompvect. Must be a nonnegative integer. (0, 1, 2, ...). Represents the number of complete breeding cycles the sampled individual has undergone before the checkpoint, where the time between birth and first reproduction is coded as '0', that between first and second reproduction '1', etc. (default 0). Only use in spp. where there is likely to be a reasonable equivalence between breeding stages across a lifespan.}
 
 \item{output}{string denoting what kind of output to return. If 'confs', a vector of 95\% confidence intervals. if 'vect', a vector of all permutated axial value results}
+
+\item{override}{whether or not to override the default -1 cycle compatibility check (default FALSE) override in situations where you are confident e.g. a c(-1, -1) cycle FS or HS category is truly zeroed (& thus separated from later stages by a complete lifespan)}
 }
 \value{
 If output = 'confs' returns vector of 95\% confidence intervals (with mean).

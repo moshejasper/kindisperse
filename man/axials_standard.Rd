@@ -24,7 +24,8 @@ axials_standard(
   amixcycle = NULL,
   bmixcycle = NULL,
   acompcycle = NULL,
-  bcompcycle = NULL
+  bcompcycle = NULL,
+  override = FALSE
 )
 }
 \arguments{
@@ -67,6 +68,8 @@ axials_standard(
 \item{acompcycle}{breeding cycle number of kin dispersal vector acompvect. Must be a nonnegative integer. (0, 1, 2, ...). Represents the number of complete breeding cycles the sampled individual has undergone before the checkpoint, where the time between birth and first reproduction is coded as '0', that between first and second reproduction '1', etc. (default 0). Only use in spp. where there is likely to be a reasonable equivalence between breeding stages across a lifespan.}
 
 \item{bcompcycle}{breeding cycle number of kin dispersal vector bcompvect. Must be a nonnegative integer. (0, 1, 2, ...). Represents the number of complete breeding cycles the sampled individual has undergone before the checkpoint, where the time between birth and first reproduction is coded as '0', that between first and second reproduction '1', etc. (default 0). Only use in spp. where there is likely to be a reasonable equivalence between breeding stages across a lifespan.}
+
+\item{override}{whether or not to override the default -1 cycle compatibility check (default FALSE) override in situations where you are confident e.g. a c(-1, -1) cycle FS or HS category is truly zeroed (& thus separated from later stages by a complete lifespan)}
 }
 \value{
 Returns a numeric estimate of PO (intergenerational) dispersal kernel axial distribution.

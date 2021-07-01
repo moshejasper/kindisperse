@@ -54,6 +54,7 @@
 #' @param bmixcycle breeding cycle number of kin dispersal vector bmixvect. Must be a nonnegative integer. (0, 1, 2, ...). Represents the number of complete breeding cycles the sampled individual has undergone before the checkpoint, where the time between birth and first reproduction is coded as '0', that between first and second reproduction '1', etc. (default 0). Only use in spp. where there is likely to be a reasonable equivalence between breeding stages across a lifespan.
 #' @param acompcycle  breeding cycle number of kin dispersal vector acompvect. Must be a nonnegative integer. (0, 1, 2, ...). Represents the number of complete breeding cycles the sampled individual has undergone before the checkpoint, where the time between birth and first reproduction is coded as '0', that between first and second reproduction '1', etc. (default 0). Only use in spp. where there is likely to be a reasonable equivalence between breeding stages across a lifespan.
 #' @param bcompcycle  breeding cycle number of kin dispersal vector bcompvect. Must be a nonnegative integer. (0, 1, 2, ...). Represents the number of complete breeding cycles the sampled individual has undergone before the checkpoint, where the time between birth and first reproduction is coded as '0', that between first and second reproduction '1', etc. (default 0). Only use in spp. where there is likely to be a reasonable equivalence between breeding stages across a lifespan.
+#' @param override whether or not to override the default -1 cycle compatibility check (default FALSE) override in situations where you are confident e.g. a c(-1, -1) cycle FS or HS category is truly zeroed (& thus separated from later stages by a complete lifespan)
 #'
 #' @return Returns a numeric estimate of PO (intergenerational) dispersal kernel axial distribution.
 #' @export
@@ -66,7 +67,8 @@
 axials_standard <- function(avect, bvect, acat = NULL, bcat = NULL,
                             amix = FALSE, bmix = FALSE, amixcat = NULL, bmixcat = NULL, acomp = FALSE, bcomp = FALSE,
                             acompvect = NULL, bcompvect = NULL, acompcat = NULL, bcompcat = NULL, acycle = NULL,
-                            bcycle = NULL, amixcycle = NULL, bmixcycle = NULL, acompcycle = NULL, bcompcycle = NULL) {
+                            bcycle = NULL, amixcycle = NULL, bmixcycle = NULL, acompcycle = NULL, bcompcycle = NULL,
+                            override = FALSE) {
   if (is.KinPairData(avect)) {
     if (is.null(acat)) acat <- kinship(avect)
     if (is.null(acycle)) acycle <- breeding_cycle(avect)
@@ -108,8 +110,24 @@ axials_standard <- function(avect, bvect, acat = NULL, bcat = NULL,
   aphasetest <- aphase
   bphasetest <- bphase
 
-  aspan <- span_assigner(acat) + cycle_to_span(acycle)
-  bspan <- span_assigner(bcat) + cycle_to_span(bcycle)
+  aphase2 <- phaser_cycat(acat, acycle)
+  bphase2 <- phaser_cycat(bcat, bcycle)
+  if (! aphase2 == bphase2 & override == FALSE) {
+    stop("A and B vectors must have compatible cycle & kinship parameters!")
+  }
+  if (! aphase2 == bphase2 & bphase2 != 2){
+    warning("cycle compatibility check override applied yet vector B is not rooted at pedigree position c(-1, -1)!")
+  }
+  ### Eventually extend this section by (optionally) incorporating a formal dispersal model, to enable comparisons of e.g. pre-dispersed 1C & FS categories...
+    #if (! bphase2 == 2){
+    #  stop("A and B vectors must have compatible cycle & kinship parameters!") # eventually extend this to the alts
+    #}
+    #else {
+      # identify if bphase2 is true zero...
+
+    #}
+  aspan <- span_assigner_cycat(acat, acycle)
+  bspan <- span_assigner_cycat(bcat, bcycle)
   aspantest <- aspan
   bspantest <- bspan
   a_ax <- axials(avect)
@@ -128,7 +146,7 @@ axials_standard <- function(avect, bvect, acat = NULL, bcat = NULL,
     }
     amixphase <- phase_assigner(amixcat)
     aphasetest <- c(aphasetest, amixphase)
-    amixspan <- span_assigner(amixcat) + cycle_to_span(amixcycle)
+    amixspan <- span_assigner_cycat(amixcat, amixcycle)
     aspantest <- mean(c(aspantest, amixspan))
   }
   if (bmix == TRUE) {
@@ -144,7 +162,7 @@ axials_standard <- function(avect, bvect, acat = NULL, bcat = NULL,
     }
     bmixphase <- phase_assigner(bmixcat)
     bphasetest <- c(bphasetest, bmixphase)
-    bmixspan <- span_assigner(bmixcat) + cycle_to_span(bmixcycle)
+    bmixspan <- span_assigner_cycat(bmixcat, bmixcycle)
     bspantest <- mean(c(bspantest, bmixspan))
   }
 
@@ -164,7 +182,7 @@ axials_standard <- function(avect, bvect, acat = NULL, bcat = NULL,
     }
     acompphase <- phase_assigner(acompcat)
     aphasetest <- c(aphasetest, acompphase)
-    acompspan <- span_assigner(acompcat) + cycle_to_span(acompcycle)
+    acompspan <- span_assigner_cycat(acompcat, acompcycle)
     aspantest <- mean(c(aspantest, acompspan))
     acomp_ax <- axials(acompvect)
     a_ax <- axials_combine(c(a_ax, acomp_ax))
@@ -186,7 +204,7 @@ axials_standard <- function(avect, bvect, acat = NULL, bcat = NULL,
     }
     bcompphase <- phase_assigner(bcompcat)
     bphasetest <- c(bphasetest, bcompphase)
-    bcompspan <- span_assigner(bcompcat) + cycle_to_span(bcompcycle)
+    bcompspan <- span_assigner_cycat(bcompcat, bcompcycle)
     bspantest <- mean(c(bspantest, bcompspan))
     bcomp_ax <- axials(bcompvect)
     b_ax <- axials_combine(c(b_ax, bcomp_ax))
@@ -268,6 +286,7 @@ axials_standard <- function(avect, bvect, acat = NULL, bcat = NULL,
 #' @param acompcycle  breeding cycle number of kin dispersal vector acompvect. Must be a nonnegative integer. (0, 1, 2, ...). Represents the number of complete breeding cycles the sampled individual has undergone before the checkpoint, where the time between birth and first reproduction is coded as '0', that between first and second reproduction '1', etc. (default 0). Only use in spp. where there is likely to be a reasonable equivalence between breeding stages across a lifespan.
 #' @param bcompcycle  breeding cycle number of kin dispersal vector bcompvect. Must be a nonnegative integer. (0, 1, 2, ...). Represents the number of complete breeding cycles the sampled individual has undergone before the checkpoint, where the time between birth and first reproduction is coded as '0', that between first and second reproduction '1', etc. (default 0). Only use in spp. where there is likely to be a reasonable equivalence between breeding stages across a lifespan.
 #' @param output    string denoting what kind of output to return. If 'confs', a vector of 95% confidence intervals. if 'vect', a vector of all permutated axial value results
+#' @param override whether or not to override the default -1 cycle compatibility check (default FALSE) override in situations where you are confident e.g. a c(-1, -1) cycle FS or HS category is truly zeroed (& thus separated from later stages by a complete lifespan)
 #'
 #' @return If output = 'confs' returns vector of 95% confidence intervals (with mean).
 #' If output = 'vect' returns vector of individual axial estimates from each permutation
@@ -282,7 +301,7 @@ axpermute_standard <- function(avect = NULL, bvect = NULL, acat = NULL, bcat = N
                                amix = FALSE, bmix = FALSE, amixcat = NULL, bmixcat = NULL, acomp = FALSE, bcomp = FALSE,
                                acompvect = NULL, bcompvect = NULL, acompcat = NULL, bcompcat = NULL, acycle = NULL,
                                bcycle = NULL, amixcycle = NULL, bmixcycle = NULL, acompcycle = NULL, bcompcycle = NULL,
-                               output = "confs") {
+                               output = "confs", override = FALSE) {
   if (is.KinPairData(avect)) {
     if (is.null(acat)) acat <- kinship(avect)
     if (is.null(acycle)) acycle <- breeding_cycle(avect)
@@ -325,8 +344,24 @@ axpermute_standard <- function(avect = NULL, bvect = NULL, acat = NULL, bcat = N
   aphasetest <- aphase
   bphasetest <- bphase
 
-  aspan <- span_assigner(acat) + cycle_to_span(acycle)
-  bspan <- span_assigner(bcat) + cycle_to_span(bcycle)
+  aphase2 <- phaser_cycat(acat, acycle)
+  bphase2 <- phaser_cycat(bcat, bcycle)
+  if (! aphase2 == bphase2 & override == FALSE) {
+    stop("A and B vectors must have compatible cycle & kinship parameters!")
+  }
+  if (! aphase2 == bphase2 & bphase2 != 2){
+    warning("cycle compatibility check override applied yet vector B is not rooted at pedigree position c(-1, -1)!")
+  }
+  ### Eventually extend this section by (optionally) incorporating a formal dispersal model, to enable comparisons of e.g. pre-dispersed 1C & FS categories...
+  #if (! bphase2 == 2){
+  #  stop("A and B vectors must have compatible cycle & kinship parameters!") # eventually extend this to the alts
+  #}
+  #else {
+  # identify if bphase2 is true zero...
+
+  #}
+  aspan <- span_assigner_cycat(acat, acycle)
+  bspan <- span_assigner_cycat(bcat, bcycle)
   aspantest <- aspan
   bspantest <- bspan
 
@@ -359,7 +394,7 @@ axpermute_standard <- function(avect = NULL, bvect = NULL, acat = NULL, bcat = N
     }
     amixphase <- phase_assigner(amixcat)
     aphasetest <- c(aphasetest, amixphase)
-    amixspan <- span_assigner(amixcat) + cycle_to_span(amixcycle)
+    amixspan <- span_assigner_cycat(amixcat, amixcycle)
     aspantest <- mean(c(aspantest, amixspan))
   }
   if (bmix == TRUE) {
@@ -375,7 +410,7 @@ axpermute_standard <- function(avect = NULL, bvect = NULL, acat = NULL, bcat = N
     }
     bmixphase <- phase_assigner(bmixcat)
     bphasetest <- c(bphasetest, bmixphase)
-    bmixspan <- span_assigner(bmixcat) + cycle_to_span(bmixcycle)
+    bmixspan <- span_assigner_cycat(bmixcat, bmixcycle)
     bspantest <- mean(c(bspantest, bmixspan))
   }
 
@@ -395,7 +430,7 @@ axpermute_standard <- function(avect = NULL, bvect = NULL, acat = NULL, bcat = N
     }
     acompphase <- phase_assigner(acompcat)
     aphasetest <- c(aphasetest, acompphase)
-    acompspan <- span_assigner(acompcat) + cycle_to_span(acompcycle)
+    acompspan <- span_assigner_cycat(acompcat, acompcycle)
     aspantest <- mean(c(aspantest, acompspan))
     if (nsamp == "std") {
       acompnum <- length(acompvect)
@@ -425,7 +460,7 @@ axpermute_standard <- function(avect = NULL, bvect = NULL, acat = NULL, bcat = N
     }
     bcompphase <- phase_assigner(bcompcat)
     bphasetest <- c(bphasetest, bcompphase)
-    bcompspan <- span_assigner(bcompcat) + cycle_to_span(bcompcycle)
+    bcompspan <- span_assigner_cycat(bcompcat, bcompcycle)
     bspantest <- mean(c(bspantest, bcompspan))
     if (nsamp == "std") {
       bcompnum <- length(bcompvect)
