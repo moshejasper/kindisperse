@@ -145,12 +145,22 @@ setMethod("lifestage<-", "KinPairData", function(x, value) {
   x
 })
 
+#' @describeIn sampling_stage
+#'
+#' @param KinPairData object of class \code{KinPairData}
+#'
+#' @export
+#'
+#'
+setMethod("sampling_stage", "KinPairData", function(x) x@lifestage)
+
 #' @describeIn breeding_cycle
 #'
 #' @param KinPairData object of class \code{KinPairData}
 #'
 #' @export
 setMethod("breeding_cycle", "KinPairData", function(x) x@cycle)
+
 
 #' @describeIn KinPairData standard print method
 #'
