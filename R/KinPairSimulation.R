@@ -44,11 +44,13 @@ methods::setOldClass(c("tbl_df", "tbl", "data.frame"))
 #' @slot spacing numeric.     - FILTER: spacing used
 #' @slot samplenum numeric.   - FILTER: sample number used
 #' @slot sampledims numeric.  - FILTER: dimensions used
+#' @slot model \code{DispersalModel} - model of dispersal used to create object (with custom type)
 #'
 #' @return returns object of class \code{KinPairSimulation}
 #'
 #' @export
 #' @family kdclasses
+#' @include DispersalModel.R dispersal_model.R
 #'
 KinPairSimulation <- setClass("KinPairSimulation",
   slots = list(
@@ -57,7 +59,7 @@ KinPairSimulation <- setClass("KinPairSimulation",
     gravsigma = "numeric", ovisigma = "numeric", customsigma = "numeric", simdims = "numeric",
     lifestage = "character", cycle = "numeric", kernelshape = "numeric", call = "call", tab = "tbl_df",
     filtertype = "character", upper = "numeric", lower = "numeric",
-    spacing = "numeric", samplenum = "numeric", sampledims = "numeric"
+    spacing = "numeric", samplenum = "numeric", sampledims = "numeric", model = "DispersalModel"
   ),
   contains = "KinPairData"
 )
@@ -216,6 +218,16 @@ setGeneric("filtertype", function(x) standardGeneric("filtertype"))
 #' @export
 #'
 setGeneric("filtertype<-", function(x, value) standardGeneric("filtertype<-"))
+
+
+#' Access dispersal model of \code{\link{KinPairSimulation}} object
+#'
+#' @param x object of class \code{KinPairSimulation}
+#'
+#' @return returns an object of class \code{\link{DispersalModel}}
+#' @export
+#'
+setGeneric("get_dispersal_model", function(x) standardGeneric("get_dispersal_model"))
 
 ###############################################
 #' @name filter_methods
@@ -382,6 +394,14 @@ setMethod("simdims", "KinPairSimulation", function(x) x@simdims)
 #'
 #' @export
 setMethod("filtertype", "KinPairSimulation", function(x) x@filtertype)
+
+#' @describeIn get_dispersal_model
+#'
+#' @param KinPairSimulation object of class \code{KinPairSimulation}
+#'
+#' @export
+#'
+setMethod("get_dispersal_model", "KinPairSimulation", function(x) x@model)
 
 
 
@@ -600,6 +620,7 @@ setMethod(
 #' @param spacing numeric.       - FILTER: spacing used
 #' @param samplenum numeric.       - FILTER: sample number used
 #' @param sampledims numeric.       - FILTER: sample dimensions used
+#' @param model list - model information if custom simulation used to generate object
 #'
 #' @return Returns an object of class \code{KinPairSimulation}
 #' @export
@@ -626,7 +647,8 @@ setMethod(
            lower = NULL,
            spacing = NULL,
            samplenum = NULL,
-           sampledims = NULL) {
+           sampledims = NULL,
+           model = NULL) {
     if (!is.null(kinship)) .Object@kinship <- kinship else .Object@kinship <- "UN"
     if (!is.null(lifestage)) .Object@lifestage <- lifestage else .Object@lifestage <- "unknown"
     if (!is.null(simtype)) .Object@simtype <- simtype else .Object@simtype <- NA_character_
@@ -647,6 +669,7 @@ setMethod(
     if (!is.null(spacing)) .Object@spacing <- spacing else .Object@spacing <- NA_real_
     if (!is.null(samplenum)) .Object@samplenum <- samplenum else .Object@samplenum <- NA_real_
     if (!is.null(sampledims)) .Object@sampledims <- sampledims else .Object@sampledims <- NA_real_
+    if (! is.null(model)) .Object@model <- model else .Object@model <- dispersal_model()
 
     if (!is.null(data)) {
       if (is.data.frame(data) & !is_tibble(data)) {
@@ -717,6 +740,7 @@ setMethod(
 #' @param spacing numeric.       - FILTER: spacing used
 #' @param samplenum numeric.       - FILTER: sample number used
 #' @param sampledims numeric.       - FILTER: sample dimensions used
+#' @param model list - model information if custom simulation used to generate object
 #'
 #' @return returns an object of class \code{KinPairSimulation}.
 #' @export
@@ -743,7 +767,8 @@ kin_pair_simulation <- function(data = NULL,
                               lower = NULL,
                               spacing = NULL,
                               samplenum = NULL,
-                              sampledims = NULL) {
+                              sampledims = NULL,
+                              model = NULL) {
   new("KinPairSimulation",
     data = data,
     kinship = kinship,
@@ -765,7 +790,8 @@ kin_pair_simulation <- function(data = NULL,
     lower = lower,
     spacing = spacing,
     samplenum = samplenum,
-    sampledims = sampledims
+    sampledims = sampledims,
+    model = model
   )
 }
 
@@ -791,6 +817,7 @@ is.KinPairSimulation <- function(x) {
 #' (sampled as an adult during oviposition - essentially one lifespan later than 'immature')
 #' @param kernelshape numeric. Value of shape parameter for simulated kernel if kernel requires one (e.g. vgamma kernel).
 #' @param call  call object. Use to pass the system call that led to the generation of this class. (via sys.call)
+#' @param model DispersalModel - model information passed from simulation function
 #'
 #' @return Returns a \code{KinPairSimulation} Class object with simtype set to 'simple' and relevant fields included.
 #' @export
@@ -805,12 +832,13 @@ is.KinPairSimulation <- function(x) {
 #'   posigma = 38, lifestage = "immature"
 #' )
 KinPairSimulation_simple <- function(data = NULL, kinship = NULL, kerneltype = NULL, posigma = NULL,
-                                     simdims = NULL, lifestage = NULL, kernelshape = NULL, call = NULL) {
+                                     simdims = NULL, lifestage = NULL, kernelshape = NULL, call = NULL, model = NULL) {
   if (is.null(call)) {
     call <- sys.call()
   }
   return(kin_pair_simulation(data = data, kinship = kinship, simtype = "simple", kerneltype = kerneltype,
-                           posigma = posigma, simdims = simdims, lifestage = lifestage, kernelshape = kernelshape, cycle = 0, call = call))
+                           posigma = posigma, simdims = simdims, lifestage = lifestage, kernelshape = kernelshape, cycle = 0, call = call,
+                           model = model))
 }
 
 
@@ -828,6 +856,7 @@ KinPairSimulation_simple <- function(data = NULL, kinship = NULL, kerneltype = N
 #' (sampled as an adult during oviposition - essentially one lifespan later than 'immature')
 #' @param kernelshape numeric. Value of shape parameter for simulated kernel if kernel requires one (e.g. vgamma kernel).
 #' @param call  call object. Use to pass the system call that led to the generation of this class. (via sys.call)
+#' @param model DispersalModel - model information passed from simulation function
 #'
 #' @return Returns a \code{KinPairSimulation} Class object with simtype set to 'composite' and relevant fields included.
 #' @export
@@ -842,13 +871,15 @@ KinPairSimulation_simple <- function(data = NULL, kinship = NULL, kerneltype = N
 #'   initsigma = 15, breedsigma = 25, gravsigma = 20, ovisigma = 10, lifestage = "immature"
 #' )
 KinPairSimulation_composite <- function(data = NULL, kinship = NULL, kerneltype = NULL, initsigma = NULL, breedsigma = NULL,
-                                        gravsigma = NULL, ovisigma = NULL, simdims = NULL, lifestage = NULL, kernelshape = NULL, call = NULL) {
+                                        gravsigma = NULL, ovisigma = NULL, simdims = NULL, lifestage = NULL, kernelshape = NULL, call = NULL,
+                                        model = NULL) {
   if (is.null(call)) {
     call <- sys.call()
   }
   return(kin_pair_simulation(
     data = data, kinship = kinship, simtype = "composite", kerneltype = kerneltype, initsigma = initsigma, breedsigma = breedsigma,
-    gravsigma = gravsigma, ovisigma = ovisigma, simdims = simdims, lifestage = lifestage, kernelshape = kernelshape, cycle = 0, call = call
+    gravsigma = gravsigma, ovisigma = ovisigma, simdims = simdims, lifestage = lifestage, kernelshape = kernelshape, cycle = 0, call = call,
+    model = model
   ))
 }
 
@@ -866,6 +897,7 @@ KinPairSimulation_composite <- function(data = NULL, kinship = NULL, kerneltype 
 #' the number of complete breeding cycles each simulated individual has undergone before the sampling point, where the time between
 #' birth and first reproduction is coded as '0', that between first and second reproduction '1', etc. (default 0)
 #' @param call  call object. Use to pass the system call that led to the generation of this class. (via sys.call)
+#' @param model DispersalModel - model information passed from simulation function
 #'
 #' @return Returns a \code{KinPairSimulation} Class object with simtype set to 'custom' and relevant fields included.
 #' @export
@@ -882,11 +914,11 @@ KinPairSimulation_composite <- function(data = NULL, kinship = NULL, kerneltype 
 #' )
 KinPairSimulation_custom <- function(data = NULL, kinship = NULL, kerneltype = NULL, customsigma = NULL,
                                      simdims = NULL, lifestage = NULL, kernelshape = NULL, cycle = NULL,
-                                     call = NULL) {
+                                     call = NULL, model = NULL) {
   if (is.null(call)) {
     call <- sys.call()
   }
   return(kin_pair_simulation(data = data, kinship = kinship, simtype = "custom", kerneltype = kerneltype,
                            customsigma = customsigma, simdims = simdims, lifestage = lifestage,
-                           kernelshape = kernelshape, cycle = cycle, call = call))
+                           kernelshape = kernelshape, cycle = cycle, call = call, model = model))
 }

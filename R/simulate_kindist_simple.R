@@ -230,10 +230,11 @@ simulate_kindist_simple <- function(nsims = 100, sigma = 125, dims = 100, method
   )
   if (method == "vgamma") kernelshape <- shape
   else kernelshape <- NULL
+  model <- dispersal_model(posigma = sigma)
 
   return(KinPairSimulation_simple(
     data = tab, kinship = kinship, kerneltype = method,
     posigma = sigma, simdims = dims, lifestage = lifestage,
-    kernelshape = kernelshape, call = sys.call()
+    kernelshape = kernelshape, call = sys.call(), model = model
   ))
 }

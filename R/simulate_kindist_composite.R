@@ -171,7 +171,7 @@ simulate_kindist_composite <- function(nsims = 100, initsigma = 100, breedsigma 
 
   # test span1
 
-  if (kinship %in% c("FS", "HS", "PO", "AV", "HAV", "GG", "GAV", "GHAV", "GGG")) {
+  if (kinship %in% c("FS", "HS", "PO", "AV", "HAV", "GG", "GAV", "HGAV", "GGG")) {
     span1 <- 0
   }
   if (kinship %in% c("1C", "H1C", "1C1", "H1C1")) {
@@ -187,7 +187,7 @@ simulate_kindist_composite <- function(nsims = 100, initsigma = 100, breedsigma 
   if (kinship %in% c("AV", "HAV", "1C", "H1C", "PO")) {
     span2 <- 1
   }
-  if (kinship %in% c("GAV", "GHAV", "GG", "1C1", "H1C1", "2C", "H2C")) {
+  if (kinship %in% c("GAV", "HGAV", "GG", "1C1", "H1C1", "2C", "H2C")) {
     span2 <- 2
   } # an issue with PO... probably gonna have to make a special relation class...
   if (kinship %in% c("GGG")) {
@@ -246,10 +246,14 @@ simulate_kindist_composite <- function(nsims = 100, initsigma = 100, breedsigma 
   if (method == "vgamma") kernelshape <- shape
   else kernelshape <- NULL
 
+  if (lifestage == "immature") cycle <- c(0, 0)
+  if (lifestage == "ovipositional") cycle <- c(1, 1)
+  model <- dispersal_model(init = initsigma, breed = breedsigma, grav = gravsigma, ovi = ovisigma,
+                           .FS = "ovi", .HS = "breed", .sampling_stage = "ovi", .cycle = cycle)
   return(KinPairSimulation_composite(tab,
     kinship = kinship, kerneltype = method, initsigma = initsigma,
     breedsigma = breedsigma, gravsigma = gravsigma, ovisigma = ovisigma,
     simdims = dims, lifestage = lifestage, kernelshape = kernelshape,
-    call = sys.call()
+    call = sys.call(), model = model
   ))
 }

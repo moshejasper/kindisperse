@@ -12,7 +12,8 @@ KinPairSimulation_simple(
   simdims = NULL,
   lifestage = NULL,
   kernelshape = NULL,
-  call = NULL
+  call = NULL,
+  model = NULL
 )
 }
 \arguments{
@@ -32,6 +33,8 @@ KinPairSimulation_simple(
 \item{kernelshape}{numeric. Value of shape parameter for simulated kernel if kernel requires one (e.g. vgamma kernel).}
 
 \item{call}{call object. Use to pass the system call that led to the generation of this class. (via sys.call)}
+
+\item{model}{DispersalModel - model information passed from simulation function}
 }
 \value{
 Returns a \code{KinPairSimulation} Class object with simtype set to 'simple' and relevant fields included.
