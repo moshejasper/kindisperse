@@ -17,11 +17,13 @@
   fs = NULL,
   hs = NULL,
   sampling_stage = NULL,
-  cycle = NULL
+  cycle = NULL,
+  breeding_stage = NULL,
+  visible_stage = NULL
 )
 }
 \arguments{
-\item{object}{object of class \code{DispersalModel}}
+\item{object}{an object of class \code{DispersalModel}}
 
 \item{.Object}{object to be constructed into DispersalModel class}
 
@@ -38,6 +40,19 @@
 \item{cycle}{non-negative integer. Breeding cycle numbers of dispersed kin to be modeled.  Represents
 the number of complete breeding cycles each simulated individual has undergone before the sampling point, where the time between
 birth and first reproduction is coded as '0', that between first and second reproduction '1', etc. (default 0)}
+
+\item{breeding_stage}{(character) - stage in the cycle at which breeding occurs. Must correspond to a previously described cycle
+stage name. By default, equated with the .HS stage. This stage corresponds to the \strong{generation} of next-generation individuals;
+the .FS & .HS stages correspond to their separation. Needed for situations where individuals are sampled before they separate from the parent.
+Modify if the modeled .HS gamete dispersal event does not correspond to the initial breeding event.}
+
+\item{visible_stage}{(character) - stage in the cycle at the \strong{beginning} of which individuals are visible to the study for
+sampling rather than their parents (i.e. the beginning point of \code{cycle 0}). By default, equated with the \code{fs} stage. This parameter
+determines how many dispersal stages individuals have gone through before they are sampled - if \code{.sampling_stage} occurs just
+\strong{after} \code{.visible_stage}, the sampled individuals will have dispersed through only a small amount of the breeding cycle. if
+\code{.sampling_stage} occurs just \strong{before} \code{.visible_stage}, the sampled individuals will have dispersed throughout most
+of the breeding cycle before being sampled. If \code{.cycle} is set to \code{-1}, dispersal stages between breeding & visibility
+can be accessed.}
 
 \item{DispersalModel}{an object of class DispersalModel}
 }
@@ -76,10 +91,10 @@ pouch. The \code{\link{fs}} and \code{\link{hs}} slots & accessor functions enab
 defined life phase. Similarly, the \code{\link{sampling_stage}} slot & method allow the sampling point to be set to correspond to any
 phase of the defined breeding cycle.
 
-The final parameter stored in this object is the breeding cycle number \code{cycle}, accessed by the \code{\link{breeding_cycle}} method.
+The next parameter stored in this object is the breeding cycle number \code{cycle}, accessed by the \code{\link{breeding_cycle}} method.
 This parameter enables the treatment of species that undergo multiple breeding cycles in one lifetime. This is defined as a length two
 vector describing the number of breeding cycles undergone by the final descendant of branch 1 and branch 2 of the dispersal pedigree before
-their sampling. (where branch one is the 'senior' and branch two the 'junior' member of the pedigree) (so uncle is branch one, nephew branch
+their sampling (or after branching in the case of PO). (where branch one is the 'senior' and branch two the 'junior' member of the pedigree) (so uncle is branch one, nephew branch
 two, grandmother branch one, granddaughter branch two, etc.). For each member of the resulting kin pair, the cycle number represents the
 number of complete breeding cycles each individual has undergone before the sampling point, where the time between birth and first
 reproduction is coded as '0', that between first and second reproduction '1', etc. This enables an application of the simulation
@@ -89,6 +104,10 @@ Note that this 'breeding cycle' approach is only applicable in situations where 
 occurs in the first 'juvenile' breeding cycle and that which occurs between later breeding cycles. This parameter is implemented here, but it
 will often be more productive to implement it instead as a parameter of the \code{\link{simulate_kindist_custom}} function (the cycle parameter
 there if set overrides whatever was defined within this object)
+
+The final parameter stored in this object is the breeding stage, \code{breeding_stage}. This describes the stage at which the
+descendant individuals are generated (as opposed to \code{fs} & \code{hs}, which describe the point at which they are dispersed
+from the parent)
 }
 \section{Methods (by generic)}{
 \itemize{
@@ -113,6 +132,19 @@ there if set overrides whatever was defined within this object)
 \item{\code{cycle}}{non-negative integer. Breeding cycle numbers of dispersed kin to be modeled.  Represents
 the number of complete breeding cycles each individual has undergone before the sampling point, where the time between
 birth and first reproduction is coded as '0', that between first and second reproduction '1', etc. (default 0)}
+
+\item{\code{breeding_stage}}{(character) - stage in the cycle at which breeding occurs. Must correspond to a previously described cycle
+stage name. By default, equated with the .HS stage. This stage corresponds to the \strong{generation} of next-generation individuals;
+the .FS & .HS stages correspond to their separation. Needed for situations where individuals are sampled before they separate from the parent.
+Modify if the modeled .HS gamete dispersal event does not correspond to the initial breeding event.}
+
+\item{\code{visible_stage}}{(character) - stage in the cycle at the \strong{beginning} of which individuals are visible to the study for
+sampling rather than their parents (i.e. the beginning point of \code{cycle 0}). By default, equated with the \code{fs} stage. This parameter
+determines how many dispersal stages individuals have gone through before they are sampled - if \code{.sampling_stage} occurs just
+\strong{after} \code{.visible_stage}, the sampled individuals will have dispersed through only a small amount of the breeding cycle. if
+\code{.sampling_stage} occurs just \strong{before} \code{.visible_stage}, the sampled individuals will have dispersed throughout most
+of the breeding cycle before being sampled. If \code{.cycle} is set to \code{-1}, dispersal stages between breeding & visibility
+can be accessed.}
 }}
 
 \seealso{
