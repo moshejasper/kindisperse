@@ -46,7 +46,7 @@ This package supplements these papers by supplying methods for (a) importing and
 
 # 2. Installation
 
-You can install the released version of kindisperse from [CRAN](https://CRAN.R-project.org) with: (in future. this doesn't currently exist)
+You can install the released version of kindisperse from [CRAN](https://CRAN.R-project.org) with: 
 
 ``` r
 install.packages("kindisperse")
