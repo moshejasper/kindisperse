@@ -12,6 +12,7 @@ KINDISPERSE 0.10.1
     -   [4.3 Estimating dispersal](#43-estimating-dispersal)
     -   [4.4 Adapting to a new species:
         *Antechinus*](#44-adapting-to-a-new-species-antechinus)
+-   [5. References](#5-references)
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 <!-- badges: start -->
@@ -27,23 +28,6 @@ and time. Assessing the dispersal of organisms within an area is an
 important component of estimating risks from invasive species, planning
 pest management operations, and evaluating conservation strategies for
 threatened species.
-
-Assessing the dispersal of small, abundant and short-lived animals such
-as insects has traditionally been more difficult than for animals that
-can be easily tagged. Responding to this challenge, researchers have
-developed various methods based around mark-release-recapture that mark
-the organisms with dyes, paint, or chemical tags, before releasing the
-individuals and in various ways measuring the number of recaptures.
-
-Such methods suffer the limitations of requiring manipulation of the
-same individuals in which dispersal is being assessed, are
-labour-intensive when conducted across a large enough area to be
-informative, and typically are not estimates of true intergenerational
-dispersal (which is measured life-stage to life-stage, e.g. from the egg
-of the parent to the egg of its offspring). Such life-stage to
-life-stage estimates are important as they are readily interpretable
-within established intergenerational analytic frameworks such as
-Wright’s neighbourhood size.
 
 Leveraging decreases in sequencing costs, out new method instead
 estimates dispersal from the spatial distribution of close-kin. This
@@ -70,7 +54,7 @@ shape or kurtosis (kappa), representing the fourth moment of the kernel.
 
 In the case of an insect like the mosquito, the most basic
 intergenerational kernel, the lifespan or parent-offspring kernel,
-reflects all dispersal and breeding processes connecting (e.g.) the
+reflects all dispersal and breeding processes connecting e.g. the
 immature (egg, larval, pupal) location of a parent to the immature
 location of its offspring. However, this kernel can be combined with
 additional breeding, dispersal and sampling events to produce other,
@@ -103,10 +87,9 @@ dispersal using close-kin recaptures must find strategies to decompose
 the extraneous spatial and breeding components affecting the kernels,
 and ultimately re-express dispersal in terms of an axial sigma - that
 aspect of dispersal which operates within one dimension across a
-two-dimensional space. This is the sigma component relied upon by
-[Wright (1946)](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1209315/)
-for isolation by distance , and which is reflected in estimations of
-neighbourhood area.
+two-dimensional space. This is the sigma component relied upon by Wright
+(1946) for isolation by distance , and which is reflected in estimations
+of neighbourhood area.
 
 The method we have developed relies upon the fact that different kinship
 categories reflect different but related underlying intergenerational
@@ -129,13 +112,12 @@ immatures (one cycle), full sibling immatures to second cousin immatures
 (two cycles), or even (for mosquitoes) full sibling immatures to second
 cousin ovipositing adults (three cycles).
 
-Further details can be found in [Jasper et
-al. (2019)](https://doi.org/10.1111/1755-0998.13043) “A genomic approach
-to inferring kinship reveals limited intergenerational dispersal in the
-yellow fever mosquito”.
+Further details can be found in Jasper et al. (2019), “A genomic
+approach to inferring kinship reveals limited intergenerational
+dispersal in the yellow fever mosquito.”
 
 This package supplements these papers by supplying methods for (a)
-importing and exporting information about distances & kinship
+importing and exporting information about distances and kinship
 relationships for pairs of individuals, (b) estimating the axial
 distribution (axial sigma for dispersal or position distributions) from
 empirical distributions of kin-pairs, and (c) estimating the
@@ -144,7 +126,7 @@ sigma) that underlies the distributions of multiple phased kin
 categories. This package also implements several simulation tools for
 further exploring and testing the properties of intergenerational
 dispersal kernels, as well as to assist in designing experiment layouts
-& sampling schemes. Finally, for ease of use, the package supplies an
+and sampling schemes. Finally, for ease of use, the package supplies an
 integrated shiny app which also implements the vast majority of package
 functionality in a user-friendly interface.
 
@@ -314,13 +296,13 @@ simulate_kindist_simple(nsims = 5, sigma = 100, method = "Gaussian", kinship = "
 #> 
 #> tab
 #> # A tibble: 5 x 8
-#>   id1   id2   kinship distance    x1    y1    x2     y2
-#>   <chr> <chr> <chr>      <dbl> <dbl> <dbl> <dbl>  <dbl>
-#> 1 1a    1b    PO          80.0  63.0  85.7  30.0   12.9
-#> 2 2a    2b    PO         317.   93.0  13.6 161.  -296. 
-#> 3 3a    3b    PO         105.   73.9  57.9  87.8  162. 
-#> 4 4a    4b    PO          30.1  79.7  49.6  75.8   79.4
-#> 5 5a    5b    PO         192.   22.3  84.1 214.    88.8
+#>   id1   id2   kinship distance    x1    y1     x2     y2
+#>   <chr> <chr> <chr>      <dbl> <dbl> <dbl>  <dbl>  <dbl>
+#> 1 1a    1b    PO         155.   88.7  4.60  -21.1 -105. 
+#> 2 2a    2b    PO         232.   63.3 19.2  -145.   -82.5
+#> 3 3a    3b    PO         257.   14.5 77.8  -235.    18.0
+#> 4 4a    4b    PO         134.   50.0 86.1   -79.2  121. 
+#> 5 5a    5b    PO          65.4  96.9 79.7   100.    14.4
 #> -----------------------------------
 ```
 
@@ -342,9 +324,9 @@ the case of some mosquitoes). These categories (and any others
 containing a full-sib relationship buried in the pedigree) are thus of
 the ‘full-sibling’ or ‘FS’ phase. Half siblings, in mosquitoes (which
 this package is modelled on) are expected to be due to having the same
-father & separate mothers: the last contribution of the father’s
+father and separate mothers: the last contribution of the father’s
 dispersal is at the breeding stage, so the ‘HS’ phase are differentiated
-by the breeding, gravid, & oviposition phases, but share in common the
+by the breeding, gravid, and oviposition phases, but share in common the
 initial phase. The parent-offspring ‘PO’ phase, on the other hand, share
 all (or none) of the component dispersal distributions.
 
@@ -366,13 +348,13 @@ simulate_kindist_composite(nsims = 5, initsigma = 50, breedsigma = 30, gravsigma
 #> 
 #> tab
 #> # A tibble: 5 x 8
-#>   id1   id2   kinship distance     x1     y1    x2     y2
-#>   <chr> <chr> <chr>      <dbl>  <dbl>  <dbl> <dbl>  <dbl>
-#> 1 1a    1b    H1C        158.   58.7   101.   48.1  -56.7
-#> 2 2a    2b    H1C        339.  325.   -119.  124.   154. 
-#> 3 3a    3b    H1C        216.   81.3   250.  165.    50.7
-#> 4 4a    4b    H1C         90.8  19.8  -111.  101.  -151. 
-#> 5 5a    5b    H1C        352.   -6.27   43.3 343.    87.3
+#>   id1   id2   kinship distance     x1    y1    x2     y2
+#>   <chr> <chr> <chr>      <dbl>  <dbl> <dbl> <dbl>  <dbl>
+#> 1 1a    1b    H1C         16.3   4.02 135.   17.3  144. 
+#> 2 2a    2b    H1C        207.  -18.8  -38.9  90.2 -215. 
+#> 3 3a    3b    H1C        197.  -21.1   49.0  26.4 -143. 
+#> 4 4a    4b    H1C         74.4  -3.60  56.7  46.2  112. 
+#> 5 5a    5b    H1C        198.   90.6   63.3 -60.0  -65.0
 #> -----------------------------------
 ```
 
@@ -381,12 +363,12 @@ enables the simulation of dispersal in organisms with breeding cycles
 different to the original mosquito species this package was modeled for.
 These simulations take a model object (of class `DispersalModel`,
 generated with the function `dispersal_model()`) which contains detailed
-information about breeding phases, the full sibling (FS) & half sibling
-(HS) branch point, the sampling point, and further optional parameters
-defining the accessible breeding cycle more carefully. We illustrate
-this functions’s use in the context of implementing kindisperse in a new
-species subsequently, but an initial example is given here. First, we
-generate a custom dispersal model:
+information about breeding phases, the full sibling (FS) and half
+sibling (HS) branch point, the sampling point, and further optional
+parameters defining the accessible breeding cycle more carefully. We
+illustrate this functions’s use in the context of implementing
+kindisperse in a new species subsequently, but an initial example is
+given here. First, we generate a custom dispersal model:
 
 ``` r
 dmodel <- dispersal_model(juvenile = 50, breeding = 40, gestation = 30, .FS = "juvenile", .HS = "breeding", .sampling_stage = "gestation")
@@ -421,13 +403,13 @@ simulate_kindist_custom(nsims = 5, model = dmodel, kinship = "PO")
 #> 
 #> tab
 #> # A tibble: 5 x 8
-#>   id1   id2   kinship distance    x1    y1      x2     y2
-#>   <chr> <chr> <chr>      <dbl> <dbl> <dbl>   <dbl>  <dbl>
-#> 1 1a    1b    PO          43.8 61.1   94.9  104.   104.  
-#> 2 2a    2b    PO         251.  71.6   34.6 -171.   -31.6 
-#> 3 3a    3b    PO         108.  89.9   52.4   -7.00   4.80
-#> 4 4a    4b    PO         120.   9.22  37.3   12.7  -83.1 
-#> 5 5a    5b    PO          37.9 84.6   90.3  109.   119.  
+#>   id1   id2   kinship distance      x1    y1    x2    y2
+#>   <chr> <chr> <chr>      <dbl>   <dbl> <dbl> <dbl> <dbl>
+#> 1 1a    1b    PO         123.  59.6     37.0  19.6 154. 
+#> 2 2a    2b    PO         101.   0.0502  45.0  47.6 135. 
+#> 3 3a    3b    PO         106.  76.8     76.5  63.4 -29.1
+#> 4 4a    4b    PO          51.1 45.8     77.7  81.3 114. 
+#> 5 5a    5b    PO          19.3 83.4     87.1  93.3  70.5
 #> -----------------------------------
 ```
 
@@ -437,7 +419,7 @@ This is done via another function, `sample_kindist()`, and enables the
 examination of how field sampling conditions could bias the estimation
 of axial sigma. It works with the `KinPairSimulation` or `KinPairData`
 classes and filters based on the study area size, number of kin expected
-to be found, & trap spacing. It is demonstrated below.
+to be found, and trap spacing. It is demonstrated below.
 
 ``` r
 compsim <- simulate_kindist_composite(nsims = 100000, kinship = "H2C")
@@ -469,33 +451,33 @@ sample_kindist(compsim, upper = 1000, lower = 200, spacing = 50, n = 25)
 #> 
 #> tab
 #> # A tibble: 25 x 8
-#>    id1    id2    kinship distance      x1     y1     x2     y2
-#>    <chr>  <chr>  <chr>      <dbl>   <dbl>  <dbl>  <dbl>  <dbl>
-#>  1 84847a 84847b H2C          425    6.10  221.  -384.    23.0
-#>  2 82579a 82579b H2C          275 -206.    -43.0   74.4   31.6
-#>  3 7909a  7909b  H2C          675  256.    337.  -186.  -156. 
-#>  4 40146a 40146b H2C          475 -137.    261.   123.  -111. 
-#>  5 37722a 37722b H2C          425  320.    -39.8  164.   338. 
-#>  6 87502a 87502b H2C          325  171.    178.  -140.   106. 
-#>  7 41499a 41499b H2C          325   85.4   -55.2  119.   244. 
-#>  8 14452a 14452b H2C          325 -170.    238.   150.   115. 
-#>  9 56766a 56766b H2C          325   81.0  -231.   367.  -339. 
-#> 10 64761a 64761b H2C          275   -5.57  230.   257.   273. 
+#>    id1    id2    kinship distance     x1     y1     x2       y2
+#>    <chr>  <chr>  <chr>      <dbl>  <dbl>  <dbl>  <dbl>    <dbl>
+#>  1 74011a 74011b H2C          425  429.   -1.42  -10.5   21.0  
+#>  2 13401a 13401b H2C          275  213.  358.    349.    95.4  
+#>  3 90700a 90700b H2C          425   52.6 -82.8   463.  -109.   
+#>  4 78087a 78087b H2C          225  -65.0 181.    165.   165.   
+#>  5 57698a 57698b H2C          375   95.3 101.   -264.   -26.1  
+#>  6 13948a 13948b H2C          425 -126.  312.    270.   103.   
+#>  7 9955a  9955b  H2C          325 -239.  268.    -30.9   -0.872
+#>  8 95714a 95714b H2C          675 -211.  358.    433.   150.   
+#>  9 45206a 45206b H2C          325  301.  -28.3   211.   287.   
+#> 10 15410a 15410b H2C          225   55.3  86.6   173.  -118.   
 #> # ... with 15 more rows
 #> -----------------------------------
 ```
 
 ## 4.2 Data Management
 
-### 4.2.1 Reading & writing files
+### 4.2.1 Reading and writing files
 
-Files can be loaded and saved to & from three separate formats: .csv and
-.tsv (via functions `csv_to_kinpair()`, `tsv_to_kinpair()`, or to save,
-`kinpair_to_csv()` & `kinpair_to_tsv()`, as well as the package-specific
-.kindata format which wraps an rds file storing package objects (via
-functions `read_kindata()` and `write_kindata()`). These files read to
-or save from an object of class `KinPairData` (including simulation
-objects of class `KinPairSimulation`).
+Files can be loaded and saved to and from three separate formats: .csv
+and .tsv (via functions `csv_to_kinpair()`, `tsv_to_kinpair()`, or to
+save, `kinpair_to_csv()` and `kinpair_to_tsv()`, as well as the
+package-specific .kindata format which wraps an rds file storing package
+objects (via functions `read_kindata()` and `write_kindata()`). These
+files read to or save from an object of class `KinPairData` (including
+simulation objects of class `KinPairSimulation`).
 
 .csv or equivalent files used should have a single column with the
 header ‘distance’ that contains the geographical distances between kin
@@ -565,9 +547,9 @@ dispersal event governed by the kernel (e.g. the distance between a
 parent and their offspring at the equivalent lifestage, such as both as
 eggs). For slightly more complex situations, such as full siblings,
 where the distances between them result from two or more draws from the
-**same** underlying distribution (ovipositing parent to offspring \#1,
+same underlying distribution (ovipositing parent to offspring \#1,
 ovipositing parent to offspring \#2), the value of `composite` can be
-adjusted to reflect the number of such symmetrical component events(for
+adjusted to reflect the number of such symmetrical component events (for
 this specific case, you can also use `axials_norm()`). (e.g. the
 great-grandparent to great-grandchild category, ‘GGG’ is a combination
 of three draws from the PO distribution, and thus would take
@@ -576,13 +558,13 @@ of three draws from the PO distribution, and thus would take
 ``` r
 paroff <- simulate_kindist_simple(nsims = 1000, sigma = 75, kinship = "PO")
 axials(paroff)
-#> [1] 74.70879
+#> [1] 74.30846
 ```
 
 ``` r
 fullsibs <- simulate_kindist_composite(nsims = 10000, ovisigma = 25, kinship = "FS")
 axials(fullsibs, composite = 2)
-#> [1] 25.14156
+#> [1] 24.89536
 ```
 
 Various auxillary functions exist to further manipulate axial distances
@@ -591,8 +573,8 @@ or averaging or decomposition of axial sigma values representing
 different distributions. These include `axials_decompose()` (divides
 into component parts as in the composite option above), `axials_add()`
 (adds two distributions together, e.g. FS + FS + PO + PO = 1C),
-`axials_combine()` (mixes two distributions together equally, e.g. 1C &
-H1C becomes the distribution of an even mix of both), and
+`axials_combine()` (mixes two distributions together equally, e.g. 1C
+and H1C becomes the distribution of an even mix of both), and
 `axials_subtract()` subtracts a smaller distribution from a greater
 distribution to find the residual distribution (e.g. GG - PO = PO;
 FS(immature) - FS(ovipositional) = PO). For confidence intervals, there
@@ -615,12 +597,12 @@ this equation requires knowing representative spatial distributions of
 at least two **phased** kinship classes that are separated by at least
 one complete lifespan. In some cases, this phased requirement can be met
 by compositing two known distributions to approximate the distribution
-of a mixed category (e.g. mixing FS & HS categories to create a
+of a mixed category (e.g. mixing FS and HS categories to create a
 composited category that can be compared to an undistinguishe mixture of
-1C & H1C individuals).
+1C and H1C individuals).
 
 The function works by subtracting out the phased component of the
-distributions (e.g. the additional oviposition present in FS & 1C)
+distributions (e.g. the additional oviposition present in FS and 1C)
 leaving the residual lifespan components, then decomposing these down to
 a single span. When bootstrapped as in the `axpermute_standard()`
 function, these equations output the 95% confidence intervals of the
@@ -650,7 +632,7 @@ po_sigma
 Here we have set up a baseline of the theoretical value of the
 intergenerational kernel (axial) sigma for comparison below.
 
-First, a simple example (full sibs & first cousins) - note that the
+First, a simple example (full sibs and first cousins) - note that the
 larger value must be inputted first, i.e. as `avect` in the equation.
 Because they are simulated objects, categories don’t need to be
 supplied.
@@ -666,14 +648,14 @@ fullcous <- simulate_kindist_composite(nsims = 75, initsigma = init, breedsigma 
 
 axpermute_standard(fullcous, fullsibs)
 #>      2.5%      mean     97.5% 
-#>  86.77753  97.92892 108.50328
+#>  95.77087 109.33109 122.46380
 ```
 
 As we can see, the C.I. neatly brackets the actual axial value, though
 with fairly large wings due to the small sample size. Now we set up a
-more complex case, involving a mixture of full & half cousins and a
-compensating compositing of full & half siblings (this will involve some
-data-wrangling):
+more complex case, involving a mixture of full and half cousins and a
+compensating compositing of full and half siblings (this will involve
+some data-wrangling):
 
 ``` r
 # Set up new distributions
@@ -681,7 +663,7 @@ halfsibs <- simulate_kindist_composite(nsims = 75, initsigma = init, breedsigma 
 
 halfcous <- simulate_kindist_composite(nsims = 75, initsigma = init, breedsigma = brd, gravsigma = grv, ovisigma = ovs, kinship = "H1C")
 
-# combine cousin distributions & recompose as object. Chaning kinship
+# combine cousin distributions and recompose as object. Chaning kinship
 # to standard value for unknown as I will be combining the distributions. 
 fc <- dplyr::mutate(kinpair_to_tibble(fullcous), kinship = "UN")
 hc <- dplyr::mutate(kinpair_to_tibble(halfcous), kinship = "UN")
@@ -696,18 +678,18 @@ cousins
 #> 
 #> tab
 #> # A tibble: 150 x 9
-#>    id1   id2   kinship distance     x1     y1      x2     y2 lifestage
-#>    <chr> <chr> <chr>      <dbl>  <dbl>  <dbl>   <dbl>  <dbl> <chr>    
-#>  1 1a    1b    UN         323.  -180.    59.6  140.     97.4 immature 
-#>  2 2a    2b    UN         248.    13.4   10.4  260.     30.5 immature 
-#>  3 3a    3b    UN         101.    97.7  237.     6.08  193.  immature 
-#>  4 4a    4b    UN         212.    38.4   44.3  -79.6   220.  immature 
-#>  5 5a    5b    UN          79.2  -39.3 -115.    27.2   -72.3 immature 
-#>  6 6a    6b    UN         192.   -10.4  -29.2 -173.     73.9 immature 
-#>  7 7a    7b    UN         156.   -30.0   12.4  -15.0   168.  immature 
-#>  8 8a    8b    UN          46.1   26.5   67.1  -14.9    87.5 immature 
-#>  9 9a    9b    UN          45.6  -28.1 -126.    15.1  -140.  immature 
-#> 10 10a   10b   UN         188.   248.   190.    59.6   200.  immature 
+#>    id1   id2   kinship distance       x1    y1    x2     y2 lifestage
+#>    <chr> <chr> <chr>      <dbl>    <dbl> <dbl> <dbl>  <dbl> <chr>    
+#>  1 1a    1b    UN         185.    39.5   139.  105.  -33.6  immature 
+#>  2 2a    2b    UN         100.   -16.6   112.  -22.2 213.   immature 
+#>  3 3a    3b    UN          98.7  131.    119.   43.3  73.5  immature 
+#>  4 4a    4b    UN         196.   235.     27.1  51.5 -40.2  immature 
+#>  5 5a    5b    UN         242.    77.7   202.  -37.9 -10.8  immature 
+#>  6 6a    6b    UN         107.    94.8    27.7 194.  -13.6  immature 
+#>  7 7a    7b    UN         234.     0.705  43.0 211.  147.   immature 
+#>  8 8a    8b    UN         161.   -20.8   132.   78.6   5.57 immature 
+#>  9 9a    9b    UN         293.    25.0   -58.9  52.8 232.   immature 
+#> 10 10a   10b   UN         243.  -143.    -72.7  37.4  90.1  immature 
 #> # ... with 140 more rows
 #> -------------------------------
 ```
@@ -723,7 +705,7 @@ missing category data:
 # the cousin mixture in phase)
 axpermute_standard(avect = cousins, acat = "1C", amix = TRUE, amixcat = "H1C", bvect = fullsibs, bcomp = TRUE, bcompvect = halfsibs)
 #>      2.5%      mean     97.5% 
-#>  83.28070  95.25667 107.42065
+#>  85.05575  97.01883 108.91734
 ```
 
 This estimate is a lot more convoluted, and not as ‘spot on’- but the
@@ -731,57 +713,58 @@ theoretical value of 94 is well within the confidence intervals.
 
 ## 4.4 Adapting to a new species: *Antechinus*
 
-Using the recently added (as of 0.10.1 & higher) custom dispersal
-simulations & parameters, we are well placed to explore what is
-typically involved in adapting this method & package to a species with a
-different life history & breeding structure to that of *Ae. aegypti* &
-other related species. The example chosen here is a species of
-*Antechinus* - a small marsupial native to Australia. Note that this
-example is for illustrative purposes only.
+Using custom dispersal simulations and parameters, we are well placed to
+explore what is typically involved in adapting this method and package
+to a species with a different life history and breeding structure to
+that of *Ae. aegypti* and other related species. The example chosen here
+is a species of *Antechinus* - a small marsupial native to Australia.
+Note that this example is for illustrative purposes only.
 
 ### 4.4.1 Assemble known background information
 
-Breeding & dispersal can be highly diverse processes between organisms -
-simply copying and pasting a method from one species to another without
-careful consideration of their differences & unique contexts is unwise.
-What relevant information can we find about species of *Antechinus*?
+Breeding and dispersal can be highly diverse processes between organisms
+- simply copying and pasting a method from one species to another
+without careful consideration of their differences and unique contexts
+is unwise. What relevant information can we find about species of
+*Antechinus*?
 
-For *Antechinus*, mating takes place across a single week each year, &
-is promiscuous. Males only mate once, & die shortly after mating.
+For *Antechinus*, mating takes place across a single week each year, and
+is promiscuous. Males only mate once, and die shortly after mating.
 Females live up to two years, producing two litters in that time. Each
-litter will likely contain offspring from multiple males ([Cockburn et
-al. 1985](https://doi.org/10.1016/S0003-3472(85)80025-7)). In the same
-paper, Cockburn et al. recognize seven life history stages:
+litter will likely contain offspring from multiple males (Cockburn,
+Scott, and Scotts 1985). In the same paper, Cockburn et al. recognize
+seven life history stages:
 
-1.  Pouch young (5-7 weeks)  
-2.  Nest young (8-10 weeks)  
-3.  Juveniles (rest of year)
-4.  Reproductives (2 weeks)
-5.  Mothers (4-5 weeks gestation)
-6.  2nd yr repro. (female)
-7.  2nd yr mothers (female)
+| No. | Stage                  | Duration                          |
+|-----|------------------------|-----------------------------------|
+| 1   | Pouch young            | 5-7 weeks                         |
+| 2   | Nest young             | 8-10 weeks                        |
+| 3   | Juveniles              | rest of year 1                    |
+| 4   | Reproductives          | 2 weeks                           |
+| 5   | Mothers                | 4-5 weeks gestation, then ongoing |
+| 6   | 2nd year reproductives | 2 weeks                           |
+| 7   | 2nd year mothers       | 4-5 weeks gestation, then ongoing |
 
 Pouch young exhibit obligatory attachment to the mother’s teat. Nest
 young still feed on the teat, but are left in the nest (typically a hole
 in a tree) when the mother forages for food, until weaning. Juveniles
 describe the post-weaning, physiologically independent animals before
 synchronised reproduction occurs. This interval covers most of the first
-year. Reproductives (male & female) describe the animals within the very
-short mating window each year (males mate with multiple females, & vice
-versa). Mothers covers pregnancy, lactation (overlapping with nest &
-pouch young) & post-lactation (overlapping with the juvenile phase).
+year. Reproductives (male and female) describe the animals within the
+very short mating window each year (males mate with multiple females,
+and vice versa). Mothers covers pregnancy, lactation (overlapping with
+nest and pouch young) and post-lactation (overlapping with the juvenile
+phase).
 
 Natal dispersal (occuring after weaning) is strongly male-biased
-([Cockburn et al. 1985](https://doi.org/10.1016/S0003-3472(85)80025-7)),
-with males dispersing from the nest & often from the maternal home
-range, while females dispersal is more localised. In that time, males
-can disperse over hundreds of meters - in some species (e.g. *Antechnius
-stuartii*), more than a kilometre ([Banks & Lindenmayer
-2014](https://doi.org/10.1016/S0003-3472(85)80025-7)). Female dispersal
-is not frequently beyond 50 metres [Fisher
-2005](https://doi.org/10.1071/ZO04068).
+(Cockburn, Scott, and Scotts 1985), with males dispersing from the nest
+and often from the maternal home range, while females dispersal is more
+localised. In that time, males can disperse over hundreds of metres - in
+some species (e.g. *Antechnius stuartii*), more than a kilometre (Banks
+and Lindenmayer 2014). Female dispersal is not frequently beyond 50
+metres (Fisher 2005).
 
-### 4.4.2 Identify useful life stages & kinship categories
+### 4.4.2 Identify useful life stages and kinship categories
 
 Our key research questions will drive which aspects of the above life
 history we want to focus on further. For this exercise, we want to be
@@ -789,27 +772,26 @@ able to estimate parent-offspring dispersal so that we can gain an
 estimate of the neighbourhood area. Importantly, we need this estimate
 to get around the sex-biased disersal in this species.
 
-Let’s define a life cycle. Pouch & nest young are still completely
+Let’s define a life cycle. Pouch and nest young are still completely
 dependent on the mother, so will show no independent dispersal. We start
 our description of a single intergenerational breeding cycle with the
 juvenile stage, followed by breeding. We will break down the ‘mother’
-lifestage into ‘gestation’ & ‘pouch’.
+lifestage into ‘gestation’ and ‘pouch.’
 
 So, our basic breeding cycle will be something like: juvenile –&gt;
 breeding –&gt; gestation –&gt; pouch.
 
 What kinship categories do we expect to see in *Antechinus* populations?
-Let’s break this down by degree:
+Let’s break this down by order:
 
-#### First degree kinship
+#### First order kinship
 
-Within this category we have the `PO` & `FS` classes. Full siblings
-share the same mother, & the fathers only mate during one breeding
-cycle, so we can expect all full siblings to be part of the same cohort,
-& FS phased disperal to begin in the juvenile phase, as offspring leave
-the nest.
+Within this category we have the `PO` and `FS` classes. Full sibs share
+the same mother, and the fathers only mate during one breeding cycle, so
+we can expect all full sibs to be part of the same cohort, and FS phased
+disperal to begin in the juvenile phase, as offspring leave the nest.
 
-#### Second degree kinship
+#### Second order kinship
 
 The `HS` kinship class can be generated by a male mating with multiple
 females, or a female mating with multiple males. Both of these have
@@ -817,33 +799,32 @@ different dispersal modes (the former is shaped by breeding dispersal,
 the latter in a similar manner to the `FS` class). For our initial
 simulation, we will only treat the former kind of `HS` dispersal. Note
 that as females bear young over two generations, a third class of `HS`
-is possible, between an adult female mother & the pouch young of her
+is possible, between an adult female mother and the pouch young of her
 (now 2nd yr) mother - cases like this are readily distinguishable by
 other life history traits, e.g. age.
 
-The `GG` kinship class (between 2nd yr mother & her grandchildren)
+The `GG` kinship class (between 2nd yr mother and her grandchildren)
 
-The `AV` kinship class (between an adult female & the offspring of her
+The `AV` kinship class (between an adult female and the offspring of her
 full sibling - a partially sex-biased category)
 
 #### Third degree kinship
 
-Important categories here include `1C` & `HAV`. (`GAV` is also possible,
-but clearly distinguishable by life history).
+Important categories here include `1C` and `HAV`. (`GAV` is also
+possible, but clearly distinguishable by life history).
 
-`1C` - first cousins. Part of same generational cohort & the `FS`
+`1C` - first cousins. Part of same generational cohort and the `FS`
 dispersal phase.
 
 `HAV` - half avuncular. Most will be intergenerational (females of
-previous generation to males & females of present generation). However,
-Because females breed across two cycles, this category can occur within
-the same generational cohort (see below).
+previous generation to males and females of present generation).
+However, because females breed across two cycles, this category can
+occur within the same generational cohort (see below).
 
-`1C` individuals will be part of the same generational cohort & result
+`1C` individuals will be part of the same generational cohort and result
 from parent-offspring dispersal events, making them a prime target
 (along with the FS category) for developing an intergenerational
-dispersal estimate. At first glance, this looks extremely
-straightforward – but there is one issue.
+dispersal estimate.
 
 ### 4.4.3 Build a dispersal model
 
@@ -896,18 +877,18 @@ ant_po
 #> 
 #> tab
 #> # A tibble: 10,000 x 8
-#>    id1   id2   kinship distance    x1    y1    x2     y2
-#>    <chr> <chr> <chr>      <dbl> <dbl> <dbl> <dbl>  <dbl>
-#>  1 1a    1b    PO         162.  73.8  76.5  227.    23.5
-#>  2 2a    2b    PO         101.  96.4  85.9  113.   -13.4
-#>  3 3a    3b    PO         227.  82.5  69.8  174.  -138. 
-#>  4 4a    4b    PO          72.9 46.1  31.2  -25.5   17.0
-#>  5 5a    5b    PO         256.  16.7   3.07 178.   202. 
-#>  6 6a    6b    PO          27.2 12.2   9.97  37.8   19.3
-#>  7 7a    7b    PO          19.6 31.9  45.5   34.6   26.1
-#>  8 8a    8b    PO         182.  81.3  28.2   65.7 -153. 
-#>  9 9a    9b    PO         187.  14.3  51.1  101.  -114. 
-#> 10 10a   10b   PO         203.   8.69 10.5  -16.7  212. 
+#>    id1   id2   kinship distance    x1    y1       x2     y2
+#>    <chr> <chr> <chr>      <dbl> <dbl> <dbl>    <dbl>  <dbl>
+#>  1 1a    1b    PO         115.  69.4  36.3   -39.8    73.6 
+#>  2 2a    2b    PO          74.7 61.2  75.5    -0.515 117.  
+#>  3 3a    3b    PO         111.  67.3  72.1   105.    177.  
+#>  4 4a    4b    PO          61.2 28.4  88.7   -27.9   113.  
+#>  5 5a    5b    PO         179.  47.6  98.5   226.    111.  
+#>  6 6a    6b    PO         139.  49.3  63.6   155.    -26.2 
+#>  7 7a    7b    PO          76.8 61.1  87.7   137.     76.0 
+#>  8 8a    8b    PO         159.   7.71  5.06 -152.      4.52
+#>  9 9a    9b    PO         145.  46.9  98.9   -74.8    20.7 
+#> 10 10a   10b   PO          42.5 39.4  78.5    55.7   118.  
 #> # ... with 9,990 more rows
 #> -----------------------------------
 ```
@@ -915,14 +896,14 @@ ant_po
 Now we’ll use the `axials()` function to characterise our ‘default’
 dispersal for the model:
 
-`axials(ant_po)`: 117.7047681
+`axials(ant_po)`: 117.4876466
 
 The value is around 117 the ‘expected’ value of PO we should get back
 from more complex estimation processes.
 
-### 4.4.5 Validate axial dispersal estimates & refine model
+### 4.4.5 Validate axial dispersal estimates and refine model
 
-For a basic PO estimation, we are going to combine the FS & 1C
+For a basic PO estimation, we are going to combine the FS and 1C
 categories:
 
 ``` r
@@ -930,25 +911,25 @@ ant_fs <- simulate_kindist_custom(nsims = 10000, model = antechinus_model, kinsh
 ant_1c <- simulate_kindist_custom(nsims = 10000, model = antechinus_model, kinship = "1C")
 
 axials_standard(ant_1c, ant_fs) # larger dispersal category goes first. 
-#> [1] 117.1044
+#> [1] 119.0847
 ```
 
 The FS/1C strategy has been validated theoretically - but an important
 issue remains: the `HAV` category. While all males only breed during one
 breeding season, in some *Antechinus* species, many females breed for a
-second season. This means that a mother bear offspring in one breeding
-season, and if both the mother and her offspring bore young in the
-subsequent breeding season, as the young she bore would be related to
-her previous litter as half-siblings, they are related to the last
-litter’s offspring under the half-avuncular `HAV` kinship category. As
-`HAV` is of the same order of kinship (3rd) as `1C`, and (via this
-pathway) will be of the same lifestage, yet both pass through differing
-dispersal routes, without further information it would be impossible to
-use this class. Similar issues would hold for the `H1C` (half-cousin) &
-`1C1` (first cousin once removed) categories at the fourth order of
-kinship.
+second season. This means that the situation will arise where a mother
+bears offspring in one breeding season, and both the mother and her
+offspring bear young in the subsequent breeding season. As the second
+batch of young she bears are related to her previous litter as
+half-siblings, they are related to the that litter’s offspring under the
+half-avuncular `HAV` kinship category. As `HAV` is of the same order of
+kinship (3rd) as `1C`, and (via this pathway) will be of the same
+lifestage, yet both pass through differing dispersal routes, without
+further information it would be impossible to use this class. Similar
+issues would hold for the `H1C` (half-cousin) and `1C1` (first cousin
+once removed) categories at the fourth order of kinship.
 
-If we were simple sampling juvenile *Antechinus* as in our initial
+If we were simply sampling juvenile *Antechinus* as in our initial
 setup, there would be no way to correct for this ambiguity in the data.
 We need to include richer pedigree information to distinguish between
 the various classes. Instead of sampling at the juvenile stage, let’s
@@ -990,7 +971,7 @@ which individual will be sampled by default at an overlapping lifestage.
 As in our model, `visible_stage` is anchored to the FS-branch juvenile
 stage, the default sampled pouch individuals will be the mothers rather
 than the offspring. In a simulation, the pouch offspring can be accessed
-by setting the breeding cycle parameter to negative one.
+by setting the breeding cycle parameter to `-1`.
 
 ### 4.4.6 Finalize target kinship categories
 
@@ -999,7 +980,7 @@ generational comparisons, all synced to the same life point: (1)
 intra-pouch relationships (i.e. between different pouch young carried by
 the same mother), (2) inter-pouch relationships (kinships between young
 carried by different females), (3) kinship between adult females, and
-(4) kinships between pouch young & adult females other than their
+(4) kinships between pouch young and adult females other than their
 mother.
 
 All of these categories can be combined with the genotypic data to
@@ -1016,44 +997,45 @@ breeding dispersal, via the following resolution:
 3.  HS between pouch young (different pouches) as these have different
     maternal ancestors, they will share the same paternal ancestor. This
     category thus supplies a HS estimate of the combined breeding,
-    gestational & pouch phases.
+    gestational and pouch phases.
 4.  FS between (female) parents. As the FS phase is zeroed this category
     constitutes an estimate of lifespan dispersal for *Antechinus*
     females. However, as dispersal within this species is sex-biased,
     this does doesn’t constitute the true intergenerational dispersal
-    distance (for IBD, gene flow, etc.). – note that in this context all
+    distance (for IBD, gene flow, etc.). Note that in this context all
     compared offspring are expected to fall into the 1C category.
 5.  HS between (female) parents. These will result from a mixture of a
     shared male or female parent (i.e. the dispersal modes found in (b)
-    & (c) above). This category thus contains the true HS phase in
+    and (c) above). This category thus contains the true HS phase in
     addition to a female-dispersed lifespan.
-6.  3rd degree (female) parents. Depending on the species, it may be
-    impossible to distinguish between the 1C & HAV kinships for
+6.  3rd order (female) parents. Depending on the species, it may be
+    impossible to distinguish between the 1C and HAV kinships for
     individuals of this category.
-7.  3rd degree between pouch young (different pouches). By themselves,
-    this category will be indeterminate between the 1C & HAV categories.
-    One approach would be to combine this category with category (f) to
-    cancel out the composite phase & leave an estimate of PO dispersal –
-    but as the more dispersed category are female adults, this would
-    once again only produce an estimate of female dispersal across the
-    breeding cycle. Is there another way?
+7.  3rd order between pouch young (different pouches). By themselves,
+    this category will be indeterminate between the 1C and HAV
+    categories. One approach would be to combine this category with
+    category (f) to cancel out the composite phase and leave an estimate
+    of PO dispersal – but as the more dispersed category are female
+    adults, this would once again only produce an estimate of female
+    dispersal across the breeding cycle. Is there another way?
 
 Yes! We can check other pedigree relationships to distinguish between
-the 1C & HAV categories. Firstly, we compare the parents. If they are
-FS, their offspring are 1C & in isolation constitute an estimate of
+the 1C and HAV categories. Firstly, we compare the parents. If they are
+FS, their offspring are 1C and in isolation constitute an estimate of
 female intergenerational dispersal as in (f) above. But an even more
 useful test is to reciprocally cross-check the kinship between pouch
-young & the mother of their putative cousins. If the two mothers were
+young and the mother of their putative cousins. If the two mothers were
 not full siblings, we expect this pairing to produce an unrelated kin
 category in the case of 1C offspring. However, in the HAV case, one of
 the mothers must also be the grandmother of the other pouch young! This
-would produce the 2nd degree (GG) relationship between the pouch young &
-their grandmother. Thus, pedigree information helps us to distinguish
-between HAV & 1C pouch young. Once 1C pouch young have been identified
-(via all approaches) they will constitute an estimate of the elusive
-intergenerational category PO (sex-independent). Similarly, the HAV
-offspring where the GG individual is not the parent of the other mother
-can be used to derive an estimate of male intergenerational dispersal!
+would produce the 2nd order (GG) relationship between the pouch young
+and their grandmother. Thus, pedigree information helps us to
+distinguish between HAV and 1C pouch young. Once 1C pouch young have
+been identified (via all approaches) they will constitute an estimate of
+the elusive intergenerational category PO (sex-independent). Similarly,
+the HAV offspring where the GG individual is not the parent of the other
+mother can be used to derive an estimate of male intergenerational
+dispersal!
 
 For this reason, our key kinship category targets are:
 
@@ -1064,8 +1046,8 @@ Pedigree relationships we also need to test include:
 
 1.  kinship between parents (to identify FS parents (1C offspring) as
     well as PO parents (HAV offspring))
-2.  kinship between pouch young & non-parent females where a 1C/HAV
-    relationship exists between offspring (if 2nd degree where parents
+2.  kinship between pouch young and non-parent females where a 1C/HAV
+    relationship exists between offspring (if 2nd order where parents
     are not FS, interpret as GG category, meaning offspring are HAV.
     Otherwise, interpret as 1C)
 
@@ -1091,18 +1073,18 @@ ant_1c_juv
 #> 
 #> tab
 #> # A tibble: 100,000 x 8
-#>    id1   id2   kinship distance      x1     y1     x2      y2
-#>    <chr> <chr> <chr>      <dbl>   <dbl>  <dbl>  <dbl>   <dbl>
-#>  1 1a    1b    1C         379.   121.    182.   116.  -196.  
-#>  2 2a    2b    1C         121.   -29.4   -74.6 -119.     7.23
-#>  3 3a    3b    1C          65.3  -20.1    61.4  -32.7   -2.57
-#>  4 4a    4b    1C         167.  -140.     31.4  -23.5  -88.3 
-#>  5 5a    5b    1C         125.   253.    -81.6  131.   -51.0 
-#>  6 6a    6b    1C         112.   -34.6   -26.4   55.0   40.9 
-#>  7 7a    7b    1C         106.    -2.49   50.4  -85.2  -15.2 
-#>  8 8a    8b    1C         283.   -44.7   155.  -160.  -103.  
-#>  9 9a    9b    1C         551.  -105.   -297.   344.    21.8 
-#> 10 10a   10b   1C         250.    12.5   286.   -30.5   39.7 
+#>    id1   id2   kinship distance     x1     y1     x2    y2
+#>    <chr> <chr> <chr>      <dbl>  <dbl>  <dbl>  <dbl> <dbl>
+#>  1 1a    1b    1C          1.86  121.  129.    119.  129. 
+#>  2 2a    2b    1C        176.    198.   79.8    21.7  68.7
+#>  3 3a    3b    1C        108.    -40.5  -5.18  -55.2 102. 
+#>  4 4a    4b    1C         66.5    42.4  83.4   101.   52.7
+#>  5 5a    5b    1C        288.    -76.4 -97.1  -354.  -21.6
+#>  6 6a    6b    1C        233.   -105.   97.1    74.3 -51.2
+#>  7 7a    7b    1C        201.     10.4 105.    206.   60.4
+#>  8 8a    8b    1C         90.8    51.2 166.    -27.3 211. 
+#>  9 9a    9b    1C         60.0    58.7 153.     79.2  97.0
+#> 10 10a   10b   1C        116.     79.6 236.     29.0 131. 
 #> # ... with 99,990 more rows
 #> -----------------------------------
 ```
@@ -1128,16 +1110,16 @@ ant_fs_juv
 #> # A tibble: 100,000 x 8
 #>    id1   id2   kinship distance    x1    y1    x2    y2
 #>    <chr> <chr> <chr>      <dbl> <dbl> <dbl> <dbl> <dbl>
-#>  1 1a    1b    FS             0  94.1 57.5   94.1 57.5 
-#>  2 2a    2b    FS             0  30.1 98.9   30.1 98.9 
-#>  3 3a    3b    FS             0  39.9 78.4   39.9 78.4 
-#>  4 4a    4b    FS             0  15.2 28.7   15.2 28.7 
-#>  5 5a    5b    FS             0  95.6 42.9   95.6 42.9 
-#>  6 6a    6b    FS             0  67.7 99.4   67.7 99.4 
-#>  7 7a    7b    FS             0  14.7 47.1   14.7 47.1 
-#>  8 8a    8b    FS             0  17.7  8.22  17.7  8.22
-#>  9 9a    9b    FS             0  58.8 23.4   58.8 23.4 
-#> 10 10a   10b   FS             0  68.6 62.9   68.6 62.9 
+#>  1 1a    1b    FS             0  39.8  76.6  39.8  76.6
+#>  2 2a    2b    FS             0  34.9  43.8  34.9  43.8
+#>  3 3a    3b    FS             0  95.3  54.5  95.3  54.5
+#>  4 4a    4b    FS             0  49.6  77.9  49.6  77.9
+#>  5 5a    5b    FS             0  35.8  92.1  35.8  92.1
+#>  6 6a    6b    FS             0  80.9  87.7  80.9  87.7
+#>  7 7a    7b    FS             0  19.9  67.7  19.9  67.7
+#>  8 8a    8b    FS             0  37.2  47.0  37.2  47.0
+#>  9 9a    9b    FS             0  76.6  71.8  76.6  71.8
+#> 10 10a   10b   FS             0  82.5  70.2  82.5  70.2
 #> # ... with 99,990 more rows
 #> -----------------------------------
 ```
@@ -1154,17 +1136,17 @@ they have not dispersed at all, so will not confound the estimate)
 ``` r
 axpermute_standard(ant_1c_juv, ant_fs_juv, nsamp = 100, override = TRUE)
 #>     2.5%     mean    97.5% 
-#> 100.8309 116.8533 132.9883
+#> 101.9268 117.2940 134.0351
 ```
 
 This is excellent so far. Mean dispersal is still around 117, so
 assuming sampling is adequate, this approach will lead us to
-intergeneration dispersal.
+intergenerational dispersal.
 
-### 4.4.7 Simulate sampling site & finalise study design
+### 4.4.7 Simulate sampling site and finalise study design
 
 Now, before we go any further, we need to estimate how large a study
-site we will need to gain an adequate understanding of dispersal, &
+site we will need to gain an adequate understanding of dispersal, and
 avoid missing rarer long-tailed dispersal events. We know that our FS
 pouch young haven’t dispersed, so we won’t need to worry about them. But
 what about the 1C category? At this point in an actual study, the
@@ -1180,10 +1162,10 @@ ant_1c_juv %>% sample_kindist(dims = 100, n = 1000) %>% axpermute_standard(ant_f
 #> Down-sampling to 1000 kin pairs
 #> 1000 kin pairs remaining.
 #>     2.5%     mean    97.5% 
-#> 24.71627 27.00528 29.18525
+#> 24.93026 27.27327 29.54674
 ```
 
-A 100x100 meter sampling area is woefully inadequate (estimating the
+A 100x100 metre sampling area is woefully inadequate (estimating the
 kernel to only \~ 27m, well short of the 117 we need)! We try again,
 this time in a 1km x 1km site:
 
@@ -1193,7 +1175,7 @@ ant_1c_juv %>% sample_kindist(dims = 1000, n = 1000) %>% axpermute_standard(ant_
 #> Down-sampling to 1000 kin pairs
 #> 1000 kin pairs remaining.
 #>      2.5%      mean     97.5% 
-#>  90.27052 101.99645 114.67305
+#>  84.99809  96.70242 109.08064
 ```
 
 We are doing better here: with an average of \~100m. But we’re still 15%
@@ -1205,12 +1187,12 @@ ant_1c_juv %>% sample_kindist(dims = 2000, n = 1000) %>% axpermute_standard(ant_
 #> Setting central sampling area to 2000 by 2000
 #> Down-sampling to 1000 kin pairs
 #> 1000 kin pairs remaining.
-#>      2.5%      mean     97.5% 
-#>  91.93806 107.00063 122.10058
+#>     2.5%     mean    97.5% 
+#>  93.5031 107.8033 122.6264
 ```
 
-This estimate is acceptable, with a mean only a few meters short, & the
-true value well within C.I.s. Accordingly, we make the decision to
+This estimate is acceptable, with a mean only a few metres short, and
+the true value well within C.I.s. Accordingly, we make the decision to
 sample within a grid of at least 2km by 2 km.
 
 ### 4.4.7 Run the study!
@@ -1218,30 +1200,77 @@ sample within a grid of at least 2km by 2 km.
 Now we are as prepared as possible to perform sampling, genotype
 individuals, etc.
 
-### 4.4.8 Load data & generate in-field dispersal estimates
+### 4.4.8 Load data and generate in-field dispersal estimates
 
-Follow the instructions given in 4.2 & 4.3 to load sampledata into the
-program & supply estimates. The `axials_standard` & `axials_permute`
-functions contain the parameters `acycle` & `bcycle`, which enable the
-calibration of the estimation process to pouch young (remember to use
-the `override` parameter in this context). Or you could simply avoid
-phase information, set the FS category to zero (as they are
-non-dispersed), & perform a 1C-FS subtraction as is (which will
+Follow the instructions given in 4.2 and 4.3 to load sample data into
+the program and supply estimates. The `axials_standard` and
+`axials_permute` functions contain the parameters `acycle` and `bcycle`,
+which enable the calibration of the estimation process to pouch young
+(remember to use the `override` parameter in this context). Or you could
+simply avoid phase information, set the FS category to zero (as they are
+non-dispersed), and perform a 1C-FS subtraction as is (which will
 effectively just decompose the 1C into two PO increments - works in this
 case as at the pouch phase we have synced FS dispersal to PO dispersal
 (as all FS offspring coincide with maternal parent)).
 
-### 4.4.9 Cross-check field estimates for bias & calibrate
+### 4.4.9 Cross-check field estimates for bias and calibrate
 
 Once you have generated in-field estimates of dispersal, it is always
 good practice to substitute these estimate back into the original
-simulation & rerun the sampling analysis in 4.4.7 again. If the new
+simulation and rerun the sampling analysis in 4.4.7 again. If the new
 estimate is significantly underestimated by the simulation after
 subsampling to the dimensions of your study site, it is likely that the
-study site is too small, & is biasing estimates of dispersal - one
+study site is too small, and is biasing estimates of dispersal - one
 approach from here would be to progressively increase the dispersal
-amount until the new subsampled estimate matches the one generated by
-the study (this will be a more likely figure for dispesal in the
+distance until the new subsampled estimate matches the one generated by
+the study (this will be a more likely figure for dispersal in the
 species, and should inform future studies).
 
-All the best with your own species & endeavours!
+# 5. References
+
+<div id="refs" class="references csl-bib-body hanging-indent">
+
+<div id="ref-RN48" class="csl-entry">
+
+Banks, Sam C, and David B Lindenmayer. 2014. “Inbreeding Avoidance,
+Patch Isolation and Matrix Permeability Influence Dispersal and
+Settlement Choices by Male Agile Antechinus in a Fragmented Landscape.”
+Journal Article. *Journal of Animal Ecology* 83 (2): 515–24.
+
+</div>
+
+<div id="ref-RN47" class="csl-entry">
+
+Cockburn, Andrew, Michelle P Scott, and David J Scotts. 1985.
+“Inbreeding Avoidance and Male-Biased Natal Dispersal in Antechinus
+Spp.(marsupialia: Dasyuridae).” Journal Article. *Animal Behaviour* 33
+(3): 908–15.
+
+</div>
+
+<div id="ref-RN45" class="csl-entry">
+
+Fisher, D. O. 2005. “Population Density and Presence of the Mother Are
+Related to Natal Dispersal in Male and Female Antechinus Stuartii.”
+Journal Article. *Australian Journal of Zoology* 53 (2): 103–10.
+https://doi.org/<https://doi.org/10.1071/ZO04068>.
+
+</div>
+
+<div id="ref-RN22" class="csl-entry">
+
+Jasper, Moshe, Thomas L Schmidt, Nazni W Ahmad, Steven P Sinkins, and
+Ary A Hoffmann. 2019. “A Genomic Approach to Inferring Kinship Reveals
+Limited Intergenerational Dispersal in the Yellow Fever Mosquito.”
+Journal Article. *Molecular Ecology Resources* 19 (5): 1254–64.
+
+</div>
+
+<div id="ref-RN24" class="csl-entry">
+
+Wright, Sewall. 1946. “Isolation by Distance Under Diverse Systems of
+Mating.” Journal Article. *Genetics* 31 (1): 39.
+
+</div>
+
+</div>
