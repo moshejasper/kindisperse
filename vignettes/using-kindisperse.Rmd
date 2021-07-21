@@ -20,13 +20,12 @@ knitr::opts_chunk$set(
 )
 ```
 
-The goal of kindisperse is to simulate and estimate close-kin dispersal kernels. 
+The goal of <span style="font-variant:small-caps;">kindisperse</span> is to simulate and estimate close-kin dispersal kernels. 
 
 
 # 1. Introduction
 
 Dispersal is a key evolutionary process that connects organisms in space and time. Assessing the dispersal of organisms within an area is an important component of estimating risks from invasive species, planning pest management operations, and evaluating conservation strategies for threatened species. 
-
 
 Leveraging decreases in sequencing costs, out new method instead estimates dispersal from the spatial distribution of close-kin. This method requires that close kin dyads be identified and scored for two variables: (i) the geographical distance between the two individuals in the dyad, and (ii) their estimated order of kinship (1st order e.g. full-sib; 2nd order e.g. half-sib; 3rd order e.g. first cousin). 
 
@@ -40,7 +39,7 @@ The method we have developed relies upon the fact that different kinship categor
 
 Further details can be found in Jasper et al. [-@RN22], "A genomic approach to inferring kinship reveals limited intergenerational dispersal in the yellow fever mosquito". 
 
-This package supplements these papers by supplying methods for (a) importing and exporting information about distances and kinship relationships for pairs of individuals, (b) estimating the axial distribution (axial sigma for dispersal or position distributions) from empirical distributions of kin-pairs, and (c) estimating the intergenerational (parent-offspring) dispersal distribution (axial sigma) that underlies the distributions of multiple phased kin categories. This package also implements several simulation tools for further exploring and testing the properties of intergenerational dispersal kernels, as well as to assist in designing experiment layouts and sampling schemes. Finally, for ease of use, the package supplies an integrated shiny app which also implements the vast majority of package functionality in a user-friendly interface. 
+This package supplements these papers by supplying methods for (a) importing and exporting information about distances and kinship relationships for dyads of individuals, (b) estimating the axial distribution (axial sigma for dispersal or position distributions) from empirical distributions of kin-dyads, and (c) estimating the intergenerational (parent-offspring) dispersal distribution (axial sigma) that underlies the distributions of multiple phased kin categories. This package also implements several simulation tools for further exploring and testing the properties of intergenerational dispersal kernels, as well as to assist in designing experiment layouts and sampling schemes. Finally, for ease of use, the package supplies an integrated shiny app which also implements the vast majority of package functionality in a user-friendly interface. 
 
 # 2. Installation
 
@@ -181,7 +180,7 @@ sample_kindist(compsim, upper = 1000, lower = 200, spacing = 50, n = 25)
 
 Files can be loaded and saved to and from three separate formats: .csv and .tsv (via functions `csv_to_kinpair()`, `tsv_to_kinpair()`, or to save, `kinpair_to_csv()` and `kinpair_to_tsv()`, as well as the package-specific .kindata format which wraps an rds file storing package objects (via functions `read_kindata()` and `write_kindata()`). These files read to or save from an object of class `KinPairData` (including simulation objects of class `KinPairSimulation`). 
 
-.csv or equivalent files used should have a single column with the header 'distance' that contains the geographical distances between kin pairs, and preferably another column labelled 'kinship' which carries the kinship category in a form recognized by this package (see documentation for further details). Example below: 
+.csv or equivalent files used should have a single column with the header 'distance' that contains the geographical distances between kin dyads, and preferably another column labelled 'kinship' which carries the kinship category in a form recognized by this package (see documentation for further details). Example below: 
 
 ``` {r files}
 kinobject <- simulate_kindist_simple(nsims = 25, kinship = "FS", lifestage = "immature")
@@ -341,7 +340,7 @@ The `GG` kinship class (between 2nd yr mother and her grandchildren)
 
 The `AV` kinship class (between an adult female and the offspring of her full sibling - a partially sex-biased category)
 
-#### Third degree kinship
+#### Third order kinship
 
 Important categories here include `1C` and `HAV`. (`GAV` is also possible, but clearly distinguishable by life history). 
 

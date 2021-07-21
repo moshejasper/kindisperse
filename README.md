@@ -18,8 +18,8 @@ KINDISPERSE 0.10.1
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of kindisperse is to simulate and estimate close-kin dispersal
-kernels.
+The goal of <span class="smallcaps">kindisperse</span> is to simulate
+and estimate close-kin dispersal kernels.
 
 # 1. Introduction
 
@@ -118,9 +118,9 @@ dispersal in the yellow fever mosquito.”
 
 This package supplements these papers by supplying methods for (a)
 importing and exporting information about distances and kinship
-relationships for pairs of individuals, (b) estimating the axial
+relationships for dyads of individuals, (b) estimating the axial
 distribution (axial sigma for dispersal or position distributions) from
-empirical distributions of kin-pairs, and (c) estimating the
+empirical distributions of kin-dyads, and (c) estimating the
 intergenerational (parent-offspring) dispersal distribution (axial
 sigma) that underlies the distributions of multiple phased kin
 categories. This package also implements several simulation tools for
@@ -296,13 +296,13 @@ simulate_kindist_simple(nsims = 5, sigma = 100, method = "Gaussian", kinship = "
 #> 
 #> tab
 #> # A tibble: 5 x 8
-#>   id1   id2   kinship distance    x1    y1     x2     y2
-#>   <chr> <chr> <chr>      <dbl> <dbl> <dbl>  <dbl>  <dbl>
-#> 1 1a    1b    PO         155.   88.7  4.60  -21.1 -105. 
-#> 2 2a    2b    PO         232.   63.3 19.2  -145.   -82.5
-#> 3 3a    3b    PO         257.   14.5 77.8  -235.    18.0
-#> 4 4a    4b    PO         134.   50.0 86.1   -79.2  121. 
-#> 5 5a    5b    PO          65.4  96.9 79.7   100.    14.4
+#>   id1   id2   kinship distance    x1     y1    x2    y2
+#>   <chr> <chr> <chr>      <dbl> <dbl>  <dbl> <dbl> <dbl>
+#> 1 1a    1b    PO          40.7 59.7   9.37   31.3  38.6
+#> 2 2a    2b    PO         227.  34.6   0.493 210.  144. 
+#> 3 3a    3b    PO          90.5  7.66 25.7   -26.5 110. 
+#> 4 4a    4b    PO          98.3 20.8  17.1   106.  -31.7
+#> 5 5a    5b    PO          22.6 40.5  42.5    47.3  21.0
 #> -----------------------------------
 ```
 
@@ -348,13 +348,13 @@ simulate_kindist_composite(nsims = 5, initsigma = 50, breedsigma = 30, gravsigma
 #> 
 #> tab
 #> # A tibble: 5 x 8
-#>   id1   id2   kinship distance     x1    y1    x2     y2
-#>   <chr> <chr> <chr>      <dbl>  <dbl> <dbl> <dbl>  <dbl>
-#> 1 1a    1b    H1C         16.3   4.02 135.   17.3  144. 
-#> 2 2a    2b    H1C        207.  -18.8  -38.9  90.2 -215. 
-#> 3 3a    3b    H1C        197.  -21.1   49.0  26.4 -143. 
-#> 4 4a    4b    H1C         74.4  -3.60  56.7  46.2  112. 
-#> 5 5a    5b    H1C        198.   90.6   63.3 -60.0  -65.0
+#>   id1   id2   kinship distance    x1     y1     x2     y2
+#>   <chr> <chr> <chr>      <dbl> <dbl>  <dbl>  <dbl>  <dbl>
+#> 1 1a    1b    H1C         185.  45.8   25.5   65.6  209. 
+#> 2 2a    2b    H1C         408. -21.5  104.   302.  -144. 
+#> 3 3a    3b    H1C         143.  30.3 -180.    92.3  -51.5
+#> 4 4a    4b    H1C         117. -51.2   39.6 -113.   -60.2
+#> 5 5a    5b    H1C         281. 154.   -77.2  181.   203. 
 #> -----------------------------------
 ```
 
@@ -403,13 +403,13 @@ simulate_kindist_custom(nsims = 5, model = dmodel, kinship = "PO")
 #> 
 #> tab
 #> # A tibble: 5 x 8
-#>   id1   id2   kinship distance      x1    y1    x2    y2
-#>   <chr> <chr> <chr>      <dbl>   <dbl> <dbl> <dbl> <dbl>
-#> 1 1a    1b    PO         123.  59.6     37.0  19.6 154. 
-#> 2 2a    2b    PO         101.   0.0502  45.0  47.6 135. 
-#> 3 3a    3b    PO         106.  76.8     76.5  63.4 -29.1
-#> 4 4a    4b    PO          51.1 45.8     77.7  81.3 114. 
-#> 5 5a    5b    PO          19.3 83.4     87.1  93.3  70.5
+#>   id1   id2   kinship distance    x1    y1     x2    y2
+#>   <chr> <chr> <chr>      <dbl> <dbl> <dbl>  <dbl> <dbl>
+#> 1 1a    1b    PO          41.4 34.9   47.4  -5.63  56.3
+#> 2 2a    2b    PO          22.0  9.97  99.3  30.8  106. 
+#> 3 3a    3b    PO         166.  68.0   55.4 232.    82.0
+#> 4 4a    4b    PO          37.3 92.3   18.8  88.4  -18.2
+#> 5 5a    5b    PO          61.5 19.5   82.0 -26.9  122. 
 #> -----------------------------------
 ```
 
@@ -451,18 +451,18 @@ sample_kindist(compsim, upper = 1000, lower = 200, spacing = 50, n = 25)
 #> 
 #> tab
 #> # A tibble: 25 x 8
-#>    id1    id2    kinship distance     x1     y1     x2       y2
-#>    <chr>  <chr>  <chr>      <dbl>  <dbl>  <dbl>  <dbl>    <dbl>
-#>  1 74011a 74011b H2C          425  429.   -1.42  -10.5   21.0  
-#>  2 13401a 13401b H2C          275  213.  358.    349.    95.4  
-#>  3 90700a 90700b H2C          425   52.6 -82.8   463.  -109.   
-#>  4 78087a 78087b H2C          225  -65.0 181.    165.   165.   
-#>  5 57698a 57698b H2C          375   95.3 101.   -264.   -26.1  
-#>  6 13948a 13948b H2C          425 -126.  312.    270.   103.   
-#>  7 9955a  9955b  H2C          325 -239.  268.    -30.9   -0.872
-#>  8 95714a 95714b H2C          675 -211.  358.    433.   150.   
-#>  9 45206a 45206b H2C          325  301.  -28.3   211.   287.   
-#> 10 15410a 15410b H2C          225   55.3  86.6   173.  -118.   
+#>    id1    id2    kinship distance      x1     y1     x2     y2
+#>    <chr>  <chr>  <chr>      <dbl>   <dbl>  <dbl>  <dbl>  <dbl>
+#>  1 63692a 63692b H2C          475 -215.    236.   218.   387. 
+#>  2 33721a 33721b H2C          725  333.   -444.   315.   281. 
+#>  3 48528a 48528b H2C          425  510.    -56.2  166.   151. 
+#>  4 98372a 98372b H2C          375  -48.0  -226.   118.    94.4
+#>  5 49961a 49961b H2C          225  -48.4   287.  -257.   210. 
+#>  6 4577a  4577b  H2C          375 -164.   -229.    57.2   68.1
+#>  7 46586a 46586b H2C          525  -40.8  -158.   120.   355. 
+#>  8 66461a 66461b H2C          275  229.    256.   435.    44.6
+#>  9 28980a 28980b H2C          375  -22.3   216.   -39.8 -160. 
+#> 10 69366a 69366b H2C          375    2.15  308.   377.   267. 
 #> # ... with 15 more rows
 #> -----------------------------------
 ```
@@ -481,7 +481,7 @@ simulation objects of class `KinPairSimulation`).
 
 .csv or equivalent files used should have a single column with the
 header ‘distance’ that contains the geographical distances between kin
-pairs, and preferably another column labelled ‘kinship’ which carries
+dyads, and preferably another column labelled ‘kinship’ which carries
 the kinship category in a form recognized by this package (see
 documentation for further details). Example below:
 
@@ -558,13 +558,13 @@ of three draws from the PO distribution, and thus would take
 ``` r
 paroff <- simulate_kindist_simple(nsims = 1000, sigma = 75, kinship = "PO")
 axials(paroff)
-#> [1] 74.30846
+#> [1] 74.97167
 ```
 
 ``` r
 fullsibs <- simulate_kindist_composite(nsims = 10000, ovisigma = 25, kinship = "FS")
 axials(fullsibs, composite = 2)
-#> [1] 24.89536
+#> [1] 24.95087
 ```
 
 Various auxillary functions exist to further manipulate axial distances
@@ -647,8 +647,8 @@ fullcous <- simulate_kindist_composite(nsims = 75, initsigma = init, breedsigma 
 # calculate PO axial sigma C.I. 
 
 axpermute_standard(fullcous, fullsibs)
-#>      2.5%      mean     97.5% 
-#>  95.77087 109.33109 122.46380
+#>     2.5%     mean    97.5% 
+#> 76.86744 86.63217 97.08255
 ```
 
 As we can see, the C.I. neatly brackets the actual axial value, though
@@ -678,18 +678,18 @@ cousins
 #> 
 #> tab
 #> # A tibble: 150 x 9
-#>    id1   id2   kinship distance       x1    y1    x2     y2 lifestage
-#>    <chr> <chr> <chr>      <dbl>    <dbl> <dbl> <dbl>  <dbl> <chr>    
-#>  1 1a    1b    UN         185.    39.5   139.  105.  -33.6  immature 
-#>  2 2a    2b    UN         100.   -16.6   112.  -22.2 213.   immature 
-#>  3 3a    3b    UN          98.7  131.    119.   43.3  73.5  immature 
-#>  4 4a    4b    UN         196.   235.     27.1  51.5 -40.2  immature 
-#>  5 5a    5b    UN         242.    77.7   202.  -37.9 -10.8  immature 
-#>  6 6a    6b    UN         107.    94.8    27.7 194.  -13.6  immature 
-#>  7 7a    7b    UN         234.     0.705  43.0 211.  147.   immature 
-#>  8 8a    8b    UN         161.   -20.8   132.   78.6   5.57 immature 
-#>  9 9a    9b    UN         293.    25.0   -58.9  52.8 232.   immature 
-#> 10 10a   10b   UN         243.  -143.    -72.7  37.4  90.1  immature 
+#>    id1   id2   kinship distance     x1     y1      x2     y2 lifestage
+#>    <chr> <chr> <chr>      <dbl>  <dbl>  <dbl>   <dbl>  <dbl> <chr>    
+#>  1 1a    1b    UN         240.   242.   -44.9  113.    157.  immature 
+#>  2 2a    2b    UN         127.   167.    52.9  124.    172.  immature 
+#>  3 3a    3b    UN         141.    10.6   77.5   39.2   215.  immature 
+#>  4 4a    4b    UN         153.    17.3 -103.   166.    -65.6 immature 
+#>  5 5a    5b    UN         114.    43.1   41.8  -64.3    80.2 immature 
+#>  6 6a    6b    UN         307.   182.   203.   -77.2    37.3 immature 
+#>  7 7a    7b    UN         198.   105.    29.3    9.40 -144.  immature 
+#>  8 8a    8b    UN         161.    80.5  -87.9   69.6    73.1 immature 
+#>  9 9a    9b    UN         233.  -102.   118.  -309.    226.  immature 
+#> 10 10a   10b   UN          81.6   69.0  173.   -12.2   182.  immature 
 #> # ... with 140 more rows
 #> -------------------------------
 ```
@@ -705,7 +705,7 @@ missing category data:
 # the cousin mixture in phase)
 axpermute_standard(avect = cousins, acat = "1C", amix = TRUE, amixcat = "H1C", bvect = fullsibs, bcomp = TRUE, bcompvect = halfsibs)
 #>      2.5%      mean     97.5% 
-#>  85.05575  97.01883 108.91734
+#>  78.98689  90.72218 100.45978
 ```
 
 This estimate is a lot more convoluted, and not as ‘spot on’- but the
@@ -808,7 +808,7 @@ The `GG` kinship class (between 2nd yr mother and her grandchildren)
 The `AV` kinship class (between an adult female and the offspring of her
 full sibling - a partially sex-biased category)
 
-#### Third degree kinship
+#### Third order kinship
 
 Important categories here include `1C` and `HAV`. (`GAV` is also
 possible, but clearly distinguishable by life history).
@@ -877,18 +877,18 @@ ant_po
 #> 
 #> tab
 #> # A tibble: 10,000 x 8
-#>    id1   id2   kinship distance    x1    y1       x2     y2
-#>    <chr> <chr> <chr>      <dbl> <dbl> <dbl>    <dbl>  <dbl>
-#>  1 1a    1b    PO         115.  69.4  36.3   -39.8    73.6 
-#>  2 2a    2b    PO          74.7 61.2  75.5    -0.515 117.  
-#>  3 3a    3b    PO         111.  67.3  72.1   105.    177.  
-#>  4 4a    4b    PO          61.2 28.4  88.7   -27.9   113.  
-#>  5 5a    5b    PO         179.  47.6  98.5   226.    111.  
-#>  6 6a    6b    PO         139.  49.3  63.6   155.    -26.2 
-#>  7 7a    7b    PO          76.8 61.1  87.7   137.     76.0 
-#>  8 8a    8b    PO         159.   7.71  5.06 -152.      4.52
-#>  9 9a    9b    PO         145.  46.9  98.9   -74.8    20.7 
-#> 10 10a   10b   PO          42.5 39.4  78.5    55.7   118.  
+#>    id1   id2   kinship distance    x1    y1      x2    y2
+#>    <chr> <chr> <chr>      <dbl> <dbl> <dbl>   <dbl> <dbl>
+#>  1 1a    1b    PO          14.1 79.4  32.5    66.0   28.4
+#>  2 2a    2b    PO         242.   3.88 43.9   222.   149. 
+#>  3 3a    3b    PO          99.9  6.63 78.8   104.    99.2
+#>  4 4a    4b    PO         208.   7.28 79.7  -159.   205. 
+#>  5 5a    5b    PO         206.  97.1  51.5  -108.    65.0
+#>  6 6a    6b    PO         251.  34.7  57.7  -216.    78.5
+#>  7 7a    7b    PO          97.7 31.9  34.8    -6.34 -55.1
+#>  8 8a    8b    PO         125.  45.4  50.9   -49.2  133. 
+#>  9 9a    9b    PO          75.6 84.1   7.83  149.   -31.2
+#> 10 10a   10b   PO          50.1 38.9  79.5    32.2   29.9
 #> # ... with 9,990 more rows
 #> -----------------------------------
 ```
@@ -896,7 +896,7 @@ ant_po
 Now we’ll use the `axials()` function to characterise our ‘default’
 dispersal for the model:
 
-`axials(ant_po)`: 117.4876466
+`axials(ant_po)`: 116.8669059
 
 The value is around 117 the ‘expected’ value of PO we should get back
 from more complex estimation processes.
@@ -911,7 +911,7 @@ ant_fs <- simulate_kindist_custom(nsims = 10000, model = antechinus_model, kinsh
 ant_1c <- simulate_kindist_custom(nsims = 10000, model = antechinus_model, kinship = "1C")
 
 axials_standard(ant_1c, ant_fs) # larger dispersal category goes first. 
-#> [1] 119.0847
+#> [1] 117.9142
 ```
 
 The FS/1C strategy has been validated theoretically - but an important
@@ -1073,18 +1073,18 @@ ant_1c_juv
 #> 
 #> tab
 #> # A tibble: 100,000 x 8
-#>    id1   id2   kinship distance     x1     y1     x2    y2
-#>    <chr> <chr> <chr>      <dbl>  <dbl>  <dbl>  <dbl> <dbl>
-#>  1 1a    1b    1C          1.86  121.  129.    119.  129. 
-#>  2 2a    2b    1C        176.    198.   79.8    21.7  68.7
-#>  3 3a    3b    1C        108.    -40.5  -5.18  -55.2 102. 
-#>  4 4a    4b    1C         66.5    42.4  83.4   101.   52.7
-#>  5 5a    5b    1C        288.    -76.4 -97.1  -354.  -21.6
-#>  6 6a    6b    1C        233.   -105.   97.1    74.3 -51.2
-#>  7 7a    7b    1C        201.     10.4 105.    206.   60.4
-#>  8 8a    8b    1C         90.8    51.2 166.    -27.3 211. 
-#>  9 9a    9b    1C         60.0    58.7 153.     79.2  97.0
-#> 10 10a   10b   1C        116.     79.6 236.     29.0 131. 
+#>    id1   id2   kinship distance      x1       y1      x2        y2
+#>    <chr> <chr> <chr>      <dbl>   <dbl>    <dbl>   <dbl>     <dbl>
+#>  1 1a    1b    1C         364.   259.   -146.     -91.6   -45.8   
+#>  2 2a    2b    1C         164.   -71.3    52.1     51.8   160.    
+#>  3 3a    3b    1C         108.    -3.83   48.2     79.8   -20.4   
+#>  4 4a    4b    1C         264.   107.     49.5    366.      0.0607
+#>  5 5a    5b    1C          68.7  115.      0.928   61.5   -42.3   
+#>  6 6a    6b    1C         425.    68.8   -15.2    278.    355.    
+#>  7 7a    7b    1C         265.   173.     75.6    -66.4   190.    
+#>  8 8a    8b    1C         253.  -189.     48.7     -5.80 -126.    
+#>  9 9a    9b    1C          88.4   78.1    66.2      4.56   17.1   
+#> 10 10a   10b   1C         600.   -58.2   -20.9   -132.    574.    
 #> # ... with 99,990 more rows
 #> -----------------------------------
 ```
@@ -1110,16 +1110,16 @@ ant_fs_juv
 #> # A tibble: 100,000 x 8
 #>    id1   id2   kinship distance    x1    y1    x2    y2
 #>    <chr> <chr> <chr>      <dbl> <dbl> <dbl> <dbl> <dbl>
-#>  1 1a    1b    FS             0  39.8  76.6  39.8  76.6
-#>  2 2a    2b    FS             0  34.9  43.8  34.9  43.8
-#>  3 3a    3b    FS             0  95.3  54.5  95.3  54.5
-#>  4 4a    4b    FS             0  49.6  77.9  49.6  77.9
-#>  5 5a    5b    FS             0  35.8  92.1  35.8  92.1
-#>  6 6a    6b    FS             0  80.9  87.7  80.9  87.7
-#>  7 7a    7b    FS             0  19.9  67.7  19.9  67.7
-#>  8 8a    8b    FS             0  37.2  47.0  37.2  47.0
-#>  9 9a    9b    FS             0  76.6  71.8  76.6  71.8
-#> 10 10a   10b   FS             0  82.5  70.2  82.5  70.2
+#>  1 1a    1b    FS             0 11.7  27.8  11.7  27.8 
+#>  2 2a    2b    FS             0  3.65  7.11  3.65  7.11
+#>  3 3a    3b    FS             0 42.6  16.6  42.6  16.6 
+#>  4 4a    4b    FS             0 22.9   6.12 22.9   6.12
+#>  5 5a    5b    FS             0 38.0  87.4  38.0  87.4 
+#>  6 6a    6b    FS             0 16.3   4.08 16.3   4.08
+#>  7 7a    7b    FS             0 82.6  34.7  82.6  34.7 
+#>  8 8a    8b    FS             0 31.4  15.2  31.4  15.2 
+#>  9 9a    9b    FS             0 15.2   5.87 15.2   5.87
+#> 10 10a   10b   FS             0 85.1  22.0  85.1  22.0 
 #> # ... with 99,990 more rows
 #> -----------------------------------
 ```
@@ -1136,7 +1136,7 @@ they have not dispersed at all, so will not confound the estimate)
 ``` r
 axpermute_standard(ant_1c_juv, ant_fs_juv, nsamp = 100, override = TRUE)
 #>     2.5%     mean    97.5% 
-#> 101.9268 117.2940 134.0351
+#> 101.1379 117.2598 133.9107
 ```
 
 This is excellent so far. Mean dispersal is still around 117, so
@@ -1162,7 +1162,7 @@ ant_1c_juv %>% sample_kindist(dims = 100, n = 1000) %>% axpermute_standard(ant_f
 #> Down-sampling to 1000 kin pairs
 #> 1000 kin pairs remaining.
 #>     2.5%     mean    97.5% 
-#> 24.93026 27.27327 29.54674
+#> 25.58957 27.95790 30.18684
 ```
 
 A 100x100 metre sampling area is woefully inadequate (estimating the
@@ -1175,7 +1175,7 @@ ant_1c_juv %>% sample_kindist(dims = 1000, n = 1000) %>% axpermute_standard(ant_
 #> Down-sampling to 1000 kin pairs
 #> 1000 kin pairs remaining.
 #>      2.5%      mean     97.5% 
-#>  84.99809  96.70242 109.08064
+#>  91.05961 105.25217 121.05975
 ```
 
 We are doing better here: with an average of \~100m. But we’re still 15%
@@ -1187,8 +1187,8 @@ ant_1c_juv %>% sample_kindist(dims = 2000, n = 1000) %>% axpermute_standard(ant_
 #> Setting central sampling area to 2000 by 2000
 #> Down-sampling to 1000 kin pairs
 #> 1000 kin pairs remaining.
-#>     2.5%     mean    97.5% 
-#>  93.5031 107.8033 122.6264
+#>      2.5%      mean     97.5% 
+#>  99.67978 113.46032 127.73920
 ```
 
 This estimate is acceptable, with a mean only a few metres short, and
