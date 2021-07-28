@@ -13,7 +13,6 @@
 #' @importFrom here here
 #' @importFrom magrittr %>%
 #' @importFrom methods new setMethod validObject setGeneric setValidity is initialize show
-#' @importFrom plotly ggplotly plotlyOutput renderPlotly
 #' @importFrom readr read_rds write_rds read_tsv write_tsv read_csv write_csv
 #' @importFrom rlang .data env env_poke env_get env_get_list env_has env_names env_unbind env_print pkg_env
 #' @importFrom shiny column conditionalPanel fluidPage fluidRow mainPanel navbarPage sidebarLayout sidebarPanel tabPanel titlePanel shinyApp downloadButton
