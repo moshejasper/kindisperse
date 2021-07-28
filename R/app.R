@@ -1,7 +1,6 @@
 
 # The real deal app... here we come!!!!
 
-# library(plotly)
 # library(tidyverse)
 # library(here)
 # library(ggrepel)
@@ -793,7 +792,7 @@ ui <- fluidPage(
             ),
 
             mainPanel(
-              plotlyOutput(
+              plotOutput(
                 outputId = "sim_compare_plot"
               ),
               h5(
@@ -1587,7 +1586,7 @@ server <- function(input, output, session) {
     NULL
   })
 
-  output$sim_compare_plot <- renderPlotly({
+  output$sim_compare_plot <- renderPlot({
     gp <- ggplot(sim_simple_kindata()@tab) +
       aes(x = .data$distance)
     if ("1" %in% input$testsaveops) {
@@ -1620,8 +1619,7 @@ server <- function(input, output, session) {
     if ("10" %in% input$testsaveops) {
       gp <- gp + geom_freqpoly(data = app_env$d10@tab, colour = "yellow", binwidth = 5)
     }
-    gp
-    ggplotly()
+    gp + theme_bw()
   })
 
   output$sim_compare_table <- renderTable({
