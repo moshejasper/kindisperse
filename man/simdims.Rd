@@ -31,6 +31,6 @@ Access simulation dimensions of \code{\link{KinPairSimulation}} object
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{KinPairSimulation}: 
-}}
+\item \code{simdims(KinPairSimulation)}: 
 
+}}

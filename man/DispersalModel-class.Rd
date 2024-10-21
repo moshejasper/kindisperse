@@ -111,11 +111,11 @@ from the parent)
 }
 \section{Methods (by generic)}{
 \itemize{
-\item \code{show}: print method
+\item \code{show(DispersalModel)}: print method
 
-\item \code{initialize}: initialization method
+\item \code{initialize(DispersalModel)}: initialization method
+
 }}
-
 \section{Slots}{
 
 \describe{

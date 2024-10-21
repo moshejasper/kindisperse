@@ -30,11 +30,11 @@ Access or assign \code{kinship} category of \code{\link{KinPairData}} class obje
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{KinPairData}: 
+\item \code{kinship(KinPairData)}: 
 
-\item \code{KinPairData}: 
+\item \code{kinship(KinPairData) <- value}: 
+
 }}
-
 \seealso{
 Other kpdmethods: 
 \code{\link{distances}()},

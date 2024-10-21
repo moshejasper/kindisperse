@@ -25,10 +25,10 @@ cousin_ax <- axials_add(c(fullsibs_ax, parent_offspring_ax))
 }
 \seealso{
 Other axial_helpers: 
+\code{\link{axials}()},
 \code{\link{axials_decompose}()},
 \code{\link{axials_subtract}()},
-\code{\link{axials}()},
-\code{\link{axpermute_subtract}()},
-\code{\link{axpermute}()}
+\code{\link{axpermute}()},
+\code{\link{axpermute_subtract}()}
 }
 \concept{axial_helpers}

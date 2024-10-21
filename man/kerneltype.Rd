@@ -31,9 +31,9 @@ Access or assign kerneltype of \code{\link{KinPairSimulation}} object
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{KinPairSimulation}: 
-}}
+\item \code{kerneltype(KinPairSimulation)}: 
 
+}}
 \seealso{
 Other kpsmethods: 
 \code{\link{access_sigmas}},

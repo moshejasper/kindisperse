@@ -30,8 +30,8 @@ simulate_kindist_simple(
 \item{shape}{(numeric) - value of shape parameter to use with 'vgamma' method. Default 0.5. Must be > 0. Increment towards zero for increasingly heavy-tailed (leptokurtic) dispersal}
 }
 \value{
-\preformatted{ returns an object of class \code{\link{KinPairSimulation}} containing simulation details and a \code{tibble} (tab) of simulation values
-}
+\if{html}{\out{<div class="sourceCode">}}\preformatted{ returns an object of class \code{\link{KinPairSimulation}} containing simulation details and a \code{tibble} (tab) of simulation values
+}\if{html}{\out{</div>}}
 }
 \description{
 Simulates intergenerational dispersal defined by a simple dispersal sigma (covering the entire lifecycle) and ignoring phase

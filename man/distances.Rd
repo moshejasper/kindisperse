@@ -22,9 +22,9 @@ Access or assign \code{distances} category of \code{\link{KinPairData}} class ob
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{KinPairData}: 
-}}
+\item \code{distances(KinPairData)}: 
 
+}}
 \seealso{
 Other kpdmethods: 
 \code{\link{kinship}()},

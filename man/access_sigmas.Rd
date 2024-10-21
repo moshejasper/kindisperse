@@ -69,17 +69,17 @@ to the \code{KinPairSimulation} class).
 }
 \section{Functions}{
 \itemize{
-\item \code{posigma,KinPairSimulation-method}: 
+\item \code{posigma(KinPairSimulation)}: 
 
-\item \code{initsigma,KinPairSimulation-method}: 
+\item \code{initsigma(KinPairSimulation)}: 
 
-\item \code{breedsigma,KinPairSimulation-method}: 
+\item \code{breedsigma(KinPairSimulation)}: 
 
-\item \code{gravsigma,KinPairSimulation-method}: 
+\item \code{gravsigma(KinPairSimulation)}: 
 
-\item \code{ovisigma,KinPairSimulation-method}: 
+\item \code{ovisigma(KinPairSimulation)}: 
+
 }}
-
 \seealso{
 Other kpsmethods: 
 \code{\link{filter_methods}},

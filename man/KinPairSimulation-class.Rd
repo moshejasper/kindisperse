@@ -120,11 +120,11 @@ axial dispersal.
 }
 \section{Methods (by generic)}{
 \itemize{
-\item \code{show}: print method
+\item \code{show(KinPairSimulation)}: print method
 
-\item \code{initialize}: initialisation method
+\item \code{initialize(KinPairSimulation)}: initialisation method
+
 }}
-
 \section{Slots}{
 
 \describe{

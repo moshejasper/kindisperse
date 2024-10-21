@@ -1,6 +1,6 @@
 Package: kindisperse
 Title: Simulate and Estimate Close-Kin Dispersal Kernels
-Version: 0.10.2
+Version: 0.10.3
 Authors@R: 
     person(given = "Moshe-Elijah",
            family = "Jasper",
@@ -21,7 +21,7 @@ Encoding: UTF-8
 LazyData: true
 URL: https://github.com/moshejasper/kindisperse
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.1
+RoxygenNote: 7.3.2
 Suggests: 
     testthat,
     knitr,
@@ -32,7 +32,6 @@ Imports:
     shiny,
     shinythemes,
     ggrepel,
-    fitdistrplus,
     LaplacesDemon,
     here,
     stats,
@@ -40,7 +39,6 @@ Imports:
     tibble,
     grid,
     magrittr,
-    plotly,
     dplyr,
     rlang,
     tidyselect,

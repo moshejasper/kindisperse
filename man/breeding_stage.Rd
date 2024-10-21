@@ -22,6 +22,6 @@ Access life stage at which breeding occurs of \code{\link{DispersalModel}} objec
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{DispersalModel}: 
-}}
+\item \code{breeding_stage(DispersalModel)}: 
 
+}}

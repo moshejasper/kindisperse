@@ -22,6 +22,6 @@ Access FS phase split point of \code{\link{DispersalModel}} object.
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{DispersalModel}: 
-}}
+\item \code{fs(DispersalModel)}: 
 
+}}

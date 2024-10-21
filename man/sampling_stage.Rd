@@ -37,8 +37,8 @@ Access sampling stage of \code{\link{DispersalModel}} or \code{\link{KinPairSimu
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{DispersalModel}: 
+\item \code{sampling_stage(DispersalModel)}: 
 
-\item \code{KinPairData}: 
+\item \code{sampling_stage(KinPairData)}: 
+
 }}
-

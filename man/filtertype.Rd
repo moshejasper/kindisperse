@@ -31,6 +31,6 @@ Access filtertype of \code{\link{KinPairSimulation}} object
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{KinPairSimulation}: 
-}}
+\item \code{filtertype(KinPairSimulation)}: 
 
+}}

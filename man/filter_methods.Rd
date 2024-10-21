@@ -85,27 +85,27 @@ described here are only applicable to objects of class \code{KinPairSimulation}.
 }
 \section{Functions}{
 \itemize{
-\item \code{upper,KinPairSimulation-method}: 
+\item \code{upper(KinPairSimulation)}: 
 
-\item \code{lower,KinPairSimulation-method}: 
+\item \code{lower(KinPairSimulation)}: 
 
-\item \code{spacing,KinPairSimulation-method}: 
+\item \code{spacing(KinPairSimulation)}: 
 
-\item \code{samplenum,KinPairSimulation-method}: 
+\item \code{samplenum(KinPairSimulation)}: 
 
-\item \code{sampledims,KinPairSimulation-method}: 
+\item \code{sampledims(KinPairSimulation)}: 
 
-\item \code{upper<-,KinPairSimulation-method}: 
+\item \code{upper(KinPairSimulation) <- value}: 
 
-\item \code{lower<-,KinPairSimulation-method}: 
+\item \code{lower(KinPairSimulation) <- value}: 
 
-\item \code{spacing<-,KinPairSimulation-method}: 
+\item \code{spacing(KinPairSimulation) <- value}: 
 
-\item \code{samplenum<-,KinPairSimulation-method}: 
+\item \code{samplenum(KinPairSimulation) <- value}: 
 
-\item \code{sampledims<-,KinPairSimulation-method}: 
+\item \code{sampledims(KinPairSimulation) <- value}: 
+
 }}
-
 \seealso{
 Other kpsmethods: 
 \code{\link{access_sigmas}},

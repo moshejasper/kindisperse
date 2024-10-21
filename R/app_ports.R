@@ -12,9 +12,9 @@ attributes(env_appdata) <- list(name = "kindisperse_appdata")
 #'
 #' This function takes an object of class \code{KinPairData} or \code{KinPairSimulation}, assigns it an identifying name,
 #' and adds it to the app interface environment, making it accessible within the app. Once added, this object will be
-#' accessible under its name from the \code{Load} menue of the app. (The app interface uses the same function
+#' accessible under its name from the \code{Load} menu of the app. (The app interface uses the same function
 #' internally, enabling objects to be passed to the interface from the app also).
-#' @param x An object of class \code{KinPairData} or {KinPairSimulation}
+#' @param x An object of class \code{KinPairData} or \code{KinPairSimulation}
 #' @param nm character. A name to store the object as
 #'
 #' @return invisibly returns x.
