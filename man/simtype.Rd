@@ -31,9 +31,9 @@ Access or assign simulation type of \code{\link{KinPairSimulation}} object
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{KinPairSimulation}: 
-}}
+\item \code{simtype(KinPairSimulation)}: 
 
+}}
 \seealso{
 Other kpsmethods: 
 \code{\link{access_sigmas}},

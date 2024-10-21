@@ -22,6 +22,6 @@ Access dispersal model of \code{\link{KinPairSimulation}} object
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{KinPairSimulation}: 
-}}
+\item \code{get_dispersal_model(KinPairSimulation)}: 
 
+}}

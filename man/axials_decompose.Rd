@@ -34,10 +34,10 @@ fs_axial_final <- axials_decompose(fs_axial_raw, n_composites = 2)
 }
 \seealso{
 Other axial_helpers: 
+\code{\link{axials}()},
 \code{\link{axials_add}()},
 \code{\link{axials_subtract}()},
-\code{\link{axials}()},
-\code{\link{axpermute_subtract}()},
-\code{\link{axpermute}()}
+\code{\link{axpermute}()},
+\code{\link{axpermute_subtract}()}
 }
 \concept{axial_helpers}

@@ -38,7 +38,7 @@ Other axial_helpers:
 \code{\link{axials_add}()},
 \code{\link{axials_decompose}()},
 \code{\link{axials_subtract}()},
-\code{\link{axpermute_subtract}()},
-\code{\link{axpermute}()}
+\code{\link{axpermute}()},
+\code{\link{axpermute_subtract}()}
 }
 \concept{axial_helpers}

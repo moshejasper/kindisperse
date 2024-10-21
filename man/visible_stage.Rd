@@ -23,6 +23,6 @@ Access life stage at which individual is first visible to sampling (i.e. from wh
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{DispersalModel}: 
-}}
+\item \code{visible_stage(DispersalModel)}: 
 
+}}

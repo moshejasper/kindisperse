@@ -53,10 +53,10 @@ axpermute_subtract(firstcous, fullsibs)
 }
 \seealso{
 Other axial_helpers: 
+\code{\link{axials}()},
 \code{\link{axials_add}()},
 \code{\link{axials_decompose}()},
 \code{\link{axials_subtract}()},
-\code{\link{axials}()},
 \code{\link{axpermute}()}
 }
 \concept{axial_helpers}

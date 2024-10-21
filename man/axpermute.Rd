@@ -41,10 +41,10 @@ axpermute(po_dists, composite = 1)
 }
 \seealso{
 Other axial_helpers: 
+\code{\link{axials}()},
 \code{\link{axials_add}()},
 \code{\link{axials_decompose}()},
 \code{\link{axials_subtract}()},
-\code{\link{axials}()},
 \code{\link{axpermute_subtract}()}
 }
 \concept{axial_helpers}

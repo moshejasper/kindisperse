@@ -7,7 +7,7 @@
 mount_appdata(x, nm)
 }
 \arguments{
-\item{x}{An object of class \code{KinPairData} or {KinPairSimulation}}
+\item{x}{An object of class \code{KinPairData} or \code{KinPairSimulation}}
 
 \item{nm}{character. A name to store the object as}
 }
@@ -22,7 +22,7 @@ accessible within the app and outside of it.
 
 This function takes an object of class \code{KinPairData} or \code{KinPairSimulation}, assigns it an identifying name,
 and adds it to the app interface environment, making it accessible within the app. Once added, this object will be
-accessible under its name from the \code{Load} menue of the app. (The app interface uses the same function
+accessible under its name from the \code{Load} menu of the app. (The app interface uses the same function
 internally, enabling objects to be passed to the interface from the app also).
 }
 \examples{

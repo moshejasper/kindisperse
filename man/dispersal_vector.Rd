@@ -22,6 +22,6 @@ Access dispersal vector of \code{\link{DispersalModel}} object.
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{DispersalModel}: 
-}}
+\item \code{dispersal_vector(DispersalModel)}: 
 
+}}

@@ -29,8 +29,8 @@ Access breeding cycle at sampling of \code{\link{DispersalModel}} object.
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{DispersalModel}: 
+\item \code{breeding_cycle(DispersalModel)}: 
 
-\item \code{KinPairData}: 
+\item \code{breeding_cycle(KinPairData)}: 
+
 }}
-

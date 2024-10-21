@@ -30,11 +30,11 @@ Access or assign \code{lifestage} category of \code{\link{KinPairData}} class ob
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{KinPairData}: 
+\item \code{lifestage(KinPairData)}: 
 
-\item \code{KinPairData}: 
+\item \code{lifestage(KinPairData) <- value}: 
+
 }}
-
 \seealso{
 Other kpdmethods: 
 \code{\link{distances}()},

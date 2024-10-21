@@ -68,11 +68,11 @@ axial dispersal.
 }
 \section{Methods (by generic)}{
 \itemize{
-\item \code{show}: standard print method
+\item \code{show(KinPairData)}: standard print method
 
-\item \code{initialize}: initialize method
+\item \code{initialize(KinPairData)}: initialize method
+
 }}
-
 \section{Slots}{
 
 \describe{

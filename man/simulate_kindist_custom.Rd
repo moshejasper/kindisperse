@@ -6,8 +6,8 @@
 \usage{
 simulate_kindist_custom(
   nsims = 100,
-  model = dispersal_model(init = 100, breed = 50, grav = 50, ovi = 25, .FS = "ovi", .HS
-    = "breed"),
+  model = dispersal_model(init = 100, breed = 50, grav = 50, ovi = 25, .FS = "ovi", .HS =
+    "breed"),
   dims = 100,
   method = "Gaussian",
   kinship = "FS",

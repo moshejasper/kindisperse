@@ -57,8 +57,8 @@ simgraph_graph(
 \item{freqpoly}{Logical. Whether the final graph should be of the freqpoly form.}
 }
 \value{
-\preformatted{ Returns a ggplot object for graphing.
-}
+\if{html}{\out{<div class="sourceCode">}}\preformatted{ Returns a ggplot object for graphing.
+}\if{html}{\out{</div>}}
 }
 \description{
 Simple kin dispersal simulation for graphical display. (graphs the pre-existing simulation).

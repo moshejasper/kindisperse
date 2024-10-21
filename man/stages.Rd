@@ -22,6 +22,6 @@ Access breeding cycle stages of \code{\link{DispersalModel}} object.
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{DispersalModel}: 
-}}
+\item \code{stages(DispersalModel)}: 
 
+}}
