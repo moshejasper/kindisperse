@@ -90,7 +90,7 @@
 \value{
 returns object of class \code{KinPairSimulation}
 
-No return value, called for side effects
+No return value. Called for side effects
 
 Returns an object of class \code{KinPairSimulation}
 }
