@@ -535,7 +535,7 @@ setMethod("sampledims<-", "KinPairSimulation", function(x, value) {
 #' @param KinPairSimulation object of class KinPairSimulation
 #' @param object object of class KinPairSimulation
 #'
-#' @return No return value, called for side effects
+#' @return No return value. Called for side effects
 #'
 #' @export
 setMethod(
